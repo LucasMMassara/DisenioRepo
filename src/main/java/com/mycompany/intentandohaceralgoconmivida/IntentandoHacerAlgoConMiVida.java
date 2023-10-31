@@ -1,10 +1,11 @@
 package com.mycompany.intentandohaceralgoconmivida;
 
-import daos.*;
+import GUI.App;
 
 public class IntentandoHacerAlgoConMiVida {
     
     public static void main(String[] args){
-        DAOCobertura controladoraLocalidad = new DAOCobertura();
+        App aplicacion = new App();
+        aplicacion.inicioApp();
     }  
 }
