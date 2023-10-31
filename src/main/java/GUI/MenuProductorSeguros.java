@@ -48,7 +48,7 @@ public class MenuProductorSeguros extends JPanel{
 		
 		menu = frame;
 		
-		tittleConfig(titulo,"titulo_productorSeguros");
+		//tittleConfig(titulo,"titulo_productorSeguros");
 		
 		//configuro botones
 		botonAltaPoliza.addActionListener((ActionEvent e) -> {
