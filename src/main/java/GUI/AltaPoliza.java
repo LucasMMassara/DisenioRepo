@@ -256,7 +256,7 @@ public class AltaPoliza extends JPanel{
 		JPanel paneltextHijos = new JPanel();
 		
 		JLabel cantHijosLabel = new JLabel("Cant. Hijos del cliente: ");
-		JLabel placeholder6 = new JLabel("placeholder");
+		PanelTextInput placeholder6 = new PanelTextInput(16);
 		
 		panelHijos.setLayout(new GridBagLayout());
 		panelcantHijosLabel.setLayout(new GridBagLayout());
@@ -282,6 +282,7 @@ public class AltaPoliza extends JPanel{
         
         gbc4.anchor = GridBagConstraints.WEST;
         gbc4.insets = new Insets(5, 5, 5, 0);
+        gbc4.fill = GridBagConstraints.HORIZONTAL;
         paneltextHijos.add(placeholder6,gbc4);
 		gbc3.anchor = GridBagConstraints.WEST;
         gbc3.gridwidth = 1;
@@ -329,9 +330,7 @@ public class AltaPoliza extends JPanel{
 		gbc.anchor = GridBagConstraints.SOUTHEAST;		
 		gbc.gridx = 1;
 		primera.add(botonContinuar,gbc);
-		
-		return;
-		
+				
 	}
 	
 	private void segundaConfig() {

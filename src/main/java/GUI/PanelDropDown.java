@@ -23,10 +23,13 @@ public class PanelDropDown extends JPanel{
 	 */
 	private static final long serialVersionUID = 1L;
 
+         // Create a JComboBox with the list of items
+	       JComboBox<String> comboBox = new JComboBox<>();
+        
 	PanelDropDown(String[] items){
 
 		 // Create a JComboBox with the list of items
-	       JComboBox<String> comboBox = new JComboBox<>(items);
+	       comboBox = new JComboBox<>(items);
 
 	       // Create a custom renderer for the JComboBox
 	       DefaultListCellRenderer renderer = new DefaultListCellRenderer() {
@@ -89,7 +92,7 @@ public class PanelDropDown extends JPanel{
 	PanelDropDown(String position, String[] items){
 
        // Create a JComboBox with the list of items
-       JComboBox<String> comboBox = new JComboBox<>(items);
+       comboBox = new JComboBox<>(items);
 
        // Create a custom renderer for the JComboBox
        DefaultListCellRenderer renderer = new DefaultListCellRenderer() {
@@ -185,4 +188,8 @@ public class PanelDropDown extends JPanel{
 	    this.setBackground(new Color(r,g,b));
 	    
 	}
+        
+        String getSelectedItem(){
+           return (String)comboBox.getSelectedItem();
+        }
 }

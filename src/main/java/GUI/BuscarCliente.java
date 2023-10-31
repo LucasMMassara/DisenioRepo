@@ -11,6 +11,11 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.border.LineBorder;
 
+import dto.ClienteDTO;
+import java.util.ArrayList;
+import logica.TipoDocumento;
+
+
 public class BuscarCliente extends JPanel{
 
 	/**
@@ -22,6 +27,14 @@ public class BuscarCliente extends JPanel{
 	Boton seleccionar = new Boton("Seleccionar");
 	PanelCliente clienteSeleccionado;
 
+        String nroCli = "";
+        String nomb = "";
+        String apell = "";
+        String tipD = "";
+        String nroD = "";
+        
+        JPanel resultado = new JPanel();
+
 	
 	BuscarCliente(AltaPoliza main){
 		
@@ -30,13 +43,11 @@ public class BuscarCliente extends JPanel{
 		this.setLayout(new GridBagLayout());
 		
 		JPanel busqueda = new JPanel();
-		JPanel resultado = new JPanel();
 		JLabel empty = new JLabel("");
 		
 		Boton cancelar = new Boton("Cancelar");
 		
 		busqueda.setBackground(new Color(240,240,240));
-		resultado.setBackground(new Color(255,255,220));
 
 		GridBagConstraints gbc = new GridBagConstraints();
 		
@@ -97,7 +108,6 @@ public class BuscarCliente extends JPanel{
 			main.cambiarPantalla("1");
 	    });
 		
-		return;
 	}
 	
 	private void busquedaConfig(JPanel busqueda) {
@@ -119,18 +129,62 @@ public class BuscarCliente extends JPanel{
 		PanelTextInput nombreI = new PanelTextInput(16);
 		PanelTextInput nroDocumentoI = new PanelTextInput(16);
 		
-		String[] items = {"Opcion1", "Opcion2", "Opcion3"};
+                nroClienteI.restrictToNumbers();
+                nroDocumentoI.restrictToNumbers();
+                nroDocumentoI.restrictSize(8);
+                
+		String[] items = {"DNI", "CI", "CC","CIC"};
 		PanelDropDown tipoDocumentoI = new PanelDropDown(items);
 
 		Boton limpiar = new Boton("Limpiar");
 		Boton buscar = new Boton("Buscar");
 		
 		limpiar.addActionListener((ActionEvent e) -> {
-			
+			//resetear seleccion de cliente
+                       setSelected(false);
+                        if(clienteSeleccionado != null){
+                            clienteSeleccionado.setSelected(false);
+                        }
+                        //limpiar campos de busqueda
+                        nroClienteI.setText("");
+                        apellidoI.setText("");
+                        nombreI.setText("");
+                        nroDocumentoI.setText("");
+                        //limpiarResultados?
+                        
+                        
         });
         
 		buscar.addActionListener((ActionEvent e) -> {
-			
+		
+                    //guardar valores
+                    nroCli = nroClienteI.getText();
+                    nomb = nombreI.getText();
+                    apell = apellidoI.getText();
+                    tipD = tipoDocumentoI.getSelectedItem();
+                    nroD = nroDocumentoI.getText();
+                
+                    
+                    //buscar en db
+                    
+                    //pasar a lista
+                    //POR AHORA se pasa solo el cliente ingreso for testing purposes
+                    //se tendria que chequear si la lista traida de la bd es vacia o no (hacer config con y sin arraylist)
+                    TipoDocumento tipoD = null;
+                    
+                    switch(tipD){
+                        case "DNI" -> tipoD = TipoDocumento.DNI;
+                        case "CI" -> tipoD = TipoDocumento.CI;
+                        case "CC" -> tipoD = TipoDocumento.CC;
+                        case "CIC" -> tipoD = TipoDocumento.CIC;
+                    }
+                    ClienteDTO cliente = new ClienteDTO(nomb,apell,nroCli,tipoD,nroD);
+                    ArrayList<ClienteDTO> clientes = new ArrayList<>();
+                    clientes.add(cliente);
+                    resultadoConfig(resultado,clientes);
+                    resultado.revalidate();
+                    
+                    
         });
 		
         GridBagConstraints gbc = new GridBagConstraints();
@@ -187,18 +241,23 @@ public class BuscarCliente extends JPanel{
         
         
         
-		return;
 	}
 	
 	private void resultadoConfig(JPanel resultado) {
-		
+
+                resultado.setBackground(new Color(255,255,220));
+
+            
+                JPanel lista = new JPanel(new GridBagLayout());
+
+            
 		resultado.setLayout(new GridBagLayout());		
 		LineBorder border = new LineBorder(Color.LIGHT_GRAY, 2);
 		resultado.setBorder(border);
 		
 		PanelText resultadoBusqueda = new PanelText("Resultado busqueda", "BOLD", 20, "WEST");
 
-		JPanel lista = new JPanel(new GridBagLayout());
+	
 		lista.setBackground(Color.DARK_GRAY);
 		
         GridBagConstraints gbc = new GridBagConstraints();
@@ -223,17 +282,61 @@ public class BuscarCliente extends JPanel{
 		resultado.add(jsp,gbc);
 
 		
-		return;
 	}
+        
+        private void resultadoConfig(JPanel resultado, ArrayList<ClienteDTO> clientes) {
+		
+                 resultado.removeAll();
+                resultado.revalidate();
+                resultado.repaint();
+            
+                resultado.setBackground(new Color(255,255,220));
+                
+            
+                JPanel lista = new JPanel(new GridBagLayout());
+
+            
+		resultado.setLayout(new GridBagLayout());		
+		LineBorder border = new LineBorder(Color.LIGHT_GRAY, 2);
+		resultado.setBorder(border);
+		
+		PanelText resultadoBusqueda = new PanelText("Resultado busqueda", "BOLD", 20, "WEST");
+
 	
-	private void listaConfig(JPanel lista) {
+		lista.setBackground(Color.DARK_GRAY);
+		
+        GridBagConstraints gbc = new GridBagConstraints();
+
+		gbc.fill = GridBagConstraints.BOTH;
+		gbc.weightx = 1;
+        gbc.weighty = 0.05;
+        gbc.gridx = 0;
+		gbc.gridy = 0;
+		gbc.anchor = GridBagConstraints.CENTER;
+		resultado.add(resultadoBusqueda,gbc);
+		
+		
+		JScrollPane jsp = new JScrollPane(lista);
+		
+		gbc.gridy = 1;
+        gbc.weighty = 0.95;
+        listaConfig(lista,clientes);
+        
+        
+        
+		resultado.add(jsp,gbc);
+
+		
+	}
+        
+	private void listaConfig(JPanel lista,  ArrayList<ClienteDTO> clientes) {
 		
 		lista.setLayout(new GridBagLayout());	
 		
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.fill = GridBagConstraints.BOTH;
 		gbc.weightx = 1;
-        gbc.weighty = 1;
+        gbc.weighty = 0.05;
         gbc.gridx = 0;
 		gbc.gridy = 0;
 		gbc.anchor = GridBagConstraints.CENTER;
@@ -241,17 +344,66 @@ public class BuscarCliente extends JPanel{
 		PanelCliente panel = new PanelCliente();
 		gbc.gridy = 0;
 		lista.add(panel,gbc);
+                
+                JPanel lista2 = new JPanel(new GridBagLayout());
+		lista2.setBackground(Color.WHITE);
+                GridBagConstraints gbc2 = new GridBagConstraints();
+                gbc2.fill = GridBagConstraints.BOTH;
+		gbc2.weightx = 1;
+                gbc2.weighty = 1;
+                gbc2.gridx = 0;
+		gbc2.gridy = 0;
+		gbc2.anchor = GridBagConstraints.CENTER;
+                
+                int size = clientes.size();
+                
 		
-		for(int i=1; i < 30; i++) {
+		for(int i=0; i < size; i++) {
 			
-			panel = new PanelCliente(this, i);
-			gbc.gridy = i;
-			lista.add(panel,gbc);
+			panel = new PanelCliente(this, i,clientes.get(i));
+			gbc2.gridy = i;
+			lista2.add(panel,gbc2);
 			
 		}
 		
+                gbc.gridy = 1;
+                gbc.weighty = 0.95;
+		lista.add(lista2,gbc);
 		
-		return;
+	}
+        
+        private void listaConfig(JPanel lista) {
+		
+		lista.setLayout(new GridBagLayout());	
+		
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.fill = GridBagConstraints.BOTH;
+		gbc.weightx = 1;
+        gbc.weighty = 0.05;
+        gbc.gridx = 0;
+		gbc.gridy = 0;
+		gbc.anchor = GridBagConstraints.CENTER;
+	
+		PanelCliente panel = new PanelCliente();
+		gbc.gridy = 0;
+		lista.add(panel,gbc);
+                
+                JPanel lista2 = new JPanel(new GridBagLayout());
+		lista2.setBackground(Color.WHITE);
+                GridBagConstraints gbc2 = new GridBagConstraints();
+                gbc2.fill = GridBagConstraints.BOTH;
+		gbc2.weightx = 1;
+                gbc2.weighty = 1;
+                gbc2.gridx = 0;
+		gbc2.gridy = 0;
+		gbc2.anchor = GridBagConstraints.CENTER;
+                
+		
+                gbc.gridy = 1;
+                gbc.weighty = 0.95;
+		lista.add(lista2,gbc);
+                lista.repaint();
+		
 	}
 	
 	Boolean isSelected() {

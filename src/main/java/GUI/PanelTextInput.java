@@ -11,6 +11,9 @@ import javax.swing.JTextField;
 import javax.swing.border.LineBorder;
 import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
+import javax.swing.text.AttributeSet;
+import javax.swing.text.BadLocationException;
+import javax.swing.text.PlainDocument;
 
 public class PanelTextInput extends JPanel{
 
@@ -21,6 +24,8 @@ public class PanelTextInput extends JPanel{
 
 	JTextField textField = new JTextField();
 
+        Boolean onlyNumbers = false;
+        Boolean limitedSize = false;
 	
 	PanelTextInput(int fontSize){
 		
@@ -165,5 +170,96 @@ public class PanelTextInput extends JPanel{
 	    this.setBackground(new Color(r,g,b));
 	    
 	}
+        
+        void setText(String text){
+            textField.setText(text);
+        }
 	
+        void restrictToNumbers(){
+           
+           onlyNumbers = true; 
+            
+           if(limitedSize){
+               PlainDocument doc = new PlainDocument() {
+            @Override
+            public void insertString(int offs, String str, AttributeSet a) throws BadLocationException {
+                if (str != null) {
+                    // Check if the current text length plus the inserted text length is less than or equal to the limit (e.g., 10 characters)
+                    if (getLength() + str.length() <= 10) {
+                        // Check if the inserted text contains only numeric characters
+                        for (int i = 0; i < str.length(); i++) {
+                            if (!Character.isDigit(str.charAt(i))) {
+                                return; // Reject non-numeric characters
+                            }
+                        }
+                        super.insertString(offs, str, a);
+                    }
+                }
+            }
+        };
+        textField.setDocument(doc);
+            }
+           else{
+               PlainDocument doc = new PlainDocument() {
+            @Override
+            public void insertString(int offs, String str, AttributeSet a) throws BadLocationException {
+                if (str != null) {
+                    for (int i = 0; i < str.length(); i++) {
+                        if (!Character.isDigit(str.charAt(i))) {
+                            return; // Reject non-numeric characters
+                        }
+                    }
+                }
+                super.insertString(offs, str, a);
+            }
+        };
+        textField.setDocument(doc);
+           }
+            
+        }
+        
+        void restrictSize(int size){
+            
+            limitedSize = true;
+            
+            if(onlyNumbers){
+                PlainDocument doc = new PlainDocument() {
+            @Override
+            public void insertString(int offs, String str, AttributeSet a) throws BadLocationException {
+                if (str != null) {
+                    // Check if the current text length plus the inserted text length is less than or equal to the limit (e.g., 10 characters)
+                    if (getLength() + str.length() <= size) {
+                        // Check if the inserted text contains only numeric characters
+                        for (int i = 0; i < str.length(); i++) {
+                            if (!Character.isDigit(str.charAt(i))) {
+                                return; // Reject non-numeric characters
+                            }
+                        }
+                        super.insertString(offs, str, a);
+                    }
+                }
+            }
+        };
+        textField.setDocument(doc);
+            }
+            else{
+                    // Create a PlainDocument with a custom DocumentFilter
+        PlainDocument doc = new PlainDocument() {
+            @Override
+            public void insertString(int offs, String str, AttributeSet a) throws BadLocationException {
+                // Check if the current text length plus the inserted text length is less than or equal to the limit (e.g., 10 characters)
+                if (getLength() + str.length() <= size) {
+                    super.insertString(offs, str, a);
+                }
+            }
+        };
+        textField.setDocument(doc);
+            }
+            
+        }
+        
+        String getText(){
+            return textField.getText();
+        }
+        
 }

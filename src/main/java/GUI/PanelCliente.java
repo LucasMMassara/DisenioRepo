@@ -13,6 +13,9 @@ import java.awt.event.MouseListener;
 import javax.swing.JPanel;
 import javax.swing.border.LineBorder;
 
+import dto.ClienteDTO;
+import logica.TipoDocumento;
+
 public class PanelCliente extends JPanel{
 
 	/**
@@ -101,9 +104,117 @@ public class PanelCliente extends JPanel{
 		
 	}
 	
+	PanelCliente(BuscarCliente panel, int a, ClienteDTO cliente){
+		
+		this.setLayout(new GridBagLayout());
+		this.setPreferredSize(new Dimension(200,50));
+		this.setBackground(Color.GRAY);	
+				
+		JPanel nroCliente = new JPanel(new GridBagLayout());
+		nroCliente.setPreferredSize(new Dimension(100, 10));
+		JPanel apellido = new JPanel(new GridBagLayout());
+		apellido.setPreferredSize(new Dimension(100, 30));
+		JPanel nombre = new JPanel(new GridBagLayout());
+		nombre.setPreferredSize(new Dimension(100, 30));
+		JPanel tipoDoc = new JPanel(new GridBagLayout());
+		tipoDoc.setPreferredSize(new Dimension(100, 10));
+		JPanel nroDoc = new JPanel(new GridBagLayout());
+		nroDoc.setPreferredSize(new Dimension(100, 40));
+		
+		
+		PanelText nroClienteT = new PanelText(cliente.getNumCliente(), "BOLD", 16, "WEST");
+		PanelText apellidoT = new PanelText(cliente.getApellido(), "BOLD", 16, "WEST");
+		PanelText nombreT = new PanelText(cliente.getNombre(), "BOLD", 16, "WEST");
+                
+                String tipoDocumento = "";
+                switch(cliente.getTipoDocumento()){
+                    case DNI:
+                        tipoDocumento = "DNI";
+                        break;
+                    case CI:
+                        tipoDocumento = "CI";
+                        break;
+                    case CC:
+                        tipoDocumento = "CC";
+                        break;
+                    case CIC:
+                        tipoDocumento = "CIC";
+                        break;
+                }
+                
+		PanelText tipoDocT = new PanelText(tipoDocumento, "BOLD", 16, "WEST");
+		PanelText nroDocT = new PanelText(cliente.getNumDocumento(), "BOLD", 16, "WEST");
+		
+		if(a%2 == 1) {	
+			nroCliente.setBackground(Color.WHITE);
+			apellido.setBackground(Color.WHITE);
+			nombre.setBackground(Color.WHITE);
+			tipoDoc.setBackground(Color.WHITE);
+			nroDoc.setBackground(Color.WHITE);
+			nroClienteT.setBackgroundColor(255,255,255);
+			apellidoT.setBackgroundColor(255,255,255);
+			nombreT.setBackgroundColor(255,255,255);
+			tipoDocT.setBackgroundColor(255,255,255);
+			nroDocT.setBackgroundColor(255,255,255);
+		}
+
+		GridBagConstraints gbc2 = new GridBagConstraints();
+		gbc2.fill = GridBagConstraints.NONE;
+        gbc2.anchor = GridBagConstraints.WEST; // Anchor the components to the left
+		gbc2.gridx = 0;
+		gbc2.gridy = 0;
+		gbc2.weightx = 0;		
+		
+		nroCliente.add(nroClienteT,gbc2);
+		apellido.add(apellidoT,gbc2);
+		nombre.add(nombreT,gbc2);
+		tipoDoc.add(tipoDocT,gbc2);
+		nroDoc.add(nroDocT,gbc2);
+		
+		
+		GridBagConstraints gbc = new GridBagConstraints();
+		gbc.fill = GridBagConstraints.BOTH;
+		gbc.gridx = 0;
+		gbc.gridy = 0;
+		gbc.weightx = 0.1;
+		gbc.weighty = 1;
+        gbc.insets = new Insets(0, 0, 0, 1);
+		this.add(nroCliente,gbc);
+		
+		gbc.weightx = 0.35;
+		gbc.gridx = 1;
+		gbc.insets = new Insets(0, 1, 0, 1);
+		this.add(apellido,gbc);
+		
+		gbc.weightx = 0.3;
+		gbc.gridx = 2;
+		this.add(nombre,gbc);
+		
+		gbc.weightx = 0.05;
+		gbc.gridx = 3;
+		this.add(tipoDoc,gbc);
+		
+		gbc.weightx = 0.2;
+		gbc.gridx = 4;
+		gbc.insets = new Insets(0, 1, 0, 0);
+		this.add(nroDoc,gbc);
+		
+		addMouseListener((MouseListener) new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+            	
+            	if(!panel.isSelected() || selected) {
+            		selected = !selected; // Toggle the selection state
+                    panel.setSelected(selected);
+                    enviarCliente(panel);
+                    repaint(); // Redraw the panel to reflect the selection state
+            	}
+            }
+        });
+		
+	}
 	
-	
-	PanelCliente(BuscarCliente panel, int a){
+        PanelCliente(BuscarCliente panel, int a){
 		
 		this.setLayout(new GridBagLayout());
 		this.setPreferredSize(new Dimension(200,50));
@@ -197,12 +308,12 @@ public class PanelCliente extends JPanel{
         });
 		
 	}
-	
+        
 	@Override
-    protected void paintComponent(Graphics g) {
+        protected void paintComponent(Graphics g) {
         super.paintComponent(g);
         
-        Color borderColor = Color.GREEN;
+        Color borderColor = Color.BLUE;
         int borderThickness = 2;
         LineBorder customBorder = new LineBorder(borderColor, borderThickness);
         LineBorder noBorder = new LineBorder(borderColor, 0);
@@ -225,4 +336,8 @@ public class PanelCliente extends JPanel{
 		return;
 	}
 	
+        void setSelected(Boolean bool){
+            selected = bool;
+        }
+        
 }
