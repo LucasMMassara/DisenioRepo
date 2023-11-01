@@ -1,5 +1,6 @@
 package dto;
 import logica.TipoDocumento;
+import static logica.TipoDocumento.DNI;
 
 public class ClienteDTO{
 	private String apellido;
@@ -60,5 +61,18 @@ public class ClienteDTO{
 	public void setApellido(String apellido) {
 		this.apellido = apellido;
 	}
+        
+        public String getTipoDocumentoAsString(){
+            
+            switch(tipoDocumento){
+                default: return "";
+                case DNI: return "DNI";
+                case CC: return "CC";
+                case CI: return "CI";
+                case CIC: return "CIC";
+            }
+            
+        }
+        
 
 }

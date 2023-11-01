@@ -34,6 +34,7 @@ public class BuscarCliente extends JPanel{
         String nroD = "";
         
         JPanel resultado = new JPanel();
+        ClienteDTO clienteEncontrado = new ClienteDTO();
 
 	
 	BuscarCliente(AltaPoliza main){
@@ -105,6 +106,8 @@ public class BuscarCliente extends JPanel{
 	    });
 		
 		seleccionar.addActionListener((ActionEvent e) -> {
+                        
+                        main.actualizarPrimera(clienteEncontrado);
 			main.cambiarPantalla("1");
 	    });
 		
@@ -178,9 +181,9 @@ public class BuscarCliente extends JPanel{
                         case "CC" -> tipoD = TipoDocumento.CC;
                         case "CIC" -> tipoD = TipoDocumento.CIC;
                     }
-                    ClienteDTO cliente = new ClienteDTO(nomb,apell,nroCli,tipoD,nroD);
+                    clienteEncontrado = new ClienteDTO(nomb,apell,nroCli,tipoD,nroD);
                     ArrayList<ClienteDTO> clientes = new ArrayList<>();
-                    clientes.add(cliente);
+                    clientes.add(clienteEncontrado);
                     resultadoConfig(resultado,clientes);
                     resultado.revalidate();
                     
@@ -426,7 +429,6 @@ public class BuscarCliente extends JPanel{
 		
 		clienteSeleccionado = cliente;
 		
-		return;
 	}
 	
 	

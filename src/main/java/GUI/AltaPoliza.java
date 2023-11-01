@@ -1,5 +1,6 @@
 package GUI;
 
+import dto.ClienteDTO;
 import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.Font;
@@ -27,6 +28,13 @@ public class AltaPoliza extends JPanel{
 	Background pdf  = new Background("background.jpg");
 	Background buscarCliente  = new Background("background.jpg");
 
+        JLabel clienteApellido = new JLabel("");
+        JLabel clienteNombre = new JLabel("");
+        JLabel clienteNumero = new JLabel("");
+        JLabel clienteTipoDoc = new JLabel("");
+        JLabel clienteNroDoc = new JLabel("");
+        JLabel clienteDireccion = new JLabel("");
+        
 	
 	CardLayout cl = new CardLayout();
 	JPanel containerPanel = new JPanel();
@@ -94,21 +102,12 @@ public class AltaPoliza extends JPanel{
 		JPanel panelNDoc = new JPanel(); 
 		JPanel panelDireccion = new JPanel(); 
 		
-		
-		
-		JLabel placeholder0 = new JLabel("placeholder");
-		JLabel placeholder1 = new JLabel("placeholder");
-		JLabel placeholder2 = new JLabel("placeholder");
-		JLabel placeholder3 = new JLabel("placeholder");
-		JLabel placeholder4 = new JLabel("placeholder");
-		JLabel placeholder5 = new JLabel("placeholder");
-		
-		JPanel placeholder0P = new JPanel(); 
-		JPanel placeholder1P = new JPanel(); 
-		JPanel placeholder2P = new JPanel(); 
-		JPanel placeholder3P = new JPanel(); 
-		JPanel placeholder4P = new JPanel(); 
-		JPanel placeholder5P = new JPanel(); 
+		JPanel clienteApellidoP = new JPanel(); 
+		JPanel clienteNombreP = new JPanel(); 
+		JPanel clienteNumeroP = new JPanel(); 
+		JPanel clienteTipoDocP = new JPanel(); 
+		JPanel clienteNroDocP = new JPanel(); 
+		JPanel clienteDireccionP = new JPanel(); 
 		
 		botonBuscarCliente.addActionListener((ActionEvent e) -> {
 			cambiarPantalla("buscarCliente");
@@ -128,36 +127,36 @@ public class AltaPoliza extends JPanel{
 		gbc2.fill = GridBagConstraints.NONE;
 		gbc2.weightx = 1;
 		gbc2.weighty = 1;
-        gbc2.insets = new Insets(0, 10, 0, 0);
+                 gbc2.insets = new Insets(0, 10, 0, 0);
 
 		
-        Font customFont = new Font("Arial", Font.BOLD, 24); // Font name, style, and size
+                Font customFont = new Font("Arial", Font.BOLD, 24); // Font name, style, and size
 		LineBorder border = new LineBorder(Color.LIGHT_GRAY, 2);
         
 		gbc1.fill = GridBagConstraints.BOTH;
 		gbc1.weightx = 1;
-        gbc1.weighty = 0.2;
-        gbc1.gridwidth = 3;
+                gbc1.weighty = 0.2;
+                gbc1.gridwidth = 3;
 		gbc1.gridx = 0;
 		gbc1.gridy = 0;
 		gbc1.anchor = GridBagConstraints.NORTH;
-        gbc1.insets = new Insets(10, 10, 0, 10);
-        cliente.setFont(customFont);
-        panelClienteLabel.setLayout(new GridBagLayout());
-        panelClienteLabel.setBackground(new Color(240,240,240));
-        panelClienteLabel.add(cliente,gbc2);
+                gbc1.insets = new Insets(10, 10, 0, 10);
+                cliente.setFont(customFont);
+                panelClienteLabel.setLayout(new GridBagLayout());
+                panelClienteLabel.setBackground(new Color(240,240,240));
+                panelClienteLabel.add(cliente,gbc2);
 		panelCliente.add(panelClienteLabel, gbc1);
 		
-        gbc2.anchor = GridBagConstraints.SOUTHWEST;
-        gbc2.insets = new Insets(0, 10, 5, 0);
+                gbc2.anchor = GridBagConstraints.SOUTHWEST;
+                gbc2.insets = new Insets(0, 10, 5, 0);
 		gbc1.gridy = 1;
-        gbc1.weighty = 0.1;
-        gbc1.gridwidth = 1;
+                gbc1.weighty = 0.1;
+                gbc1.gridwidth = 1;
 		gbc1.anchor = GridBagConstraints.WEST;
-        gbc1.insets = new Insets(30, 10, 5, 10);
-        panelApellido.setLayout(new GridBagLayout());
-        panelApellido.setBackground(new Color(250,250,250));
-        panelApellido.add(apellido,gbc2);
+                gbc1.insets = new Insets(30, 10, 5, 10);
+                panelApellido.setLayout(new GridBagLayout());
+                panelApellido.setBackground(new Color(250,250,250));
+                panelApellido.add(apellido,gbc2);
 		panelCliente.add(panelApellido, gbc1);
 		
 		gbc1.gridx = 1;
@@ -173,37 +172,37 @@ public class AltaPoliza extends JPanel{
 		panelCliente.add(panelNumero, gbc1);
 		
 		gbc2.anchor = GridBagConstraints.WEST;
-        gbc2.insets = new Insets(0, 10, 0, 0);
+                gbc2.insets = new Insets(0, 10, 0, 0);
 		gbc1.anchor = GridBagConstraints.CENTER;
 		gbc1.gridy = 2;
 		gbc1.gridx = 0;
-        gbc1.insets = new Insets(1, 10, 60, 10);
-        placeholder0P.setLayout(new GridBagLayout());
-        placeholder0P.setBackground(new Color(255,255,255));
-        placeholder0P.setBorder(border);
-        placeholder0P.add(placeholder0,gbc2);
-		panelCliente.add(placeholder0P, gbc1);
+                gbc1.insets = new Insets(1, 10, 60, 10);
+                clienteApellidoP.setLayout(new GridBagLayout());
+                clienteApellidoP.setBackground(new Color(255,255,255));
+                clienteApellidoP.setBorder(border);
+                clienteApellidoP.add(clienteApellido,gbc2);
+		panelCliente.add(clienteApellidoP, gbc1);
 		
-        gbc1.weighty = 0.2;
+                gbc1.weighty = 0.2;
 		gbc1.gridx = 1;
-		placeholder1P.setLayout(new GridBagLayout());
-		placeholder1P.setBackground(new Color(255,255,255));
-		placeholder1P.setBorder(border);
-		placeholder1P.add(placeholder1,gbc2);
-		panelCliente.add(placeholder1P, gbc1);
+		clienteNombreP.setLayout(new GridBagLayout());
+		clienteNombreP.setBackground(new Color(255,255,255));
+		clienteNombreP.setBorder(border);
+		clienteNombreP.add(clienteNombre,gbc2);
+		panelCliente.add(clienteNombreP, gbc1);
 
 		gbc1.gridx = 2;
-		placeholder2P.setLayout(new GridBagLayout());
-		placeholder2P.setBackground(new Color(255,255,255));
-		placeholder2P.setBorder(border);
-		placeholder2P.add(placeholder2,gbc2);
-		panelCliente.add(placeholder2P, gbc1);
+		clienteNumeroP.setLayout(new GridBagLayout());
+		clienteNumeroP.setBackground(new Color(255,255,255));
+		clienteNumeroP.setBorder(border);
+		clienteNumeroP.add(clienteNumero,gbc2);
+		panelCliente.add(clienteNumeroP, gbc1);
 		
-        gbc2.anchor = GridBagConstraints.SOUTHWEST;
-        gbc2.insets = new Insets(0, 10, 5, 0);
-        gbc1.weighty = 0.1;
+                gbc2.anchor = GridBagConstraints.SOUTHWEST;
+                gbc2.insets = new Insets(0, 10, 5, 0);
+                gbc1.weighty = 0.1;
 		gbc1.anchor = GridBagConstraints.WEST;
-        gbc1.insets = new Insets(0, 10, 5, 10);
+                gbc1.insets = new Insets(0, 10, 5, 10);
 		gbc1.gridy = 3;
 		gbc1.gridx = 0;
 		panelDoc.setLayout(new GridBagLayout());
@@ -224,31 +223,31 @@ public class AltaPoliza extends JPanel{
 		panelCliente.add(panelDireccion, gbc1);
 		
 		gbc2.anchor = GridBagConstraints.WEST;
-        gbc2.insets = new Insets(0, 10, 0, 0);
+                gbc2.insets = new Insets(0, 10, 0, 0);
 		gbc1.anchor = GridBagConstraints.CENTER;
 		gbc1.weighty = 0.2;
 		gbc1.gridy = 4;
 		gbc1.gridx = 0;
-        gbc1.insets = new Insets(1, 10, 60, 10);
-        placeholder3P.setLayout(new GridBagLayout());
-        placeholder3P.setBackground(new Color(255,255,255));
-        placeholder3P.setBorder(border);
-        placeholder3P.add(placeholder3,gbc2);
-		panelCliente.add(placeholder3P, gbc1);
+                gbc1.insets = new Insets(1, 10, 60, 10);
+                clienteTipoDocP.setLayout(new GridBagLayout());
+                clienteTipoDocP.setBackground(new Color(255,255,255));
+                clienteTipoDocP.setBorder(border);
+                clienteTipoDocP.add(clienteTipoDoc,gbc2);
+		panelCliente.add(clienteTipoDocP, gbc1);
 		
 		gbc1.gridx = 1;
-		placeholder4P.setLayout(new GridBagLayout());
-		placeholder4P.setBackground(new Color(255,255,255));
-		placeholder4P.setBorder(border);
-		placeholder4P.add(placeholder4,gbc2);
-		panelCliente.add(placeholder4P, gbc1);
+		clienteNroDocP.setLayout(new GridBagLayout());
+		clienteNroDocP.setBackground(new Color(255,255,255));
+		clienteNroDocP.setBorder(border);
+		clienteNroDocP.add(clienteNroDoc,gbc2);
+		panelCliente.add(clienteNroDocP, gbc1);
 
 		gbc1.gridx = 2;
-		placeholder5P.setLayout(new GridBagLayout());
-		placeholder5P.setBackground(new Color(255,255,255));
-		placeholder5P.setBorder(border);
-		placeholder5P.add(placeholder5,gbc2);
-		panelCliente.add(placeholder5P, gbc1);
+		clienteDireccionP.setLayout(new GridBagLayout());
+		clienteDireccionP.setBackground(new Color(255,255,255));
+		clienteDireccionP.setBorder(border);
+		clienteDireccionP.add(clienteDireccion,gbc2);
+		panelCliente.add(clienteDireccionP, gbc1);
 		
 		//config panelHijos
 		
@@ -256,7 +255,8 @@ public class AltaPoliza extends JPanel{
 		JPanel paneltextHijos = new JPanel();
 		
 		JLabel cantHijosLabel = new JLabel("Cant. Hijos del cliente: ");
-		PanelTextInput placeholder6 = new PanelTextInput(16);
+		PanelTextInput hijosInput = new PanelTextInput(16);
+                hijosInput.restrictToNumbers();
 		
 		panelHijos.setLayout(new GridBagLayout());
 		panelcantHijosLabel.setLayout(new GridBagLayout());
@@ -266,51 +266,51 @@ public class AltaPoliza extends JPanel{
 		
 		
 		gbc4.anchor = GridBagConstraints.EAST;
-        gbc4.insets = new Insets(5, 0, 5, 5);
-        gbc4.weightx = 1;
+                gbc4.insets = new Insets(5, 0, 5, 5);
+                gbc4.weightx = 1;
 		gbc4.weighty = 1;
-        panelcantHijosLabel.add(cantHijosLabel,gbc4);
+                panelcantHijosLabel.add(cantHijosLabel,gbc4);
 		gbc3.fill = GridBagConstraints.BOTH;
 		gbc3.weightx = 0.8;
-        gbc3.weighty = 1;
-        gbc3.gridwidth = 1;
+                gbc3.weighty = 1;
+                gbc3.gridwidth = 1;
 		gbc3.gridx = 0;
 		gbc3.gridy = 0;
 		gbc3.anchor = GridBagConstraints.EAST;
-        gbc3.insets = new Insets(0, 0, 0, 0);
-        panelHijos.add(panelcantHijosLabel, gbc3);
-        
-        gbc4.anchor = GridBagConstraints.WEST;
-        gbc4.insets = new Insets(5, 5, 5, 0);
-        gbc4.fill = GridBagConstraints.HORIZONTAL;
-        paneltextHijos.add(placeholder6,gbc4);
+                gbc3.insets = new Insets(0, 0, 0, 0);
+                panelHijos.add(panelcantHijosLabel, gbc3);
+
+                gbc4.anchor = GridBagConstraints.WEST;
+                gbc4.insets = new Insets(5, 5, 5, 0);
+                gbc4.fill = GridBagConstraints.HORIZONTAL;
+                paneltextHijos.add(hijosInput,gbc4);
 		gbc3.anchor = GridBagConstraints.WEST;
-        gbc3.gridwidth = 1;
+                gbc3.gridwidth = 1;
 		gbc3.weightx = 0.2;
 		gbc3.gridx = 1;
-        panelHijos.add(paneltextHijos, gbc3);
+                panelHijos.add(paneltextHijos, gbc3);
 		
 		
 		GridBagConstraints gbc = new GridBagConstraints();
 		
 		gbc.fill = GridBagConstraints.VERTICAL;
 		gbc.weightx = 1;
-        gbc.weighty = 0.025;
+                gbc.weighty = 0.025;
 		gbc.gridx = 0;
 		gbc.gridy = 0;
 		gbc.anchor = GridBagConstraints.NORTHWEST;
-        gbc.insets = new Insets(10, 10, 10, 10);
-        primera.add(botonBuscarCliente, gbc);
+                gbc.insets = new Insets(10, 10, 10, 10);
+                primera.add(botonBuscarCliente, gbc);
 		
 		panelCliente.setBackground(new Color(230,230,230));
-        panelCliente.setBorder(border);
+                panelCliente.setBorder(border);
 		gbc.fill = GridBagConstraints.BOTH;
 		gbc.gridwidth = 2;
 		gbc.weighty = 0.75;
 		gbc.gridy = 1;
 		gbc.anchor = GridBagConstraints.CENTER;
-        gbc.insets = new Insets(5, 10, 10, 10);
-        primera.add(panelCliente,gbc);
+                gbc.insets = new Insets(5, 10, 10, 10);
+                primera.add(panelCliente,gbc);
 		
 		panelHijos.setBackground(new Color(255,255,150));
 		gbc.gridwidth = 2;
@@ -324,8 +324,8 @@ public class AltaPoliza extends JPanel{
 		gbc.gridy = 3;
 		gbc.anchor = GridBagConstraints.SOUTHWEST;
 		gbc.fill = GridBagConstraints.VERTICAL;
-        gbc.insets = new Insets(10, 10, 10, 10);
-        primera.add(botonCancelar,gbc);
+                gbc.insets = new Insets(10, 10, 10, 10);
+                primera.add(botonCancelar,gbc);
 		
 		gbc.anchor = GridBagConstraints.SOUTHEAST;		
 		gbc.gridx = 1;
@@ -1314,5 +1314,24 @@ public class AltaPoliza extends JPanel{
 		//cambia el panel visible
 		cl.show(containerPanel, pantalla);
 	}
+        
+        void  actualizarPrimera(ClienteDTO cliente){
+            
+            /*
+		JLabel clienteNombre = new JLabel("");
+		JLabel clienteNumero = new JLabel("");
+		JLabel clienteTipoDoc = new JLabel("");
+		JLabel clienteNroDoc = new JLabel("");
+		JLabel clienteDireccion = new JLabel("placeholder5");
+            */
+            clienteNumero.setText(cliente.getNumCliente());
+            clienteApellido.setText(cliente.getApellido());
+            clienteNombre.setText(cliente.getNombre());
+            clienteTipoDoc.setText(cliente.getTipoDocumentoAsString());
+            clienteNroDoc.setText(cliente.getNumDocumento());
+            clienteDireccion.setText("placeholder");
+            
+            return;
+        }
 	
 }
