@@ -48,7 +48,7 @@ public class MenuProductorSeguros extends JPanel{
 		
 		menu = frame;
 		
-		//tittleConfig(titulo,"titulo_productorSeguros");
+		tittleConfig(titulo,"titulo_productorSeguros");
 		
 		//configuro botones
 		botonAltaPoliza.addActionListener((ActionEvent e) -> {
@@ -60,7 +60,7 @@ public class MenuProductorSeguros extends JPanel{
 		
 		GridBagConstraints gbc = new GridBagConstraints();
 		
-		//agrego titulo
+	//agrego titulo
         gbc.gridy = 0;
         gbc.weightx = 1;
         gbc.weighty = 1;
@@ -148,7 +148,6 @@ public class MenuProductorSeguros extends JPanel{
 		//tittle
 		titulo.setIcon(icon);
 		
-		return;
 		
 	}
 	
