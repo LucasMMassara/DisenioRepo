@@ -222,10 +222,10 @@ public class BuscarCliente extends JPanel{
         busqueda.add(nroClienteI,gbc);
 
         gbc.gridx = 1;
-        busqueda.add(apellidoI,gbc);
+        busqueda.add(nombreI,gbc);
         
         gbc.gridx = 2;
-        busqueda.add(nombreI,gbc);
+        busqueda.add(apellidoI,gbc);
         
         gbc.gridx = 3;
         busqueda.add(tipoDocumentoI,gbc);
@@ -263,12 +263,12 @@ public class BuscarCliente extends JPanel{
 	
 		lista.setBackground(Color.DARK_GRAY);
 		
-        GridBagConstraints gbc = new GridBagConstraints();
+                GridBagConstraints gbc = new GridBagConstraints();
 
 		gbc.fill = GridBagConstraints.BOTH;
 		gbc.weightx = 1;
-        gbc.weighty = 0.05;
-        gbc.gridx = 0;
+                gbc.weighty = 0.05;
+                gbc.gridx = 0;
 		gbc.gridy = 0;
 		gbc.anchor = GridBagConstraints.CENTER;
 		resultado.add(resultadoBusqueda,gbc);
@@ -277,10 +277,8 @@ public class BuscarCliente extends JPanel{
 		JScrollPane jsp = new JScrollPane(lista);
 		
 		gbc.gridy = 1;
-        gbc.weighty = 0.95;
-        listaConfig(lista);
-        
-        
+                gbc.weighty = 0.95;
+                listaConfig(lista);
         
 		resultado.add(jsp,gbc);
 
@@ -289,7 +287,7 @@ public class BuscarCliente extends JPanel{
         
         private void resultadoConfig(JPanel resultado, ArrayList<ClienteDTO> clientes) {
 		
-                 resultado.removeAll();
+                resultado.removeAll();
                 resultado.revalidate();
                 resultado.repaint();
             

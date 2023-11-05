@@ -28,12 +28,7 @@ public class AltaPoliza extends JPanel{
 	Background pdf  = new Background("background.jpg");
 	Background buscarCliente  = new Background("background.jpg");
 
-        JLabel clienteApellido = new JLabel("");
-        JLabel clienteNombre = new JLabel("");
-        JLabel clienteNumero = new JLabel("");
-        JLabel clienteTipoDoc = new JLabel("");
-        JLabel clienteNroDoc = new JLabel("");
-        JLabel clienteDireccion = new JLabel("");
+      
         
 	
 	CardLayout cl = new CardLayout();
@@ -41,19 +36,40 @@ public class AltaPoliza extends JPanel{
 		
 	MenuProductorSeguros main;
 	
+        //datos
+        String clienteApellido = "";
+        String clienteNombre = "";
+        String clienteNumero = "";
+        String clienteTipoDoc = "";
+        String clienteNroDoc = "";
+        String clienteDireccion = "";
+        
+        int clienteCantHijos = 0;
+        String clienteTipCob = "Mensual";
+
+        String clienteVehiculoMarca = "";
+        String clienteVehiculoModelo = "";
+        String clienteVehiculoAnio = "";
+        String clienteVehiculoPatente = "";
+        String clienteVehiculoChasis = "";
+        String clienteVehiculoMotor = "";
+        
+        String clienteSumaAsegurada = "99999.9999";
+        
+        
 	AltaPoliza(MenuProductorSeguros menu){
 		
-		main = menu;
-		
-		primeraConfig();
-		segundaConfig();
-		terceraConfig();
-		cuartaConfig();
-		quintaConfig();
-		pdfConfig();
-		buscarClienteConfig();
-		
-		//configurar panel container
+            main = menu;
+
+            primeraConfig();
+            segundaConfig();
+            terceraConfig();
+            cuartaConfig();
+            quintaConfig();
+            pdfConfig();
+            buscarClienteConfig();
+
+            //configurar panel container
 	    containerPanel.setLayout(cl);
 	    containerPanel.setPreferredSize(this.getSize());
 	    containerPanel.add(primera, "1");
@@ -65,19 +81,21 @@ public class AltaPoliza extends JPanel{
 	    containerPanel.add(pdf, "6");
 	    cambiarPantalla("1");
 		
-		//agregar mainPanel
-		GridBagConstraints gbc0 = new GridBagConstraints();
-		gbc0.weightx = 1;
+            //agregar mainPanel
+            GridBagConstraints gbc0 = new GridBagConstraints();
+            gbc0.weightx = 1;
 	    gbc0.weighty = 1;
 	    gbc0.anchor = GridBagConstraints.CENTER;
 	    gbc0.fill = GridBagConstraints.BOTH;
-		this.setLayout(new GridBagLayout());
-		this.add(containerPanel,gbc0);
+            this.setLayout(new GridBagLayout());
+            this.add(containerPanel,gbc0);
 		
 	}
 	
 	private void primeraConfig() {
 		
+                primera = new Background("background.jpg");
+            
 		Boton botonCancelar = new Boton("Cancelar");
 		Boton botonBuscarCliente = new Boton("Buscar Cliente");
 		Boton botonContinuar = new Boton("Continuar");
@@ -108,16 +126,13 @@ public class AltaPoliza extends JPanel{
 		JPanel clienteTipoDocP = new JPanel(); 
 		JPanel clienteNroDocP = new JPanel(); 
 		JPanel clienteDireccionP = new JPanel(); 
-		
-		botonBuscarCliente.addActionListener((ActionEvent e) -> {
-			cambiarPantalla("buscarCliente");
-        });
-		botonCancelar.addActionListener((ActionEvent e) -> {
-			main.cambiarPantalla("1");
-        });
-		botonContinuar.addActionListener((ActionEvent e) -> {
-			cambiarPantalla("2");
-        });
+                
+                JLabel clienteApellidoLabel = new JLabel(clienteApellido);
+                JLabel clienteNombreLabel = new JLabel(clienteNombre);
+                JLabel clienteNumeroLabel = new JLabel(clienteNumero);
+                JLabel clienteTipoDocLabel = new JLabel(clienteTipoDoc);
+                JLabel clienteNroDocLabel = new JLabel(clienteNroDoc);
+                JLabel clienteDireccionLabel = new JLabel(clienteDireccion);
 		
 		//config panelCliente
 		panelCliente.setLayout(new GridBagLayout());
@@ -127,7 +142,7 @@ public class AltaPoliza extends JPanel{
 		gbc2.fill = GridBagConstraints.NONE;
 		gbc2.weightx = 1;
 		gbc2.weighty = 1;
-                 gbc2.insets = new Insets(0, 10, 0, 0);
+                gbc2.insets = new Insets(0, 10, 0, 0);
 
 		
                 Font customFont = new Font("Arial", Font.BOLD, 24); // Font name, style, and size
@@ -180,7 +195,7 @@ public class AltaPoliza extends JPanel{
                 clienteApellidoP.setLayout(new GridBagLayout());
                 clienteApellidoP.setBackground(new Color(255,255,255));
                 clienteApellidoP.setBorder(border);
-                clienteApellidoP.add(clienteApellido,gbc2);
+                clienteApellidoP.add(clienteApellidoLabel,gbc2);
 		panelCliente.add(clienteApellidoP, gbc1);
 		
                 gbc1.weighty = 0.2;
@@ -188,14 +203,14 @@ public class AltaPoliza extends JPanel{
 		clienteNombreP.setLayout(new GridBagLayout());
 		clienteNombreP.setBackground(new Color(255,255,255));
 		clienteNombreP.setBorder(border);
-		clienteNombreP.add(clienteNombre,gbc2);
+		clienteNombreP.add(clienteNombreLabel,gbc2);
 		panelCliente.add(clienteNombreP, gbc1);
 
 		gbc1.gridx = 2;
 		clienteNumeroP.setLayout(new GridBagLayout());
 		clienteNumeroP.setBackground(new Color(255,255,255));
 		clienteNumeroP.setBorder(border);
-		clienteNumeroP.add(clienteNumero,gbc2);
+		clienteNumeroP.add(clienteNumeroLabel,gbc2);
 		panelCliente.add(clienteNumeroP, gbc1);
 		
                 gbc2.anchor = GridBagConstraints.SOUTHWEST;
@@ -232,21 +247,21 @@ public class AltaPoliza extends JPanel{
                 clienteTipoDocP.setLayout(new GridBagLayout());
                 clienteTipoDocP.setBackground(new Color(255,255,255));
                 clienteTipoDocP.setBorder(border);
-                clienteTipoDocP.add(clienteTipoDoc,gbc2);
+                clienteTipoDocP.add(clienteTipoDocLabel,gbc2);
 		panelCliente.add(clienteTipoDocP, gbc1);
 		
 		gbc1.gridx = 1;
 		clienteNroDocP.setLayout(new GridBagLayout());
 		clienteNroDocP.setBackground(new Color(255,255,255));
 		clienteNroDocP.setBorder(border);
-		clienteNroDocP.add(clienteNroDoc,gbc2);
+		clienteNroDocP.add(clienteNroDocLabel,gbc2);
 		panelCliente.add(clienteNroDocP, gbc1);
 
 		gbc1.gridx = 2;
 		clienteDireccionP.setLayout(new GridBagLayout());
 		clienteDireccionP.setBackground(new Color(255,255,255));
 		clienteDireccionP.setBorder(border);
-		clienteDireccionP.add(clienteDireccion,gbc2);
+		clienteDireccionP.add(clienteDireccionLabel,gbc2);
 		panelCliente.add(clienteDireccionP, gbc1);
 		
 		//config panelHijos
@@ -257,6 +272,7 @@ public class AltaPoliza extends JPanel{
 		JLabel cantHijosLabel = new JLabel("Cant. Hijos del cliente: ");
 		PanelTextInput hijosInput = new PanelTextInput(16);
                 hijosInput.restrictToNumbers();
+                //hijosInput.setText("0");
 		
 		panelHijos.setLayout(new GridBagLayout());
 		panelcantHijosLabel.setLayout(new GridBagLayout());
@@ -330,7 +346,31 @@ public class AltaPoliza extends JPanel{
 		gbc.anchor = GridBagConstraints.SOUTHEAST;		
 		gbc.gridx = 1;
 		primera.add(botonContinuar,gbc);
-				
+		
+        botonBuscarCliente.addActionListener((ActionEvent e) -> {
+		cambiarPantalla("buscarCliente");
+        });
+		botonCancelar.addActionListener((ActionEvent e) -> {
+			main.cambiarPantalla("1");
+        });
+		botonContinuar.addActionListener((ActionEvent e) -> {
+                        //guardarDatos
+                                                
+                        if(hijosInput.getText().isEmpty()){
+                         clienteCantHijos = 0;   
+                        }
+                        else{
+                         clienteCantHijos = Integer.parseInt(hijosInput.getText());   
+                        }
+                        
+                        if(clienteCantHijos != 0){
+                        terceraConfig();
+                        containerPanel.add(tercera, "3");
+                        }
+                        
+                        cambiarPantalla("2");
+        });
+                
 	}
 	
 	private void segundaConfig() {
@@ -340,8 +380,18 @@ public class AltaPoliza extends JPanel{
 		Boton botonContinuar = new Boton("Continuar");
 		
 		JPanel panelVehiculo = new JPanel();
-		JPanel panelMedidas = new JPanel(); 
-		
+		JPanel panelMedidas = new JPanel();
+                
+                String[] items = {"Option 1", "Option 2", "Option 3", "Option 4"};
+                
+                PanelDropDown dMarca = new PanelDropDown("WEST", items);
+		PanelDropDown dModelo = new PanelDropDown("WEST", items);
+		PanelDropDown dAnio = new PanelDropDown("WEST", items);
+                PanelTextInput tiNroMotor = new PanelTextInput(16);
+		PanelTextInput tiNroChasis = new PanelTextInput(16);
+		PanelTextInput tiPatente = new PanelTextInput(16);
+                tiPatente.restrictSize(7);
+                
 		botonVolver.addActionListener((ActionEvent e) -> {
 			cambiarPantalla("1");
 	    });
@@ -350,7 +400,21 @@ public class AltaPoliza extends JPanel{
 			main.cambiarPantalla("1");
 	    });
 		botonContinuar.addActionListener((ActionEvent e) -> {
-			cambiarPantalla("3");
+                    
+                    clienteVehiculoMarca = dMarca.getSelectedItem();
+                    clienteVehiculoModelo = dModelo.getSelectedItem();
+                    clienteVehiculoAnio = dAnio.getSelectedItem();
+                    clienteVehiculoMotor = tiNroMotor.getText();
+                    clienteVehiculoChasis = tiNroChasis.getText();
+                    clienteVehiculoPatente = tiPatente.getText();
+
+                    
+                    if(clienteCantHijos == 0){
+                        cambiarPantalla("4");
+                    }else{
+                        cambiarPantalla("3");
+                    }
+                    
 	    });
 		
 		GridBagConstraints gbc = new GridBagConstraints();
@@ -365,8 +429,9 @@ public class AltaPoliza extends JPanel{
         gbc.insets = new Insets(10, 10, 5, 10);
         segunda.add(botonVolver, gbc);
 		
-        panelVehiculo.setBackground(new Color(240,240,240));;
-        panelVehiculoConfig(panelVehiculo);
+        panelVehiculo.setBackground(new Color(240,240,240));
+        
+        panelVehiculoConfig(panelVehiculo,dMarca,dModelo,dAnio,tiNroMotor,tiNroChasis,tiPatente);
         panelVehiculo.setBorder(border);
 		gbc.fill = GridBagConstraints.BOTH;
 		gbc.gridwidth = 2;
@@ -376,7 +441,7 @@ public class AltaPoliza extends JPanel{
         gbc.insets = new Insets(5, 10, 5, 10);
         segunda.add(panelVehiculo,gbc);
 		
-        panelMedidas.setBackground(new Color(240,240,240));;
+        panelMedidas.setBackground(new Color(240,240,240));
         panelMedidasConfig(panelMedidas);
         panelMedidas.setBorder(border);
 		gbc.gridwidth = 2;
@@ -395,13 +460,13 @@ public class AltaPoliza extends JPanel{
 		gbc.anchor = GridBagConstraints.SOUTHEAST;		
 		gbc.gridx = 1;
 		segunda.add(botonContinuar,gbc);
-		
-        
-		return;
+
 	}
 	
 	private void terceraConfig() {
 		
+            	tercera = new Background("background.jpg");
+            
 		Boton botonVolver = new Boton("Volver");
 		Boton botonCancelar = new Boton("Cancelar");
 		Boton botonConfirmar = new Boton("Confirmar datos");
@@ -430,8 +495,8 @@ public class AltaPoliza extends JPanel{
         gbc.insets = new Insets(10, 10, 5, 10);
         tercera.add(botonVolver, gbc);
 		
-        panelHijos.setBackground(new Color(150,255,255));;
-        panelHijosConfig(panelHijos, 3);
+        panelHijos.setBackground(new Color(150,255,255));
+        panelHijosConfig(panelHijos, clienteCantHijos);
 		gbc.fill = GridBagConstraints.BOTH;
 		gbc.gridwidth = 2;
 		gbc.weighty = 0.95;
@@ -452,12 +517,17 @@ public class AltaPoliza extends JPanel{
 		gbc.gridx = 1;
 		tercera.add(botonConfirmar,gbc);
 		
-        
-		return;
 	}
 	
 	private void cuartaConfig() {
 		
+                String[] formasPago = {"Mensual", "Semestral"};
+                String[] tiposCobertura = {"tipo 1", "tipo 2", "tipo 3", "tipo 4"};
+
+                PanelTextInput fechaInput = new PanelTextInput(18);
+                PanelDropDown tipoCoberturaDropDown = new PanelDropDown("CENTER", tiposCobertura);
+                PanelDropDown formaPagoDropDown = new PanelDropDown("CENTER", formasPago);
+            
 		Boton botonVolver = new Boton("Volver");
 		Boton botonCancelar = new Boton("Cancelar");
 		Boton botonGenerar = new Boton("Generar poliza");
@@ -465,13 +535,27 @@ public class AltaPoliza extends JPanel{
 		JPanel panelCobertura = new JPanel();
 		
 		botonVolver.addActionListener((ActionEvent e) -> {
-			cambiarPantalla("3");
+                    
+                        if(clienteCantHijos == 0){
+                        cambiarPantalla("2");
+                    }else{
+                        cambiarPantalla("3");
+                    }
+          
 	    });
 		botonCancelar.addActionListener((ActionEvent e) -> {
 			cambiarPantalla("1");
 			main.cambiarPantalla("1");
 	    });
 		botonGenerar.addActionListener((ActionEvent e) -> {
+                        if("Semestral".equals(formaPagoDropDown.getSelectedItem())){
+                            clienteTipCob = "Semestral";
+                        }
+                        else{
+                            clienteTipCob = "Mensual";
+                        }
+                        quintaConfig();
+                        containerPanel.add(quinta, "5");
 			cambiarPantalla("5");
 	    });
 		
@@ -485,9 +569,9 @@ public class AltaPoliza extends JPanel{
 		gbc.anchor = GridBagConstraints.NORTHWEST;
         gbc.insets = new Insets(10, 10, 5, 10);
         cuarta.add(botonVolver, gbc);
-		
-        panelCobertura.setBackground(new Color(240,240,240));;
-        panelCoberturaConfig(panelCobertura);
+        
+        panelCobertura.setBackground(new Color(240,240,240));
+        panelCoberturaConfig(panelCobertura, fechaInput,tipoCoberturaDropDown,formaPagoDropDown);
 		gbc.fill = GridBagConstraints.BOTH;
 		gbc.gridwidth = 2;
 		gbc.weighty = 0.95;
@@ -508,12 +592,12 @@ public class AltaPoliza extends JPanel{
 		gbc.gridx = 1;
 		cuarta.add(botonGenerar,gbc);
 		
-        
-		return;
 	}
 	
 	private void quintaConfig() {
 		
+                quinta = new Background("background.jpg");
+            
 		Boton botonVolver = new Boton("Volver");
 		Boton botonCancelar = new Boton("Cancelar");
 		Boton botonConfirmar = new Boton("Confirmar poliza");
@@ -544,7 +628,7 @@ public class AltaPoliza extends JPanel{
         gbc.insets = new Insets(10, 10, 5, 10);
         quinta.add(botonVolver, gbc);
 	
-        panelResumen.setBackground(new Color(240,240,240));;
+        panelResumen.setBackground(new Color(240,240,240));
         panelResumenConfig(panelResumen);
         gbc.fill = GridBagConstraints.BOTH;
 		gbc.gridheight = 2;
@@ -554,7 +638,7 @@ public class AltaPoliza extends JPanel{
         gbc.insets = new Insets(5, 10, 5, 0);
         quinta.add(panelResumen,gbc);
 		
-        panelPoliza.setBackground(new Color(240,240,240));;
+        panelPoliza.setBackground(new Color(240,240,240));
         panelPolizaConfig(panelPoliza);
 		gbc.fill = GridBagConstraints.BOTH;
 		gbc.gridheight = 1;
@@ -564,8 +648,18 @@ public class AltaPoliza extends JPanel{
         gbc.insets = new Insets(5, 0, 0, 10);
         quinta.add(panelPoliza,gbc);
         
-        panelCuotas.setBackground(new Color(255,255,150));;
-        panelCuotasConfig(panelCuotas, 6);
+        panelCuotas.setBackground(new Color(255,255,150));
+        
+        int cuotas;
+        if(     "Mensual".equals(clienteTipCob)){
+            cuotas = 1;
+        }
+        else{
+            cuotas = 6;
+        }
+        
+        
+        panelCuotasConfig(panelCuotas, cuotas);
 		gbc.fill = GridBagConstraints.BOTH;
 		//gbc.weighty = 0.35;
 		gbc.gridy = 2;
@@ -585,9 +679,6 @@ public class AltaPoliza extends JPanel{
 		gbc.anchor = GridBagConstraints.SOUTHEAST;		
 		gbc.gridx = 1;
 		quinta.add(botonConfirmar,gbc);
-		
-        
-		return;
 		
 	}
 	
@@ -617,11 +708,9 @@ public class AltaPoliza extends JPanel{
 		
 		buscarCliente.add(panel,gbc);
 
-		
-		return;
 	}
 	
-	private void panelVehiculoConfig(JPanel panelVehiculo){
+	private void panelVehiculoConfig(JPanel panelVehiculo,PanelDropDown dMarca, PanelDropDown dModelo, PanelDropDown dAnio,PanelTextInput tiNroMotor,PanelTextInput tiNroChasis,PanelTextInput tiPatente){
 		
 		PanelText tVehiculo = new PanelText("Vehiculo", "BOLD" ,24, "WEST");
 		
@@ -639,39 +728,43 @@ public class AltaPoliza extends JPanel{
 		//domicilio ---------------------------
 		PanelText tDomicilioRiesgo = new PanelText("Domicilio de riesgo","BOLD", 16, "SOUTHWEST");
 		PanelText tProvincia = new PanelText("Provincia", "PLAIN", 16, "SOUTHWEST");
+                PanelText tPais = new PanelText("Pais", "PLAIN", 16, "SOUTHWEST");
 		PanelText tLocalidad = new PanelText("Localidad", "PLAIN", 16, "SOUTHWEST");
 		
 		String[] items = {"Option 1", "Option 2", "Option 3", "Option 4"};
 		
 		PanelDropDown dProvincia  = new PanelDropDown("WEST", items);
-		PanelDropDown dLocalidad = new PanelDropDown("WEST", items);
+                PanelDropDown dPais  = new PanelDropDown("WEST", items);
+                PanelDropDown dLocalidad = new PanelDropDown("WEST", items);
 		
 		gbc.gridy = 1;
 		panelVehiculo.add(tDomicilioRiesgo,gbc);
 		
 		gbc.gridy = 2;
-		panelVehiculo.add(tProvincia,gbc);
+		panelVehiculo.add(tPais,gbc);
 		
 		gbc.gridx = 1;
+		panelVehiculo.add(tProvincia,gbc);
+                
+                gbc.gridx = 2;
 		panelVehiculo.add(tLocalidad,gbc);
 		
 		gbc.gridx = 0;
 		gbc.gridy = 3;
-		panelVehiculo.add(dProvincia,gbc);
+		panelVehiculo.add(dPais,gbc);
 		
 		gbc.gridx = 1;
+		panelVehiculo.add(dProvincia,gbc);
+                
+                gbc.gridx = 2;
 		panelVehiculo.add(dLocalidad,gbc);
-		
+                
 		//modelo ---------------------------
 		PanelText tModeloVehiculo = new PanelText("Modelo del vehiculo", "BOLD", 16, "SOUTHWEST");
 
 		PanelText tMarca = new PanelText("Marca", "PLAIN", 16, "SOUTHWEST");
 		PanelText tModelo = new PanelText("Modelo", "PLAIN", 16, "SOUTHWEST");
 		PanelText tAnio = new PanelText("Año", "PLAIN", 16, "SOUTHWEST");
-		
-		PanelDropDown dMarca = new PanelDropDown("WEST", items);
-		PanelDropDown dModelo = new PanelDropDown("WEST", items);
-		PanelDropDown dAnio = new PanelDropDown("WEST", items);
 		
 		gbc.gridx = 0;
 		gbc.gridy = 4;
@@ -680,10 +773,10 @@ public class AltaPoliza extends JPanel{
 		
 		gbc.anchor = GridBagConstraints.CENTER;
 		gbc.gridy = 5;
-		panelVehiculo.add(tModelo,gbc);
+		panelVehiculo.add(tMarca,gbc);
 		
 		gbc.gridx = 1;
-		panelVehiculo.add(tMarca,gbc);
+		panelVehiculo.add(tModelo,gbc);
 		
 		gbc.gridx = 2;
 		panelVehiculo.add(tAnio,gbc);
@@ -699,13 +792,15 @@ public class AltaPoliza extends JPanel{
 		panelVehiculo.add(dAnio,gbc);
 		
 		//suma asegurada ---------------------------
+                //TO DO recuperar suma asegurada
+                //clienteSumaAsegurada = result;
 		PanelText tSumaAsegurada = new PanelText("Suma aseguradora en pesos: ", "ITALIC", 16, "WEST");
-		PanelTextInput tSuma = new PanelTextInput("placeholder", 16);
+		PanelTextInput tSuma = new PanelTextInput(clienteSumaAsegurada, 16);
 		tSuma.setEditable(false);
 		
 		gbc.gridx = 0;
 		gbc.gridy = 7;
-        gbc.insets = new Insets(13, 0, 0, 0);
+                gbc.insets = new Insets(13, 0, 0, 0);
 		panelVehiculo.add(tSumaAsegurada,gbc);
 		
 		gbc.gridx = 1;
@@ -719,14 +814,9 @@ public class AltaPoliza extends JPanel{
 		PanelText tNroChasis = new PanelText("Nro. Chasis", "PLAIN", 16, "SOUTHWEST");
 		PanelText tPatente = new PanelText("Patente", "PLAIN", 16, "SOUTHWEST");
 		
-		
-		
-		PanelTextInput tiNroMotor = new PanelTextInput(16);
-		PanelTextInput tiNroChasis = new PanelTextInput(16);
-		PanelTextInput tiPatente = new PanelTextInput(16);
-		
 		PanelText tKMAnio = new PanelText("KM. por año", "PLAIN", 16, "SOUTHWEST");
 		PanelTextInput tiKMAnio  = new PanelTextInput(16);
+                tiKMAnio.restrictToNumbers();
 		PanelText tCantidadSin= new PanelText("Cantidad de siniestros en el ultimo año", "PLAIN", 16, "SOUTHWEST");
 		PanelTextInput tiCantidadSin = new PanelTextInput("placeholder", 16);
 		
@@ -808,17 +898,15 @@ public class AltaPoliza extends JPanel{
 		gbc.gridx = 3;
 		panelMedidas.add(tuercas,gbc);
 		
-		
-		return;
 	}
 	
 	private void panelHijosConfig(JPanel panelHijos, int cantidadHijos) {
 		
-		CardLayout cl = new CardLayout();
+		CardLayout cl1 = new CardLayout();
 		LineBorder border = new LineBorder(Color.LIGHT_GRAY, 2);
     	
 		//configurar panel container
-		panelHijos.setLayout(cl);
+		panelHijos.setLayout(cl1);
 		panelHijos.setBorder(border);
 
 		
@@ -842,11 +930,12 @@ public class AltaPoliza extends JPanel{
         	
         	PanelText numero = new PanelText("" + i, "PLAIN", 18, "CENTER");
 
-    		String[] items = {"Option 1", "Option 2", "Option 3", "Option 4"};
+    		String[] generos = {"Femenino", "Masculino"};
+                String[] estados = {"casado/a", "soltero/a","viudo/a"};
         	
         	PanelTextInput fechaInput = new PanelTextInput(18);
-        	PanelDropDown sexoDropDown = new PanelDropDown("CENTER", items);
-        	PanelDropDown estadoCivilDropDown = new PanelDropDown("CENTER", items);
+        	PanelDropDown sexoDropDown = new PanelDropDown("CENTER", generos);
+        	PanelDropDown estadoCivilDropDown = new PanelDropDown("CENTER", estados);
         
         	Boton boton0 = new Boton("🡰");
         	Boton boton1 = new Boton("🡲");
@@ -916,21 +1005,18 @@ public class AltaPoliza extends JPanel{
             int a = i;
             
             boton0.addActionListener((ActionEvent e) -> {
-        		cl.show(panelHijos, ""+(a-1));
+        		cl1.show(panelHijos, ""+(a-1));
             });
             
             boton1.addActionListener((ActionEvent e) -> {
-        		cl.show(panelHijos, ""+(a+1));
+        		cl1.show(panelHijos, ""+(a+1));
             });
             
 		}
-		
-		cl.show(panelHijos, ""+1);
-		
-		return;
-	}
+		cl1.show(panelHijos, ""+1);
+        }
 	
-	private void panelCoberturaConfig(JPanel panelCobertura) {
+	private void panelCoberturaConfig(JPanel panelCobertura,PanelTextInput fechaInput,PanelDropDown tipoCoberturaDropDown,PanelDropDown formaPagoDropDown) {
 		
 		LineBorder border = new LineBorder(Color.LIGHT_GRAY, 2);
     	
@@ -944,13 +1030,6 @@ public class AltaPoliza extends JPanel{
         	PanelText tipoCobertura = new PanelText("Tipo de cobertura", "PLAIN", 18, "SOUTHWEST");
         	PanelText fechaInicio = new PanelText("Fecha de inicio", "PLAIN", 18, "SOUTHWEST");
         	PanelText formaPago = new PanelText("Forma de pago", "PLAIN", 18, "SOUTHWEST");
-        	
-
-    		String[] items = {"Option 1", "Option 2", "Option 3", "Option 4"};
-        	
-        	PanelTextInput fechaInput = new PanelTextInput(18);
-        	PanelDropDown tipoCoberturaDropDown = new PanelDropDown("CENTER", items);
-        	PanelDropDown formaPagoDropDown = new PanelDropDown("CENTER", items);
 
         	
             GridBagConstraints gbc2 = new GridBagConstraints();
@@ -988,10 +1067,7 @@ public class AltaPoliza extends JPanel{
             
             gbc2.gridx = 2;
             panelCobertura.add(formaPagoDropDown,gbc2);
- 
-
-            		
-		return;
+            
 	}
 	
 	private void panelResumenConfig(JPanel panelResumen) {
@@ -1012,17 +1088,17 @@ public class AltaPoliza extends JPanel{
 		PanelText chasis = new PanelText("Chasis", "PLAIN", 16, "WEST");
 		PanelText motor = new PanelText("Motor", "PLAIN", 16, "WEST");
 
-		PanelTextInput tituloI = new PanelTextInput("placeholder", 16);
+		PanelTextInput tituloI = new PanelTextInput( clienteApellido + " " + clienteNombre, 16);
 		tituloI.setEditable(false);
-		PanelTextInput modeloI = new PanelTextInput("placeholder", 16);
+		PanelTextInput modeloI = new PanelTextInput(clienteVehiculoMarca +" " + clienteVehiculoModelo +" " + clienteVehiculoAnio, 16);
 		modeloI.setEditable(false);
-		PanelTextInput patenteI = new PanelTextInput("placeholder", 16);
+		PanelTextInput patenteI = new PanelTextInput(clienteVehiculoPatente, 16);
 		patenteI.setEditable(false);
-		PanelTextInput sumaI = new PanelTextInput("placeholder", 16);
+		PanelTextInput sumaI = new PanelTextInput(clienteSumaAsegurada, 16);
 		sumaI.setEditable(false);
-		PanelTextInput chasisI = new PanelTextInput("placeholder", 16);
+		PanelTextInput chasisI = new PanelTextInput(clienteVehiculoChasis, 16);
 		chasisI.setEditable(false);
-		PanelTextInput motorI = new PanelTextInput("placeholder", 16);
+		PanelTextInput motorI = new PanelTextInput(clienteVehiculoMotor, 16);
 		motorI.setEditable(false);
 
 		GridBagConstraints gbc2 = new GridBagConstraints();
@@ -1097,8 +1173,6 @@ public class AltaPoliza extends JPanel{
 		gbc2.gridx = 1;
 		panelResumen.add(motorI,gbc2);
 		
-		
-		return;
 	}
 	
 	private void panelPolizaConfig(JPanel panelPoliza) {
@@ -1171,18 +1245,15 @@ public class AltaPoliza extends JPanel{
 		gbc2.gridy = 5;
 		panelPoliza.add(montoI,gbc2);
 		
-		
-		
-		return;
 	}
 	
 	private void panelCuotasConfig(JPanel panelCuotas, int cantidadCuotas){
 		
-		CardLayout cl = new CardLayout();
+		CardLayout cl1 = new CardLayout();
 		LineBorder border = new LineBorder(Color.LIGHT_GRAY, 2);
     	
 		//configurar panel container
-		panelCuotas.setLayout(cl);
+		panelCuotas.setLayout(cl1);
 		panelCuotas.setBorder(border);
 
 				
@@ -1296,18 +1367,17 @@ public class AltaPoliza extends JPanel{
             int a = i;
             
             boton0.addActionListener((ActionEvent e) -> {
-        		cl.show(panelCuotas, ""+(a-1));
+        		cl1.show(panelCuotas, ""+(a-1));
             });
             
             boton1.addActionListener((ActionEvent e) -> {
-        		cl.show(panelCuotas, ""+(a+1));
+        		cl1.show(panelCuotas, ""+(a+1));
             });
             
 		}
 		
-		cl.show(panelCuotas, ""+1);
+		cl1.show(panelCuotas, ""+1);
 		
-		return;
 	}
 	
 	void cambiarPantalla(String pantalla) {
@@ -1317,21 +1387,17 @@ public class AltaPoliza extends JPanel{
         
         void  actualizarPrimera(ClienteDTO cliente){
             
-            /*
-		JLabel clienteNombre = new JLabel("");
-		JLabel clienteNumero = new JLabel("");
-		JLabel clienteTipoDoc = new JLabel("");
-		JLabel clienteNroDoc = new JLabel("");
-		JLabel clienteDireccion = new JLabel("placeholder5");
-            */
-            clienteNumero.setText(cliente.getNumCliente());
-            clienteApellido.setText(cliente.getApellido());
-            clienteNombre.setText(cliente.getNombre());
-            clienteTipoDoc.setText(cliente.getTipoDocumentoAsString());
-            clienteNroDoc.setText(cliente.getNumDocumento());
-            clienteDireccion.setText("placeholder");
+            clienteNumero = cliente.getNumCliente();
+            clienteApellido = cliente.getApellido();
+            clienteNombre = cliente.getNombre();
+            clienteTipoDoc = cliente.getTipoDocumentoAsString();
+            clienteNroDoc = cliente.getNumDocumento();
+            clienteDireccion = "placeholder";
             
-            return;
+            primeraConfig();
+            containerPanel.add(primera, "1");
+
+            
         }
 	
 }

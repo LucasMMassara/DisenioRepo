@@ -22,9 +22,8 @@ public class PanelDropDown extends JPanel{
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-
-         // Create a JComboBox with the list of items
-	       JComboBox<String> comboBox = new JComboBox<>();
+        
+	JComboBox<String> comboBox = new JComboBox<>();
         
 	PanelDropDown(String[] items){
 
@@ -192,4 +191,6 @@ public class PanelDropDown extends JPanel{
         String getSelectedItem(){
            return (String)comboBox.getSelectedItem();
         }
+        
+        
 }
