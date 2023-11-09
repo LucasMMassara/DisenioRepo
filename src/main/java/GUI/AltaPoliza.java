@@ -692,7 +692,10 @@ public class AltaPoliza extends JPanel{
 			main.cambiarPantalla("1");
 	    });		
 		
+                PanelDatePicker date = new PanelDatePicker();
+                
 		pdf.add(placeholder);
+                pdf.add(date);
 		pdf.add(botonCancelar);
 		
 	}
@@ -1194,7 +1197,7 @@ public class AltaPoliza extends JPanel{
 		fechaInicioI.setEditable(false);
 		PanelTextInput fechaFinI = new PanelTextInput("placeholder", 16);
 		fechaFinI.setEditable(false);
-		PanelTextInput tipoPagoI = new PanelTextInput("placeholder", 16);
+		PanelTextInput tipoPagoI = new PanelTextInput(clienteTipCob, 16);
 		tipoPagoI.setEditable(false);
 		PanelTextInput montoI = new PanelTextInput("placeholder", 16);
 		montoI.setEditable(false);
