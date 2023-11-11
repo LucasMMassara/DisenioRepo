@@ -15,9 +15,6 @@ import javax.swing.JPanel;
 
 public class AltaPoliza extends JPanel{
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 
 	Background primera = new Background("background.jpg");
@@ -265,7 +262,6 @@ public class AltaPoliza extends JPanel{
 		panelCliente.add(clienteDireccionP, gbc1);
 		
 		//config panelHijos
-		
 		JPanel panelcantHijosLabel = new JPanel();
 		JPanel paneltextHijos = new JPanel();
 		
@@ -350,10 +346,10 @@ public class AltaPoliza extends JPanel{
         botonBuscarCliente.addActionListener((ActionEvent e) -> {
 		cambiarPantalla("buscarCliente");
         });
-		botonCancelar.addActionListener((ActionEvent e) -> {
+        botonCancelar.addActionListener((ActionEvent e) -> {
 			main.cambiarPantalla("1");
         });
-		botonContinuar.addActionListener((ActionEvent e) -> {
+        botonContinuar.addActionListener((ActionEvent e) -> {
                         //guardarDatos
                                                 
                         if(hijosInput.getText().isEmpty()){
@@ -362,13 +358,25 @@ public class AltaPoliza extends JPanel{
                         else{
                          clienteCantHijos = Integer.parseInt(hijosInput.getText());   
                         }
-                        
-                        if(clienteCantHijos != 0){
-                        terceraConfig();
-                        containerPanel.add(tercera, "3");
+                                          
+                        //condiciones de mal input:
+                        if(clienteCantHijos == 69){
+                            
+                            VentanaError errorInputIncorrecto = new VentanaError("nice","");
+                            hijosInput.setWrongInput();
+                            
+                        }
+                        //buen input:
+                        else{
+                            if(clienteCantHijos != 0){
+                                terceraConfig();
+                                containerPanel.add(tercera, "3");
+                            }
+                            hijosInput.setCorrectInput();
+                            cambiarPantalla("2");
+
                         }
                         
-                        cambiarPantalla("2");
         });
                 
 	}

@@ -9,6 +9,7 @@ import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.awt.event.ActionEvent;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -35,7 +36,11 @@ public class VentanaError extends JFrame{
     JPanel panel = new JPanel(new GridBagLayout());
     Background fondo = new Background("background.jpg");
     PanelText errorLabel = new PanelText(mensajeError,19);
-    Boton boton = new Boton("Aceptar", 19);    
+    Boton botonAceptar = new Boton("Aceptar", 19);    
+    
+    botonAceptar.addActionListener((ActionEvent e) -> {
+        dispose();
+    });
     
     GridBagConstraints gbc = new GridBagConstraints();
     
@@ -67,7 +72,7 @@ public class VentanaError extends JFrame{
     gbc.fill = GridBagConstraints.NONE;
     gbc.anchor = GridBagConstraints.SOUTH;
     gbc.gridy = 2;    
-    panel.add(boton, gbc);
+    panel.add(botonAceptar, gbc);
     
     panel.setOpaque(false);  
     gbc.gridheight = 1;
@@ -92,8 +97,12 @@ public class VentanaError extends JFrame{
     JPanel panel = new JPanel(new GridBagLayout());
     Background fondo = new Background("background.jpg");
     PanelText errorLabel = new PanelText(mensajeError,19);
-    Boton boton = new Boton("Aceptar", 19);    
+    Boton botonAceptar = new Boton("Aceptar", 19);    
     JPanel empty = new JPanel();
+    
+    botonAceptar.addActionListener((ActionEvent e) -> {
+        dispose();
+    });
     
     GridBagConstraints gbc = new GridBagConstraints();
     
@@ -115,7 +124,7 @@ public class VentanaError extends JFrame{
     gbc.fill = GridBagConstraints.NONE;
     gbc.anchor = GridBagConstraints.SOUTH;
     gbc.gridy = 2;    
-    panel.add(boton, gbc);
+    panel.add(botonAceptar, gbc);
     
     panel.setOpaque(false);  
     gbc.gridheight = 1;
