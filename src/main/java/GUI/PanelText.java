@@ -20,19 +20,19 @@ public class PanelText extends JPanel{
 	
 	PanelText(String text, int fontSize){
 		
-		texto.setText(text);
-		
-		this.setLayout(new GridBagLayout());
+        texto.setText(text);
+
+        this.setLayout(new GridBagLayout());
         this.setBackground(new Color(240,240,240));
 		
         Font customFont = new Font("Arial", Font.PLAIN, fontSize);
         texto.setFont(customFont);
 
         GridBagConstraints gbc2 = new GridBagConstraints();
-		//gbc2.anchor = GridBagConstraints.WEST;
-		//gbc2.fill = GridBagConstraints.BOTH;
-		gbc2.weightx = 1;
-		gbc2.weighty = 1;
+        //gbc2.anchor = GridBagConstraints.WEST;
+        //gbc2.fill = GridBagConstraints.BOTH;
+        gbc2.weightx = 1;
+        gbc2.weighty = 1;
         gbc2.insets = new Insets(0, 10, 0, 10);
         
         this.add(texto,gbc2);
@@ -163,11 +163,17 @@ public class PanelText extends JPanel{
 	
 }
 	
-	void setBackgroundColor(int r, int g, int b) {
-		
-    this.setBackground(new Color(r,g,b));
+    void setBackgroundColor(int r, int g, int b, int opacity) {
+
+        this.setBackground(new Color(r,g,b,opacity));
+
+    }
     
-}
+    void setBackgroundColor(int r, int g, int b) {
+
+        this.setBackground(new Color(r,g,b));
+
+    }
 	
 	
 }

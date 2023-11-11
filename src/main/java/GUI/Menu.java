@@ -2,6 +2,7 @@ package GUI;
 
 import java.awt.CardLayout;
 import java.awt.Dimension;
+import javax.swing.ImageIcon;
 
 //import javax.swing.ImageIcon;
 import javax.swing.JFrame;
@@ -24,16 +25,16 @@ public class Menu extends JFrame {
 	
 	Menu(){
 			
-			//armado ventana
-			this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-			this.setTitle("Gestión de Logística");
+                    //armado ventana
+                    this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                    this.setTitle("Gestión de Logística");
 		    this.setSize(1100, 720); // Set your preferred size
 		    this.setLocationRelativeTo(null); // Center the frame on the screen
 		    this.setMinimumSize(new Dimension(1000, 700));
 		    
 		    //cambio icono ventana
-		    //ImageIcon customIcon = new ImageIcon("LogoApp.png");
-		    //this.setIconImage(customIcon.getImage());
+		    ImageIcon customIcon = new ImageIcon("logo.png");
+		    this.setIconImage(customIcon.getImage());
 		    
 		    //configurar panel container
 		    containerPanel.setLayout(cl);
@@ -43,7 +44,7 @@ public class Menu extends JFrame {
 
 		    this.setContentPane(containerPanel);
 			//this.pack();
-			this.setVisible(true);
+                    this.setVisible(true);
 		    //this.revalidate();
 		    
 	}

@@ -18,9 +18,6 @@ import logica.TipoDocumento;
 
 public class BuscarCliente extends JPanel{
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 
 	private boolean selected = false;
@@ -160,7 +157,7 @@ public class BuscarCliente extends JPanel{
         
 		buscar.addActionListener((ActionEvent e) -> {
 		
-                    //guardar valores
+                    //obtener valores input
                     nroCli = nroClienteI.getText();
                     nomb = nombreI.getText();
                     apell = apellidoI.getText();
@@ -173,6 +170,10 @@ public class BuscarCliente extends JPanel{
                     //pasar a lista
                     //POR AHORA se pasa solo el cliente ingreso for testing purposes
                     //se tendria que chequear si la lista traida de la bd es vacia o no (hacer config con y sin arraylist)
+                    
+                    //si no se encuentra nada:
+                    clienteNoEncontrado();
+                    
                     TipoDocumento tipoD = null;
                     
                     switch(tipD){
@@ -429,5 +430,14 @@ public class BuscarCliente extends JPanel{
 		
 	}
 	
+        private void clienteNoEncontrado(){
+            
+            VentanaError ventanaError = new VentanaError("Error", "Oops! Something went wrong!\n" +
+"Help us improve your experience by sending an error report ","");
+            
+            
+            VentanaError ventanaError2 = new VentanaError("Cliente no encontrado","");
+            
+        }
 	
 }

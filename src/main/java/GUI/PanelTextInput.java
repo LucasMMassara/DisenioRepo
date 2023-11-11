@@ -29,7 +29,7 @@ public class PanelTextInput extends JPanel{
 	
 	PanelTextInput(int fontSize){
 		
-		Color borderColor = Color.GRAY;
+        Color borderColor = Color.GRAY;
         int borderThickness = 2;
         LineBorder customBorder = new LineBorder(borderColor, borderThickness);
         Insets insets = new Insets(3, 10, 3, 10);
