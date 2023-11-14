@@ -129,13 +129,39 @@ public class BuscarCliente extends JPanel{
 		PanelTextInput nombreI = new PanelTextInput(16);
 		PanelTextInput nroDocumentoI = new PanelTextInput(16);
 		
-                nroClienteI.restrictToNumbers();
+                //configuro inputs
+                nroClienteI.restrictToAlphanumerics();
+                nombreI.restrictSize(40);
+                apellidoI.restrictSize(70);   
                 nroDocumentoI.restrictToNumbers();
                 nroDocumentoI.restrictSize(8);
                 
-		String[] items = {"DNI", "CI", "CC","CIC"};
+                String[] items = {"CC", "CI", "CIC","DNI"};
 		PanelDropDown tipoDocumentoI = new PanelDropDown(items);
 
+                tipoDocumentoI.addCustomPanelListener(new CustomPanelListener() {
+                    @Override
+                    public void onPanelItemSelected(PanelDropDown source, String selectedItem) {
+                        
+                        switch (selectedItem) {
+                            case "CC":
+                                // limitar nroDocumentoI acordemente
+                                break;
+                            case "CI":
+                                // limitar nroDocumentoI acordemente
+                                break;
+                            case "CIC":
+                                // limitar nroDocumentoI acordemente
+                                break;
+                            case "DNI":
+                                // limitar nroDocumentoI acordemente
+                                break;
+                        }
+                        
+                    }
+                });
+                
+                
 		Boton limpiar = new Boton("Limpiar");
 		Boton buscar = new Boton("Buscar");
 		

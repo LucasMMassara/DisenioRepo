@@ -5,9 +5,13 @@ import java.awt.Component;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
+import java.util.EventListener;
 
 
 import javax.swing.BorderFactory;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListCellRenderer;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -24,12 +28,20 @@ public class PanelDropDown extends JPanel{
 	private static final long serialVersionUID = 1L;
         
 	JComboBox<String> comboBox = new JComboBox<>();
+        private transient CustomPanelListener customPanelListener;
         
-	PanelDropDown(String[] items){
+        PanelDropDown(String[] items){
 
-		 // Create a JComboBox with the list of items
+		// Create a JComboBox with the list of items
 	       comboBox = new JComboBox<>(items);
-
+                
+                comboBox.addItemListener(e -> {
+                    if (e.getStateChange() == ItemEvent.SELECTED) {
+                        String selectedOption = (String) comboBox.getSelectedItem();
+                        firePanelItemSelected(selectedOption);
+                    }
+                });
+               
 	       // Create a custom renderer for the JComboBox
 	       DefaultListCellRenderer renderer = new DefaultListCellRenderer() {
 
@@ -86,6 +98,9 @@ public class PanelDropDown extends JPanel{
 	       this.setBackground(new Color(240,240,240));        
 	       this.add(comboBox,gbc2);
 
+               
+               
+               
 	}
 	
 	PanelDropDown(String position, String[] items){
@@ -93,6 +108,13 @@ public class PanelDropDown extends JPanel{
        // Create a JComboBox with the list of items
        comboBox = new JComboBox<>(items);
 
+       comboBox.addItemListener(e -> {
+                    if (e.getStateChange() == ItemEvent.SELECTED) {
+                        String selectedOption = (String) comboBox.getSelectedItem();
+                        firePanelItemSelected(selectedOption);
+                    }
+                });
+       
        // Create a custom renderer for the JComboBox
        DefaultListCellRenderer renderer = new DefaultListCellRenderer() {
 
@@ -192,5 +214,30 @@ public class PanelDropDown extends JPanel{
            return (String)comboBox.getSelectedItem();
         }
         
+        public void addCustomPanelListener(CustomPanelListener listener) {
+            customPanelListener = listener;
+    }
         
+        private void firePanelItemSelected(String selectedItem) {
+            if (customPanelListener != null) {
+                customPanelListener.onPanelItemSelected(this, selectedItem);
+            }
+        }
+        
+        public void setItems(String[] items){
+            
+            // Create a new DefaultComboBoxModel with the updated items
+            DefaultComboBoxModel<String> newModel = new DefaultComboBoxModel<>(items);
+
+            // Set the new model to the JComboBox
+            comboBox.setModel(newModel);
+            
+            
+        }
+        
+}
+
+// Custom listener interface
+interface CustomPanelListener extends EventListener {
+    void onPanelItemSelected(PanelDropDown source, String selectedItem);
 }

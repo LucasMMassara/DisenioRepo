@@ -18,7 +18,7 @@ public class PanelCheckBox extends JPanel{
 	 */
 	private static final long serialVersionUID = 1L;
 	
-    JCheckBox checkBox = new JCheckBox("Operativo");
+    JCheckBox checkBox = new JCheckBox();
     
 	PanelCheckBox(String text){
 		
@@ -37,5 +37,11 @@ public class PanelCheckBox extends JPanel{
         this.add(checkBox,gbc2);
 		
 	}
+        
+        public boolean isSelected(){
+            
+            return checkBox.isSelected();
+            
+        }
 	
 }

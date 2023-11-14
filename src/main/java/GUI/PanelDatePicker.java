@@ -7,14 +7,14 @@ import java.util.Date;
 import java.util.Locale;
 import javax.swing.JButton;
 import javax.swing.JPanel;
-import javax.swing.UIManager;
 
 
 public class PanelDatePicker extends JPanel{
    
+    JDateChooser dateChooser = new JDateChooser();
+    
     public PanelDatePicker() {
         
-        JDateChooser dateChooser = new JDateChooser();
         dateChooser.setDateFormatString("yyyy-MM-dd");
 
         // Set the minimum date to January 1, 2020
@@ -36,9 +36,9 @@ public class PanelDatePicker extends JPanel{
         submitButton.addActionListener(e -> {
             Date selectedDate = dateChooser.getDate();
             if (selectedDate != null) {
-                System.out.println("Selected Date: " + selectedDate);
+                //System.out.println("Selected Date: " + selectedDate);
             } else {
-                System.out.println("No date selected.");
+                //System.out.println("No date selected.");
             }
         });
 
@@ -47,4 +47,9 @@ public class PanelDatePicker extends JPanel{
         
         
     }
+    
+    public Date getDate(){
+        return dateChooser.getDate();
+    }
+    
 }
