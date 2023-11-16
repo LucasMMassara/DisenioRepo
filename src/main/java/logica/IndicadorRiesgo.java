@@ -1,7 +1,7 @@
 package logica;
 import java.io.Serializable;
 import java.util.Date;
-import javax.persistence.Basic;
+/*import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -11,31 +11,31 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
+import javax.persistence.TemporalType;*/
 
-@Entity
-@Table(name = "indicadorRiesgo")
+//@Entity
+//@Table(name = "indicadorRiesgo")
 
-public class IndicadorRiesgo implements Serializable {
+public class IndicadorRiesgo /*implements Serializable*/ {
         
-        @Id
-        @Column(name = "id")
-        @GeneratedValue(strategy = GenerationType.IDENTITY)
+        //@Id
+        //@Column(name = "id")
+        //@GeneratedValue(strategy = GenerationType.IDENTITY)
         private String id;
         
-        @OneToOne(optional=false)
-        @JoinColumn(name="localidad", unique=false, nullable=false, updatable=true)
+        //@OneToOne(optional=false)
+        //@JoinColumn(name="localidad", unique=false, nullable=false, updatable=true)
         Localidad localidad;
         
-        @Basic
+        //@Basic
 	private Float porcentajeIndicador;
-        @Temporal(TemporalType.DATE)
+        //@Temporal(TemporalType.DATE)
 	private Date inicioVigencia;
-        @Temporal(TemporalType.DATE)
+        //@Temporal(TemporalType.DATE)
 	private Date finVigencia;
         
-        @OneToOne(optional=false)
-        @JoinColumn(name="editor", unique=false, nullable=true, updatable=true)
+        //@OneToOne(optional=false)
+        //@JoinColumn(name="editor", unique=false, nullable=true, updatable=true)
 	private Usuario usuarioEditor;
 	
 	public IndicadorRiesgo() {

@@ -1,35 +1,27 @@
 package logica;
 
 import java.util.List;
-import javax.persistence.Entity;
+/*import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
-import javax.persistence.Table;
+import javax.persistence.Table;*/
 
-@Entity
-@Table(name="modelo")
+//@Entity
+//@Table(name="modelo")
 
 public class Modelo {
     
-        @Id
-        @GeneratedValue
+        //@Id
+        //@GeneratedValue
 	private String id;
         
 	private String nombre;
-        
-        @OneToOne
 	private Marca nombreMarca;
-        
-        @OneToMany(mappedBy = "modelo", fetch = FetchType.EAGER)
 	private List<EstadisticaRoboVehiculo> historial;
-        
-        @OneToOne
 	private EstadisticaRoboVehiculo estRoboActual; //marchear con estadistica
-        
-        @OneToMany(mappedBy = "modelo", fetch = FetchType.EAGER) //matchear con datos
 	private List<DatosVehiculo> precioYAño;
 
 	public Modelo() {

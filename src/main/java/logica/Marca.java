@@ -1,15 +1,15 @@
 package logica;
 
-import javax.persistence.Entity;
+/*import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.Table;*/
 
-@Entity
-@Table(name="marca")
+//@Entity
+//@Table(name="marca")
 
 public class Marca {
     
-	@Id
+	//@Id
 	private String nombre;
 
 	public Marca() {

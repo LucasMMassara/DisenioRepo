@@ -1,26 +1,26 @@
 package logica;
 
 import java.io.Serializable;
-import javax.persistence.Column;
+/*import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.CascadeType;
 import javax.persistence.JoinColumn;
-import javax.persistence.MapsId;
+import javax.persistence.MapsId;*/
 
-@Entity
-@Table(name = "provincia")
+//@Entity
+//@Table(name = "provincia")
 
-public class Provincia implements Serializable {
+public class Provincia{
         
-        @Id
-        @Column(name = "nombre")
+        //@Id
+        //@Column(name = "nombre")
 	private String nombreProvincia;
         
-        @OneToOne(optional=false)
-        @JoinColumn(name="pais", unique=false, nullable=false, updatable=true)
+        //@OneToOne(optional=false)
+        //@JoinColumn(name="pais", unique=false, nullable=false, updatable=true)
 	private Pais pais;
 
 	public Provincia() {

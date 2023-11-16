@@ -1,18 +1,18 @@
 package logica;
 
 import java.io.Serializable;
-import javax.persistence.Column;
+/*import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.Table;*/
 
-@Entity
-@Table(name = "pais")
+//@Entity
+//@Table(name = "pais")
 
 public class Pais implements Serializable {
         
-        @Id
-        @Column(name = "nombre")
+        //@Id
+        //@Column(name = "nombre")
 	private String nombre;
 
 	public Pais() {

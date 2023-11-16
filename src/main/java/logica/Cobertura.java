@@ -1,28 +1,12 @@
 package logica;
 
-import java.io.Serializable;
+
 import java.util.Set;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
-import javax.persistence.Table;
 
-@Entity
-@Table(name = "cobertura")
-
-public class Cobertura implements Serializable {
+public class Cobertura{
 	
-        @Id
 	private String detalle;
-        
-        @OneToOne
-        @JoinColumn(name="PorcentajeActual", unique=false, nullable=false, updatable=true)
 	private PorcentajeCobertura porcentajeActual;
-        
-        @OneToMany(mappedBy = "cobertura", fetch = FetchType.EAGER) //FUNCIONA
 	private Set<PorcentajeCobertura> historial;
 	
 	public PorcentajeCobertura getPorcentajeActual() {

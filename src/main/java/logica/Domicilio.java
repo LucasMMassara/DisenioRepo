@@ -1,30 +1,12 @@
 package logica;
 
-import java.io.Serializable;
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.MapsId;
-import javax.persistence.OneToOne;
-import javax.persistence.Table;
-
-@Entity
-@Table(name = "domicilio")
-
-public class Domicilio implements Serializable {
+public class Domicilio{
         
-    @Id
-    @JoinColumn(name = "clienteId")
+
     private String id;
     private String calle;
     private String numero;
-    
-    @OneToOne(mappedBy = "domicilio", cascade = CascadeType.ALL)
     private Departamento depto;
-    
-    @OneToOne(optional = false)
-    @JoinColumn(name = "localidad_fk", unique = false, nullable = false, updatable = true)
     private Localidad localidad;
 
     public Domicilio() {

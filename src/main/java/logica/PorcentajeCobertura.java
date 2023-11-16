@@ -2,18 +2,18 @@ package logica;
 
 import java.io.Serializable;
 import java.util.Date;
-import javax.persistence.Entity;
+/*import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
+import javax.persistence.Temporal*/
 
-@Entity
-@Table(name = "porcentajecobertura")
+//@Entity
+//@Table(name = "porcentajecobertura")
 
 public class PorcentajeCobertura implements Serializable {
         
-        @Id
+        //@Id
         private String id;
 
     public String getId() {
@@ -25,11 +25,11 @@ public class PorcentajeCobertura implements Serializable {
     }
         
 	private Float porcentaje;
-        @Temporal(javax.persistence.TemporalType.DATE)
+        //@Temporal(javax.persistence.TemporalType.DATE)
 	private Date inicioVigencia;
-        @Temporal(javax.persistence.TemporalType.DATE)
+        //@Temporal(javax.persistence.TemporalType.DATE)
 	private Date finVigencia;
-        @OneToOne
+        //@OneToOne
 	private Cobertura cobertura;
         
 	public Float getPorcentaje() {

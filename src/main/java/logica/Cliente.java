@@ -1,32 +1,12 @@
 package logica;
 
-import java.io.Serializable;
-import javax.persistence.Basic;
-import javax.persistence.Id;
-import javax.persistence.OneToOne;
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.Enumerated;
-import javax.persistence.Table;
-
-@Entity
-@Table(name = "cliente")
-
-public class Cliente extends Persona implements Serializable {
-        
-        @Id
+public class Cliente extends Persona{
+       
 	private String cuil;
-        
-        @Enumerated
 	private Iva condicionIva;
-        @Enumerated
 	private EstadoCliente estadoCliente;
-        
-        @Basic
 	private String profesion;
 	private String numCliente;
-        //Domicilio
-        @OneToOne(mappedBy = "cliente", cascade = CascadeType.ALL)
 	private Domicilio domicilio;
 	
 	public Cliente() {

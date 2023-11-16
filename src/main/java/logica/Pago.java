@@ -3,34 +3,23 @@ import java.io.Serializable;
 import java.util.Date;
 import java.time.LocalDate;
 import java.time.LocalTime;
-import javax.persistence.Basic;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
-
-@Entity
-@Table(name = "pago")
 
 public class Pago implements Serializable {
 	
-        @Id
-        @GeneratedValue(strategy = GenerationType.SEQUENCE)
+        //@Id
+        //@GeneratedValue(strategy = GenerationType.SEQUENCE)
         private String nroRecibo;
         
-        @Basic
+        //@Basic
 	private Float montoAbonado;
 	private Float vueltoTotal;
 	private String nroPoliza;
 	private Float premio;
         
-        @Temporal(TemporalType.DATE)
+        //@Temporal(TemporalType.DATE)
         private Date fechaPago;
         
-        @Temporal(TemporalType.TIME)
+        //@Temporal(TemporalType.TIME)
 	private LocalTime hora;
 	
         

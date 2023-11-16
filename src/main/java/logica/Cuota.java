@@ -1,33 +1,16 @@
 package logica;
+
 import java.time.LocalDate;
-import javax.persistence.Basic;
-import javax.persistence.Enumerated;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.OneToOne;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 
 public class Cuota {
-        
-        @Id
-        @GeneratedValue(strategy = GenerationType.IDENTITY)
+
         private String id;
-        
-        @Temporal(TemporalType.DATE)
 	private LocalDate fechaPago;
-        
-        @Basic
 	private Float monto;
         private Float premio;
 	private Float recargoMora;
 	private Float bonificacionAdelanto;
-        
-        @Enumerated
 	private EstadoCuota estado;
-        
-        @OneToOne(optional = true, mappedBy = "cuota")
         private Pago pago;
 
 	public Cuota() {

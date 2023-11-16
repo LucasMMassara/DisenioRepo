@@ -1,17 +1,6 @@
 package logica;
 
-import java.io.Serializable;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.MapsId;
-import javax.persistence.OneToOne;
-import javax.persistence.Table;
-
-@Entity
-@Table(name = "departamento")
-
-public class Departamento implements Serializable {
+public class Departamento{
         
         private Domicilio domicilio;
 

@@ -1,14 +1,7 @@
 package logica;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
-
-@Entity
-@Table(name="anio")
-
 public class AnioFabricacion {
-        @Id
+
 	private Integer anio;
 
 	public AnioFabricacion() {

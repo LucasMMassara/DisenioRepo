@@ -1,16 +1,16 @@
 package logica;
 
 import java.io.Serializable;
-import javax.persistence.Entity;
+/*import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.Table;*/
 
-@Entity
-@Table(name = "Usuario")
+//@Entity
+//@Table(name = "Usuario")
 
 public class Usuario extends Persona implements Serializable{
         
-        @Id
+        //@Id
 	private String usuario;
 	private String contrasenia;
 	
