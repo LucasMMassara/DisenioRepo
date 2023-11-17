@@ -44,5 +44,11 @@ public class Provincia implements Serializable {
     public void setPais(Pais pais) {
         this.pais = pais;
     }
-	
+
+    @Override
+    public String toString() {
+        return "Provincia{" + "id=" + id + ", nombreProvincia=" + nombreProvincia + ", pais=" + pais.getNombre() + '}';
+    }
+
+    
 }

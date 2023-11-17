@@ -2,6 +2,7 @@ package com.mycompany.intentandohaceralgoconmivida;
 
 import GUI.App;
 import daos.DAOPais;
+import daos.DAOProvincia;
 import java.util.Optional;
 import logica.Pais;
 import logica.Provincia;
@@ -16,7 +17,9 @@ public class IntentandoHacerAlgoConMiVida {
         DAOPais daop = new DAOPais();
         
         Optional<Pais> p = daop.get(1);
+        
         System.out.println(p.get().toString());
+        p.get().mostrarProvincias();
         
 
     }  

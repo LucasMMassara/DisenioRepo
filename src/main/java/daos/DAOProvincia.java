@@ -10,13 +10,9 @@ import logica.Pais;
 import persistencia.ProvinciaJpaController;
 import logica.Provincia;
 
-public class DAOProvincia {
+public class DAOProvincia extends DAOAbstract<Provincia> {
     
-    ProvinciaJpaController provJpa = new ProvinciaJpaController();
-    
-    public List<Provincia> obtenerProvincias(Pais pais){
-	//consutla al orm
-	return new ArrayList<Provincia>();
+    public DAOProvincia() {
+        setClazz(Provincia.class);
     }
-    
 }

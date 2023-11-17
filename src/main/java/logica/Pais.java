@@ -47,7 +47,14 @@ public class Pais implements Serializable {
 
     @Override
     public String toString() {
+        
         return "Pais{" + "id=" + id + ", nombre=" + nombre + '}';
+    }
+    
+    public void mostrarProvincias(){
+        for(Provincia p :provincias) {
+        System.out.println(p.toString());
+        }
     }
 	
 }
