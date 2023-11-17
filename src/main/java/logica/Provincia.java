@@ -1,52 +1,48 @@
 package logica;
 
 import java.io.Serializable;
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
-import javax.persistence.CascadeType;
-import javax.persistence.JoinColumn;
-import javax.persistence.MapsId;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.ManyToOne;
 
 @Entity
 @Table(name = "provincia")
 
 public class Provincia implements Serializable {
         
-        @Id
-        @Column(name = "nombre")
-	private String nombreProvincia;
-        
-        @OneToOne(optional=false)
-        @JoinColumn(name="pais", unique=false, nullable=false, updatable=true)
-	private Pais pais;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id;
+    private String nombreProvincia;
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Pais pais;
 
-	public Provincia() {
-		super();
-		// TODO Auto-generated constructor stub
-	}
+    public int getId() {
+        return id;
+    }
 
-	public Provincia(String nombreProvincia) {
-		super();
-		this.nombreProvincia = nombreProvincia;
-	}
+    public void setId(int id) {
+        this.id = id;
+    }
 
-	public String getNombreProvincia() {
-		return nombreProvincia;
-	}
+    public String getNombreProvincia() {
+        return nombreProvincia;
+    }
 
-	public void setNombreProvincia(String nombreProvincia) {
-		this.nombreProvincia = nombreProvincia;
-	}
+    public void setNombreProvincia(String nombreProvincia) {
+        this.nombreProvincia = nombreProvincia;
+    }
 
-	public Pais getPais() {
-		return pais;
-	}
+    public Pais getPais() {
+        return pais;
+    }
 
-	public void setPais(Pais pais) {
-		this.pais = pais;
-	}
+    public void setPais(Pais pais) {
+        this.pais = pais;
+    }
 	
 }

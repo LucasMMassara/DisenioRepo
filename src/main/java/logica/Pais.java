@@ -1,9 +1,12 @@
 package logica;
 
 import java.io.Serializable;
-import javax.persistence.Column;
+import java.util.List;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -11,26 +14,40 @@ import javax.persistence.Table;
 
 public class Pais implements Serializable {
         
-        @Id
-        @Column(name = "nombre")
-	private String nombre;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id;
+    private String nombre;
+    @OneToMany(mappedBy="pais")
+    private List<Provincia> provincias;
 
-	public Pais() {
-		super();
-		// TODO Auto-generated constructor stub
-	}
+    public int getId() {
+        return id;
+    }
 
-	public Pais(String nombre) {
-		super();
-		this.nombre = nombre;
-	}
+    public void setId(int id) {
+        this.id = id;
+    }
 
-	public String getNombre() {
-		return nombre;
-	}
+    public String getNombre() {
+        return nombre;
+    }
 
-	public void setNombre(String nombre) {
-		this.nombre = nombre;
-	}
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
+    public List<Provincia> getProvincias() {
+        return provincias;
+    }
+
+    public void setProvincias(List<Provincia> provincias) {
+        this.provincias = provincias;
+    }
+
+    @Override
+    public String toString() {
+        return "Pais{" + "id=" + id + ", nombre=" + nombre + '}';
+    }
 	
 }

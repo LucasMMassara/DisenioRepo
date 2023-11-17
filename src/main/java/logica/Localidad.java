@@ -1,28 +1,12 @@
 package logica;
 
-import java.io.Serializable;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
-import javax.persistence.Table;
 
-@Entity
-@Table(name = "localidad")
-
-public class Localidad implements Serializable {
+public class Localidad{
         
-        @Id
-        @Column(name = "nombre")
 	private String nombreLocalidad;
         
-        @OneToOne(optional=false)
-        @JoinColumn(name="provincia", unique=false, nullable=false, updatable=true, referencedColumnName = "nombre")
 	private Provincia provincia;
         
-        @JoinColumn(name="IndicadorActual", unique=false, nullable=false, updatable=true, referencedColumnName = "id")
-        @OneToOne
 	private IndicadorRiesgo indicadorActual;
         
         /*@OneToMany(cascade=CascadeType.ALL, mappedBy="localidad")

@@ -25,14 +25,6 @@ public class GestorClientes {
             return true;
     }
 
-    public List<Cliente> buscarClientes(ClienteDTO cliente) {
-        DAOCliente daoCliente = new DAOCliente();
-        return daoCliente.buscarClientes(newCliente(cliente));
-        //Si la lista es nula, devolvemos un error
-        //Si la lista contiene clientes, filtramos por activos, la devolvemos y la mostramos. Lo piden las observaciones.
-        
-    }
-
     public Cliente newCliente(ClienteDTO cliente) {
         
         Cliente clienteNuevo = new Cliente();
