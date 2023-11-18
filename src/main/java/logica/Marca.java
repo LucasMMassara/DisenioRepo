@@ -1,33 +1,61 @@
 package logica;
 
+import java.io.Serializable;
+import java.util.List;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
 @Table(name="marca")
 
-public class Marca {
+public class Marca implements Serializable {
     
-	@Id
-	private String nombre;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id;
 
-	public Marca() {
-		super();
-		// TODO Auto-generated constructor stub
-	}
+    private String nombre;
 
-	public Marca(String nombre) {
-		super();
-		this.nombre = nombre;
-	}
+    @OneToMany(mappedBy = "marca")
+    private List<Modelo> modelos;
 
-	public String getNombre() {
-		return nombre;
-	}
+    public Marca() {
+            super();
+            // TODO Auto-generated constructor stub
+    }
 
-	public void setNombre(String nombre) {
-		this.nombre = nombre;
-	}
-	
+    public Marca(String nombre) {
+            super();
+            this.nombre = nombre;
+    }
+
+    public String getNombre() {
+            return nombre;
+    }
+
+    public void setNombre(String nombre) {
+            this.nombre = nombre;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public List<Modelo> getModelos() {
+        return modelos;
+    }
+
+    public void setModelos(List<Modelo> modelos) {
+        this.modelos = modelos;
+    }
+    
+    
 }

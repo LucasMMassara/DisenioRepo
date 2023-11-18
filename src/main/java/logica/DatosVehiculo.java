@@ -1,34 +1,72 @@
 package logica;
 
-public class DatosVehiculo {
-        
-	private Float sumaAsegurada;
-	private AnioFabricacion anioFabricacion;
+import java.io.Serializable;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
+
+@Entity
+@Table(name="datosModelo")
+
+public class DatosVehiculo implements Serializable{
+    
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id;
+    
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Modelo modelo;
+
+    private Float sumaAsegurada;
+
+    @OneToOne
+    private AnioFabricacion anioFabricacion;
 	
-	public DatosVehiculo() {
-		super();
-		// TODO Auto-generated constructor stub
-	}
+    public DatosVehiculo() {
+            super();
+            // TODO Auto-generated constructor stub
+    }
 
-	public DatosVehiculo(Float sumaAsegurada) {
-		super();
-		this.sumaAsegurada = sumaAsegurada;
-	}
+    public DatosVehiculo(Float sumaAsegurada) {
+            super();
+            this.sumaAsegurada = sumaAsegurada;
+    }
 
-	public Float getSumaAsegurada() {
-		return sumaAsegurada;
-	}
+    public Float getSumaAsegurada() {
+            return sumaAsegurada;
+    }
 
-	public void setSumaAsegurada(Float sumaAsegurada) {
-		this.sumaAsegurada = sumaAsegurada;
-	}
+    public void setSumaAsegurada(Float sumaAsegurada) {
+            this.sumaAsegurada = sumaAsegurada;
+    }
 
-	public AnioFabricacion getAnioFabricacion() {
-		return anioFabricacion;
-	}
+    public AnioFabricacion getAnioFabricacion() {
+            return anioFabricacion;
+    }
 
-	public void setAnioFabricacion(AnioFabricacion anioFabricacion) {
-		this.anioFabricacion = anioFabricacion;
-	}
+    public void setAnioFabricacion(AnioFabricacion anioFabricacion) {
+            this.anioFabricacion = anioFabricacion;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public Modelo getModelo() {
+        return modelo;
+    }
+
+    public void setModelo(Modelo modelo) {
+        this.modelo = modelo;
+    }
 	
 }

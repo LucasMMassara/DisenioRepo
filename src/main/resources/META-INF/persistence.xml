@@ -7,6 +7,14 @@
     <class>historiales.IndicadorRiesgoHistorial</class>
     <class>logica.IndicadorRiesgo</class>
     <class>logica.Localidad</class>
+    <class>logica.AnioFabricacion</class>
+    <class>logica.Cobertura</class>
+    <class>logica.DatosVehiculo</class>
+    <class>logica.EstadisticaRoboVehiculo</class>
+    <class>logica.Marca</class>
+    <class>logica.Modelo</class>
+    <class>logica.PorcentajeCobertura</class>
+    <class>logica.Vehiculo</class>
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:postgresql://localhost:5432/disenioTest"/>
       <property name="javax.persistence.jdbc.user" value="postgres"/>

@@ -4,10 +4,6 @@
  */
 package daos;
 
-import java.util.ArrayList;
-import java.util.List;
-import logica.Pais;
-import persistencia.ProvinciaJpaController;
 import logica.Provincia;
 
 public class DAOProvincia extends DAOAbstract<Provincia> {
