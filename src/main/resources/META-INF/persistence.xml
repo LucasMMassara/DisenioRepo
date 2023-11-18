@@ -15,6 +15,10 @@
     <class>logica.Modelo</class>
     <class>logica.PorcentajeCobertura</class>
     <class>logica.Vehiculo</class>
+    <class>logica.ValorMedidaSeguridad</class>
+    <class>logica.ValorSiniestro</class>
+    <class>logica.ValoresActualesCalculo</class>
+    <class>logica.ValoresGenerales</class>
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:postgresql://localhost:5432/disenioTest"/>
       <property name="javax.persistence.jdbc.user" value="postgres"/>
