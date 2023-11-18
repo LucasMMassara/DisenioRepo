@@ -19,6 +19,12 @@
     <class>logica.ValorSiniestro</class>
     <class>logica.ValoresActualesCalculo</class>
     <class>logica.ValoresGenerales</class>
+    <class>logica.Cuota</class>
+    <class>logica.Hijo</class>
+    <class>logica.Modificacion</class>
+    <class>logica.Pago</class>
+    <class>logica.Departamento</class>
+    <class>logica.Domicilio</class>
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:postgresql://localhost:5432/disenioTest"/>
       <property name="javax.persistence.jdbc.user" value="postgres"/>
