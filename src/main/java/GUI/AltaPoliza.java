@@ -8,11 +8,25 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.BoxLayout;
+import javax.swing.ImageIcon;
 import javax.swing.border.LineBorder;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import org.apache.pdfbox.pdmodel.PDDocument;
+import org.apache.pdfbox.pdmodel.interactive.form.PDAcroForm;
+import org.apache.pdfbox.pdmodel.interactive.form.PDField;
+import org.apache.pdfbox.rendering.PDFRenderer;
+
 
 public class AltaPoliza extends JPanel {
 
@@ -426,6 +440,7 @@ public class AltaPoliza extends JPanel {
         PanelCheckBox tuercas = new PanelCheckBox("Tuercas antirrobo");
         
         tiPatente.restrictSize(7);
+        tiPatente.restrictToAlphanumerics();
 
         botonVolver.addActionListener((ActionEvent e) -> {
             cambiarPantalla("1");
@@ -747,34 +762,110 @@ public class AltaPoliza extends JPanel {
 
     }
 
+    private double zoomFactor = 1;
     private void pdfConfig() {
-
+        
         pdf.setLayout(new GridBagLayout());
-
-        JLabel placeholder = new JLabel("PDF");
-        Boton botonCancelar = new Boton("Cancelar");
-
-        botonCancelar.addActionListener((ActionEvent e) -> {
-            cambiarPantalla("1");
-            main.cambiarPantalla("1");
+        JPanel pdfPanel  = new JPanel();
+        
+      
+        Boton zoomInButton = new Boton("+");
+        Boton zoomOutButton = new Boton("-");
+        Boton confirmar = new Boton("Confirmar");
+        
+        displayPDF("CU_11_form.pdf", zoomFactor, pdfPanel);
+        
+        zoomInButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                
+                if(zoomFactor < 2.5){
+                    zoomFactor *= 1.2;
+                    updateZoom(pdfPanel, (float) (zoomFactor));
+                }
+            }
         });
 
-
-        TestJPanel testing = new TestJPanel();
-
+        zoomOutButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                
+                if(zoomFactor > 0.4){
+                    zoomFactor /= 1.2;
+                    updateZoom(pdfPanel, (float) (zoomFactor));
+                }
+            }
+        });
+        
+        confirmar.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                main.cambiarPantalla("1");
+            }
+        });
+        
+        pdfPanel.setLayout(new BoxLayout(pdfPanel, BoxLayout.Y_AXIS));
+        JScrollPane scrollPane = new JScrollPane(pdfPanel);
+           
         GridBagConstraints gbc = new GridBagConstraints();
-
-        gbc.weightx = 1;
-        gbc.fill = GridBagConstraints.BOTH;
-        gbc.weighty = 0.95;
         gbc.gridx = 0;
         gbc.gridy = 0;
-        pdf.add(testing, gbc);
-
-        gbc.weighty = 0.05;
+        gbc.weighty = 0.99;
+        gbc.weightx = 0.98;
+        gbc.gridheight = 2;
+        gbc.fill = GridBagConstraints.BOTH;
+        pdf.add(scrollPane,gbc);
+        
+        gbc.gridheight = 1;
+        gbc.weightx = 0.02;
+        gbc.gridx = 1;
+        pdf.add(zoomInButton, gbc);
+        
         gbc.gridy = 1;
-        pdf.add(botonCancelar, gbc);
+        pdf.add(zoomOutButton, gbc);
+        
+        gbc.gridx = 0;
+        gbc.gridy = 2;
+        gbc.fill = GridBagConstraints.VERTICAL;
+        gbc.anchor = GridBagConstraints.WEST;
+        gbc.weightx = 1;
+        gbc.weighty = 0.01;
+        pdf.add(confirmar,gbc);
 
+    }
+    
+    private void displayPDF(String pdfFilePath, double zoomFactor, JPanel pdfPanel) {
+        try {
+            PDDocument document = PDDocument.load(new File(pdfFilePath));
+            PDFRenderer renderer = new PDFRenderer(document);
+            
+            PDAcroForm pDAcroForm = document.getDocumentCatalog().getAcroForm();
+            PDField field = pDAcroForm.getField("Nombre");
+            field.setValue("testing");
+            field = pDAcroForm.getField("NroCliente");
+            field.setValue("69420");
+            
+            int pageCount = document.getNumberOfPages();
+            for (int pageIndex = 0; pageIndex < pageCount; pageIndex++) {
+                BufferedImage image = renderer.renderImageWithDPI(pageIndex, (float) (100 * zoomFactor));
+
+                ImageIcon imageIcon = new ImageIcon(image);
+                JLabel label = new JLabel(imageIcon);
+                pdfPanel.add(label);
+            }
+
+            document.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+  
+    }
+
+    private void updateZoom(JPanel pdfPanel,  double zoomFactor) {
+        pdfPanel.removeAll();
+        displayPDF("CU_11_form.pdf", zoomFactor, pdfPanel);
+        revalidate();
+        repaint();
     }
 
     private void buscarClienteConfig() {
