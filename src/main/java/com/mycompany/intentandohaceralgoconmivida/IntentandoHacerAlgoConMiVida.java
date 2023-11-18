@@ -11,6 +11,5 @@ public class IntentandoHacerAlgoConMiVida {
         aplicacion.inicioApp();*/
         
         DAOPais daop = new DAOPais();
-
     }  
 }
