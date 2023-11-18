@@ -1,5 +1,4 @@
 package logica;
-import historiales.IndicadorRiesgoHistorial;
 import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.Entity;
@@ -20,9 +19,9 @@ public class IndicadorRiesgo implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-
+    
     @ManyToOne(fetch = FetchType.LAZY)
-    private IndicadorRiesgoHistorial irHistorial;
+    private Localidad localidad;
 
     private Float porcentajeIndicador;
 
@@ -80,14 +79,12 @@ public class IndicadorRiesgo implements Serializable {
             this.usuarioEditor = usuarioEditor;
     }*/
 
-    public IndicadorRiesgoHistorial getIrHistorial() {
-        return irHistorial;
+    public Localidad getLocalidad() {
+        return localidad;
     }
 
-    public void setIrHistorial(IndicadorRiesgoHistorial irHistorial) {
-        this.irHistorial = irHistorial;
+    public void setLocalidad(Localidad localidad) {
+        this.localidad = localidad;
     }
-        
-        
 	
 }

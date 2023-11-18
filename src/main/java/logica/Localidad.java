@@ -1,13 +1,14 @@
 package logica;
 
-import historiales.IndicadorRiesgoHistorial;
 import java.io.Serializable;
+import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
@@ -25,8 +26,11 @@ public class Localidad implements Serializable{
     @ManyToOne(fetch = FetchType.LAZY)
     private Provincia provincia;
     
-    @OneToOne(mappedBy = "localidad")
-    private IndicadorRiesgoHistorial indicadorHistorial;
+    @OneToOne
+    private IndicadorRiesgo indicadorActual;
+    
+    @OneToMany(mappedBy="localidad")
+    private List<IndicadorRiesgo> historialIndicador;
 
     public Localidad() {
             super();
@@ -62,12 +66,20 @@ public class Localidad implements Serializable{
         this.id = id;
     }
 
-    public IndicadorRiesgoHistorial getIndicadorHistorial() {
-        return indicadorHistorial;
+    public IndicadorRiesgo getIndicadorActual() {
+        return indicadorActual;
     }
 
-    public void setIndicadorHistorial(IndicadorRiesgoHistorial indicadorHistorial) {
-        this.indicadorHistorial = indicadorHistorial;
+    public void setIndicadorActual(IndicadorRiesgo indicadorActual) {
+        this.indicadorActual = indicadorActual;
     }
-    	
+
+    public List<IndicadorRiesgo> getHistorialIndicador() {
+        return historialIndicador;
+    }
+
+    public void setHistorialIndicador(List<IndicadorRiesgo> historialIndicador) {
+        this.historialIndicador = historialIndicador;
+    }
+    
 }

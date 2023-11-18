@@ -2,11 +2,6 @@ package com.mycompany.intentandohaceralgoconmivida;
 
 import GUI.App;
 import daos.DAOPais;
-import daos.DAOProvincia;
-import java.util.Optional;
-import logica.Pais;
-import logica.Provincia;
-import util.EntityManagerUtil;
 
 public class IntentandoHacerAlgoConMiVida {
     

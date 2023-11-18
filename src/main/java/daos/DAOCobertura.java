@@ -4,14 +4,9 @@
  */
 package daos;
 
-import persistencia.CoberturaJpaController;
-import persistencia.PorcentajeCoberturaJpaController;
-
 /**
  *
  * @author Lucas
  */
 public class DAOCobertura {
-    private CoberturaJpaController coberturaJpa = new CoberturaJpaController();
-    private PorcentajeCoberturaJpaController porcentajeJpa = new PorcentajeCoberturaJpaController();
 }

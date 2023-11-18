@@ -15,20 +15,15 @@ public class PorcentajeCobertura implements Serializable {
         
         @Id
         private String id;
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
         
 	private Float porcentaje;
+        
         @Temporal(javax.persistence.TemporalType.DATE)
 	private Date inicioVigencia;
+        
         @Temporal(javax.persistence.TemporalType.DATE)
 	private Date finVigencia;
+        
         @OneToOne
 	private Cobertura cobertura;
         
