@@ -1,6 +1,7 @@
 package logica;
 
 import java.io.Serializable;
+import java.util.Date;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -9,6 +10,7 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
 
 @Entity
 @Table(name="datosModelo")
@@ -24,7 +26,11 @@ public class DatosModelo implements Serializable{
 
     private Float sumaAsegurada;
     
-    //TODO Fecha desde hasta?
+    @Temporal(javax.persistence.TemporalType.DATE)
+    private Date fechaInicioVigencia;
+    
+    @Temporal(javax.persistence.TemporalType.DATE)
+    private Date fechaFinVigencia;
 
     @OneToOne
     private AnioFabricacion anioFabricacion;
@@ -69,6 +75,22 @@ public class DatosModelo implements Serializable{
 
     public void setModelo(Modelo modelo) {
         this.modelo = modelo;
+    }
+
+    public Date getFechaInicioVigencia() {
+        return fechaInicioVigencia;
+    }
+
+    public void setFechaInicioVigencia(Date fechaInicioVigencia) {
+        this.fechaInicioVigencia = fechaInicioVigencia;
+    }
+
+    public Date getFechaFinVigencia() {
+        return fechaFinVigencia;
+    }
+
+    public void setFechaFinVigencia(Date fechaFinVigencia) {
+        this.fechaFinVigencia = fechaFinVigencia;
     }
 	
 }
