@@ -29,8 +29,6 @@ public class PanelText extends JPanel{
     texto.setFont(customFont);
 
     GridBagConstraints gbc2 = new GridBagConstraints();
-    //gbc2.anchor = GridBagConstraints.WEST;
-    //gbc2.fill = GridBagConstraints.BOTH;
     gbc2.weightx = 1;
     gbc2.weighty = 1;
     gbc2.insets = new Insets(0, 10, 0, 10);

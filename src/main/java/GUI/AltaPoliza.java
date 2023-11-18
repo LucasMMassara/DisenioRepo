@@ -13,8 +13,6 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.Date;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.border.LineBorder;
@@ -80,9 +78,6 @@ public class AltaPoliza extends JPanel {
     Date clienteFechaInicioCob;
     String clienteTipoCob;
     //Cobertura DTO?
-
-
-   
 
     AltaPoliza(MenuProductorSeguros menu) {
 

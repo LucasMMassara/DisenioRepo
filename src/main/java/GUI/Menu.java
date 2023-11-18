@@ -39,13 +39,12 @@ public class Menu extends JFrame {
 		    //configurar panel container
 		    containerPanel.setLayout(cl);
 		    containerPanel.setPreferredSize(this.getSize());
+                    
 		    containerPanel.add(menuProductorSeguros, "1");
 		    cambiarPantalla("1");
 
 		    this.setContentPane(containerPanel);
-			//this.pack();
                     this.setVisible(true);
-		    //this.revalidate();
 		    
 	}
 
