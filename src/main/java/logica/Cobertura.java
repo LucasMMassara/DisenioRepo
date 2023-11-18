@@ -3,9 +3,7 @@ package logica;
 import java.io.Serializable;
 import java.util.Set;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
@@ -19,11 +17,10 @@ public class Cobertura implements Serializable {
 	private String detalle;
         
         @OneToOne
-        @JoinColumn(name="PorcentajeActual", unique=false, nullable=false, updatable=true)
 	private PorcentajeCobertura porcentajeActual;
         
-        @OneToMany(mappedBy = "cobertura", fetch = FetchType.EAGER) //FUNCIONA
-	private Set<PorcentajeCobertura> historial;
+        @OneToMany(mappedBy = "cobertura")
+	private Set<PorcentajeCobertura> historialPorcentaje;
 	
 	public PorcentajeCobertura getPorcentajeActual() {
 		return porcentajeActual;
@@ -38,9 +35,9 @@ public class Cobertura implements Serializable {
 		this.detalle = detalle;
 	}
 	public Set<PorcentajeCobertura> getHistorial() {
-		return historial;
+		return historialPorcentaje;
 	}
 	public void setHistorial(Set<PorcentajeCobertura> historial) {
-		this.historial = historial;
+		this.historialPorcentaje = historial;
 	}
 }

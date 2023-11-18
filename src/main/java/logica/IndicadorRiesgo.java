@@ -30,7 +30,8 @@ public class IndicadorRiesgo implements Serializable {
 
     @Temporal(TemporalType.DATE)
     private Date finVigencia;
-
+    
+    //TODO USUARIO
     /*@OneToOne(optional=false)
     @JoinColumn(name="editor", unique=false, nullable=true, updatable=true)
     private Usuario usuarioEditor;*/
