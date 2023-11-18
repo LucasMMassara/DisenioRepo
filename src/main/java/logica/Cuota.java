@@ -18,7 +18,7 @@ public class Cuota implements Serializable {
         
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private String id;
+    private int id;
 
     @Temporal(TemporalType.DATE)
     private Date fechaPago;
@@ -93,11 +93,12 @@ public class Cuota implements Serializable {
         this.pago = pago;
     }
 
-    public String getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
-    }	
+    }
+    
 }

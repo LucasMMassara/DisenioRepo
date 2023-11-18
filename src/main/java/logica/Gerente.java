@@ -1,5 +1,5 @@
 package logica;
 
-public class Gerente extends Usuario {
+public class Gerente{
 
 }

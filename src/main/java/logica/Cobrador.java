@@ -1,5 +1,5 @@
 package logica;
 
-public class Cobrador extends Usuario{
+public class Cobrador{
 
 }
