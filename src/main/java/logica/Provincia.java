@@ -1,6 +1,7 @@
 package logica;
 
 import java.io.Serializable;
+import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
@@ -8,6 +9,7 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 
 @Entity
 @Table(name = "provincia")
@@ -20,6 +22,8 @@ public class Provincia implements Serializable {
     private String nombreProvincia;
     @ManyToOne(fetch = FetchType.LAZY)
     private Pais pais;
+    @OneToMany(mappedBy="provincia")
+    private List<Localidad> localidades;
 
     public int getId() {
         return id;
@@ -48,6 +52,14 @@ public class Provincia implements Serializable {
     @Override
     public String toString() {
         return "Provincia{" + "id=" + id + ", nombreProvincia=" + nombreProvincia + ", pais=" + pais.getNombre() + '}';
+    }
+
+    public List<Localidad> getLocalidades() {
+        return localidades;
+    }
+
+    public void setLocalidades(List<Localidad> localidades) {
+        this.localidades = localidades;
     }
 
     

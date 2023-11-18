@@ -15,12 +15,6 @@ public class IntentandoHacerAlgoConMiVida {
         aplicacion.inicioApp();*/
         
         DAOPais daop = new DAOPais();
-        
-        Optional<Pais> p = daop.get(1);
-        
-        System.out.println(p.get().toString());
-        p.get().mostrarProvincias();
-        
 
     }  
 }
