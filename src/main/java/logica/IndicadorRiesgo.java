@@ -7,6 +7,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -31,10 +32,8 @@ public class IndicadorRiesgo implements Serializable {
     @Temporal(TemporalType.DATE)
     private Date finVigencia;
     
-    //TODO USUARIO
-    /*@OneToOne(optional=false)
-    @JoinColumn(name="editor", unique=false, nullable=true, updatable=true)
-    private Usuario usuarioEditor;*/
+    @OneToOne(optional=false)
+    private Usuario usuarioEditor;
 
     public IndicadorRiesgo() {
             super();
@@ -73,12 +72,12 @@ public class IndicadorRiesgo implements Serializable {
     public void setFinVigencia(Date finVigencia) {
             this.finVigencia = finVigencia;
     }
-    /*public Usuario getUsuarioEditor() {
+    public Usuario getUsuarioEditor() {
             return usuarioEditor;
     }
     public void setUsuarioEditor(Usuario usuarioEditor) {
             this.usuarioEditor = usuarioEditor;
-    }*/
+    }
 
     public Localidad getLocalidad() {
         return localidad;

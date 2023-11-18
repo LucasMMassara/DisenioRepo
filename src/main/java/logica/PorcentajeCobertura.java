@@ -6,6 +6,7 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 
@@ -27,6 +28,9 @@ public class PorcentajeCobertura implements Serializable {
 
     @ManyToOne(fetch = FetchType.LAZY)
     private Cobertura cobertura;
+    
+    @OneToOne(optional=false)
+    private Usuario usuarioEditor;
 
     public Float getPorcentaje() {
             return porcentaje;
@@ -60,5 +64,12 @@ public class PorcentajeCobertura implements Serializable {
     public void setId(String id) {
         this.id = id;
     }
-    
+
+    public Usuario getUsuarioEditor() {
+        return usuarioEditor;
+    }
+
+    public void setUsuarioEditor(Usuario usuarioEditor) {
+        this.usuarioEditor = usuarioEditor;
+    }
 }

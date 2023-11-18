@@ -23,6 +23,8 @@ public class DatosVehiculo implements Serializable{
     private Modelo modelo;
 
     private Float sumaAsegurada;
+    
+    //TODO Fecha desde hasta?
 
     @OneToOne
     private AnioFabricacion anioFabricacion;

@@ -17,12 +17,12 @@ import javax.persistence.TemporalType;
 public class Pago implements Serializable {
 	
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    private String nroRecibo;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int nroRecibo;
 
     private Float montoAbonado;
     private Float vueltoTotal;
-    private String nroPoliza;
+    private int nroPoliza;
     private Float premio;
 
     @Temporal(TemporalType.DATE)
@@ -38,7 +38,7 @@ public class Pago implements Serializable {
             super();
             // TODO Auto-generated constructor stub
     }
-    public Pago(Float montoAbonado, Float vueltoTotal, Date fechaPago, Date hora, String nroRecibo, String nroPoliza,
+    public Pago(Float montoAbonado, Float vueltoTotal, Date fechaPago, Date hora, int nroRecibo, int nroPoliza,
                     Float premio) {
             super();
             this.montoAbonado = montoAbonado;
@@ -73,18 +73,7 @@ public class Pago implements Serializable {
     public void setHora(Date hora) {
             this.hora = hora;
     }
-    public String getNroRecibo() {
-            return nroRecibo;
-    }
-    public void setNroRecibo(String nroRecibo) {
-            this.nroRecibo = nroRecibo;
-    }
-    public String getNroPoliza() {
-            return nroPoliza;
-    }
-    public void setNroPoliza(String nroPoliza) {
-            this.nroPoliza = nroPoliza;
-    }
+    
     public Float getPremio() {
             return premio;
     }
@@ -99,5 +88,20 @@ public class Pago implements Serializable {
     public void setCuota(Cuota cuota) {
         this.cuota = cuota;
     }
-    
+
+    public int getNroRecibo() {
+        return nroRecibo;
+    }
+
+    public void setNroRecibo(int nroRecibo) {
+        this.nroRecibo = nroRecibo;
+    }
+
+    public int getNroPoliza() {
+        return nroPoliza;
+    }
+
+    public void setNroPoliza(int nroPoliza) {
+        this.nroPoliza = nroPoliza;
+    }
 }

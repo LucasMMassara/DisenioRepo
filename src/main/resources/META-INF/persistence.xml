@@ -28,6 +28,7 @@
     <class>logica.Cliente</class>
     <class>logica.Persona</class>
     <class>logica.Usuario</class>
+    <class>logica.Poliza</class>
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:postgresql://localhost:5432/disenioTest"/>
       <property name="javax.persistence.jdbc.user" value="postgres"/>

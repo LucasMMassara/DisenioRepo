@@ -8,6 +8,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 
@@ -30,6 +31,9 @@ public class EstadisticaRoboVehiculo implements Serializable {
 
     @ManyToOne(fetch = FetchType.LAZY)
     private Modelo modelo;
+    
+    @OneToOne(optional=false)
+    private Usuario usuarioEditor;
 
     public Double getPorcentajeIndicador() {
             return porcentajeIndicador;
@@ -65,4 +69,13 @@ public class EstadisticaRoboVehiculo implements Serializable {
     public void setModelo(Modelo modelo) {
         this.modelo = modelo;
     }
+
+    public Usuario getUsuarioEditor() {
+        return usuarioEditor;
+    }
+
+    public void setUsuarioEditor(Usuario usuarioEditor) {
+        this.usuarioEditor = usuarioEditor;
+    }
+    
 }

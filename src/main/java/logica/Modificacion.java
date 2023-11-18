@@ -5,10 +5,13 @@ import java.util.Date;
 import java.util.Set;
 import javax.persistence.Entity;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 
@@ -39,6 +42,12 @@ public class Modificacion implements Serializable {
     
     @ManyToMany
     private Set<Hijo> hijos;
+    
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Poliza poliza;
+    
+    @OneToOne(optional=false)
+    private Usuario usuarioEditor;
     
     //TODO Falta el usuario
     
@@ -73,6 +82,14 @@ public class Modificacion implements Serializable {
 
     public String getNumMotor() {
             return numMotor;
+    }
+
+    public Poliza getPoliza() {
+        return poliza;
+    }
+
+    public void setPoliza(Poliza poliza) {
+        this.poliza = poliza;
     }
 
     public void setNumMotor(String numMotor) {
@@ -158,4 +175,13 @@ public class Modificacion implements Serializable {
     public void setHijos(Set<Hijo> hijos) {
         this.hijos = hijos;
     }
+
+    public Usuario getUsuarioEditor() {
+        return usuarioEditor;
+    }
+
+    public void setUsuarioEditor(Usuario usuarioEditor) {
+        this.usuarioEditor = usuarioEditor;
+    }
+    
 }
