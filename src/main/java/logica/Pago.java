@@ -21,6 +21,7 @@ public class Pago implements Serializable {
     private int nroRecibo;
 
     private Float montoAbonado;
+    private Float montoActualizadoAbonar;
     private Float vueltoTotal;
     private int nroPoliza;
     private Float premio;
@@ -104,4 +105,13 @@ public class Pago implements Serializable {
     public void setNroPoliza(int nroPoliza) {
         this.nroPoliza = nroPoliza;
     }
+
+    public Float getMontoActualizadoAbonar() {
+        return montoActualizadoAbonar;
+    }
+
+    public void setMontoActualizadoAbonar(Float montoActualizadoAbonar) {
+        this.montoActualizadoAbonar = montoActualizadoAbonar;
+    }
+    
 }

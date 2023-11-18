@@ -26,10 +26,6 @@ public class Poliza implements Serializable {
     @Column(unique = true)
     private String numPoliza;
     
-    private Float premio;
-    private Float descuento;
-    private Float derechoDeEmision;
-    
     @Enumerated
     private TipoPago formaDePago;
     
@@ -71,49 +67,26 @@ public class Poliza implements Serializable {
     
     @OneToOne
     private ValorSiniestro valorSiniestroUtilizados;
+    
     @OneToOne
     private ValoresGenerales valoresGeneralesUtilizados;
+    
     @OneToOne
     private ValorMedidaSeguridad valoresMedidasSeguridadUtilizados;
+    
+    @OneToOne
+    private PremioYDescuentos premioydescuentos;
 
     //metodos de atributos base
 
-    public Poliza() {
-            super();
-            // TODO Auto-generated constructor stub
+    public PremioYDescuentos getPremioydescuentos() {
+        return premioydescuentos;
     }
-    public Poliza(Float premio, Float descuento, Float derechoDeEmision, TipoPago formaDePago,
-                    CantidadSiniestros cantidadSiniestros, Date inicioVigencia, Date finVigencia, String numPoliza,
-                    Date fechaEmision) {
-            super();
-            this.premio = premio;
-            this.descuento = descuento;
-            this.derechoDeEmision = derechoDeEmision;
-            this.formaDePago = formaDePago;
-            this.cantidadSiniestros = cantidadSiniestros;
-            this.inicioVigencia = inicioVigencia;
-            this.finVigencia = finVigencia;
-            this.numPoliza = numPoliza;
-            this.fechaEmision = fechaEmision;
+
+    public void setPremioydescuentos(PremioYDescuentos premioydescuentos) {
+        this.premioydescuentos = premioydescuentos;
     }
-    public Float getPremio() {
-            return premio;
-    }
-    public void setPremio(Float premio) {
-            this.premio = premio;
-    }
-    public Float getDescuento() {
-            return descuento;
-    }
-    public void setDescuento(Float descuento) {
-            this.descuento = descuento;
-    }
-    public Float getDerechoDeEmision() {
-            return derechoDeEmision;
-    }
-    public void setDerechoDeEmision(Float derechoDeEmision) {
-            this.derechoDeEmision = derechoDeEmision;
-    }
+    
     public TipoPago getFormaDePago() {
             return formaDePago;
     }

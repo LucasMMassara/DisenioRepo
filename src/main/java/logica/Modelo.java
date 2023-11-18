@@ -27,7 +27,7 @@ public class Modelo implements Serializable {
     private Marca marca;
 
     @OneToMany(mappedBy = "modelo")
-    private List<DatosVehiculo> datosModelo;
+    private List<DatosModelo> datosModelo;
 
     @OneToMany(mappedBy = "modelo")
     private List<EstadisticaRoboVehiculo> historial;
@@ -77,11 +77,11 @@ public class Modelo implements Serializable {
         this.marca = marca;
     }
 
-    public List<DatosVehiculo> getDatosModelo() {
+    public List<DatosModelo> getDatosModelo() {
         return datosModelo;
     }
 
-    public void setDatosModelo(List<DatosVehiculo> datosModelo) {
+    public void setDatosModelo(List<DatosModelo> datosModelo) {
         this.datosModelo = datosModelo;
     }
 

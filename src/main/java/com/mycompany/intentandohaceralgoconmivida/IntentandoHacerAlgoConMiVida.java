@@ -6,6 +6,7 @@ import daos.DAOPais;
 public class IntentandoHacerAlgoConMiVida {
     
     public static void main(String[] args){
+        
         /*App aplicacion = new App();
         aplicacion.inicioApp();*/
         
