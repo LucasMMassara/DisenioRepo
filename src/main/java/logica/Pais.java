@@ -16,8 +16,9 @@ public class Pais implements Serializable {
         
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private int id; //lo usamos como codigo pais
     private String nombre;
+    
     @OneToMany(mappedBy="pais")
     private List<Provincia> provincias;
 
@@ -56,5 +57,4 @@ public class Pais implements Serializable {
         System.out.println(p.toString());
         }
     }
-	
 }

@@ -24,7 +24,7 @@ public class IndicadorRiesgo implements Serializable {
     @ManyToOne(fetch = FetchType.LAZY)
     private Localidad localidad;
 
-    private Float porcentajeIndicador;
+    private Double porcentajeIndicador;
 
     @Temporal(TemporalType.DATE)
     private Date inicioVigencia;
@@ -39,7 +39,7 @@ public class IndicadorRiesgo implements Serializable {
             super();
             // TODO Auto-generated constructor stub
     }
-    public IndicadorRiesgo(Float porcentajeIndicador, Date inicioVigencia, Date finVigencia) {
+    public IndicadorRiesgo(Double porcentajeIndicador, Date inicioVigencia, Date finVigencia) {
             super();
             this.porcentajeIndicador = porcentajeIndicador;
             this.inicioVigencia = inicioVigencia;
@@ -54,10 +54,10 @@ public class IndicadorRiesgo implements Serializable {
         this.id = id;
     }
 
-    public Float getPorcentajeIndicador() {
+    public Double getPorcentajeIndicador() {
             return porcentajeIndicador;
     }
-    public void setPorcentajeIndicador(Float porcentajeIndicador) {
+    public void setPorcentajeIndicador(Double porcentajeIndicador) {
             this.porcentajeIndicador = porcentajeIndicador;
     }
     public Date getInicioVigencia() {
@@ -86,5 +86,11 @@ public class IndicadorRiesgo implements Serializable {
     public void setLocalidad(Localidad localidad) {
         this.localidad = localidad;
     }
-	
+
+    @Override
+    public String toString() {
+        return "IndicadorRiesgo{" + "id=" + id + ", localidad=" + localidad.getNombreLocalidad() + ", porcentajeIndicador=" + porcentajeIndicador + ", inicioVigencia=" + inicioVigencia.toString() + '}';
+    }
+    
+    
 }

@@ -15,9 +15,13 @@ import javax.persistence.Persistence;
 public class EntityManagerUtil {
     
     public static EntityManager getEntityManager(){
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory("JPAPU");
-        EntityManager em = emf.createEntityManager();
+        EntityManager em = getEntityManagerFactory().createEntityManager();
         return em;
+    }
+    
+    public static EntityManagerFactory getEntityManagerFactory(){
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("JPAPU");
+        return emf;
     }
     
 }

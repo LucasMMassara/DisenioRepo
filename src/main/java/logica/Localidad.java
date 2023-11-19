@@ -42,6 +42,12 @@ public class Localidad implements Serializable{
             this.nombreLocalidad = nombreLocalidad;
     }
 
+    public Localidad(Provincia provincia, String nombreLoc) {
+        super();
+        this.nombreLocalidad = nombreLoc;
+        this.provincia = provincia;
+    }
+
     public String getNombreLocalidad() {
             return nombreLocalidad;
     }
@@ -81,5 +87,9 @@ public class Localidad implements Serializable{
     public void setHistorialIndicador(List<IndicadorRiesgo> historialIndicador) {
         this.historialIndicador = historialIndicador;
     }
-    
+
+    @Override
+    public String toString() {
+        return "Localidad{" + "id=" + id + ", nombreLocalidad=" + nombreLocalidad + ", provincia=" + provincia + '}';
+    }
 }

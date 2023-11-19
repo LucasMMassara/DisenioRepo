@@ -25,6 +25,16 @@ public class Provincia implements Serializable {
     @OneToMany(mappedBy="provincia")
     private List<Localidad> localidades;
 
+    public Provincia(Pais pais, String nombre) {
+        super();
+        this.pais = pais;
+        this.nombreProvincia = nombre;
+    }
+    
+    public Provincia(){
+        super();
+    }
+
     public int getId() {
         return id;
     }

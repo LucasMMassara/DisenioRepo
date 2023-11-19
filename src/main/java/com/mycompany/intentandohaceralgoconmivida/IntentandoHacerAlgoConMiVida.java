@@ -2,6 +2,8 @@ package com.mycompany.intentandohaceralgoconmivida;
 
 import GUI.App;
 import daos.DAOPais;
+import util.CargadorDeDatos;
+
 
 public class IntentandoHacerAlgoConMiVida {
     
@@ -9,7 +11,6 @@ public class IntentandoHacerAlgoConMiVida {
         
         /*App aplicacion = new App();
         aplicacion.inicioApp();*/
-        
-        DAOPais daop = new DAOPais();
-    }  
-}
+           
+        }
+    }
