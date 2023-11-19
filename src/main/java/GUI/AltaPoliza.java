@@ -38,6 +38,7 @@ public class AltaPoliza extends JPanel {
     Background quinta = new Background("background.jpg");
     Background pdf = new Background("background.jpg");
     Background buscarCliente = new Background("background.jpg");
+    AltaCliente altaCliente = new AltaCliente(this);
 
     CardLayout cl = new CardLayout();
     JPanel containerPanel = new JPanel();
@@ -101,6 +102,7 @@ public class AltaPoliza extends JPanel {
         containerPanel.add(cuarta, "4");
         containerPanel.add(quinta, "5");
         containerPanel.add(pdf, "6");
+        containerPanel.add(altaCliente,"altaCliente");
         cambiarPantalla("1");
 
         //agregar mainPanel

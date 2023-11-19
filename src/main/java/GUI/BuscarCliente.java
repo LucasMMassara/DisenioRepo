@@ -12,458 +12,491 @@ import javax.swing.JScrollPane;
 import javax.swing.border.LineBorder;
 
 import dto.ClienteDTO;
+import java.awt.Dimension;
 import java.util.ArrayList;
+import javax.swing.ImageIcon;
+import javax.swing.JFrame;
 import logica.TipoDocumento;
 
+public class BuscarCliente extends JPanel {
 
-public class BuscarCliente extends JPanel{
+    private static final long serialVersionUID = 1L;
 
-	private static final long serialVersionUID = 1L;
+    private boolean selected = false;
+    Boton seleccionar = new Boton("Seleccionar");
+    PanelCliente clienteSeleccionado;
+    AltaPoliza main;
+    
+    String nroCli = "";
+    String nomb = "";
+    String apell = "";
+    String tipD = "";
+    String nroD = "";
 
-	private boolean selected = false;
-	Boton seleccionar = new Boton("Seleccionar");
-	PanelCliente clienteSeleccionado;
+    JPanel resultado = new JPanel();
+    ClienteDTO clienteEncontrado = new ClienteDTO();
 
-        String nroCli = "";
-        String nomb = "";
-        String apell = "";
-        String tipD = "";
-        String nroD = "";
+    BuscarCliente(AltaPoliza mainI) {
+
+        main = mainI;
         
-        JPanel resultado = new JPanel();
-        ClienteDTO clienteEncontrado = new ClienteDTO();
+        Background fondo = new Background("background.jpg");
 
-	
-	BuscarCliente(AltaPoliza main){
-		
-		Background fondo = new Background("background.jpg");
-		
-		this.setLayout(new GridBagLayout());
-		
-		JPanel busqueda = new JPanel();
-		JLabel empty = new JLabel("");
-		
-		Boton cancelar = new Boton("Cancelar");
-		
-		busqueda.setBackground(new Color(240,240,240));
+        this.setLayout(new GridBagLayout());
 
-		GridBagConstraints gbc = new GridBagConstraints();
-		
-		busquedaConfig(busqueda);
-		gbc.anchor = GridBagConstraints.WEST;
-		gbc.fill = GridBagConstraints.BOTH;
-		gbc.gridx = 0;
-		gbc.gridy = 0;
-		gbc.gridwidth = 3;
-		gbc.weightx = 1;
-		gbc.weighty = 0.1;
+        JPanel busqueda = new JPanel();
+        JLabel empty = new JLabel("");
+
+        Boton cancelar = new Boton("Cancelar");
+
+        busqueda.setBackground(new Color(240, 240, 240));
+
+        GridBagConstraints gbc = new GridBagConstraints();
+
+        busquedaConfig(busqueda);
+        gbc.anchor = GridBagConstraints.WEST;
+        gbc.fill = GridBagConstraints.BOTH;
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        gbc.gridwidth = 3;
+        gbc.weightx = 1;
+        gbc.weighty = 0.1;
         gbc.insets = new Insets(10, 10, 5, 10);
-        fondo.add(busqueda,gbc);
-		
-		resultadoConfig(resultado);
-		gbc.gridy = 1;
-		gbc.weighty = 1;
+        fondo.add(busqueda, gbc);
+
+        resultadoConfig(resultado);
+        gbc.gridy = 1;
+        gbc.weighty = 1;
         gbc.insets = new Insets(5, 10, 5, 10);
-        fondo.add(resultado,gbc);
-		
-		gbc.fill = GridBagConstraints.NONE;
-		gbc.anchor = GridBagConstraints.WEST;
-		gbc.gridwidth = 1;
-		gbc.gridy = 2;
-		gbc.weighty = 0.05;
-		gbc.weightx = 0.2;
+        fondo.add(resultado, gbc);
+
+        gbc.fill = GridBagConstraints.NONE;
+        gbc.anchor = GridBagConstraints.WEST;
+        gbc.gridwidth = 1;
+        gbc.gridy = 2;
+        gbc.weighty = 0.05;
+        gbc.weightx = 0.2;
         gbc.insets = new Insets(0, 10, 0, 0);
-        fondo.add(cancelar,gbc);
-		
-		gbc.anchor = GridBagConstraints.CENTER;
-		gbc.gridx = 1;
-		gbc.weightx = 0.6;
-        gbc.insets = new Insets(0, 0, 0, 0);
-        fondo.add(empty,gbc);
-		
-    	seleccionar.setEnabled(false);
-		gbc.anchor = GridBagConstraints.EAST;
-		gbc.gridx = 2;
-		gbc.weightx = 0.2;
-        gbc.insets = new Insets(0, 0, 0, 10);
-        fondo.add(seleccionar,gbc);
-		
+        fondo.add(cancelar, gbc);
+
         gbc.anchor = GridBagConstraints.CENTER;
-		gbc.fill = GridBagConstraints.BOTH;
-		gbc.gridx = 0;
-		gbc.gridy = 0;
-		gbc.gridwidth = 1;
-		gbc.weightx = 1;
-		gbc.weighty = 1;
+        gbc.gridx = 1;
+        gbc.weightx = 0.6;
         gbc.insets = new Insets(0, 0, 0, 0);
-		this.add(fondo,gbc);
-		
-		cancelar.addActionListener((ActionEvent e) -> {
-			main.cambiarPantalla("1");
-	    });
-		
-		seleccionar.addActionListener((ActionEvent e) -> {
-                        
-                        main.actualizarPrimera(clienteEncontrado);
-			main.cambiarPantalla("1");
-	    });
-		
-	}
-	
-	private void busquedaConfig(JPanel busqueda) {
-		
-		busqueda.setLayout(new GridBagLayout());
-		LineBorder border = new LineBorder(Color.LIGHT_GRAY, 2);
-		busqueda.setBorder(border);
-		
-		//String text, String fontType, int fontSize, String position
-		PanelText busquedaCliente = new PanelText("Busqueda cliente", "BOLD", 20, "WEST");
-		PanelText nroCliente = new PanelText("Numero cliente", "PLAIN", 18, "SOUTHWEST");
-		PanelText apellido= new PanelText("Apellido", "PLAIN", 18, "SOUTHWEST");
-		PanelText nombre = new PanelText("Nombre", "PLAIN", 18, "SOUTHWEST");
-		PanelText tipoDocumento = new PanelText("Tipo documento", "PLAIN", 18, "SOUTHWEST");
-		PanelText nroDocumento = new PanelText("Numero documento", "PLAIN", 18, "SOUTHWEST");
+        fondo.add(empty, gbc);
 
-		PanelTextInput nroClienteI = new PanelTextInput(16);
-		PanelTextInput apellidoI = new PanelTextInput(16);
-		PanelTextInput nombreI = new PanelTextInput(16);
-		PanelTextInput nroDocumentoI = new PanelTextInput(16);
-		
-                //configuro inputs
-                nroClienteI.restrictToAlphanumerics();
-                nombreI.restrictSize(40);
-                apellidoI.restrictSize(70);   
-                nroDocumentoI.restrictToNumbers();
-                nroDocumentoI.restrictSize(8);
-                
-                String[] items = {"CC", "CI", "CIC","DNI"};
-		PanelDropDown tipoDocumentoI = new PanelDropDown(items);
+        seleccionar.setEnabled(false);
+        gbc.anchor = GridBagConstraints.EAST;
+        gbc.gridx = 2;
+        gbc.weightx = 0.2;
+        gbc.insets = new Insets(0, 0, 0, 10);
+        fondo.add(seleccionar, gbc);
 
-                tipoDocumentoI.addCustomPanelListener(new CustomPanelListener() {
-                    @Override
-                    public void onPanelItemSelected(PanelDropDown source, String selectedItem) {
-                        
-                        switch (selectedItem) {
-                            case "CC":
-                                // limitar nroDocumentoI acordemente
-                                break;
-                            case "CI":
-                                // limitar nroDocumentoI acordemente
-                                break;
-                            case "CIC":
-                                // limitar nroDocumentoI acordemente
-                                break;
-                            case "DNI":
-                                // limitar nroDocumentoI acordemente
-                                break;
-                        }
-                        
-                    }
-                });
-                
-                
-		Boton limpiar = new Boton("Limpiar");
-		Boton buscar = new Boton("Buscar");
-		
-		limpiar.addActionListener((ActionEvent e) -> {
-			//resetear seleccion de cliente
-                       setSelected(false);
-                        if(clienteSeleccionado != null){
-                            clienteSeleccionado.setSelected(false);
-                        }
-                        //limpiar campos de busqueda
-                        nroClienteI.setText("");
-                        apellidoI.setText("");
-                        nombreI.setText("");
-                        nroDocumentoI.setText("");
-                        //limpiarResultados?
-                        
-                        
+        gbc.anchor = GridBagConstraints.CENTER;
+        gbc.fill = GridBagConstraints.BOTH;
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        gbc.gridwidth = 1;
+        gbc.weightx = 1;
+        gbc.weighty = 1;
+        gbc.insets = new Insets(0, 0, 0, 0);
+        this.add(fondo, gbc);
+
+        cancelar.addActionListener((ActionEvent e) -> {
+            main.cambiarPantalla("1");
         });
-        
-		buscar.addActionListener((ActionEvent e) -> {
-		
-                    //obtener valores input
-                    nroCli = nroClienteI.getText();
-                    nomb = nombreI.getText();
-                    apell = apellidoI.getText();
-                    tipD = tipoDocumentoI.getSelectedItem();
-                    nroD = nroDocumentoI.getText();
-                
-                    
-                    //buscar en db
-                    
-                    //pasar a lista
-                    //POR AHORA se pasa solo el cliente ingreso for testing purposes
-                    //se tendria que chequear si la lista traida de la bd es vacia o no (hacer config con y sin arraylist)
-                    
-                    //si no se encuentra nada:
-                    clienteNoEncontrado();
-                    
-                    TipoDocumento tipoD = null;
-                    
-                    switch(tipD){
-                        case "DNI" -> tipoD = TipoDocumento.DNI;
-                        case "CI" -> tipoD = TipoDocumento.CI;
-                        case "CC" -> tipoD = TipoDocumento.CC;
-                        case "CIC" -> tipoD = TipoDocumento.CIC;
-                    }
-                    clienteEncontrado = new ClienteDTO(nomb,apell,nroCli,tipoD,nroD);
-                    ArrayList<ClienteDTO> clientes = new ArrayList<>();
-                    clientes.add(clienteEncontrado);
-                    resultadoConfig(resultado,clientes);
-                    resultado.revalidate();
-                    
-                    
+
+        seleccionar.addActionListener((ActionEvent e) -> {
+
+            main.actualizarPrimera(clienteEncontrado);
+            main.cambiarPantalla("1");
         });
-		
+
+    }
+
+    private void busquedaConfig(JPanel busqueda) {
+
+        busqueda.setLayout(new GridBagLayout());
+        LineBorder border = new LineBorder(Color.LIGHT_GRAY, 2);
+        busqueda.setBorder(border);
+
+        //String text, String fontType, int fontSize, String position
+        PanelText busquedaCliente = new PanelText("Busqueda cliente", "BOLD", 20, "WEST");
+        PanelText nroCliente = new PanelText("Numero cliente", "PLAIN", 18, "SOUTHWEST");
+        PanelText apellido = new PanelText("Apellido", "PLAIN", 18, "SOUTHWEST");
+        PanelText nombre = new PanelText("Nombre", "PLAIN", 18, "SOUTHWEST");
+        PanelText tipoDocumento = new PanelText("Tipo documento", "PLAIN", 18, "SOUTHWEST");
+        PanelText nroDocumento = new PanelText("Numero documento", "PLAIN", 18, "SOUTHWEST");
+
+        PanelTextInput nroClienteI = new PanelTextInput(16);
+        PanelTextInput apellidoI = new PanelTextInput(16);
+        PanelTextInput nombreI = new PanelTextInput(16);
+        PanelTextInput nroDocumentoI = new PanelTextInput(16);
+
+        //configuro inputs
+        nroClienteI.restrictToAlphanumerics();
+        nombreI.restrictSize(40);
+        apellidoI.restrictSize(70);
+        nroDocumentoI.restrictToNumbers();
+        nroDocumentoI.restrictSize(8);
+
+        String[] items = {"CC", "CI", "CIC", "DNI"};
+        PanelDropDown tipoDocumentoI = new PanelDropDown(items);
+
+        tipoDocumentoI.addCustomPanelListener(new CustomPanelListener() {
+            @Override
+            public void onPanelItemSelected(PanelDropDown source, String selectedItem) {
+
+                switch (selectedItem) {
+                    case "CC":
+                        // limitar nroDocumentoI acordemente
+                        break;
+                    case "CI":
+                        // limitar nroDocumentoI acordemente
+                        break;
+                    case "CIC":
+                        // limitar nroDocumentoI acordemente
+                        break;
+                    case "DNI":
+                        // limitar nroDocumentoI acordemente
+                        break;
+                }
+
+            }
+        });
+
+        Boton limpiar = new Boton("Limpiar");
+        Boton buscar = new Boton("Buscar");
+
+        limpiar.addActionListener((ActionEvent e) -> {
+            //resetear seleccion de cliente
+            setSelected(false);
+            if (clienteSeleccionado != null) {
+                clienteSeleccionado.setSelected(false);
+            }
+            //limpiar campos de busqueda
+            nroClienteI.setText("");
+            apellidoI.setText("");
+            nombreI.setText("");
+            nroDocumentoI.setText("");
+            //limpiarResultados?
+
+        });
+
+        buscar.addActionListener((ActionEvent e) -> {
+
+            //obtener valores input
+            nroCli = nroClienteI.getText();
+            nomb = nombreI.getText();
+            apell = apellidoI.getText();
+            tipD = tipoDocumentoI.getSelectedItem();
+            nroD = nroDocumentoI.getText();
+
+            //buscar en db
+            //pasar a lista
+            //POR AHORA se pasa solo el cliente ingreso for testing purposes
+            //se tendria que chequear si la lista traida de la bd es vacia o no (hacer config con y sin arraylist)
+            //si no se encuentra nada:
+            clienteNoEncontrado();
+
+            TipoDocumento tipoD = null;
+
+            switch (tipD) {
+                case "DNI" ->
+                    tipoD = TipoDocumento.DNI;
+                case "CI" ->
+                    tipoD = TipoDocumento.CI;
+                case "CC" ->
+                    tipoD = TipoDocumento.CC;
+                case "CIC" ->
+                    tipoD = TipoDocumento.CIC;
+            }
+            clienteEncontrado = new ClienteDTO(nomb, apell, nroCli, tipoD, nroD);
+            ArrayList<ClienteDTO> clientes = new ArrayList<>();
+            clientes.add(clienteEncontrado);
+            resultadoConfig(resultado, clientes);
+            resultado.revalidate();
+
+        });
+
         GridBagConstraints gbc = new GridBagConstraints();
 
         gbc.fill = GridBagConstraints.BOTH;
-		gbc.weightx = 1;
+        gbc.weightx = 1;
         gbc.weighty = 1;
-		gbc.gridx = 0;
-		gbc.gridy = 0;
-		gbc.anchor = GridBagConstraints.CENTER;
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        gbc.anchor = GridBagConstraints.CENTER;
         gbc.insets = new Insets(0, 0, 0, 0);
         busqueda.add(busquedaCliente, gbc);
-        
+
         gbc.gridy = 1;
-        busqueda.add(nroCliente,gbc);
-        
+        busqueda.add(nroCliente, gbc);
+
         gbc.gridx = 1;
-        busqueda.add(nombre,gbc);
-		
+        busqueda.add(nombre, gbc);
+
         gbc.gridx = 2;
-        busqueda.add(apellido,gbc);
+        busqueda.add(apellido, gbc);
 
         gbc.gridx = 3;
-        busqueda.add(tipoDocumento,gbc);
-        
+        busqueda.add(tipoDocumento, gbc);
+
         gbc.gridx = 4;
-        busqueda.add(nroDocumento,gbc);
-        
+        busqueda.add(nroDocumento, gbc);
+
         gbc.gridx = 0;
         gbc.gridy = 2;
         gbc.fill = GridBagConstraints.HORIZONTAL;
-        busqueda.add(nroClienteI,gbc);
+        busqueda.add(nroClienteI, gbc);
 
         gbc.gridx = 1;
-        busqueda.add(nombreI,gbc);
-        
+        busqueda.add(nombreI, gbc);
+
         gbc.gridx = 2;
-        busqueda.add(apellidoI,gbc);
-        
+        busqueda.add(apellidoI, gbc);
+
         gbc.gridx = 3;
-        busqueda.add(tipoDocumentoI,gbc);
-        
+        busqueda.add(tipoDocumentoI, gbc);
+
         gbc.gridx = 4;
-        busqueda.add(nroDocumentoI,gbc);
-        
+        busqueda.add(nroDocumentoI, gbc);
+
         gbc.gridx = 3;
         gbc.gridy = 3;
         gbc.insets = new Insets(10, 10, 10, 5);
-        busqueda.add(limpiar,gbc);
-        
+        busqueda.add(limpiar, gbc);
+
         gbc.insets = new Insets(10, 5, 10, 10);
         gbc.gridx = 4;
-        busqueda.add(buscar,gbc);
-        
-        
-        
-	}
-	
-	private void resultadoConfig(JPanel resultado) {
+        busqueda.add(buscar, gbc);
 
-                resultado.setBackground(new Color(255,255,220));
+    }
 
-            
-                JPanel lista = new JPanel(new GridBagLayout());
+    private void resultadoConfig(JPanel resultado) {
 
-            
-		resultado.setLayout(new GridBagLayout());		
-		LineBorder border = new LineBorder(Color.LIGHT_GRAY, 2);
-		resultado.setBorder(border);
-		
-		PanelText resultadoBusqueda = new PanelText("Resultado busqueda", "BOLD", 20, "WEST");
+        resultado.setBackground(new Color(255, 255, 220));
 
-	
-		lista.setBackground(Color.DARK_GRAY);
-		
-                GridBagConstraints gbc = new GridBagConstraints();
+        JPanel lista = new JPanel(new GridBagLayout());
 
-		gbc.fill = GridBagConstraints.BOTH;
-		gbc.weightx = 1;
-                gbc.weighty = 0.05;
-                gbc.gridx = 0;
-		gbc.gridy = 0;
-		gbc.anchor = GridBagConstraints.CENTER;
-		resultado.add(resultadoBusqueda,gbc);
-		
-		
-		JScrollPane jsp = new JScrollPane(lista);
-		
-		gbc.gridy = 1;
-                gbc.weighty = 0.95;
-                listaConfig(lista);
-        
-		resultado.add(jsp,gbc);
+        resultado.setLayout(new GridBagLayout());
+        LineBorder border = new LineBorder(Color.LIGHT_GRAY, 2);
+        resultado.setBorder(border);
 
-		
-	}
-        
-        private void resultadoConfig(JPanel resultado, ArrayList<ClienteDTO> clientes) {
-		
-                resultado.removeAll();
-                resultado.revalidate();
-                resultado.repaint();
-            
-                resultado.setBackground(new Color(255,255,220));
-                
-            
-                JPanel lista = new JPanel(new GridBagLayout());
+        PanelText resultadoBusqueda = new PanelText("Resultado busqueda", "BOLD", 20, "WEST");
 
-            
-		resultado.setLayout(new GridBagLayout());		
-		LineBorder border = new LineBorder(Color.LIGHT_GRAY, 2);
-		resultado.setBorder(border);
-		
-		PanelText resultadoBusqueda = new PanelText("Resultado busqueda", "BOLD", 20, "WEST");
+        lista.setBackground(Color.DARK_GRAY);
 
-	
-		lista.setBackground(Color.DARK_GRAY);
-		
         GridBagConstraints gbc = new GridBagConstraints();
 
-		gbc.fill = GridBagConstraints.BOTH;
-		gbc.weightx = 1;
+        gbc.fill = GridBagConstraints.BOTH;
+        gbc.weightx = 1;
         gbc.weighty = 0.05;
         gbc.gridx = 0;
-		gbc.gridy = 0;
-		gbc.anchor = GridBagConstraints.CENTER;
-		resultado.add(resultadoBusqueda,gbc);
-		
-		
-		JScrollPane jsp = new JScrollPane(lista);
-		
-		gbc.gridy = 1;
+        gbc.gridy = 0;
+        gbc.anchor = GridBagConstraints.CENTER;
+        resultado.add(resultadoBusqueda, gbc);
+
+        JScrollPane jsp = new JScrollPane(lista);
+
+        gbc.gridy = 1;
         gbc.weighty = 0.95;
-        listaConfig(lista,clientes);
-        
-        
-        
-		resultado.add(jsp,gbc);
+        listaConfig(lista);
 
-		
-	}
-        
-	private void listaConfig(JPanel lista,  ArrayList<ClienteDTO> clientes) {
-		
-		lista.setLayout(new GridBagLayout());	
-		
+        resultado.add(jsp, gbc);
+
+    }
+
+    private void resultadoConfig(JPanel resultado, ArrayList<ClienteDTO> clientes) {
+
+        resultado.removeAll();
+        resultado.revalidate();
+        resultado.repaint();
+
+        resultado.setBackground(new Color(255, 255, 220));
+
+        JPanel lista = new JPanel(new GridBagLayout());
+
+        resultado.setLayout(new GridBagLayout());
+        LineBorder border = new LineBorder(Color.LIGHT_GRAY, 2);
+        resultado.setBorder(border);
+
+        PanelText resultadoBusqueda = new PanelText("Resultado busqueda", "BOLD", 20, "WEST");
+
+        lista.setBackground(Color.DARK_GRAY);
+
         GridBagConstraints gbc = new GridBagConstraints();
+
         gbc.fill = GridBagConstraints.BOTH;
-		gbc.weightx = 1;
+        gbc.weightx = 1;
         gbc.weighty = 0.05;
         gbc.gridx = 0;
-		gbc.gridy = 0;
-		gbc.anchor = GridBagConstraints.CENTER;
-	
-		PanelCliente panel = new PanelCliente();
-		gbc.gridy = 0;
-		lista.add(panel,gbc);
-                
-                JPanel lista2 = new JPanel(new GridBagLayout());
-		lista2.setBackground(Color.WHITE);
-                GridBagConstraints gbc2 = new GridBagConstraints();
-                gbc2.fill = GridBagConstraints.BOTH;
-		gbc2.weightx = 1;
-                gbc2.weighty = 1;
-                gbc2.gridx = 0;
-		gbc2.gridy = 0;
-		gbc2.anchor = GridBagConstraints.CENTER;
-                
-                int size = clientes.size();
-                
-		
-		for(int i=0; i < size; i++) {
-			
-			panel = new PanelCliente(this, i,clientes.get(i));
-			gbc2.gridy = i;
-			lista2.add(panel,gbc2);
-			
-		}
-		
-                gbc.gridy = 1;
-                gbc.weighty = 0.95;
-		lista.add(lista2,gbc);
-		
-	}
-        
-        private void listaConfig(JPanel lista) {
-		
-		lista.setLayout(new GridBagLayout());	
-		
+        gbc.gridy = 0;
+        gbc.anchor = GridBagConstraints.CENTER;
+        resultado.add(resultadoBusqueda, gbc);
+
+        JScrollPane jsp = new JScrollPane(lista);
+
+        gbc.gridy = 1;
+        gbc.weighty = 0.95;
+        listaConfig(lista, clientes);
+
+        resultado.add(jsp, gbc);
+
+    }
+
+    private void listaConfig(JPanel lista, ArrayList<ClienteDTO> clientes) {
+
+        lista.setLayout(new GridBagLayout());
+
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.fill = GridBagConstraints.BOTH;
-		gbc.weightx = 1;
+        gbc.weightx = 1;
         gbc.weighty = 0.05;
         gbc.gridx = 0;
-		gbc.gridy = 0;
-		gbc.anchor = GridBagConstraints.CENTER;
-	
-		PanelCliente panel = new PanelCliente();
-		gbc.gridy = 0;
-		lista.add(panel,gbc);
-                
-                JPanel lista2 = new JPanel(new GridBagLayout());
-		lista2.setBackground(Color.WHITE);
-                GridBagConstraints gbc2 = new GridBagConstraints();
-                gbc2.fill = GridBagConstraints.BOTH;
-		gbc2.weightx = 1;
-                gbc2.weighty = 1;
-                gbc2.gridx = 0;
-		gbc2.gridy = 0;
-		gbc2.anchor = GridBagConstraints.CENTER;
-                
-		
-                gbc.gridy = 1;
-                gbc.weighty = 0.95;
-		lista.add(lista2,gbc);
-                lista.repaint();
-		
-	}
-	
-	Boolean isSelected() {
-		return selected;
-	}
-	
-	void setSelected(Boolean bool) {
-		selected = bool;
-		
-		if(bool) {
-			seleccionar.setEnabled(bool);
-		}
-		else {
-			seleccionar.setEnabled(bool);
-		}
-		
-	}
-	
-	void setCliente(PanelCliente cliente) {
-		
-		clienteSeleccionado = cliente;
-		
-	}
-	
-        private void clienteNoEncontrado(){
-            
-            VentanaError ventanaError = new VentanaError("Error", "Oops! Something went wrong!\n" +
-"Help us improve your experience by sending an error report ","");
-            
-            
-            VentanaError ventanaError2 = new VentanaError("Cliente no encontrado","");
-            
+        gbc.gridy = 0;
+        gbc.anchor = GridBagConstraints.CENTER;
+
+        PanelCliente panel = new PanelCliente();
+        gbc.gridy = 0;
+        lista.add(panel, gbc);
+
+        JPanel lista2 = new JPanel(new GridBagLayout());
+        lista2.setBackground(Color.WHITE);
+        GridBagConstraints gbc2 = new GridBagConstraints();
+        gbc2.fill = GridBagConstraints.BOTH;
+        gbc2.weightx = 1;
+        gbc2.weighty = 1;
+        gbc2.gridx = 0;
+        gbc2.gridy = 0;
+        gbc2.anchor = GridBagConstraints.CENTER;
+
+        int size = clientes.size();
+
+        for (int i = 0; i < size; i++) {
+
+            panel = new PanelCliente(this, i, clientes.get(i));
+            gbc2.gridy = i;
+            lista2.add(panel, gbc2);
+
         }
-	
+
+        gbc.gridy = 1;
+        gbc.weighty = 0.95;
+        lista.add(lista2, gbc);
+
+    }
+
+    private void listaConfig(JPanel lista) {
+
+        lista.setLayout(new GridBagLayout());
+
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.fill = GridBagConstraints.BOTH;
+        gbc.weightx = 1;
+        gbc.weighty = 0.05;
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        gbc.anchor = GridBagConstraints.CENTER;
+
+        PanelCliente panel = new PanelCliente();
+        gbc.gridy = 0;
+        lista.add(panel, gbc);
+
+        JPanel lista2 = new JPanel(new GridBagLayout());
+        lista2.setBackground(Color.WHITE);
+        GridBagConstraints gbc2 = new GridBagConstraints();
+        gbc2.fill = GridBagConstraints.BOTH;
+        gbc2.weightx = 1;
+        gbc2.weighty = 1;
+        gbc2.gridx = 0;
+        gbc2.gridy = 0;
+        gbc2.anchor = GridBagConstraints.CENTER;
+
+        gbc.gridy = 1;
+        gbc.weighty = 0.95;
+        lista.add(lista2, gbc);
+        lista.repaint();
+
+    }
+
+    Boolean isSelected() {
+        return selected;
+    }
+
+    void setSelected(Boolean bool) {
+        selected = bool;
+
+        if (bool) {
+            seleccionar.setEnabled(bool);
+        } else {
+            seleccionar.setEnabled(bool);
+        }
+
+    }
+
+    void setCliente(PanelCliente cliente) {
+
+        clienteSeleccionado = cliente;
+
+    }
+
+    private void clienteNoEncontrado() {
+
+        JFrame ventanaClienteNoEncontrado = new JFrame();
+        
+        //armado ventana
+        ventanaClienteNoEncontrado.setTitle("Cliente no encontrado");
+        ventanaClienteNoEncontrado.setSize(500, 350); // Set your preferred size
+        ventanaClienteNoEncontrado.setLocationRelativeTo(null); // Center the frame on the screen
+        ventanaClienteNoEncontrado.setMinimumSize(new Dimension(450, 300));
+
+        //cambio icono ventana
+        ImageIcon customIcon = new ImageIcon("logo.png");
+        ventanaClienteNoEncontrado.setIconImage(customIcon.getImage());
+
+        JPanel panel = new JPanel(new GridBagLayout());
+        Background fondo = new Background("background.jpg");
+        
+        PanelText errorLabel = new PanelText("Cliente no encontrado, ¿desea crear uno nuevo?",19);
+        errorLabel.setBackgroundColor(255,255, 255, 0);
+        Boton botonCrear = new Boton("CREAR", 19);
+        Boton botonCancelar = new Boton("CANCELAR", 19);
+        
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.gridheight = 1;
+        gbc.gridwidth = 2;
+        gbc.weightx = 1;
+        gbc.weighty = 0.95;
+        gbc.fill = GridBagConstraints.BOTH;
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        gbc.insets = new Insets(10, 10, 10, 10);
+        fondo.add(errorLabel, gbc);
+        
+        gbc.gridy= 1;
+        gbc.gridwidth = 1;
+        gbc.weighty = 0.05;
+        gbc.fill = GridBagConstraints.VERTICAL;
+        fondo.add(botonCancelar, gbc);
+        
+        gbc.gridx= 1;
+        fondo.add(botonCrear, gbc);
+        
+        
+        botonCancelar.addActionListener((ActionEvent e) -> {
+            ventanaClienteNoEncontrado.dispose();
+        });
+        
+        botonCrear.addActionListener((ActionEvent e) -> {
+            //cargar pantalla altaCliente
+            main.cambiarPantalla("altaCliente");
+            ventanaClienteNoEncontrado.dispose();
+        });
+        
+        ventanaClienteNoEncontrado.setContentPane(fondo);
+        ventanaClienteNoEncontrado.setVisible(true);
+
+    }
+
 }

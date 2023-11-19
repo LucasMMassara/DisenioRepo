@@ -5,6 +5,7 @@
 package GUI;
 
 import GUI.*;
+import dto.ClienteDTO;
 import java.awt.GridBagConstraints;
 import java.awt.event.ActionEvent;
 import java.util.ArrayList;
@@ -12,6 +13,7 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import logica.Cliente;
+import logica.TipoDocumento;
 
 /**
  *
@@ -219,6 +221,243 @@ public class AltaClientePrimera extends javax.swing.JPanel {
                String nroEncontrado = "nroEncontrado";
                nroCliente.setText(nroEncontrado);
                VentanaError confirmacion = new VentanaError("Numero de cliente encontrado: " + nroEncontrado, "Numero Cliente");
+            }
+            
+            
+            
+        });
+        
+        jPanel1.add(nombre,gbc);
+        jPanel3.add(apellido,gbc);
+        jPanel4.add(tipoDocumento,gbc);
+        jPanel5.add(nroDocumento,gbc);
+        jPanel11.add(nroCuil,gbc);
+        jPanel12.add(sexo,gbc);
+        jPanel9.add(fechaNacimiento,gbc);
+        jPanel6.add(condicionIva,gbc);
+        jPanel14.add(correoElectronico,gbc);
+        jPanel13.add(estadoCivil,gbc);
+        jPanel10.add(profesion,gbc);
+        jPanel8.add(anioRegistro,gbc);
+        jPanel23.add(calle,gbc);
+        jPanel24.add(numero,gbc);
+        jPanel25.add(piso,gbc);
+        jPanel26.add(dpto,gbc);
+        jPanel15.add(pais,gbc);
+        jPanel16.add(provincia,gbc);
+        jPanel22.add(localidad,gbc);
+        jPanel17.add(codigoPostal,gbc);
+        jPanel30.add(nroCliente,gbc);    
+        
+
+        
+        
+        
+        
+        
+        
+        
+    }
+    
+    public AltaClientePrimera(AltaPoliza main) {
+        initComponents();
+        
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.weightx = 1;
+        gbc.weighty = 1;
+        gbc.fill = GridBagConstraints.BOTH;
+        
+        
+        Boton volver = new Boton("VOLVER",16, false);
+        jPanel20.add(volver,gbc);
+        Boton confirmar = new Boton("CONFIRMAR",16, false);
+        jPanel21.add(confirmar,gbc);
+        
+        PanelTextInput nombre = new PanelTextInput("nombre",16,0,0,0,0);
+        nombre.restrictToLetters();
+        
+        PanelTextInput apellido = new PanelTextInput("apellido",16,0,0,0,0);
+        apellido.restrictToLetters();
+        
+        String[] tipos = {"CC", "CI", "CIC", "DNI"};
+        PanelDropDown tipoDocumento = new PanelDropDown(tipos);
+        
+        PanelTextInput nroDocumento = new PanelTextInput("nroDocumento",16,0,0,0,0);
+        //TO DO configurar input documento
+        nroDocumento.restrictToNumbers();
+        nroDocumento.restrictSize(9);
+        
+        PanelTextInput nroCuil = new PanelTextInput("nroCuil",16,0,0,0,0);
+        //TO DO configurar input cuil
+        nroCuil.restrictToNumbers();
+        
+        String[] sexos = {"Femenino","Masculino"};
+        PanelDropDown sexo = new PanelDropDown(sexos);
+        
+        PanelDatePicker fechaNacimiento = new PanelDatePicker();
+        
+        PanelTextInput calle = new PanelTextInput("calle",16,0,0,0,0);
+        calle.restrictToLetters();
+        
+        PanelTextInput numero = new PanelTextInput("numero",16,0,0,0,0);
+        numero.restrictSize(5);
+        numero.restrictToNumbers();
+        
+        PanelTextInput piso = new PanelTextInput("piso",16,0,0,0,0);
+        piso.restrictToNumbers();
+        piso.restrictSize(2);
+        
+        PanelTextInput dpto = new PanelTextInput("dpto",16,0,0,0,0);
+        dpto.restrictToNumbers();
+        dpto.restrictSize(3);
+        
+        //TO DO cargo lista de paises, provincias y localidades
+        String[] paises = {"Argentina", "Brazil","etc"};
+        PanelDropDown pais = new PanelDropDown(paises);
+        
+        String[] provincias = {"Santa Fe", "Cordoba","etc"};
+        PanelDropDown provincia = new PanelDropDown(provincias);
+        
+        String[] localidades = {"Santo Tome", "Santa Fe","etc"};
+        PanelDropDown localidad = new PanelDropDown(localidades);
+        
+        PanelTextInput codigoPostal = new PanelTextInput("codigoPostal",16,0,0,0,0);
+        codigoPostal.restrictToNumbers();
+        codigoPostal.restrictSize(5);
+        
+        String[] condiciones = {"opcion1", "opcion2","etc"};
+        PanelDropDown condicionIva = new PanelDropDown(condiciones);
+        
+        PanelTextInput correoElectronico = new PanelTextInput("",16,0,0,0,0);
+        
+        String[] estados = {"Soltero", "Casado","etc"};
+        PanelDropDown estadoCivil = new PanelDropDown(estados);
+        
+        PanelTextInput profesion = new PanelTextInput("profesion",16,0,0,0,0);
+        profesion.restrictToLetters();
+        
+        PanelTextInput anioRegistro = new PanelTextInput("anioRegistro",16,0,0,0,0);
+        anioRegistro.restrictSize(4);
+        anioRegistro.restrictToNumbers();
+        
+        //TO DO CONFIGURAR
+        PanelTextInput nroCliente = new PanelTextInput("",16,0,0,0,0);
+        nroCliente.setEditable(false);
+        
+        volver.addActionListener((ActionEvent e) -> {
+            main.cambiarPantalla("1");
+        });
+        
+        List<PanelTextInput> listaPaneles = new ArrayList<>();
+
+        // Add objects of different types to the list
+        listaPaneles.add(nombre);
+        listaPaneles.add(apellido);
+        listaPaneles.add(nroDocumento);
+        listaPaneles.add(nroCuil);
+        listaPaneles.add(correoElectronico);
+        listaPaneles.add(profesion);
+        listaPaneles.add(anioRegistro);
+        listaPaneles.add(calle);
+        listaPaneles.add(numero);
+        listaPaneles.add(codigoPostal);
+        
+        
+        
+
+        
+        confirmar.addActionListener((ActionEvent e) -> {
+
+            //chequear inputs
+            boolean inputVacio = false;
+        
+            for(PanelTextInput panel: listaPaneles ){
+
+                if("".equals(panel.getText())){
+                    inputVacio = true;
+                    panel.setWrongInput();
+                }
+                else{
+                    panel.setCorrectInput();
+                }
+            }
+
+            fechaNacimientoD = fechaNacimiento.getDate();
+            
+            if (inputVacio || fechaNacimientoD == null) {
+                if(fechaNacimientoD == null && inputVacio == false){
+                    VentanaError fechaVaciaError = new VentanaError("Debe seleccionar una fecha de nacimiento","Entrada incorrecta");
+                }
+                else{
+                    VentanaError entradasVaciasError = new VentanaError("Faltan datos obligatorios", "Entrada incorrecta");
+                }
+            } else {        
+                
+                nombreD = nombre.getText();
+                apellidoD = apellido.getText();
+                tipoDocumentoD = tipoDocumento.getSelectedItem();
+                nroDocumentoD = nroDocumento.getText();
+                nroCuilD = nroCuil.getText();
+                sexoD = sexo.getSelectedItem();
+                condicionIvaD = condicionIva.getSelectedItem();
+                correoElectronicoD = correoElectronico.getText();
+                estadoCivilD = estadoCivil.getSelectedItem();
+                profesionD = profesion.getText();
+                anioRegistroD = anioRegistro.getText();
+                calleD = calle.getText();
+                numeroD = numero.getText();
+                pisoD = piso.getText();
+                dptoD = dpto.getText();
+                paisD = pais.getSelectedItem();
+                provinciaD = provincia.getSelectedItem();
+                localidadD = localidad.getSelectedItem();
+                codigoPostalD = codigoPostal.getText(); 
+
+               //buscar en base de datos por si ya existe
+               //TO DO
+               /*
+               boolean yaExiste               
+               if(yaExiste){
+                ventana ya existe el cliente ingresado
+               }
+               */
+               
+               //crear numero cliente
+               //TO DO
+               
+               //guardar cliente
+               //TO DO
+               
+               //presentar resultado
+               String nroEncontrado = "nroEncontrado";
+               nroCliente.setText(nroEncontrado);
+               VentanaError confirmacion = new VentanaError("Numero de cliente encontrado: " + nroEncontrado, "Numero Cliente");
+               
+               ClienteDTO clienteCreado = new ClienteDTO();
+               
+               clienteCreado.setApellido(apellidoD);
+               clienteCreado.setNombre(nombreD);
+               clienteCreado.setNumCliente(nroEncontrado);
+               clienteCreado.setNumDocumento(nroDocumentoD);
+               
+               TipoDocumento tipoD = null;
+
+                switch (tipoDocumentoD) {
+                    case "DNI" ->
+                        tipoD = TipoDocumento.DNI;
+                    case "CI" ->
+                        tipoD = TipoDocumento.CI;
+                    case "CC" ->
+                        tipoD = TipoDocumento.CC;
+                    case "CIC" ->
+                        tipoD = TipoDocumento.CIC;
+                }
+                
+               clienteCreado.setTipoDocumento(tipoD);
+               
+               main.actualizarPrimera(clienteCreado);
+               main.cambiarPantalla("1");
+
             }
             
             
