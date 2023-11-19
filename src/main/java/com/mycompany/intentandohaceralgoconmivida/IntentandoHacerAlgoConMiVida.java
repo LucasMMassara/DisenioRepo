@@ -4,6 +4,7 @@ import GUI.App;
 import daos.DAOPais;
 import logica.EstadoCivil;
 import util.CargadorDatosCobertura;
+import util.CargadorDatosValoresCalculo;
 import util.CargadorDeDatosPais;
 
 
@@ -15,9 +16,8 @@ public class IntentandoHacerAlgoConMiVida {
         /*App aplicacion = new App();
         aplicacion.inicioApp();*/
         
-        CargadorDatosCobertura cdc = new CargadorDatosCobertura();
-        cdc.agregarCoberturas();
-        
+        CargadorDatosValoresCalculo cdvc = new CargadorDatosValoresCalculo();
+        cdvc.cargarDatosValoresCalculo();
         }
         
     }
