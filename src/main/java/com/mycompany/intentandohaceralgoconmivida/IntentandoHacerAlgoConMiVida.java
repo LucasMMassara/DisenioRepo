@@ -3,6 +3,8 @@ package com.mycompany.intentandohaceralgoconmivida;
 import GUI.App;
 import daos.DAOPais;
 import logica.EstadoCivil;
+import logica.Pais;
+import persistenciajpa.PaisJpaController;
 import util.CargadorDatosCobertura;
 import util.CargadorDatosValoresCalculo;
 import util.CargadorDeDatosPais;
@@ -16,8 +18,10 @@ public class IntentandoHacerAlgoConMiVida {
         /*App aplicacion = new App();
         aplicacion.inicioApp();*/
         
-        CargadorDatosValoresCalculo cdvc = new CargadorDatosValoresCalculo();
-        cdvc.cargarDatosValoresCalculo();
+        PaisJpaController pjpa = new PaisJpaController();
+        for(Pais p: pjpa.findPaisEntities()){
+            System.out.println(p.toString());
         }
         
     }
+}

@@ -16,6 +16,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import logica.Pais;
 import persistenciajpa.exceptions.NonexistentEntityException;
+import util.EntityManagerUtil;
 
 /**
  *
@@ -26,6 +27,11 @@ public class PaisJpaController implements Serializable {
     public PaisJpaController(EntityManagerFactory emf) {
         this.emf = emf;
     }
+    
+    public PaisJpaController(){
+        this.emf = EntityManagerUtil.getEntityManagerFactory();
+    }
+    
     private EntityManagerFactory emf = null;
 
     public EntityManager getEntityManager() {
