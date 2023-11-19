@@ -9,11 +9,15 @@ import dto.ClienteDTO;
 import java.awt.GridBagConstraints;
 import java.awt.event.ActionEvent;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 import logica.Cliente;
+import logica.EstadoCivil;
+import logica.Iva;
 import logica.TipoDocumento;
+import logica.TipoSexo;
 
 /**
  *
@@ -68,19 +72,47 @@ public class AltaClientePrimera extends javax.swing.JPanel {
         PanelTextInput apellido = new PanelTextInput("apellido",16,0,0,0,0);
         apellido.restrictToLetters();
         
-        String[] tipos = {"CC", "CI", "CIC", "DNI"};
+        String[] tipos = {"DNI","CC", "CI", "CIC"};
         PanelDropDown tipoDocumento = new PanelDropDown(tipos);
         
         PanelTextInput nroDocumento = new PanelTextInput("nroDocumento",16,0,0,0,0);
         //TO DO configurar input documento
         nroDocumento.restrictToNumbers();
-        nroDocumento.restrictSize(9);
+        nroDocumento.restrictSize(8);
         
-        PanelTextInput nroCuil = new PanelTextInput("nroCuil",16,0,0,0,0);
-        //TO DO configurar input cuil
-        nroCuil.restrictToNumbers();
+        tipoDocumento.addCustomPanelListener(new CustomPanelListener() {
+            @Override
+            public void onPanelItemSelected(PanelDropDown source, String selectedItem) {
+
+                switch (selectedItem) {
+                    case "CC":
+                        nroDocumento.restrictSize(4);
+                        // limitar nroDocumentoI acordemente
+                        break;
+                    case "CI":
+                        nroDocumento.restrictSize(4);
+                        // limitar nroDocumentoI acordemente
+                        break;
+                    case "CIC":
+                        nroDocumento.restrictSize(4);
+                        // limitar nroDocumentoI acordemente
+                        break;
+                    case "DNI":
+                        nroDocumento.restrictSize(8);
+                        // limitar nroDocumentoI acordemente
+                        break;
+                }
+
+            }
+        });
         
-        String[] sexos = {"Femenino","Masculino"};
+        PanelTextInputCUIL nroCuil = new PanelTextInputCUIL(16);
+        
+        List<String> listaSexos = Stream.of(TipoSexo.values())
+                               .map(Enum::name)
+                               .collect(Collectors.toList());
+        String[] sexos = listaSexos.toArray(new String[0]);
+        
         PanelDropDown sexo = new PanelDropDown(sexos);
         
         PanelDatePicker fechaNacimiento = new PanelDatePicker();
@@ -104,6 +136,24 @@ public class AltaClientePrimera extends javax.swing.JPanel {
         String[] paises = {"Argentina", "Brazil","etc"};
         PanelDropDown pais = new PanelDropDown(paises);
         
+        pais.addCustomPanelListener(new CustomPanelListener() {
+            @Override
+            public void onPanelItemSelected(PanelDropDown source, String selectedItem) {
+
+                switch (selectedItem) {
+                    case "CC" -> nroDocumento.restrictSize(4);
+                    // limitar nroDocumentoI acordemente
+                    case "CI" -> nroDocumento.restrictSize(4);
+                    // limitar nroDocumentoI acordemente
+                    case "CIC" -> nroDocumento.restrictSize(4);
+                    // limitar nroDocumentoI acordemente
+                    case "DNI" -> nroDocumento.restrictSize(8);
+                    // limitar nroDocumentoI acordemente
+                }
+
+            }
+        });
+        
         String[] provincias = {"Santa Fe", "Cordoba","etc"};
         PanelDropDown provincia = new PanelDropDown(provincias);
         
@@ -114,12 +164,22 @@ public class AltaClientePrimera extends javax.swing.JPanel {
         codigoPostal.restrictToNumbers();
         codigoPostal.restrictSize(5);
         
-        String[] condiciones = {"opcion1", "opcion2","etc"};
+        List<String> listaCondiciones = Stream.of(Iva.values())
+                               .map(Enum::name)
+                               .collect(Collectors.toList());
+       
+        String[] condiciones = listaCondiciones.toArray(new String[0]);
+        
         PanelDropDown condicionIva = new PanelDropDown(condiciones);
         
         PanelTextInput correoElectronico = new PanelTextInput("",16,0,0,0,0);
         
-        String[] estados = {"Soltero", "Casado","etc"};
+        List<String> listaEstados = Stream.of(EstadoCivil.values())
+                               .map(Enum::name)
+                               .collect(Collectors.toList());
+       
+        String[] estados = listaEstados.toArray(new String[0]);
+        
         PanelDropDown estadoCivil = new PanelDropDown(estados);
         
         PanelTextInput profesion = new PanelTextInput("profesion",16,0,0,0,0);
@@ -143,18 +203,13 @@ public class AltaClientePrimera extends javax.swing.JPanel {
         listaPaneles.add(nombre);
         listaPaneles.add(apellido);
         listaPaneles.add(nroDocumento);
-        listaPaneles.add(nroCuil);
         listaPaneles.add(correoElectronico);
         listaPaneles.add(profesion);
         listaPaneles.add(anioRegistro);
         listaPaneles.add(calle);
         listaPaneles.add(numero);
         listaPaneles.add(codigoPostal);
-        
-        
-        
 
-        
         confirmar.addActionListener((ActionEvent e) -> {
 
             //chequear inputs
@@ -169,6 +224,16 @@ public class AltaClientePrimera extends javax.swing.JPanel {
                 else{
                     panel.setCorrectInput();
                 }
+            }
+            
+            System.out.println(nroCuil.getText());
+            
+            if("00-00000000-0".equals(nroCuil.getText())){
+                inputVacio = true;
+                nroCuil.setWrongInput();
+            }
+            else{
+                nroCuil.setCorrectInput();
             }
 
             fechaNacimientoD = fechaNacimiento.getDate();

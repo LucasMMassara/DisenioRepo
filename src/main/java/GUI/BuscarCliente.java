@@ -140,7 +140,7 @@ public class BuscarCliente extends JPanel {
         nroDocumentoI.restrictToNumbers();
         nroDocumentoI.restrictSize(8);
 
-        String[] items = {"CC", "CI", "CIC", "DNI"};
+        String[] items = {"DNI","CC", "CI", "CIC"};
         PanelDropDown tipoDocumentoI = new PanelDropDown(items);
 
         tipoDocumentoI.addCustomPanelListener(new CustomPanelListener() {
@@ -149,15 +149,19 @@ public class BuscarCliente extends JPanel {
 
                 switch (selectedItem) {
                     case "CC":
+                        nroDocumentoI.restrictSize(4);
                         // limitar nroDocumentoI acordemente
                         break;
                     case "CI":
+                        nroDocumentoI.restrictSize(4);
                         // limitar nroDocumentoI acordemente
                         break;
                     case "CIC":
+                        nroDocumentoI.restrictSize(4);
                         // limitar nroDocumentoI acordemente
                         break;
                     case "DNI":
+                        nroDocumentoI.restrictSize(8);
                         // limitar nroDocumentoI acordemente
                         break;
                 }

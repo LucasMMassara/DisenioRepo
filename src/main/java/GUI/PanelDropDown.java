@@ -92,7 +92,7 @@ public class PanelDropDown extends JPanel{
 			gbc2.fill = GridBagConstraints.BOTH;
 			gbc2.weightx = 1;
 			gbc2.weighty = 1;
-	        gbc2.insets = new Insets(0, 10, 0, 10);
+	        gbc2.insets = new Insets(0, 0, 0, 0);
 	       
 	       this.setLayout(new GridBagLayout());
 	       this.setBackground(new Color(240,240,240));        
