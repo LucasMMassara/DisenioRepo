@@ -7,6 +7,11 @@ package GUI;
 import GUI.*;
 import java.awt.GridBagConstraints;
 import java.awt.event.ActionEvent;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Date;
+import java.util.List;
+import logica.Cliente;
 
 /**
  *
@@ -17,6 +22,30 @@ public class AltaClientePrimera extends javax.swing.JPanel {
     /**
      * Creates new form primeraAltaCliente
      */
+    
+    String nombreD = "";
+    String apellidoD = "";
+    String tipoDocumentoD = "";
+    String nroDocumentoD = "";
+    String nroCuilD = "";
+    String sexoD = "";
+    Date fechaNacimientoD;
+    String condicionIvaD = "";
+    String correoElectronicoD = "";
+    String estadoCivilD = "";
+    String profesionD = "";
+    String anioRegistroD = "";
+    String calleD = "";
+    String numeroD = "";
+    String pisoD = "";
+    String dptoD = "";
+    String paisD = "";
+    String provinciaD = "";
+    String localidadD = "";
+    String codigoPostalD = "";
+    
+    
+    
     public AltaClientePrimera(MenuProductorSeguros main) {
         initComponents();
         
@@ -26,14 +55,10 @@ public class AltaClientePrimera extends javax.swing.JPanel {
         gbc.fill = GridBagConstraints.BOTH;
         
         
-        Boton cancelar = new Boton("CANCELAR",16, false);
-        jPanel20.add(cancelar,gbc);
+        Boton volver = new Boton("VOLVER",16, false);
+        jPanel20.add(volver,gbc);
         Boton confirmar = new Boton("CONFIRMAR",16, false);
         jPanel21.add(confirmar,gbc);
-
-        cancelar.addActionListener((ActionEvent e) -> {
-            main.cambiarPantalla("1");
-        });
         
         PanelTextInput nombre = new PanelTextInput("nombre",16,0,0,0,0);
         nombre.restrictToLetters();
@@ -90,7 +115,7 @@ public class AltaClientePrimera extends javax.swing.JPanel {
         String[] condiciones = {"opcion1", "opcion2","etc"};
         PanelDropDown condicionIva = new PanelDropDown(condiciones);
         
-        PanelTextInput correoElectronico = new PanelTextInput("correoElectronico",16,0,0,0,0);
+        PanelTextInput correoElectronico = new PanelTextInput("",16,0,0,0,0);
         
         String[] estados = {"Soltero", "Casado","etc"};
         PanelDropDown estadoCivil = new PanelDropDown(estados);
@@ -103,9 +128,103 @@ public class AltaClientePrimera extends javax.swing.JPanel {
         anioRegistro.restrictToNumbers();
         
         //TO DO CONFIGURAR
-        PanelTextInput nroCliente = new PanelTextInput("nroCliente",16,0,0,0,0);
+        PanelTextInput nroCliente = new PanelTextInput("",16,0,0,0,0);
+        nroCliente.setEditable(false);
+        
+        volver.addActionListener((ActionEvent e) -> {
+            main.cambiarPantalla("1");
+        });
+        
+        List<PanelTextInput> listaPaneles = new ArrayList<>();
+
+        // Add objects of different types to the list
+        listaPaneles.add(nombre);
+        listaPaneles.add(apellido);
+        listaPaneles.add(nroDocumento);
+        listaPaneles.add(nroCuil);
+        listaPaneles.add(correoElectronico);
+        listaPaneles.add(profesion);
+        listaPaneles.add(anioRegistro);
+        listaPaneles.add(calle);
+        listaPaneles.add(numero);
+        listaPaneles.add(codigoPostal);
+        
+        
         
 
+        
+        confirmar.addActionListener((ActionEvent e) -> {
+
+            //chequear inputs
+            boolean inputVacio = false;
+        
+            for(PanelTextInput panel: listaPaneles ){
+
+                if("".equals(panel.getText())){
+                    inputVacio = true;
+                    panel.setWrongInput();
+                }
+                else{
+                    panel.setCorrectInput();
+                }
+            }
+
+            fechaNacimientoD = fechaNacimiento.getDate();
+            
+            if (inputVacio || fechaNacimientoD == null) {
+                if(fechaNacimientoD == null && inputVacio == false){
+                    VentanaError fechaVaciaError = new VentanaError("Debe seleccionar una fecha de nacimiento","Entrada incorrecta");
+                }
+                else{
+                    VentanaError entradasVaciasError = new VentanaError("Faltan datos obligatorios", "Entrada incorrecta");
+                }
+            } else {        
+                
+                nombreD = nombre.getText();
+                apellidoD = apellido.getText();
+                tipoDocumentoD = tipoDocumento.getSelectedItem();
+                nroDocumentoD = nroDocumento.getText();
+                nroCuilD = nroCuil.getText();
+                sexoD = sexo.getSelectedItem();
+                condicionIvaD = condicionIva.getSelectedItem();
+                correoElectronicoD = correoElectronico.getText();
+                estadoCivilD = estadoCivil.getSelectedItem();
+                profesionD = profesion.getText();
+                anioRegistroD = anioRegistro.getText();
+                calleD = calle.getText();
+                numeroD = numero.getText();
+                pisoD = piso.getText();
+                dptoD = dpto.getText();
+                paisD = pais.getSelectedItem();
+                provinciaD = provincia.getSelectedItem();
+                localidadD = localidad.getSelectedItem();
+                codigoPostalD = codigoPostal.getText(); 
+
+               //buscar en base de datos por si ya existe
+               //TO DO
+               /*
+               boolean yaExiste               
+               if(yaExiste){
+                ventana ya existe el cliente ingresado
+               }
+               */
+               
+               //crear numero cliente
+               //TO DO
+               
+               //guardar cliente
+               //TO DO
+               
+               //presentar resultado
+               String nroEncontrado = "nroEncontrado";
+               nroCliente.setText(nroEncontrado);
+               VentanaError confirmacion = new VentanaError("Numero de cliente encontrado: " + nroEncontrado, "Numero Cliente");
+            }
+            
+            
+            
+        });
+        
         jPanel1.add(nombre,gbc);
         jPanel3.add(apellido,gbc);
         jPanel4.add(tipoDocumento,gbc);
