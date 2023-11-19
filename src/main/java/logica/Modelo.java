@@ -45,6 +45,11 @@ public class Modelo implements Serializable {
             this.nombre = nombre;
     }
 
+    public Modelo(String nombre, Marca marca) {
+        this.nombre = nombre;
+        this.marca = marca;
+    }
+
     public String getNombre() {
             return nombre;
     }
