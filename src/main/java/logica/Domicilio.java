@@ -1,7 +1,6 @@
 package logica;
 
 import java.io.Serializable;
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
@@ -15,16 +14,20 @@ import javax.persistence.Table;
 public class Domicilio implements Serializable {
         
     @Id
-    @JoinColumn(name = "clienteId")
-    private String id;
+    private int id;
+    
+    @OneToOne
+    @MapsId
+    @JoinColumn(name ="id")   
+    private Cliente cliente;
+    
     private String calle;
     private String numero;
     
-    @OneToOne(mappedBy = "domicilio", cascade = CascadeType.ALL)
+    @OneToOne(mappedBy = "domicilio")
     private Departamento depto;
     
-    @OneToOne(optional = false)
-    @JoinColumn(name = "localidad_fk", unique = false, nullable = false, updatable = true)
+    @OneToOne
     private Localidad localidad;
 
     public Domicilio() {
@@ -35,14 +38,6 @@ public class Domicilio implements Serializable {
             super();
             this.calle = calle;
             this.numero = numero;
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
     }
 
     public String getCalle() {
@@ -70,4 +65,19 @@ public class Domicilio implements Serializable {
             this.localidad = localidad;
     }
 
+    public Cliente getCliente() {
+        return cliente;
+    }
+
+    public void setCliente(Cliente cliente) {
+        this.cliente = cliente;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 }

@@ -1,73 +1,95 @@
 package logica;
 
 import java.io.Serializable;
-import javax.persistence.Column;
+import java.util.List;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
 @Table(name = "localidad")
 
-public class Localidad implements Serializable {
+public class Localidad implements Serializable{
+    
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id;
         
-        @Id
-        @Column(name = "nombre")
-	private String nombreLocalidad;
-        
-        @OneToOne(optional=false)
-        @JoinColumn(name="provincia", unique=false, nullable=false, updatable=true, referencedColumnName = "nombre")
-	private Provincia provincia;
-        
-        @JoinColumn(name="IndicadorActual", unique=false, nullable=false, updatable=true, referencedColumnName = "id")
-        @OneToOne
-	private IndicadorRiesgo indicadorActual;
-        
-        /*@OneToMany(cascade=CascadeType.ALL, mappedBy="localidad")
-        private Set<IndicadorRiesgo> historialIndicadorRiesgo; //No se si va aca.*/
+    private String nombreLocalidad;
+    
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Provincia provincia;
+    
+    @OneToOne
+    private IndicadorRiesgo indicadorActual;
+    
+    @OneToMany(mappedBy="localidad")
+    private List<IndicadorRiesgo> historialIndicador;
 
-	public Localidad() {
-		super();
-		// TODO Auto-generated constructor stub
-	}
+    public Localidad() {
+            super();
+            // TODO Auto-generated constructor stub
+    }
 
-	public Localidad(String nombreLocalidad) {
-		super();
-		this.nombreLocalidad = nombreLocalidad;
-	}
+    public Localidad(String nombreLocalidad) {
+            super();
+            this.nombreLocalidad = nombreLocalidad;
+    }
 
-	public String getNombreLocalidad() {
-		return nombreLocalidad;
-	}
+    public Localidad(Provincia provincia, String nombreLoc) {
+        super();
+        this.nombreLocalidad = nombreLoc;
+        this.provincia = provincia;
+    }
 
-	public void setNombreLocalidad(String nombreLocalidad) {
-		this.nombreLocalidad = nombreLocalidad;
-	}
+    public String getNombreLocalidad() {
+            return nombreLocalidad;
+    }
 
-	public Provincia getProvincia() {
-		return provincia;
-	}
+    public void setNombreLocalidad(String nombreLocalidad) {
+            this.nombreLocalidad = nombreLocalidad;
+    }
 
-	public void setProvincia(Provincia provincia) {
-		this.provincia = provincia;
-	}
+    public Provincia getProvincia() {
+            return provincia;
+    }
 
-	public IndicadorRiesgo getIndicadorActual() {
-		return indicadorActual;
-	}
+    public void setProvincia(Provincia provincia) {
+            this.provincia = provincia;
+    }
 
-	public void setIndicadorActual(IndicadorRiesgo indicadorActual) {
-		this.indicadorActual = indicadorActual;
-	}
+    public int getId() {
+        return id;
+    }
 
-	/*public Set<IndicadorRiesgo> getHistorialIndicadorRiesgo() {
-		return historialIndicadorRiesgo;
-	}
+    public void setId(int id) {
+        this.id = id;
+    }
 
-	public void setHistorialIndicadorRiesgo(Set<IndicadorRiesgo> historialIndicadorRiesgo) {
-		this.historialIndicadorRiesgo = historialIndicadorRiesgo;
-	}*/
-	
+    public IndicadorRiesgo getIndicadorActual() {
+        return indicadorActual;
+    }
+
+    public void setIndicadorActual(IndicadorRiesgo indicadorActual) {
+        this.indicadorActual = indicadorActual;
+    }
+
+    public List<IndicadorRiesgo> getHistorialIndicador() {
+        return historialIndicador;
+    }
+
+    public void setHistorialIndicador(List<IndicadorRiesgo> historialIndicador) {
+        this.historialIndicador = historialIndicador;
+    }
+
+    @Override
+    public String toString() {
+        return "Localidad{" + "id=" + id + ", nombreLocalidad=" + nombreLocalidad + ", provincia=" + provincia + '}';
+    }
 }

@@ -1,119 +1,187 @@
 package logica;
 
+import java.io.Serializable;
 import java.util.Date;
+import java.util.Set;
+import javax.persistence.Entity;
+import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
+import javax.persistence.Temporal;
 
-public class Modificacion {
-	private String patente;
-	private String numMotor;
-	private String numChasis;
-	private Integer kmPorAnio;
-	private CantidadSiniestros cantidadSiniestros;
-	private Boolean guardaEnGarage;
-	private Boolean tuercasAntirrobo;
-	private Boolean alarma;
-	private Boolean dispositivoRastreo;
-	private Date fechaMod;
-	
-	public Modificacion() {
-		super();
-		// TODO Auto-generated constructor stub
-	}
+@Entity
+@Table(name="modificaciones_polizas")
 
-	public Modificacion(String patente, String numMotor, String numChasis, Integer kmPorAnio,
-			CantidadSiniestros cantidadSiniestros, Boolean guardaEnGarage, Boolean tuercasAntirrobo, Boolean alarma,
-			Boolean dispositivoRastreo, Date fechaMod) {
-		super();
-		this.patente = patente;
-		this.numMotor = numMotor;
-		this.numChasis = numChasis;
-		this.kmPorAnio = kmPorAnio;
-		this.cantidadSiniestros = cantidadSiniestros;
-		this.guardaEnGarage = guardaEnGarage;
-		this.tuercasAntirrobo = tuercasAntirrobo;
-		this.alarma = alarma;
-		this.dispositivoRastreo = dispositivoRastreo;
-		this.fechaMod = fechaMod;
-	}
+public class Modificacion implements Serializable {
+    
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id;
+    
+    private String patente;
+    private String numMotor;
+    private String numChasis;
+    private Integer kmPorAnio;
+    
+    @Enumerated
+    private CantidadSiniestros cantidadSiniestros;
+    
+    private Boolean guardaEnGarage;
+    private Boolean tuercasAntirrobo;
+    private Boolean alarma;
+    private Boolean dispositivoRastreo;
+    
+    @Temporal(javax.persistence.TemporalType.DATE)
+    private Date fechaMod;
+    
+    @ManyToMany
+    private Set<Hijo> hijos;
+    
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Poliza poliza;
+    
+    @OneToOne(optional=false)
+    private Usuario usuarioEditor;
+    
+    //TODO Falta el usuario
+    
+    public Modificacion() {
+            super();
+            // TODO Auto-generated constructor stub
+    }
 
-	public String getPatente() {
-		return patente;
-	}
+    public Modificacion(String patente, String numMotor, String numChasis, Integer kmPorAnio,
+                    CantidadSiniestros cantidadSiniestros, Boolean guardaEnGarage, Boolean tuercasAntirrobo, Boolean alarma,
+                    Boolean dispositivoRastreo, Date fechaMod) {
+            super();
+            this.patente = patente;
+            this.numMotor = numMotor;
+            this.numChasis = numChasis;
+            this.kmPorAnio = kmPorAnio;
+            this.cantidadSiniestros = cantidadSiniestros;
+            this.guardaEnGarage = guardaEnGarage;
+            this.tuercasAntirrobo = tuercasAntirrobo;
+            this.alarma = alarma;
+            this.dispositivoRastreo = dispositivoRastreo;
+            this.fechaMod = fechaMod;
+    }
 
-	public void setPatente(String patente) {
-		this.patente = patente;
-	}
+    public String getPatente() {
+            return patente;
+    }
 
-	public String getNumMotor() {
-		return numMotor;
-	}
+    public void setPatente(String patente) {
+            this.patente = patente;
+    }
 
-	public void setNumMotor(String numMotor) {
-		this.numMotor = numMotor;
-	}
+    public String getNumMotor() {
+            return numMotor;
+    }
 
-	public String getNumChasis() {
-		return numChasis;
-	}
+    public Poliza getPoliza() {
+        return poliza;
+    }
 
-	public void setNumChasis(String numChasis) {
-		this.numChasis = numChasis;
-	}
+    public void setPoliza(Poliza poliza) {
+        this.poliza = poliza;
+    }
 
-	public Integer getKmPorAnio() {
-		return kmPorAnio;
-	}
+    public void setNumMotor(String numMotor) {
+            this.numMotor = numMotor;
+    }
 
-	public void setKmPorAnio(Integer kmPorAnio) {
-		this.kmPorAnio = kmPorAnio;
-	}
+    public String getNumChasis() {
+            return numChasis;
+    }
 
-	public CantidadSiniestros getCantidadSiniestros() {
-		return cantidadSiniestros;
-	}
+    public void setNumChasis(String numChasis) {
+            this.numChasis = numChasis;
+    }
 
-	public void setCantidadSiniestros(CantidadSiniestros cantidadSiniestros) {
-		this.cantidadSiniestros = cantidadSiniestros;
-	}
+    public Integer getKmPorAnio() {
+            return kmPorAnio;
+    }
 
-	public Boolean getGuardaEnGarage() {
-		return guardaEnGarage;
-	}
+    public void setKmPorAnio(Integer kmPorAnio) {
+            this.kmPorAnio = kmPorAnio;
+    }
 
-	public void setGuardaEnGarage(Boolean guardaEnGarage) {
-		this.guardaEnGarage = guardaEnGarage;
-	}
+    public CantidadSiniestros getCantidadSiniestros() {
+            return cantidadSiniestros;
+    }
 
-	public Boolean getTuercasAntirrobo() {
-		return tuercasAntirrobo;
-	}
+    public void setCantidadSiniestros(CantidadSiniestros cantidadSiniestros) {
+            this.cantidadSiniestros = cantidadSiniestros;
+    }
 
-	public void setTuercasAntirrobo(Boolean tuercasAntirrobo) {
-		this.tuercasAntirrobo = tuercasAntirrobo;
-	}
+    public Boolean getGuardaEnGarage() {
+            return guardaEnGarage;
+    }
 
-	public Boolean getAlarma() {
-		return alarma;
-	}
+    public void setGuardaEnGarage(Boolean guardaEnGarage) {
+            this.guardaEnGarage = guardaEnGarage;
+    }
 
-	public void setAlarma(Boolean alarma) {
-		this.alarma = alarma;
-	}
+    public Boolean getTuercasAntirrobo() {
+            return tuercasAntirrobo;
+    }
 
-	public Boolean getDispositivoRastreo() {
-		return dispositivoRastreo;
-	}
+    public void setTuercasAntirrobo(Boolean tuercasAntirrobo) {
+            this.tuercasAntirrobo = tuercasAntirrobo;
+    }
 
-	public void setDispositivoRastreo(Boolean dispositivoRastreo) {
-		this.dispositivoRastreo = dispositivoRastreo;
-	}
+    public Boolean getAlarma() {
+            return alarma;
+    }
 
-	public Date getFechaMod() {
-		return fechaMod;
-	}
+    public void setAlarma(Boolean alarma) {
+            this.alarma = alarma;
+    }
 
-	public void setFechaMod(Date fechaMod) {
-		this.fechaMod = fechaMod;
-	}
-	
-	
+    public Boolean getDispositivoRastreo() {
+            return dispositivoRastreo;
+    }
+
+    public void setDispositivoRastreo(Boolean dispositivoRastreo) {
+            this.dispositivoRastreo = dispositivoRastreo;
+    }
+
+    public Date getFechaMod() {
+            return fechaMod;
+    }
+
+    public void setFechaMod(Date fechaMod) {
+            this.fechaMod = fechaMod;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public Set<Hijo> getHijos() {
+        return hijos;
+    }
+
+    public void setHijos(Set<Hijo> hijos) {
+        this.hijos = hijos;
+    }
+
+    public Usuario getUsuarioEditor() {
+        return usuarioEditor;
+    }
+
+    public void setUsuarioEditor(Usuario usuarioEditor) {
+        this.usuarioEditor = usuarioEditor;
+    }
+    
 }

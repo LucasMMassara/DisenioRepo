@@ -4,18 +4,39 @@
     <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
     <class>logica.Pais</class>
     <class>logica.Provincia</class>
+    <class>historiales.IndicadorRiesgoHistorial</class>
     <class>logica.IndicadorRiesgo</class>
     <class>logica.Localidad</class>
-    <class>logica.Usuario</class>
+    <class>logica.AnioFabricacion</class>
     <class>logica.Cobertura</class>
+    <class>logica.DatosVehiculo</class>
+    <class>logica.EstadisticaRoboVehiculo</class>
+    <class>logica.Marca</class>
+    <class>logica.Modelo</class>
     <class>logica.PorcentajeCobertura</class>
+    <class>logica.Vehiculo</class>
+    <class>logica.ValorMedidaSeguridad</class>
+    <class>logica.ValorSiniestro</class>
+    <class>logica.ValoresActualesCalculo</class>
+    <class>logica.ValoresGenerales</class>
+    <class>logica.Cuota</class>
+    <class>logica.Hijo</class>
+    <class>logica.Modificacion</class>
+    <class>logica.Pago</class>
+    <class>logica.Departamento</class>
+    <class>logica.Domicilio</class>
+    <class>logica.Cliente</class>
+    <class>logica.Persona</class>
+    <class>logica.Usuario</class>
+    <class>logica.Poliza</class>
+    <class>logica.PremioYDescuentos</class>
+    <class>logica.DatosModelo</class>
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:postgresql://localhost:5432/disenioTest"/>
       <property name="javax.persistence.jdbc.user" value="postgres"/>
       <property name="javax.persistence.jdbc.driver" value="org.postgresql.Driver"/>
       <property name="javax.persistence.jdbc.password" value="1"/>
       <property name="jakarta.persistence.schema-generation.database.action" value="drop-and-create"/>
-      <property name="javax.persistence.schema-generation.database.action" value="drop-and-create"/>
     </properties>
   </persistence-unit>
 </persistence>

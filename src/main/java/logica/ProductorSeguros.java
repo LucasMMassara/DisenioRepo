@@ -1,5 +1,5 @@
 package logica;
 
-public class ProductorSeguros extends Usuario {
+public class ProductorSeguros{
 
 }

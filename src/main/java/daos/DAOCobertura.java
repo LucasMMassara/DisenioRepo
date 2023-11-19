@@ -4,14 +4,16 @@
  */
 package daos;
 
-import persistencia.CoberturaJpaController;
-import persistencia.PorcentajeCoberturaJpaController;
+import logica.Cobertura;
 
 /**
  *
  * @author Lucas
  */
-public class DAOCobertura {
-    private CoberturaJpaController coberturaJpa = new CoberturaJpaController();
-    private PorcentajeCoberturaJpaController porcentajeJpa = new PorcentajeCoberturaJpaController();
+public class DAOCobertura extends DAOAbstract<Cobertura>{
+    
+    public DAOCobertura(){
+            setClazz(Cobertura.class);
+    }
+    
 }

@@ -1,52 +1,76 @@
 package logica;
 
 import java.io.Serializable;
-import javax.persistence.Column;
+import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
-import javax.persistence.CascadeType;
-import javax.persistence.JoinColumn;
-import javax.persistence.MapsId;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 
 @Entity
 @Table(name = "provincia")
 
 public class Provincia implements Serializable {
         
-        @Id
-        @Column(name = "nombre")
-	private String nombreProvincia;
-        
-        @OneToOne(optional=false)
-        @JoinColumn(name="pais", unique=false, nullable=false, updatable=true)
-	private Pais pais;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id;
+    private String nombreProvincia;
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Pais pais;
+    @OneToMany(mappedBy="provincia")
+    private List<Localidad> localidades;
 
-	public Provincia() {
-		super();
-		// TODO Auto-generated constructor stub
-	}
+    public Provincia(Pais pais, String nombre) {
+        super();
+        this.pais = pais;
+        this.nombreProvincia = nombre;
+    }
+    
+    public Provincia(){
+        super();
+    }
 
-	public Provincia(String nombreProvincia) {
-		super();
-		this.nombreProvincia = nombreProvincia;
-	}
+    public int getId() {
+        return id;
+    }
 
-	public String getNombreProvincia() {
-		return nombreProvincia;
-	}
+    public void setId(int id) {
+        this.id = id;
+    }
 
-	public void setNombreProvincia(String nombreProvincia) {
-		this.nombreProvincia = nombreProvincia;
-	}
+    public String getNombreProvincia() {
+        return nombreProvincia;
+    }
 
-	public Pais getPais() {
-		return pais;
-	}
+    public void setNombreProvincia(String nombreProvincia) {
+        this.nombreProvincia = nombreProvincia;
+    }
 
-	public void setPais(Pais pais) {
-		this.pais = pais;
-	}
-	
+    public Pais getPais() {
+        return pais;
+    }
+
+    public void setPais(Pais pais) {
+        this.pais = pais;
+    }
+
+    @Override
+    public String toString() {
+        return "Provincia{" + "id=" + id + ", nombreProvincia=" + nombreProvincia + ", pais=" + pais.getNombre() + '}';
+    }
+
+    public List<Localidad> getLocalidades() {
+        return localidades;
+    }
+
+    public void setLocalidades(List<Localidad> localidades) {
+        this.localidades = localidades;
+    }
+
+    
 }

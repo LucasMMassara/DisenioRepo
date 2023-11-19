@@ -1,19 +1,11 @@
 package daos;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import logica.Localidad;
-import logica.Pais;
-import logica.Provincia;
 
-import persistencia.LocalidadJpaController;
 
-public class DAOLocalidad {
-        
-    LocalidadJpaController localidadJpa = new LocalidadJpaController();
+public class DAOLocalidad extends DAOAbstract<Localidad> {
     
-    public List<Localidad> obtenerLocalidades(Provincia provincia){
-	return new ArrayList<Localidad>();
-    }
+        public DAOLocalidad(){
+            setClazz(Localidad.class);
+        }
 }

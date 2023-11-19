@@ -1,10 +1,13 @@
 package logica;
 
+import java.io.Serializable;
 import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
@@ -12,74 +15,89 @@ import javax.persistence.Table;
 @Entity
 @Table(name="modelo")
 
-public class Modelo {
+public class Modelo implements Serializable {
     
-        @Id
-        @GeneratedValue
-	private String id;
-        
-	private String nombre;
-        
-        @OneToOne
-	private Marca nombreMarca;
-        
-        @OneToMany(mappedBy = "modelo", fetch = FetchType.EAGER)
-	private List<EstadisticaRoboVehiculo> historial;
-        
-        @OneToOne
-	private EstadisticaRoboVehiculo estRoboActual; //marchear con estadistica
-        
-        @OneToMany(mappedBy = "modelo", fetch = FetchType.EAGER) //matchear con datos
-	private List<DatosVehiculo> precioYAño;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id;
 
-	public Modelo() {
-		super();
-		// TODO Auto-generated constructor stub
-	}
+    private String nombre;
 
-	public Modelo(String nombre) {
-		super();
-		this.nombre = nombre;
-	}
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Marca marca;
 
-	public String getNombre() {
-		return nombre;
-	}
+    @OneToMany(mappedBy = "modelo")
+    private List<DatosModelo> datosModelo;
 
-	public void setNombre(String nombre) {
-		this.nombre = nombre;
-	}
+    @OneToMany(mappedBy = "modelo")
+    private List<EstadisticaRoboVehiculo> historial;
 
-	public List<EstadisticaRoboVehiculo> getHistorial() {
-		return historial;
-	}
+    @OneToOne
+    private EstadisticaRoboVehiculo estadisticaActual;
 
-	public void setHistorial(List<EstadisticaRoboVehiculo> historial) {
-		this.historial = historial;
-	}
+    public Modelo() {
+            super();
+            // TODO Auto-generated constructor stub
+    }
 
-	public EstadisticaRoboVehiculo getEstRoboActual() {
-		return estRoboActual;
-	}
+    public Modelo(String nombre) {
+            super();
+            this.nombre = nombre;
+    }
 
-	public void setEstRoboActual(EstadisticaRoboVehiculo estRoboActual) {
-		this.estRoboActual = estRoboActual;
-	}
+    public Modelo(String nombre, Marca marca) {
+        this.nombre = nombre;
+        this.marca = marca;
+    }
 
-	public Marca getNombreMarca() {
-		return nombreMarca;
-	}
+    public String getNombre() {
+            return nombre;
+    }
 
-	public void setNombreMarca(Marca nombreMarca) {
-		this.nombreMarca = nombreMarca;
-	}
+    public void setNombre(String nombre) {
+            this.nombre = nombre;
+    }
 
-	public List<DatosVehiculo> getPrecioYAño() {
-		return precioYAño;
-	}
+    public List<EstadisticaRoboVehiculo> getHistorial() {
+            return historial;
+    }
 
-	public void setPrecioYAño(List<DatosVehiculo> precioYAño) {
-		this.precioYAño = precioYAño;
-	}
+    public void setHistorial(List<EstadisticaRoboVehiculo> historial) {
+            this.historial = historial;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public Marca getMarca() {
+        return marca;
+    }
+
+    public void setMarca(Marca marca) {
+        this.marca = marca;
+    }
+
+    public List<DatosModelo> getDatosModelo() {
+        return datosModelo;
+    }
+
+    public void setDatosModelo(List<DatosModelo> datosModelo) {
+        this.datosModelo = datosModelo;
+    }
+
+    public EstadisticaRoboVehiculo getEstadisticaActual() {
+        return estadisticaActual;
+    }
+
+    public void setEstadisticaActual(EstadisticaRoboVehiculo estadisticaActual) {
+        this.estadisticaActual = estadisticaActual;
+    }
+    
+    
 	
 }

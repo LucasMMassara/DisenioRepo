@@ -1,5 +1,9 @@
 package daos;
 
-public class DAOValoresSeguridad {
+import logica.ValorMedidaSeguridad;
 
+public class DAOValoresSeguridad extends DAOAbstract<ValorMedidaSeguridad> {
+    public DAOValoresSeguridad(){
+        setClazz(ValorMedidaSeguridad.class);
+    }
 }

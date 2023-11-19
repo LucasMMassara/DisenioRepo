@@ -3,6 +3,8 @@ import logica.Cliente;
 import dto.ClienteDTO;
 import java.util.*;
 import daos.DAOCliente;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 
 public class GestorClientes {
 	
@@ -25,14 +27,6 @@ public class GestorClientes {
             return true;
     }
 
-    public List<Cliente> buscarClientes(ClienteDTO cliente) {
-        DAOCliente daoCliente = new DAOCliente();
-        return daoCliente.buscarClientes(newCliente(cliente));
-        //Si la lista es nula, devolvemos un error
-        //Si la lista contiene clientes, filtramos por activos, la devolvemos y la mostramos. Lo piden las observaciones.
-        
-    }
-
     public Cliente newCliente(ClienteDTO cliente) {
         
         Cliente clienteNuevo = new Cliente();
@@ -44,5 +38,33 @@ public class GestorClientes {
         clienteNuevo.setNumCliente(cliente.getNumCliente());
 
         return clienteNuevo;
+    }
+    
+    
+    
+    public void validarDatosCliente(ClienteDTO cliente){
+        
+        
+        
+    }
+    
+    private boolean existeClienteActivo(ClienteDTO cliente){
+        DAOCliente daocli = new DAOCliente();
+        Cliente cli = daocli.buscarCliente(cliente.getTipoDocumento(),cliente.getNumDocumento());
+        if(cli == null){
+            return false;
+        }
+        return true; 
+    }
+    
+    
+    private boolean clienteMayorEdad(Date fechaNac){
+        
+        GestorFecha gf = new GestorFecha();
+        
+        if(gf.obtenerAniosCliente(fechaNac)<18){
+            return false;
+        }
+            return true;
     }
 }
