@@ -21,7 +21,7 @@ import persistenciajpa.LocalidadJpaController;
  *
  * @author Lucas
  */
-public class CargadorDeDatos {
+public class CargadorDeDatosPais {
     
     DAOPais daop = new DAOPais();
     DAOProvincia daoprov = new DAOProvincia();

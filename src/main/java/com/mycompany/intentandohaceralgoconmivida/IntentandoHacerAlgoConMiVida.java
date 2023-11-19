@@ -2,7 +2,9 @@ package com.mycompany.intentandohaceralgoconmivida;
 
 import GUI.App;
 import daos.DAOPais;
-import util.CargadorDeDatos;
+import util.CargadorDatosCobertura;
+import util.CargadorDeDatosPais;
+
 
 
 public class IntentandoHacerAlgoConMiVida {
@@ -11,6 +13,8 @@ public class IntentandoHacerAlgoConMiVida {
         
         /*App aplicacion = new App();
         aplicacion.inicioApp();*/
-           
+        
+        CargadorDatosCobertura cdc = new CargadorDatosCobertura();
+        cdc.agregarCoberturas();
         }
     }

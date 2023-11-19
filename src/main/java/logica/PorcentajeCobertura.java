@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
@@ -16,9 +18,10 @@ import javax.persistence.Temporal;
 public class PorcentajeCobertura implements Serializable {
         
     @Id
-    private String id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id;
 
-    private Float porcentaje;
+    private Double porcentaje;
 
     @Temporal(javax.persistence.TemporalType.DATE)
     private Date inicioVigencia;
@@ -32,10 +35,21 @@ public class PorcentajeCobertura implements Serializable {
     @OneToOne(optional=false)
     private Usuario usuarioEditor;
 
-    public Float getPorcentaje() {
+    public PorcentajeCobertura() {
+        super();
+    }
+    
+    public PorcentajeCobertura(Double porcentajeGenerado, Date fechaInicio, Cobertura cob) {
+        super();
+        this.porcentaje = porcentajeGenerado;
+        this.inicioVigencia = fechaInicio;
+        this.cobertura = cob;
+    }
+
+    public Double getPorcentaje() {
             return porcentaje;
     }
-    public void setPorcentaje(Float porcentaje) {
+    public void setPorcentaje(Double porcentaje) {
             this.porcentaje = porcentaje;
     }
     public Date getInicioVigencia() {
@@ -57,11 +71,11 @@ public class PorcentajeCobertura implements Serializable {
             this.finVigencia = finVigencia;
     }
 
-    public String getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
     }
 

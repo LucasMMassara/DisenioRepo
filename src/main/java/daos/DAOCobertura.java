@@ -4,9 +4,16 @@
  */
 package daos;
 
+import logica.Cobertura;
+
 /**
  *
  * @author Lucas
  */
-public class DAOCobertura {
+public class DAOCobertura extends DAOAbstract<Cobertura>{
+    
+    public DAOCobertura(){
+            setClazz(Cobertura.class);
+    }
+    
 }

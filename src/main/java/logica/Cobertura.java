@@ -26,6 +26,15 @@ public class Cobertura implements Serializable {
 
     @OneToMany(mappedBy = "cobertura")
     private Set<PorcentajeCobertura> historialPorcentaje;
+    
+    public Cobertura(){
+        super();
+    }
+
+    public Cobertura(String nombre) {
+        super();
+        this.detalle = nombre;
+    }
 
     public PorcentajeCobertura getPorcentajeActual() {
             return porcentajeActual;

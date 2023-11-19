@@ -15,7 +15,6 @@ import javax.persistence.criteria.Root;
 import logica.Cobertura;
 import logica.PorcentajeCobertura;
 import persistenciajpa.exceptions.NonexistentEntityException;
-import persistenciajpa.exceptions.PreexistingEntityException;
 
 /**
  *
@@ -32,14 +31,14 @@ public class PorcentajeCoberturaJpaController implements Serializable {
         return emf.createEntityManager();
     }
 
-    public void create(PorcentajeCobertura porcentajeCobertura) throws PreexistingEntityException, Exception {
+    public void create(PorcentajeCobertura porcentajeCobertura) {
         EntityManager em = null;
         try {
             em = getEntityManager();
             em.getTransaction().begin();
             Cobertura cobertura = porcentajeCobertura.getCobertura();
             if (cobertura != null) {
-                cobertura = em.getReference(cobertura.getClass(), cobertura.getDetalle());
+                cobertura = em.getReference(cobertura.getClass(), cobertura.getId());
                 porcentajeCobertura.setCobertura(cobertura);
             }
             em.persist(porcentajeCobertura);
@@ -53,11 +52,6 @@ public class PorcentajeCoberturaJpaController implements Serializable {
                 cobertura = em.merge(cobertura);
             }
             em.getTransaction().commit();
-        } catch (Exception ex) {
-            if (findPorcentajeCobertura(porcentajeCobertura.getId()) != null) {
-                throw new PreexistingEntityException("PorcentajeCobertura " + porcentajeCobertura + " already exists.", ex);
-            }
-            throw ex;
         } finally {
             if (em != null) {
                 em.close();
@@ -74,7 +68,7 @@ public class PorcentajeCoberturaJpaController implements Serializable {
             Cobertura coberturaOld = persistentPorcentajeCobertura.getCobertura();
             Cobertura coberturaNew = porcentajeCobertura.getCobertura();
             if (coberturaNew != null) {
-                coberturaNew = em.getReference(coberturaNew.getClass(), coberturaNew.getDetalle());
+                coberturaNew = em.getReference(coberturaNew.getClass(), coberturaNew.getId());
                 porcentajeCobertura.setCobertura(coberturaNew);
             }
             porcentajeCobertura = em.merge(porcentajeCobertura);
@@ -95,7 +89,7 @@ public class PorcentajeCoberturaJpaController implements Serializable {
         } catch (Exception ex) {
             String msg = ex.getLocalizedMessage();
             if (msg == null || msg.length() == 0) {
-                String id = porcentajeCobertura.getId();
+                int id = porcentajeCobertura.getId();
                 if (findPorcentajeCobertura(id) == null) {
                     throw new NonexistentEntityException("The porcentajeCobertura with id " + id + " no longer exists.");
                 }
@@ -108,7 +102,7 @@ public class PorcentajeCoberturaJpaController implements Serializable {
         }
     }
 
-    public void destroy(String id) throws NonexistentEntityException {
+    public void destroy(int id) throws NonexistentEntityException {
         EntityManager em = null;
         try {
             em = getEntityManager();
@@ -158,7 +152,7 @@ public class PorcentajeCoberturaJpaController implements Serializable {
         }
     }
 
-    public PorcentajeCobertura findPorcentajeCobertura(String id) {
+    public PorcentajeCobertura findPorcentajeCobertura(int id) {
         EntityManager em = getEntityManager();
         try {
             return em.find(PorcentajeCobertura.class, id);
