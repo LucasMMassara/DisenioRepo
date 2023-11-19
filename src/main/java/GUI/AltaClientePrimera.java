@@ -36,26 +36,75 @@ public class AltaClientePrimera extends javax.swing.JPanel {
         });
         
         PanelTextInput nombre = new PanelTextInput("nombre",16,0,0,0,0);
+        nombre.restrictToLetters();
+        
         PanelTextInput apellido = new PanelTextInput("apellido",16,0,0,0,0);
-        PanelTextInput tipoDocumento = new PanelTextInput("tipoDocumento",16,0,0,0,0);
+        apellido.restrictToLetters();
+        
+        String[] tipos = {"CC", "CI", "CIC", "DNI"};
+        PanelDropDown tipoDocumento = new PanelDropDown(tipos);
+        
         PanelTextInput nroDocumento = new PanelTextInput("nroDocumento",16,0,0,0,0);
+        //TO DO configurar input documento
+        nroDocumento.restrictToNumbers();
+        nroDocumento.restrictSize(9);
+        
         PanelTextInput nroCuil = new PanelTextInput("nroCuil",16,0,0,0,0);
-        PanelTextInput sexo = new PanelTextInput("sexo",16,0,0,0,0);
-        PanelTextInput fechaNacimiento = new PanelTextInput("fechaNacimiento",16,0,0,0,0);
+        //TO DO configurar input cuil
+        nroCuil.restrictToNumbers();
+        
+        String[] sexos = {"Femenino","Masculino"};
+        PanelDropDown sexo = new PanelDropDown(sexos);
+        
+        PanelDatePicker fechaNacimiento = new PanelDatePicker();
+        
         PanelTextInput calle = new PanelTextInput("calle",16,0,0,0,0);
+        calle.restrictToLetters();
+        
         PanelTextInput numero = new PanelTextInput("numero",16,0,0,0,0);
+        numero.restrictSize(5);
+        numero.restrictToNumbers();
+        
         PanelTextInput piso = new PanelTextInput("piso",16,0,0,0,0);
+        piso.restrictToNumbers();
+        piso.restrictSize(2);
+        
         PanelTextInput dpto = new PanelTextInput("dpto",16,0,0,0,0);
-        PanelTextInput pais = new PanelTextInput("pais",16,0,0,0,0);
-        PanelTextInput provincia = new PanelTextInput("provincia",16,0,0,0,0);
-        PanelTextInput localidad = new PanelTextInput("localidad",16,0,0,0,0);
+        dpto.restrictToNumbers();
+        dpto.restrictSize(3);
+        
+        //TO DO cargo lista de paises, provincias y localidades
+        String[] paises = {"Argentina", "Brazil","etc"};
+        PanelDropDown pais = new PanelDropDown(paises);
+        
+        String[] provincias = {"Santa Fe", "Cordoba","etc"};
+        PanelDropDown provincia = new PanelDropDown(provincias);
+        
+        String[] localidades = {"Santo Tome", "Santa Fe","etc"};
+        PanelDropDown localidad = new PanelDropDown(localidades);
+        
         PanelTextInput codigoPostal = new PanelTextInput("codigoPostal",16,0,0,0,0);
-        PanelTextInput condicionIva = new PanelTextInput("condicionIva",16,0,0,0,0);
+        codigoPostal.restrictToNumbers();
+        codigoPostal.restrictSize(5);
+        
+        String[] condiciones = {"opcion1", "opcion2","etc"};
+        PanelDropDown condicionIva = new PanelDropDown(condiciones);
+        
         PanelTextInput correoElectronico = new PanelTextInput("correoElectronico",16,0,0,0,0);
-        PanelTextInput estadoCivil = new PanelTextInput("estadoCivil",16,0,0,0,0);
+        
+        String[] estados = {"Soltero", "Casado","etc"};
+        PanelDropDown estadoCivil = new PanelDropDown(estados);
+        
         PanelTextInput profesion = new PanelTextInput("profesion",16,0,0,0,0);
+        profesion.restrictToLetters();
+        
         PanelTextInput anioRegistro = new PanelTextInput("anioRegistro",16,0,0,0,0);
+        anioRegistro.restrictSize(4);
+        anioRegistro.restrictToNumbers();
+        
+        //TO DO CONFIGURAR
         PanelTextInput nroCliente = new PanelTextInput("nroCliente",16,0,0,0,0);
+        
 
         jPanel1.add(nombre,gbc);
         jPanel3.add(apellido,gbc);
