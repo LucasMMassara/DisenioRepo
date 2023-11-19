@@ -78,7 +78,7 @@ public class PanelTextInput extends JPanel {
 
     }
     
-     PanelTextInput(String text, int fontSize, int a, int b, int c, int d) {
+    PanelTextInput(String text, int fontSize, int a, int b, int c, int d) {
 
         textField.setText(text);
         

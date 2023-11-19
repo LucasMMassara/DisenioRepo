@@ -21,17 +21,21 @@ public class Menu extends JFrame {
 	CardLayout cl = new CardLayout();
 	
 	//paneles
-	JPanel menuProductorSeguros = new MenuProductorSeguros(this);	
+	JPanel menuProductorSeguros = new MenuProductorSeguros(this);
+        JPanel login = new Login(this);
+        
 	
 	Menu(){
 			
+                    /*
                     //armado ventana
                     this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                     this.setTitle("Gestión de Logística");
 		    this.setSize(1100, 720); // Set your preferred size
 		    this.setLocationRelativeTo(null); // Center the frame on the screen
 		    this.setMinimumSize(new Dimension(1000, 700));
-		    
+                    */
+
 		    //cambio icono ventana
 		    ImageIcon customIcon = new ImageIcon("logo.png");
 		    this.setIconImage(customIcon.getImage());
@@ -40,7 +44,13 @@ public class Menu extends JFrame {
 		    containerPanel.setLayout(cl);
 		    containerPanel.setPreferredSize(this.getSize());
                     
-		    containerPanel.add(menuProductorSeguros, "1");
+                    containerPanel.add(login, "1");
+		    containerPanel.add(menuProductorSeguros, "productorSeguros");
+                    this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                    this.setTitle("Inicio de sesion");
+                    this.setMinimumSize(new Dimension(300, 400));   
+                    this.setSize(300, 400); // Set your preferred size
+                    this.setLocationRelativeTo(null); // Center the frame on the screen
 		    cambiarPantalla("1");
 
 		    this.setContentPane(containerPanel);
