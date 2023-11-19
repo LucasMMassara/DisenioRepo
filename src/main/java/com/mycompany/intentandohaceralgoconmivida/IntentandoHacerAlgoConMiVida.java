@@ -2,6 +2,7 @@ package com.mycompany.intentandohaceralgoconmivida;
 
 import GUI.App;
 import daos.DAOPais;
+import gestores.GestorPais;
 import logica.EstadoCivil;
 import logica.Pais;
 import persistenciajpa.PaisJpaController;
@@ -18,8 +19,11 @@ public class IntentandoHacerAlgoConMiVida {
         /*App aplicacion = new App();
         aplicacion.inicioApp();*/
         
-        PaisJpaController pjpa = new PaisJpaController();
-        for(Pais p: pjpa.findPaisEntities()){
+        CargadorDeDatosPais cddp = new CargadorDeDatosPais();
+        cddp.cargarPackPaisesLocIndic();
+        
+        GestorPais gp = new GestorPais();
+        for (Pais p: gp.ObtenerPaises()){
             System.out.println(p.toString());
         }
         
