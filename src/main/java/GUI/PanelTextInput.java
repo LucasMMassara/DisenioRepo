@@ -75,6 +75,35 @@ public class PanelTextInput extends JPanel {
         this.add(textField, gbc2);
 
     }
+    
+     PanelTextInput(String text, int fontSize, int a, int b, int c, int d) {
+
+        textField.setText(text);
+        
+        int borderThickness2 = 2;
+        Insets insets2 = new Insets(0, 10, 0, 10);
+        EmptyBorder emptyBorder2 = new EmptyBorder(insets2);
+
+        Color borderColor = Color.GRAY;
+        LineBorder customBorder = new LineBorder(borderColor, borderThickness2);
+        CompoundBorder compoundBorder = new CompoundBorder(customBorder, emptyBorder2);
+        textField.setBorder(compoundBorder);
+
+        this.setLayout(new GridBagLayout());
+        this.setBackground(new Color(240, 240, 240));
+
+        Font customFont = new Font("Arial", Font.PLAIN, fontSize);
+        textField.setFont(customFont);
+
+        GridBagConstraints gbc2 = new GridBagConstraints();
+        gbc2.fill = GridBagConstraints.BOTH;
+        gbc2.weightx = 1;
+        gbc2.weighty = 1;
+        //gbc2.insets = new Insets(a, b, c, d);
+
+        this.add(textField, gbc2);
+
+    }
 
     void setEditable(Boolean bool) {
 

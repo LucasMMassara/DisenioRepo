@@ -57,6 +57,24 @@ public class Boton extends JButton {
 	    this.setFocusable(false);
 		
 	}
+        
+        Boton(String text, int textSize, Boolean padding){
+            
+            if(padding){
+                this.setText("<html><div style='text-align: center; padding: 10px;'>" + text + "</div></html>");
+            }	
+            else{
+                this.setText(text);
+            }
+            
+        setCustomPressedColor(this, new Color(230,230,230));
+		this.setFont(new Font("Arial", Font.PLAIN, textSize));
+		this.setForeground(new Color(75,75,75));
+		this.setBackground(new Color(255,255,255));
+		this.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY, 2));
+	    this.setFocusable(false);
+		
+	}
 	
 	
 	
