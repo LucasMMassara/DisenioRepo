@@ -32,6 +32,14 @@ public class GestorClientes {
             
             return true;
     }
+    
+    public List<ClienteDTO> obtenerClientePorParametros(String numCliente,String nombre, String apellido, String tipoDoc, String numDoc){
+        
+        List<Cliente> clientesBBDD = obtenerClientes();
+        
+        return listaClienteADTO(clientesBBDD);
+        
+    }
 
     public Cliente crearCliente(ClienteDTO cliente) {
         
