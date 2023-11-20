@@ -3,11 +3,31 @@ import logica.TipoDocumento;
 import static logica.TipoDocumento.DNI;
 
 public class ClienteDTO{
+        
+        private String nombre;
 	private String apellido;
-	private String nombre;
-	private String numCliente;
-	private TipoDocumento tipoDocumento;
 	private String numDocumento;
+        private String nroCuil;
+        
+        private TipoDocumento tipoDocumento;
+        private String sexo;
+        private String condicionIva;
+        private String estadoCivil;
+        
+        private String correoElectronico;
+        private String profesion;
+        private String anioRegistro;
+        private String calle;
+        private String numero;
+        private String piso;
+        private String dpto;
+        
+        private String pais;
+        private String provincia;
+        private String localidad;
+        private String codigoPostal;
+        
+        private String numCliente;
 	
 	public ClienteDTO() {
 		super();
