@@ -2,11 +2,15 @@ package gestores;
 import daos.DAOCliente;
 import logica.Cliente;
 import dto.ClienteDTO;
+import dto.DomicilioDTO;
 import java.util.*;
 
 import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
-import logica.TipoDocumento;
+import logica.Domicilio;
+import logica.EstadoCliente;
+import logica.Iva;
+import persistenciajpa.ClienteJpaController;
 
 public class GestorClientes {
 	
@@ -29,12 +33,57 @@ public class GestorClientes {
             return true;
     }
 
-    public Cliente newCliente(ClienteDTO cliente) {
+    public Cliente crearCliente(ClienteDTO cliente, DomicilioDTO dom) {
         
-        Cliente clienteNuevo = new Cliente();
+        GestorDomicilio gesDom = new GestorDomicilio();
+        Domicilio domicilio = gesDom.crearDomicilio(dom);
+        
+        //VALIDAR QUE NO EXISTA UN CLIENTE YA (METODO EN PROCESO)
+        
+        Cliente cNuevo = new Cliente();
+        
+        //Atributos de cliente
+        cNuevo.setNumCliente(cliente.getNumCliente());
+        cNuevo.setCuil(cliente.getNroCuil());
+        cNuevo.setCondicionIva(convertirStringIva(cliente.getCondicionIva()));
+        cNuevo.setEstadoCliente(EstadoCliente.ACTIVO);
+        cNuevo.setProfesion(cliente.getProfesion());
+        cNuevo.setDomicilio(domicilio);
+        
+        //Atributos de persona
+        
+        cNuevo.setNombre(cliente.getNombre());
+        cNuevo.setApellido(cliente.getApellido());
+        cNuevo.setAnioRegistro(cliente.getAnioRegistro());
+        //cNuevo.setTipodni(cliente.getTipoDocumento());
+        
 
-        return clienteNuevo;
+        return cNuevo;
     }
+    
+    private Iva convertirStringIva(String nombreIva){
+        
+        Iva iva;
+        
+        switch(nombreIva){
+            case("NO_RESPONSABLE") -> {
+                iva = Iva.NO_RESPONSABLE;
+            }
+            case("RESPONSABLE_MONOTRIBUTISTA") -> {
+                iva = Iva.RESPONSABLE_MONOTRIBUTISTA;
+            }
+            case("RESPONSABLE_IVA") -> {
+                iva = Iva.RESPONSABLE_IVA;
+            }
+            default -> {
+                iva = Iva.NO_RESPONSABLE;
+            }
+        }
+        
+        return iva;
+    }
+    
+    
     
     private boolean datosCompletos(ClienteDTO cliente){
         return true;
@@ -115,5 +164,10 @@ public class GestorClientes {
         }
         
         return numCliente;
+    }
+    
+    public List<Cliente> obtenerClientes(){
+        ClienteJpaController cjpa = new ClienteJpaController();
+        return cjpa.findClienteEntities();
     }
 }

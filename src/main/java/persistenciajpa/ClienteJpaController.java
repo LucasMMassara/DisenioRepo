@@ -14,6 +14,7 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import logica.Cliente;
 import persistenciajpa.exceptions.NonexistentEntityException;
+import util.EntityManagerUtil;
 
 /**
  *
@@ -25,6 +26,10 @@ public class ClienteJpaController implements Serializable {
         this.emf = emf;
     }
     private EntityManagerFactory emf = null;
+
+    public ClienteJpaController() {
+        this.emf = EntityManagerUtil.getEntityManagerFactory();
+    }
 
     public EntityManager getEntityManager() {
         return emf.createEntityManager();

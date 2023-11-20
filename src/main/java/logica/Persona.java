@@ -40,7 +40,7 @@ public abstract class Persona implements Serializable {
     @Enumerated
     private EstadoCivil estadoCivil;
     
-    private int anioRegistro;
+    private String anioRegistro;
     
     public String getNombre() {
             return nombre;
@@ -90,10 +90,10 @@ public abstract class Persona implements Serializable {
     public void setEstadoCivil(EstadoCivil estadoCivil) {
             this.estadoCivil = estadoCivil;
     }
-    public Integer getAnioRegistro() {
+    public String getAnioRegistro() {
             return anioRegistro;
     }
-    public void setAnioRegistro(Integer anioRegistro) {
+    public void setAnioRegistro(String anioRegistro) {
             this.anioRegistro = anioRegistro;
     }
     
