@@ -4,6 +4,8 @@
  */
 package dto;
 
+import logica.Localidad;
+
 /**
  *
  * @author Lucas
@@ -15,22 +17,19 @@ public class DomicilioDTO {
     private String piso;
     private String dpto;
 
-    private String pais;
-    private String provincia;
-    private String localidad;
+    private Localidad localidad;
+        
     private String codigoPostal;
 
     public DomicilioDTO() {
         super();
     }
 
-    public DomicilioDTO(String calle, String numero, String piso, String dpto, String pais, String provincia, String localidad, String codigoPostal) {
+    public DomicilioDTO(String calle, String numero, String piso, String dpto, Localidad localidad, String codigoPostal) {
         this.calle = calle;
         this.numero = numero;
         this.piso = piso;
         this.dpto = dpto;
-        this.pais = pais;
-        this.provincia = provincia;
         this.localidad = localidad;
         this.codigoPostal = codigoPostal;
     }
@@ -67,35 +66,19 @@ public class DomicilioDTO {
         this.dpto = dpto;
     }
 
-    public String getPais() {
-        return pais;
-    }
-
-    public void setPais(String pais) {
-        this.pais = pais;
-    }
-
-    public String getProvincia() {
-        return provincia;
-    }
-
-    public void setProvincia(String provincia) {
-        this.provincia = provincia;
-    }
-
-    public String getLocalidad() {
-        return localidad;
-    }
-
-    public void setLocalidad(String localidad) {
-        this.localidad = localidad;
-    }
-
     public String getCodigoPostal() {
         return codigoPostal;
     }
 
     public void setCodigoPostal(String codigoPostal) {
         this.codigoPostal = codigoPostal;
-    } 
+    }
+
+    public Localidad getLocalidad() {
+        return localidad;
+    }
+
+    public void setLocalidad(Localidad localidad) {
+        this.localidad = localidad;
+    }
 }

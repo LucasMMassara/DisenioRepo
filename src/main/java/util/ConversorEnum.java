@@ -4,21 +4,43 @@
  */
 package util;
 
+import logica.EstadoCivil;
 import logica.EstadoCliente;
 import logica.Iva;
 import logica.TipoDocumento;
+import logica.TipoSexo;
 
 /**
  *
  * @author valec
  */
 public class ConversorEnum {
-    
-    ConversorEnum(){
+
+    public static TipoSexo convertirStringSexo(String sexo) {
+        
+        TipoSexo tsexo;
+        
+        switch(sexo){
+            case("MASCULINO") -> {
+                tsexo = TipoSexo.MASCULINO;
+            }
+            case("FEMENINO") -> {
+                tsexo = TipoSexo.FEMENINO;
+            }
+            default -> {
+                tsexo = TipoSexo.FEMENINO;   
+            }
+        }
+        
+        return tsexo;
         
     }
     
-    private Iva convertirStringIva(String nombreIva){
+    public ConversorEnum(){
+        super();
+    }
+    
+    public static Iva convertirStringIva(String nombreIva){
         
         Iva iva;
         
@@ -40,24 +62,24 @@ public class ConversorEnum {
         return iva;
     }
     
-    private TipoDocumento convertirStringTipoDocumento(String tipoDoc){
+    public static TipoDocumento convertirStringTipoDocumento(String tipoDoc){
         
         TipoDocumento tipoDocumento;
         
         switch(tipoDoc){
-            case("CC"):{
+            case("CC") -> {
                 tipoDocumento = TipoDocumento.CC;
             }
-            case("CI"):{
+            case("CI") -> {
                 tipoDocumento = TipoDocumento.CI;
             }
-            case("CIC"):{
+            case("CIC") -> {
                 tipoDocumento = TipoDocumento.CIC;
             }
-            case("DNI"):{
+            case("DNI") -> {
                 tipoDocumento = TipoDocumento.DNI;
             }
-            default:{
+            default -> {
                 tipoDocumento = TipoDocumento.DNI;   
             }
             
@@ -65,7 +87,32 @@ public class ConversorEnum {
         return tipoDocumento;
     }
     
-    private EstadoCliente convertirEstadoCliente(String estado){
+    public static EstadoCivil convertirStringEstadoCivil(String estado){
+
+        EstadoCivil estadoCivil;
+
+        switch(estado){
+            case("CASADO") -> {
+                estadoCivil = EstadoCivil.CASADO;
+            }
+            case("SOLTERO") -> {
+                estadoCivil = EstadoCivil.SOLTERO;
+            }
+            case("VIUDO") -> {
+                estadoCivil = EstadoCivil.VIUDO;
+            }
+            case("DIVORCIADO") -> {
+                estadoCivil = EstadoCivil.DIVORCIADO;
+            }
+            default -> {
+                estadoCivil = EstadoCivil.SOLTERO;
+            }
+
+        }
+        return estadoCivil;
+    }
+    
+    public static EstadoCliente convertirEstadoCliente(String estado){
         
         EstadoCliente estadoCliente= null;
         

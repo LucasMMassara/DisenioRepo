@@ -25,7 +25,6 @@ public class Departamento implements Serializable {
     @JoinColumn(name ="id")
     private Domicilio domicilio;
 
-    private String nombre;
     private String numeroDpto;
     private String piso;
 
@@ -33,19 +32,13 @@ public class Departamento implements Serializable {
             super();
             // TODO Auto-generated constructor stub
     }
-    public Departamento(String nombre, String numeroDpto, String piso) {
-            super();
-            this.nombre = nombre;
-            this.numeroDpto = numeroDpto;
-            this.piso = piso;
-    }
 
-    public String getNombre() {
-            return nombre;
+    public Departamento(Domicilio domicilio, String numeroDpto, String piso) {
+        this.domicilio = domicilio;
+        this.numeroDpto = numeroDpto;
+        this.piso = piso;
     }
-    public void setNombre(String nombre) {
-            this.nombre = nombre;
-    }
+    
     public String getNumeroDpto() {
             return numeroDpto;
     }

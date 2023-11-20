@@ -11,6 +11,7 @@ import logica.Domicilio;
 import logica.EstadoCliente;
 import logica.Iva;
 import persistenciajpa.ClienteJpaController;
+import util.ConversorEnum;
 
 public class GestorClientes {
 	
@@ -45,7 +46,7 @@ public class GestorClientes {
         //Atributos de cliente
         cNuevo.setNumCliente(cliente.getNumCliente());
         cNuevo.setCuil(cliente.getNroCuil());
-        cNuevo.setCondicionIva(convertirStringIva(cliente.getCondicionIva()));
+        cNuevo.setCondicionIva(ConversorEnum.convertirStringIva(cliente.getCondicionIva()));
         cNuevo.setEstadoCliente(EstadoCliente.ACTIVO);
         cNuevo.setProfesion(cliente.getProfesion());
         cNuevo.setDomicilio(domicilio);
@@ -55,35 +56,17 @@ public class GestorClientes {
         cNuevo.setNombre(cliente.getNombre());
         cNuevo.setApellido(cliente.getApellido());
         cNuevo.setAnioRegistro(cliente.getAnioRegistro());
-        //cNuevo.setTipodni(cliente.getTipoDocumento());
+        cNuevo.setTipodni(ConversorEnum.convertirStringTipoDocumento(cliente.getTipoDocumento()));
+        cNuevo.setNumeroDni(cliente.getNumDocumento());
+        cNuevo.setSexo(ConversorEnum.convertirStringSexo(cliente.getSexo()));
+        cNuevo.setEstadoCivil(ConversorEnum.convertirStringEstadoCivil(cliente.getEstadoCivil()));
+        cNuevo.setEmail(cliente.getCorreoElectronico());
+        cNuevo.setFechaNacimiento(cliente.getFechaNacimiento());
         
-
+        //Subir a BBDD
+        
         return cNuevo;
     }
-    
-    private Iva convertirStringIva(String nombreIva){
-        
-        Iva iva;
-        
-        switch(nombreIva){
-            case("NO_RESPONSABLE") -> {
-                iva = Iva.NO_RESPONSABLE;
-            }
-            case("RESPONSABLE_MONOTRIBUTISTA") -> {
-                iva = Iva.RESPONSABLE_MONOTRIBUTISTA;
-            }
-            case("RESPONSABLE_IVA") -> {
-                iva = Iva.RESPONSABLE_IVA;
-            }
-            default -> {
-                iva = Iva.NO_RESPONSABLE;
-            }
-        }
-        
-        return iva;
-    }
-    
-    
     
     private boolean datosCompletos(ClienteDTO cliente){
         return true;

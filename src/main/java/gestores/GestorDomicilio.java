@@ -5,6 +5,7 @@
 package gestores;
 
 import dto.DomicilioDTO;
+import logica.Departamento;
 import logica.Domicilio;
 
 /**
@@ -14,7 +15,25 @@ import logica.Domicilio;
 public class GestorDomicilio {
 
     public Domicilio crearDomicilio(DomicilioDTO dom) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        
+        Domicilio domNuevo = new Domicilio();
+        
+        domNuevo.setCalle(dom.getCalle());
+        domNuevo.setNumero(dom.getNumero());
+        domNuevo.setDepto(crearDepartamento(dom));
+        domNuevo.setLocalidad(dom.getLocalidad());
+        
+        //Subir a BBDD
+        
+        return domNuevo;
+    }
+    
+    public Departamento crearDepartamento(DomicilioDTO dom){
+        Departamento dep = null;
+        
+        //subiar a BBDD
+        
+        return dep;
     }
     
 }
