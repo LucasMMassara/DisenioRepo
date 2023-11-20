@@ -6,6 +6,7 @@ package GUI;
 
 import GUI.*;
 import dto.ClienteDTO;
+import gestores.GestorPais;
 import java.awt.GridBagConstraints;
 import java.awt.event.ActionEvent;
 import java.util.ArrayList;
@@ -16,6 +17,9 @@ import java.util.stream.Stream;
 import logica.Cliente;
 import logica.EstadoCivil;
 import logica.Iva;
+import logica.Localidad;
+import logica.Pais;
+import logica.Provincia;
 import logica.TipoDocumento;
 import logica.TipoSexo;
 
@@ -50,7 +54,13 @@ public class AltaClientePrimera extends javax.swing.JPanel {
     String localidadD = "";
     String codigoPostalD = "";
     
+    List<Pais> listaPaises;
+    List<Provincia> listaProvincias;
+    List<Localidad> listaLocalidades;
     
+    PanelDropDown pais;
+    PanelDropDown provincia;
+    PanelDropDown localidad;
     
     public AltaClientePrimera(MenuProductorSeguros main) {
         initComponents();
@@ -102,7 +112,6 @@ public class AltaClientePrimera extends javax.swing.JPanel {
                         // limitar nroDocumentoI acordemente
                         break;
                 }
-
             }
         });
         
@@ -133,32 +142,56 @@ public class AltaClientePrimera extends javax.swing.JPanel {
         dpto.restrictSize(3);
         
         //TO DO cargo lista de paises, provincias y localidades
-        String[] paises = {"Argentina", "Brazil","etc"};
-        PanelDropDown pais = new PanelDropDown(paises);
+        GestorPais gp = new GestorPais();
+        listaPaises = gp.ObtenerPaises();    
+        listaProvincias = listaPaises.get(0).getProvincias();
+        listaLocalidades = listaProvincias.get(0).getLocalidades();
+        
+        String[] paises = new String[listaPaises.size()];
+        for (int i = 0; i < listaPaises.size(); i++) {
+            paises[i] = listaPaises.get(i).getNombre();
+        }
+        pais = new PanelDropDown(paises);
+        
+        String[] provincias = new String[listaProvincias.size()];
+        for (int i = 0; i < listaProvincias.size(); i++) {
+            provincias[i] = listaProvincias.get(i).getNombreProvincia();
+        }
+        provincia = new PanelDropDown(provincias);
+        
+        String[] localidades = new String[listaLocalidades.size()];
+        for (int i = 0; i < listaLocalidades.size(); i++) {
+            localidades[i] = listaLocalidades.get(i).getNombreLocalidad();
+        }
+        localidad = new PanelDropDown(localidades);
         
         pais.addCustomPanelListener(new CustomPanelListener() {
             @Override
             public void onPanelItemSelected(PanelDropDown source, String selectedItem) {
-
-                switch (selectedItem) {
-                    case "CC" -> nroDocumento.restrictSize(4);
-                    // limitar nroDocumentoI acordemente
-                    case "CI" -> nroDocumento.restrictSize(4);
-                    // limitar nroDocumentoI acordemente
-                    case "CIC" -> nroDocumento.restrictSize(4);
-                    // limitar nroDocumentoI acordemente
-                    case "DNI" -> nroDocumento.restrictSize(8);
-                    // limitar nroDocumentoI acordemente
+                for(Pais p: listaPaises){    
+                    if(p.getNombre().equals(selectedItem)){
+                        listaProvincias = p.getProvincias();
+                        actualizarListaProvincias();
+                        break;
+                    }
                 }
-
             }
         });
         
-        String[] provincias = {"Santa Fe", "Cordoba","etc"};
-        PanelDropDown provincia = new PanelDropDown(provincias);
+        provincia.addCustomPanelListener(new CustomPanelListener() {
+            @Override
+            public void onPanelItemSelected(PanelDropDown source, String selectedItem) {
+                for(Provincia p: listaProvincias){    
+                    if(p.getNombreProvincia().equals(selectedItem)){
+                        listaLocalidades = p.getLocalidades();
+                        actualizarListaLocalidades();
+                        break;
+                    }
+                }
+            }
+        });
         
-        String[] localidades = {"Santo Tome", "Santa Fe","etc"};
-        PanelDropDown localidad = new PanelDropDown(localidades);
+        
         
         PanelTextInput codigoPostal = new PanelTextInput("codigoPostal",16,0,0,0,0);
         codigoPostal.restrictToNumbers();
@@ -288,8 +321,6 @@ public class AltaClientePrimera extends javax.swing.JPanel {
                VentanaError confirmacion = new VentanaError("Numero de cliente encontrado: " + nroEncontrado, "Numero Cliente");
             }
             
-            
-            
         });
         
         jPanel1.add(nombre,gbc);
@@ -312,17 +343,9 @@ public class AltaClientePrimera extends javax.swing.JPanel {
         jPanel16.add(provincia,gbc);
         jPanel22.add(localidad,gbc);
         jPanel17.add(codigoPostal,gbc);
-        jPanel30.add(nroCliente,gbc);    
-        
-
-        
-        
-        
-        
-        
-        
-        
+        jPanel30.add(nroCliente,gbc);     
     }
+  
     
     public AltaClientePrimera(AltaPoliza main) {
         initComponents();
@@ -561,6 +584,23 @@ public class AltaClientePrimera extends javax.swing.JPanel {
         
     }
 
+    private void actualizarListaProvincias(){
+       String[] provincias = new String[listaProvincias.size()];
+        for (int i = 0; i < listaProvincias.size(); i++) {
+            provincias[i] = listaProvincias.get(i).getNombreProvincia();
+        }
+        provincia.setItems(provincias); 
+    }
+    
+    private void  actualizarListaLocalidades(){
+        String[] localidades = new String[listaLocalidades.size()];
+        for (int i = 0; i < listaLocalidades.size(); i++) {
+            localidades[i] = listaLocalidades.get(i).getNombreLocalidad();
+        }
+        localidad.setItems(localidades); 
+    }
+
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
