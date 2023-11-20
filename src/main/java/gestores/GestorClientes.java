@@ -2,12 +2,10 @@ package gestores;
 import logica.Cliente;
 import dto.ClienteDTO;
 import java.util.*;
-import daos.DAOCliente;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 
 import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
+import logica.TipoDocumento;
 
 public class GestorClientes {
 	
@@ -33,29 +31,40 @@ public class GestorClientes {
     public Cliente newCliente(ClienteDTO cliente) {
         
         Cliente clienteNuevo = new Cliente();
-        
-        clienteNuevo.setNombre(cliente.getNombre());
-        clienteNuevo.setApellido(cliente.getApellido());
-        clienteNuevo.setNumeroDni(cliente.getNumDocumento());
-        clienteNuevo.setTipodni(cliente.getTipoDocumento());
-        clienteNuevo.setNumCliente(cliente.getNumCliente());
 
         return clienteNuevo;
     }
     
+    private boolean datosCompletos(ClienteDTO cliente){
+        return true;
+    }
     
+    public int validarDatosCliente(ClienteDTO cliente){
+        //El retorno es 1 cuando hay otro cliente con el dni y tipo dni igual
+        
+        //El retorno es 2 cuando no coincide el cuil con el dni
+        if(!validarCuilDNI(cliente.getNroCuil(), cliente.getNumDocumento())){
+            return 2;
+        }
+        if(!clienteMayorEdad(cliente.getFechaNacimiento())){
+            return 3;
+        }
+        if(!emailValido(cliente.getCorreoElectronico())){
+            return 4;
+        }
+        //el retorno 0 significa ausencia de error
+        return 0;
+    }
     
-    public void validarDatosCliente(ClienteDTO cliente){
-        
-        
-        
+    private boolean validarCuilDNI(String cuil, String dni){
+        return cuil.contains(dni);
     }
     
     private boolean existeClienteActivo(ClienteDTO cliente){
         
-        GestorPersona gp = new GestorPersona();
+        //TODO Provisorio 
         
-        //VER SI ISEMPTY ES LO IDEAL
+        GestorPersona gp = new GestorPersona();
         
         if(gp.buscarPersonas(cliente.getTipoDocumento(), cliente.getNumDocumento()).isEmpty()){
             return false;
@@ -87,4 +96,16 @@ public class GestorClientes {
         
         return result;
      }
+    
+    /*public List<Persona> filterClientesByNumeroDNI(List<Persona> personaList, String numDNI) {
+        return clienteList.stream()
+                .filter(cliente -> cliente.getNumeroDni().equals(numDNI))
+                .toList();
+    }
+    
+    public List<Cliente> filterClientesByTipoDNI(List<Cliente> clienteList, TipoDocumento tipoDoc) {
+        return clienteList.stream()
+                .filter(cliente -> cliente.getTipodni().equals(tipoDoc))
+                .toList();
+    }*/
 }
