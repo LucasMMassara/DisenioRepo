@@ -19,4 +19,17 @@ public class GestorPais {
         return pjpa.findPaisEntities();
     }
     
+    public String[] getPaisesAsString(){
+        
+        List<Pais> listaPaises = this.ObtenerPaises();
+        
+        String[] paises = new String[listaPaises.size()];
+        for (int i = 0; i < listaPaises.size(); i++) {
+            paises[i] = listaPaises.get(i).getNombre();
+        }
+
+        return paises;
+    }
+    
+    
 }

@@ -1,7 +1,5 @@
 package dto;
 import java.util.Date;
-import logica.TipoDocumento;
-import static logica.TipoDocumento.DNI;
 
 public class ClienteDTO{
         
@@ -10,7 +8,7 @@ public class ClienteDTO{
 	private String numDocumento;
         private String nroCuil;
         
-        private TipoDocumento tipoDocumento;
+        private String tipoDocumento;
         private String sexo;
         private String condicionIva;
         private String estadoCivil;
@@ -35,15 +33,38 @@ public class ClienteDTO{
 		super();
 		// TODO Auto-generated constructor stub
 	}
-	
-	public ClienteDTO(String nombre, String apellido, String numCliente, TipoDocumento tipoDoc, String numDoc) {
-		super();
-		this.setNombre(nombre);
-		this.setApellido(apellido);
-		this.setNumCliente(numCliente);
-		this.setTipoDocumento(tipoDoc);
-		this.setNumDocumento(numDoc);
-	}
+
+    public ClienteDTO(String nombre, String apellido, String numDocumento, String nroCuil, String tipoDocumento, String sexo, String condicionIva, String estadoCivil, String correoElectronico, String profesion, String anioRegistro, String calle, String numero, String piso, String dpto, String pais, String provincia, String localidad, String codigoPostal, String numCliente, Date fechaNacimiento) {
+        this.nombre = nombre;
+        this.apellido = apellido;
+        this.numDocumento = numDocumento;
+        this.nroCuil = nroCuil;
+        this.tipoDocumento = tipoDocumento;
+        this.sexo = sexo;
+        this.condicionIva = condicionIva;
+        this.estadoCivil = estadoCivil;
+        this.correoElectronico = correoElectronico;
+        this.profesion = profesion;
+        this.anioRegistro = anioRegistro;
+        this.calle = calle;
+        this.numero = numero;
+        this.piso = piso;
+        this.dpto = dpto;
+        this.pais = pais;
+        this.provincia = provincia;
+        this.localidad = localidad;
+        this.codigoPostal = codigoPostal;
+        this.numCliente = numCliente;
+        this.fechaNacimiento = fechaNacimiento;
+    }
+
+    public ClienteDTO(String nombre, String apellido, String numCliente, String tipoDocumento, String numDocumento) {
+        this.nombre = nombre;
+        this.apellido = apellido;
+        this.numDocumento = numDocumento;
+        this.tipoDocumento = tipoDocumento;
+        this.numCliente = numCliente;
+    }
 
 	public String getNumCliente() {
 		return numCliente;
@@ -60,11 +81,11 @@ public class ClienteDTO{
 		this.nombre = nombre;
 	}
 
-	public TipoDocumento getTipoDocumento() {
+	public String getTipoDocumento() {
 		return tipoDocumento;
 	}
 
-	public void setTipoDocumento(TipoDocumento tipoDocumento) {
+	public void setTipoDocumento(String tipoDocumento) {
 		this.tipoDocumento = tipoDocumento;
 	}
 
@@ -83,18 +104,6 @@ public class ClienteDTO{
 	public void setApellido(String apellido) {
 		this.apellido = apellido;
 	}
-        
-        public String getTipoDocumentoAsString(){
-            
-            switch(tipoDocumento){
-                default: return "";
-                case DNI: return "DNI";
-                case CC: return "CC";
-                case CI: return "CI";
-                case CIC: return "CIC";
-            }
-            
-        }
 
     public String getNroCuil() {
         return nroCuil;

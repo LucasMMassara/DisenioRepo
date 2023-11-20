@@ -6,7 +6,7 @@ import logica.TipoDocumento;
 
 public class DAOPersona extends DAOAbstract<Persona> {
 
-    public List<Persona> buscarPersonas(TipoDocumento tipodoc, String numDni) {
+    public List<Persona> buscarPersonas(String tipodoc, String numDni) {
         //Implementar
         List<Persona> l = null;
         return l;

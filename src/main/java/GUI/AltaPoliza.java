@@ -427,9 +427,10 @@ public class AltaPoliza extends JPanel {
     List<Provincia> listaProvincias;
     List<Localidad> listaLocalidades;
     
-    PanelDropDown pais;
-    PanelDropDown provincia;
-    PanelDropDown localidad;
+    String[] defaults = {""};
+    PanelDropDown pais = new PanelDropDown("WEST", defaults);
+    PanelDropDown provincia = new PanelDropDown("WEST", defaults);
+    PanelDropDown localidad = new PanelDropDown("WEST", defaults);
     private void segundaConfig() {
 
         Boton botonVolver = new Boton("Volver");
@@ -520,6 +521,8 @@ public class AltaPoliza extends JPanel {
 
         });
         
+        try{
+        
         GestorPais gp = new GestorPais();
         listaPaises = gp.ObtenerPaises();    
         listaProvincias = listaPaises.get(0).getProvincias();
@@ -529,19 +532,19 @@ public class AltaPoliza extends JPanel {
         for (int i = 0; i < listaPaises.size(); i++) {
             paises[i] = listaPaises.get(i).getNombre();
         }
-        pais = new PanelDropDown("WEST",paises);
+        pais = new PanelDropDown(paises);
         
         String[] provincias = new String[listaProvincias.size()];
         for (int i = 0; i < listaProvincias.size(); i++) {
             provincias[i] = listaProvincias.get(i).getNombreProvincia();
         }
-        provincia = new PanelDropDown("WEST",provincias);
+        provincia = new PanelDropDown(provincias);
         
         String[] localidades = new String[listaLocalidades.size()];
         for (int i = 0; i < listaLocalidades.size(); i++) {
             localidades[i] = listaLocalidades.get(i).getNombreLocalidad();
         }
-        localidad = new PanelDropDown("WEST",localidades);
+        localidad = new PanelDropDown(localidades);
         
         pais.addCustomPanelListener(new CustomPanelListener() {
             @Override
@@ -570,7 +573,10 @@ public class AltaPoliza extends JPanel {
                 }
             }
         });
-        
+        }
+        catch(Exception e){
+            
+        }
         
         //configuro dropdowns
         
@@ -663,6 +669,11 @@ public class AltaPoliza extends JPanel {
             main.cambiarPantalla("1");
         });
         botonConfirmar.addActionListener((ActionEvent e) -> {
+            
+            
+            
+            
+            
             cambiarPantalla("4");
         });
 
@@ -1658,7 +1669,7 @@ public class AltaPoliza extends JPanel {
         clienteNumero = cliente.getNumCliente();
         clienteApellido = cliente.getApellido();
         clienteNombre = cliente.getNombre();
-        clienteTipoDoc = cliente.getTipoDocumentoAsString();
+        clienteTipoDoc = cliente.getTipoDocumento();
         clienteNroDoc = cliente.getNumDocumento();
         clienteDireccion = "placeholder";
 

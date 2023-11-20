@@ -126,21 +126,7 @@ public class PanelCliente extends JPanel{
 		PanelText apellidoT = new PanelText(cliente.getApellido(), "BOLD", 16, "WEST");
 		PanelText nombreT = new PanelText(cliente.getNombre(), "BOLD", 16, "WEST");
                 
-                String tipoDocumento = "";
-                switch(cliente.getTipoDocumento()){
-                    case DNI:
-                        tipoDocumento = "DNI";
-                        break;
-                    case CI:
-                        tipoDocumento = "CI";
-                        break;
-                    case CC:
-                        tipoDocumento = "CC";
-                        break;
-                    case CIC:
-                        tipoDocumento = "CIC";
-                        break;
-                }
+                String tipoDocumento = cliente.getTipoDocumento();
                 
 		PanelText tipoDocT = new PanelText(tipoDocumento, "BOLD", 16, "WEST");
 		PanelText nroDocT = new PanelText(cliente.getNumDocumento(), "BOLD", 16, "WEST");

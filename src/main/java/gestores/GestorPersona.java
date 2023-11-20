@@ -15,7 +15,7 @@ import logica.TipoDocumento;
  */
 class GestorPersona {
     
-    public List<Persona> buscarPersonas(TipoDocumento tipodoc, String numDni){
+    public List<Persona> buscarPersonas(String tipodoc, String numDni){
         DAOPersona daop = new DAOPersona();
         return daop.buscarPersonas(tipodoc,numDni);
     }

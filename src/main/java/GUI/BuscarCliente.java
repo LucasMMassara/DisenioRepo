@@ -203,18 +203,8 @@ public class BuscarCliente extends JPanel {
             //si no se encuentra nada:
             clienteNoEncontrado();
 
-            TipoDocumento tipoD = null;
-
-            switch (tipD) {
-                case "DNI" ->
-                    tipoD = TipoDocumento.DNI;
-                case "CI" ->
-                    tipoD = TipoDocumento.CI;
-                case "CC" ->
-                    tipoD = TipoDocumento.CC;
-                case "CIC" ->
-                    tipoD = TipoDocumento.CIC;
-            }
+            String tipoD = tipD;
+            
             clienteEncontrado = new ClienteDTO(nomb, apell, nroCli, tipoD, nroD);
             ArrayList<ClienteDTO> clientes = new ArrayList<>();
             clientes.add(clienteEncontrado);
