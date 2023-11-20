@@ -13,4 +13,8 @@ import static util.EntityManagerUtil.getEntityManager;
 
 public class DAOCliente extends DAOAbstract<Cliente> {
 
+    public int obtenerCantClientesPorPais(int idPais) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
 }

@@ -25,8 +25,8 @@ public class Cliente extends Persona implements Serializable {
 
     private String profesion;
     
-    //@OneToOne
-    //private Domicilio domicilio;
+    @OneToOne
+    private Domicilio domicilio;
 
     public Cliente() {
             super();
@@ -70,11 +70,11 @@ public class Cliente extends Persona implements Serializable {
     public void setNumCliente(String numCliente) {
             this.numCliente = numCliente;
     }
-    /*public Domicilio getDomicilio() {
+    public Domicilio getDomicilio() {
             return domicilio;
     }
     public void setDomicilio(Domicilio domicilio) {
             this.domicilio = domicilio;
-    }*/
+    }
 
 }

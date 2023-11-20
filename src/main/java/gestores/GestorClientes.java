@@ -1,4 +1,5 @@
 package gestores;
+import daos.DAOCliente;
 import logica.Cliente;
 import dto.ClienteDTO;
 import java.util.*;
@@ -97,15 +98,22 @@ public class GestorClientes {
         return result;
      }
     
-    /*public List<Persona> filterClientesByNumeroDNI(List<Persona> personaList, String numDNI) {
-        return clienteList.stream()
-                .filter(cliente -> cliente.getNumeroDni().equals(numDNI))
-                .toList();
+    private String generarNumeroCliente(int idPais){
+        
+        String numCliente;
+        int cantClientePais;
+        
+        DAOCliente dc = new DAOCliente();
+        
+        cantClientePais = dc.obtenerCantClientesPorPais(idPais); //FALTA ESTE METODO
+        
+        if(idPais>9){
+            numCliente = idPais + "-" + (cantClientePais+1);
+        }
+        else{
+            numCliente = "0" + idPais + "-" + (cantClientePais+1);
+        }
+        
+        return numCliente;
     }
-    
-    public List<Cliente> filterClientesByTipoDNI(List<Cliente> clienteList, TipoDocumento tipoDoc) {
-        return clienteList.stream()
-                .filter(cliente -> cliente.getTipodni().equals(tipoDoc))
-                .toList();
-    }*/
 }
