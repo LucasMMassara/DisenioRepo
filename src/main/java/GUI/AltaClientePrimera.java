@@ -7,6 +7,7 @@ package GUI;
 import GUI.*;
 import dto.ClienteDTO;
 import dto.DomicilioDTO;
+import gestores.GestorClientes;
 import gestores.GestorPais;
 import java.awt.GridBagConstraints;
 import java.awt.event.ActionEvent;
@@ -267,9 +268,7 @@ public class AltaClientePrimera extends javax.swing.JPanel {
                     panel.setCorrectInput();
                 }
             }
-            
-            System.out.println(nroCuil.getText());
-            
+                        
             if("00-00000000-0".equals(nroCuil.getText())){
                 inputVacio = true;
                 nroCuil.setWrongInput();
@@ -315,6 +314,10 @@ public class AltaClientePrimera extends javax.swing.JPanel {
                 
                //buscar en base de datos por si ya existe
                armarDTO();
+               GestorClientes gc = new GestorClientes();
+               Cliente cli;
+               cli = gc.crearCliente(cliente,domicilio);
+                System.out.println(cli.toString());
                
                
                //TO DO
@@ -332,7 +335,7 @@ public class AltaClientePrimera extends javax.swing.JPanel {
                //TO DO
                
                //presentar resultado
-               String nroEncontrado = "nroEncontrado";
+               String nroEncontrado = cliente.getNumCliente();
                nroCliente.setText(nroEncontrado);
                VentanaError confirmacion = new VentanaError("Numero de cliente encontrado: " + nroEncontrado, "Numero Cliente");
             }
@@ -562,9 +565,7 @@ public class AltaClientePrimera extends javax.swing.JPanel {
                     panel.setCorrectInput();
                 }
             }
-            
-            System.out.println(nroCuil.getText());
-            
+                        
             if("00-00000000-0".equals(nroCuil.getText())){
                 inputVacio = true;
                 nroCuil.setWrongInput();

@@ -80,4 +80,10 @@ public class Domicilio implements Serializable {
     public void setId(int id) {
         this.id = id;
     }
+
+    @Override
+    public String toString() {
+        return "Domicilio{" + "id=" + id + ", cliente=" + cliente + ", calle=" + calle + ", numero=" + numero + ", depto=" + depto + ", localidad=" + localidad.getNombreLocalidad() + '}';
+    }
+    
 }

@@ -63,8 +63,8 @@ public class GestorClientes {
         cNuevo.setFechaNacimiento(cliente.getFechaNacimiento());
         
         //Subir a BBDD
-        DAOCliente daocli = new DAOCliente();
-        daocli.save(cNuevo);
+        //DAOCliente daocli = new DAOCliente();
+        //daocli.save(cNuevo);
         
         return cNuevo;
     }

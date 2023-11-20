@@ -77,4 +77,9 @@ public class Cliente extends Persona implements Serializable {
             this.domicilio = domicilio;
     }
 
+    @Override
+    public String toString() {
+        return "Cliente{" + "numCliente=" + numCliente + ", cuil=" + cuil + ", condicionIva=" + condicionIva + ", estadoCliente=" + estadoCliente + ", profesion=" + profesion + ", domicilio=" + domicilio.toString() + '}';
+    }
+
 }

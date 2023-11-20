@@ -15,14 +15,17 @@ import util.CargadorDeDatosPais;
 public class IntentandoHacerAlgoConMiVida {
     
     public static void main(String[] args){
+        /*
+        CargadorDeDatosPais cddp = new CargadorDeDatosPais();
+        cddp.cargarPackPaisesLocIndic();
+        */
         
         App aplicacion = new App();
         aplicacion.inicioApp();
         
-        /*
-        CargadorDeDatosPais cddp = new CargadorDeDatosPais();
-        cddp.cargarPackPaisesLocIndic();
         
+        
+        /*
         GestorPais gp = new GestorPais();
         for (Pais p: gp.ObtenerPaises()){
             System.out.println(p.toString());
