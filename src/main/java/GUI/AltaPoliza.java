@@ -1,6 +1,7 @@
 package GUI;
 
 import dto.ClienteDTO;
+import gestores.GestorPais;
 import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.Font;
@@ -12,7 +13,9 @@ import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.border.LineBorder;
@@ -20,6 +23,9 @@ import javax.swing.border.LineBorder;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import logica.Localidad;
+import logica.Pais;
+import logica.Provincia;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.interactive.form.PDAcroForm;
 import org.apache.pdfbox.pdmodel.interactive.form.PDField;
@@ -382,28 +388,48 @@ public class AltaPoliza extends JPanel {
             } else {
                 clienteCantHijos = Integer.parseInt(hijosInput.getText());
             }
+            
+            List<JLabel> listaPaneles = new ArrayList<>();
+            
+            // Add objects of different types to the list
+            listaPaneles.add(clienteApellidoLabel);
+            listaPaneles.add(clienteNombreLabel);
+            listaPaneles.add(clienteNumeroLabel);
+            listaPaneles.add(clienteTipoDocLabel);
+            listaPaneles.add(clienteNroDocLabel);
+            listaPaneles.add(clienteDireccionLabel);
+            
+             //chequear inputs
+            boolean inputVacio = false;
+        
+            for(JLabel panel: listaPaneles ){
 
-            //condiciones de mal input:
-            if (clienteCantHijos == 69) {
+                if("".equals(panel.getText())){
+                    inputVacio = true;
+                    break;
+                }
+            }
 
-                VentanaError errorInputIncorrecto = new VentanaError("nice", "");
-                hijosInput.setWrongInput();
-
-            } //buen input:
-            else {
-                if (clienteCantHijos != 0) {
+            if (inputVacio) {
+                VentanaError entradasVaciasError = new VentanaError("Seleccione un cliente", "Entrada incorrecta");       
+            }else {
+               if (clienteCantHijos != 0) {
                     terceraConfig();
                     containerPanel.add(tercera, "3");
                 }
                 hijosInput.setCorrectInput();
                 cambiarPantalla("2");
-
             }
-
         });
-
     }
-
+ 
+    List<Pais> listaPaises;
+    List<Provincia> listaProvincias;
+    List<Localidad> listaLocalidades;
+    
+    PanelDropDown pais;
+    PanelDropDown provincia;
+    PanelDropDown localidad;
     private void segundaConfig() {
 
         Boton botonVolver = new Boton("Volver");
@@ -420,17 +446,14 @@ public class AltaPoliza extends JPanel {
         String[] modelosBMW = {"BMW 7 Series","BMW 5 Series","BMW 3 Series","BMW X5"};
         String[] modelosAudi = {"Audi A8","Audi A6","Audi A4","Audi Q7"};
         String[] modelosPorsche = {"Porsche 911","Porsche Cayenne","Porsche Panamera","Porsche Macan"};
-
-
-        PanelDropDown dProvincia = new PanelDropDown("WEST", items);
-        PanelDropDown dPais = new PanelDropDown("WEST", items);
-        PanelDropDown dLocalidad = new PanelDropDown("WEST", items);
+        
         PanelDropDown dMarca = new PanelDropDown("WEST", marcas);
         PanelDropDown dModelo = new PanelDropDown("WEST", modelosMercedes);
         PanelDropDown dAnio = new PanelDropDown("WEST", items);
         PanelTextInput tiNroMotor = new PanelTextInput(16);
         PanelTextInput tiNroChasis = new PanelTextInput(16);
         PanelTextInput tiPatente = new PanelTextInput(16);
+        PanelTextInput tiKMAnio = new PanelTextInput(16);
         PanelCheckBox garage = new PanelCheckBox("Garage");
         PanelCheckBox alarma = new PanelCheckBox("Alarma");
         PanelCheckBox dispositivo = new PanelCheckBox("Dispositivo antirrobo");
@@ -448,29 +471,111 @@ public class AltaPoliza extends JPanel {
         });
         botonContinuar.addActionListener((ActionEvent e) -> {
 
-            clienteVehiculoPais = dPais.getSelectedItem();
-            clienteVehiculoProvincia = dProvincia.getSelectedItem();
-            clienteVehiculoLocalidad = dLocalidad.getSelectedItem();
-            clienteVehiculoMarca = dMarca.getSelectedItem();
-            clienteVehiculoModelo = dModelo.getSelectedItem();
-            clienteVehiculoAnio = dAnio.getSelectedItem();
-            clienteVehiculoMotor = tiNroMotor.getText();
-            clienteVehiculoChasis = tiNroChasis.getText();
-            clienteVehiculoPatente = tiPatente.getText();
-            clienteMedidasSeguridadGarage = garage.isSelected();
-            clienteMedidasSeguridadAlarma = alarma.isSelected();
-            clienteMedidasSeguridadDispAntirrobo = dispositivo.isSelected();
-            clienteMedidasSeguridadTuercasAntirrobo = tuercas.isSelected();
+            List<PanelTextInput> listaPaneles = new ArrayList<>();
 
-            if (clienteCantHijos == 0) {
-                cambiarPantalla("4");
-            } else {
-                cambiarPantalla("3");
+            // Add objects of different types to the list
+            listaPaneles.add(tiNroMotor);
+            listaPaneles.add(tiNroChasis);
+            listaPaneles.add(tiKMAnio);
+            
+             //chequear inputs
+            boolean inputVacio = false;
+        
+            for(PanelTextInput panel: listaPaneles ){
+
+                if("".equals(panel.getText())){
+                    inputVacio = true;
+                    panel.setWrongInput();
+                }
+                else{
+                    panel.setCorrectInput();
+                }
             }
+
+            if (inputVacio) {
+                VentanaError entradasVaciasError = new VentanaError("Faltan datos obligatorios", "Entrada incorrecta");       
+            }else {
+                clienteVehiculoPais = pais.getSelectedItem();
+                clienteVehiculoProvincia = provincia.getSelectedItem();
+                clienteVehiculoLocalidad = localidad.getSelectedItem();
+                clienteVehiculoMarca = dMarca.getSelectedItem();
+                clienteVehiculoModelo = dModelo.getSelectedItem();
+                clienteVehiculoAnio = dAnio.getSelectedItem();
+                clienteVehiculoMotor = tiNroMotor.getText();
+                clienteVehiculoChasis = tiNroChasis.getText();
+                clienteVehiculoPatente = tiPatente.getText();
+                clienteMedidasSeguridadGarage = garage.isSelected();
+                clienteMedidasSeguridadAlarma = alarma.isSelected();
+                clienteMedidasSeguridadDispAntirrobo = dispositivo.isSelected();
+                clienteMedidasSeguridadTuercasAntirrobo = tuercas.isSelected();
+
+                if (clienteCantHijos == 0) {
+                    cambiarPantalla("4");
+                } else {
+                    cambiarPantalla("3");
+                }
+            }
+            
+            
 
         });
         
+        GestorPais gp = new GestorPais();
+        listaPaises = gp.ObtenerPaises();    
+        listaProvincias = listaPaises.get(0).getProvincias();
+        listaLocalidades = listaProvincias.get(0).getLocalidades();
+        
+        String[] paises = new String[listaPaises.size()];
+        for (int i = 0; i < listaPaises.size(); i++) {
+            paises[i] = listaPaises.get(i).getNombre();
+        }
+        pais = new PanelDropDown("WEST",paises);
+        
+        String[] provincias = new String[listaProvincias.size()];
+        for (int i = 0; i < listaProvincias.size(); i++) {
+            provincias[i] = listaProvincias.get(i).getNombreProvincia();
+        }
+        provincia = new PanelDropDown("WEST",provincias);
+        
+        String[] localidades = new String[listaLocalidades.size()];
+        for (int i = 0; i < listaLocalidades.size(); i++) {
+            localidades[i] = listaLocalidades.get(i).getNombreLocalidad();
+        }
+        localidad = new PanelDropDown("WEST",localidades);
+        
+        pais.addCustomPanelListener(new CustomPanelListener() {
+            @Override
+            public void onPanelItemSelected(PanelDropDown source, String selectedItem) {
+                for(Pais p: listaPaises){    
+                    if(p.getNombre().equals(selectedItem)){
+                        listaProvincias = p.getProvincias();
+                        listaLocalidades = listaProvincias.get(0).getLocalidades();
+                        actualizarListaProvincias();
+                        actualizarListaLocalidades();
+                        break;
+                    }
+                }
+            }
+        });
+        
+        provincia.addCustomPanelListener(new CustomPanelListener() {
+            @Override
+            public void onPanelItemSelected(PanelDropDown source, String selectedItem) {
+                for(Provincia p: listaProvincias){    
+                    if(p.getNombreProvincia().equals(selectedItem)){
+                        listaLocalidades = p.getLocalidades();
+                        actualizarListaLocalidades();
+                        break;
+                    }
+                }
+            }
+        });
+        
+        
         //configuro dropdowns
+        
+        
+        
         dMarca.addCustomPanelListener(new CustomPanelListener() {
                     @Override
                     public void onPanelItemSelected(PanelDropDown source, String selectedItem) {
@@ -508,7 +613,7 @@ public class AltaPoliza extends JPanel {
 
         panelVehiculo.setBackground(new Color(240, 240, 240));
 
-        panelVehiculoConfig(panelVehiculo,dPais, dProvincia, dLocalidad, dMarca, dModelo, dAnio, tiNroMotor, tiNroChasis, tiPatente);
+        panelVehiculoConfig(panelVehiculo,pais, provincia, localidad, dMarca, dModelo, dAnio, tiNroMotor, tiNroChasis, tiPatente, tiKMAnio);
         panelVehiculo.setBorder(border);
         gbc.fill = GridBagConstraints.BOTH;
         gbc.gridwidth = 2;
@@ -878,7 +983,7 @@ public class AltaPoliza extends JPanel {
 
     }
 
-    private void panelVehiculoConfig(JPanel panelVehiculo, PanelDropDown dPais, PanelDropDown dProvincia, PanelDropDown dLocalidad, PanelDropDown dMarca, PanelDropDown dModelo, PanelDropDown dAnio, PanelTextInput tiNroMotor, PanelTextInput tiNroChasis, PanelTextInput tiPatente) {
+    private void panelVehiculoConfig(JPanel panelVehiculo, PanelDropDown dPais, PanelDropDown dProvincia, PanelDropDown dLocalidad, PanelDropDown dMarca, PanelDropDown dModelo, PanelDropDown dAnio, PanelTextInput tiNroMotor, PanelTextInput tiNroChasis, PanelTextInput tiPatente, PanelTextInput tiKMAnio) {
 
         PanelText tVehiculo = new PanelText("Vehiculo", "BOLD", 24, "WEST");
 
@@ -980,7 +1085,6 @@ public class AltaPoliza extends JPanel {
         PanelText tPatente = new PanelText("Patente", "PLAIN", 16, "SOUTHWEST");
 
         PanelText tKMAnio = new PanelText("KM. por año", "PLAIN", 16, "SOUTHWEST");
-        PanelTextInput tiKMAnio = new PanelTextInput(16);
         tiKMAnio.restrictToNumbers();
         PanelText tCantidadSin = new PanelText("Cantidad de siniestros en el ultimo año", "PLAIN", 16, "SOUTHWEST");
         PanelTextInput tiCantidadSin = new PanelTextInput("placeholder", 16);
@@ -1527,6 +1631,23 @@ public class AltaPoliza extends JPanel {
 
     }
 
+    private void actualizarListaProvincias(){
+       String[] provincias = new String[listaProvincias.size()];
+        for (int i = 0; i < listaProvincias.size(); i++) {
+            provincias[i] = listaProvincias.get(i).getNombreProvincia();
+        }
+        provincia.setItems(provincias); 
+    }
+    
+    private void  actualizarListaLocalidades(){
+        String[] localidades = new String[listaLocalidades.size()];
+        for (int i = 0; i < listaLocalidades.size(); i++) {
+            localidades[i] = listaLocalidades.get(i).getNombreLocalidad();
+        }
+        localidad.setItems(localidades); 
+    }
+
+    
     void cambiarPantalla(String pantalla) {
         //cambia el panel visible
         cl.show(containerPanel, pantalla);
