@@ -19,6 +19,8 @@ public class ClienteDTO{
 
     private String numCliente;
     private Date fechaNacimiento;
+    
+    private DomicilioDTO domicilioDTO;
 
     public ClienteDTO() {
             super();
@@ -150,5 +152,13 @@ public class ClienteDTO{
 
     public void setFechaNacimiento(Date fechaNacimiento) {
         this.fechaNacimiento = fechaNacimiento;
+    }
+
+    public DomicilioDTO getDomicilioDTO() {
+        return domicilioDTO;
+    }
+
+    public void setDomicilioDTO(DomicilioDTO domicilioDTO) {
+        this.domicilioDTO = domicilioDTO;
     }
 }

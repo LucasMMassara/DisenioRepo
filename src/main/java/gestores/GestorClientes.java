@@ -33,17 +33,17 @@ public class GestorClientes {
             return true;
     }
 
-    public Cliente crearCliente(ClienteDTO cliente, DomicilioDTO dom) {
+    public Cliente crearCliente(ClienteDTO cliente) {
         
         GestorDomicilio gesDom = new GestorDomicilio();
-        Domicilio domicilio = gesDom.crearDomicilio(dom);
+        Domicilio domicilio = gesDom.crearDomicilio(cliente.getDomicilioDTO());
         
         //VALIDAR QUE NO EXISTA UN CLIENTE YA (METODO EN PROCESO)
         
         Cliente cNuevo = new Cliente();
         
         //Atributos de cliente
-        cNuevo.setNumCliente(generarNumeroCliente(dom.getLocalidad().getProvincia().getPais().getId()));
+        cNuevo.setNumCliente(generarNumeroCliente(cliente.getDomicilioDTO().getLocalidad().getProvincia().getPais().getId()));
         cNuevo.setCuil(cliente.getNroCuil());
         cNuevo.setCondicionIva(ConversorEnum.convertirStringIva(cliente.getCondicionIva()));
         cNuevo.setEstadoCliente(EstadoCliente.ACTIVO);
@@ -171,14 +171,29 @@ public class GestorClientes {
         cdto.setNumDocumento(c.getNumeroDni());
         cdto.setNombre(c.getNombre());
         cdto.setApellido(c.getApellido());
+        cdto.setDomicilioDTO(domicilioADTO(c.getDomicilio()));
+        
+        return cdto;
     }
     
-    private DomicilioDTO obtenerDomicilioDTO(Cliente c){
+    private DomicilioDTO domicilioADTO(Domicilio d){
         
         DomicilioDTO domdto = new DomicilioDTO();
-        domdto.setCalle(c.getDomicilio().getCalle());
-        domdto.setNumero(c.getDomicilio().getNumeroCalle());
+        domdto.setCalle(d.getCalle());
+        domdto.setNumero(d.getNumeroCalle());
         return domdto;
+        
+    }
+    
+    private List<ClienteDTO> listaClienteADTO(List<Cliente> listaClientes){
+        
+        List<ClienteDTO> listaDTO =  new ArrayList<>();
+        
+        for(Cliente c: listaClientes){
+            listaDTO.add(clienteADTO(c));
+        }
+        
+        return listaDTO;
         
     }
 }
