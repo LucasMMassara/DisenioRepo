@@ -109,7 +109,7 @@ public class BuscarCliente extends JPanel {
         });
 
         seleccionar.addActionListener((ActionEvent e) -> {
-
+            clienteEncontrado = clienteSeleccionado.getClienteDTO();
             main.actualizarPrimera(clienteEncontrado);
             main.cambiarPantalla("1");
         });

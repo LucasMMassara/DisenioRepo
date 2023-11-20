@@ -24,6 +24,7 @@ public class PanelCliente extends JPanel {
     private static final long serialVersionUID = 1L;
 
     private boolean selected = false;
+    ClienteDTO clientedto = new ClienteDTO();
 
     PanelCliente() {
 
@@ -103,6 +104,8 @@ public class PanelCliente extends JPanel {
 
     PanelCliente(BuscarCliente panel, int a, ClienteDTO cliente) {
 
+        clientedto = cliente;
+        
         this.setLayout(new GridBagLayout());
         this.setPreferredSize(new Dimension(200, 50));
         this.setBackground(Color.GRAY);
@@ -318,4 +321,7 @@ public class PanelCliente extends JPanel {
         selected = bool;
     }
 
+    public ClienteDTO getClienteDTO(){
+        return clientedto;
+    } 
 }
