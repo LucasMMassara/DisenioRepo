@@ -665,7 +665,7 @@ public class AltaClientePrimera extends javax.swing.JPanel {
 
     private void armarDTO(){
         
-        cliente = new ClienteDTO(nombreD,apellidoD,nroDocumentoD,nroCuilD,tipoDocumentoD,sexoD,condicionIvaD,estadoCivilD,correoElectronicoD,profesionD,anioRegistroD,calleD,numeroD,pisoD,dptoD, paisD,provinciaD,localidadD,codigoPostalD,numClienteD,fechaNacimientoD);
+        cliente = new ClienteDTO(nombreD,apellidoD,nroDocumentoD,nroCuilD,tipoDocumentoD,sexoD,condicionIvaD,estadoCivilD,correoElectronicoD,profesionD,anioRegistroD,numClienteD,fechaNacimientoD);
         
         
     }
