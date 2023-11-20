@@ -316,7 +316,7 @@ public class AltaClientePrimera extends javax.swing.JPanel {
                armarDTO();
                GestorClientes gc = new GestorClientes();
                Cliente cli;
-               cli = gc.crearCliente(cliente,domicilio);               
+               cli = gc.crearCliente(cliente);               
                
                //TO DO
                /*
@@ -609,7 +609,7 @@ public class AltaClientePrimera extends javax.swing.JPanel {
                armarDTO();
                GestorClientes gc = new GestorClientes();
                Cliente cli;
-               cli = gc.crearCliente(cliente,domicilio);   
+               cli = gc.crearCliente(cliente);   
                
                //TO DO
                /*
@@ -676,6 +676,7 @@ public class AltaClientePrimera extends javax.swing.JPanel {
         
         cliente = new ClienteDTO(nombreD,apellidoD,nroDocumentoD,nroCuilD,tipoDocumentoD,sexoD,condicionIvaD,estadoCivilD,correoElectronicoD,profesionD,anioRegistroD,numClienteD,fechaNacimientoD);
         domicilio = new DomicilioDTO(calleD,numeroD,pisoD,dptoD,localidadD,codigoPostalD);
+        cliente.setDomicilioDTO(domicilio);
         
     }
     
