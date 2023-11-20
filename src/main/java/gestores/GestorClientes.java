@@ -162,4 +162,23 @@ public class GestorClientes {
         ClienteJpaController cjpa = new ClienteJpaController();
         return cjpa.findClienteEntities();
     }
+    
+    private ClienteDTO clienteADTO(Cliente c){
+        
+        ClienteDTO cdto = new ClienteDTO();
+        
+        cdto.setNumCliente(c.getNumCliente());
+        cdto.setNumDocumento(c.getNumeroDni());
+        cdto.setNombre(c.getNombre());
+        cdto.setApellido(c.getApellido());
+    }
+    
+    private DomicilioDTO obtenerDomicilioDTO(Cliente c){
+        
+        DomicilioDTO domdto = new DomicilioDTO();
+        domdto.setCalle(c.getDomicilio().getCalle());
+        domdto.setNumero(c.getDomicilio().getNumeroCalle());
+        return domdto;
+        
+    }
 }
