@@ -43,7 +43,7 @@ public class GestorClientes {
         Cliente cNuevo = new Cliente();
         
         //Atributos de cliente
-        cNuevo.setNumCliente(cliente.getNumCliente());
+        cNuevo.setNumCliente(generarNumeroCliente(dom.getLocalidad().getProvincia().getPais().getId()));
         cNuevo.setCuil(cliente.getNroCuil());
         cNuevo.setCondicionIva(ConversorEnum.convertirStringIva(cliente.getCondicionIva()));
         cNuevo.setEstadoCliente(EstadoCliente.ACTIVO);
@@ -63,8 +63,8 @@ public class GestorClientes {
         cNuevo.setFechaNacimiento(cliente.getFechaNacimiento());
         
         //Subir a BBDD
-        //DAOCliente daocli = new DAOCliente();
-        //daocli.save(cNuevo);
+        DAOCliente daocli = new DAOCliente();
+        daocli.guardarCliente(cNuevo);
         
         return cNuevo;
     }
@@ -134,20 +134,28 @@ public class GestorClientes {
     private String generarNumeroCliente(int idPais){
         
         String numCliente;
-        int cantClientePais;
         
         DAOCliente dc = new DAOCliente();
         
-        cantClientePais = dc.obtenerCantClientesPorPais(idPais); //FALTA ESTE METODO
+        //METODO GENERAR NUMERO PROVISORIO
         
         if(idPais>9){
-            numCliente = idPais + "-" + (cantClientePais+1);
+            numCliente = idPais + "-" + generarNumero();
         }
         else{
-            numCliente = "0" + idPais + "-" + (cantClientePais+1);
+            numCliente = "0" + idPais + "-" + generarNumero();
         }
         
         return numCliente;
+    }
+    
+    private String generarNumero(){
+        
+        Random rand = new Random();
+        
+        String numero = rand.nextInt(10000000, 99999999) +"";
+        
+        return numero;
     }
     
     public List<Cliente> obtenerClientes(){

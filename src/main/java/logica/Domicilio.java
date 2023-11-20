@@ -2,9 +2,9 @@ package logica;
 
 import java.io.Serializable;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.MapsId;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
@@ -14,18 +14,21 @@ import javax.persistence.Table;
 public class Domicilio implements Serializable {
         
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    
+    /*
     @OneToOne
     @MapsId
     @JoinColumn(name ="id")   
-    private Cliente cliente;
+    private Cliente cliente;*/
     
     private String calle;
-    private String numero;
+    private String numeroCalle;
+    private String numeroDepto;
+    private String pisoDepto;
     
-    @OneToOne(mappedBy = "domicilio")
-    private Departamento depto;
+    /*@OneToOne(mappedBy = "domicilio")
+    private Departamento depto;*/
     
     @OneToOne
     private Localidad localidad;
@@ -34,43 +37,52 @@ public class Domicilio implements Serializable {
             super();
             // TODO Auto-generated constructor stub
     }
-    public Domicilio(String calle, String numero) {
+    public Domicilio(String calle, String numero, String depto, String piso) {
             super();
             this.calle = calle;
-            this.numero = numero;
+            this.numeroCalle = numero;
+            this.numeroDepto = depto;
+            this.pisoDepto = piso;
     }
 
     public String getCalle() {
-            return calle;
+        return calle;
     }
+
     public void setCalle(String calle) {
-            this.calle = calle;
+        this.calle = calle;
     }
-    public String getNumero() {
-            return numero;
+
+    public String getNumeroCalle() {
+        return numeroCalle;
     }
-    public void setNumero(String numero) {
-            this.numero = numero;
+
+    public void setNumeroCalle(String numeroCalle) {
+        this.numeroCalle = numeroCalle;
     }
-    public Departamento getDepto() {
-            return depto;
+
+    public String getNumeroDepto() {
+        return numeroDepto;
     }
-    public void setDepto(Departamento depto) {
-            this.depto = depto;
+
+    public void setNumeroDepto(String numeroDepto) {
+        this.numeroDepto = numeroDepto;
     }
+
+    public String getPisoDepto() {
+        return pisoDepto;
+    }
+
+    public void setPisoDepto(String pisoDepto) {
+        this.pisoDepto = pisoDepto;
+    }
+
     public Localidad getLocalidad() {
-            return localidad;
+        return localidad;
     }
+
     public void setLocalidad(Localidad localidad) {
-            this.localidad = localidad;
-    }
-
-    public Cliente getCliente() {
-        return cliente;
-    }
-
-    public void setCliente(Cliente cliente) {
-        this.cliente = cliente;
+        this.localidad = localidad;
     }
 
     public int getId() {
@@ -79,11 +91,6 @@ public class Domicilio implements Serializable {
 
     public void setId(int id) {
         this.id = id;
-    }
-
-    @Override
-    public String toString() {
-        return "Domicilio{" + "id=" + id + ", cliente=" + cliente + ", calle=" + calle + ", numero=" + numero + ", depto=" + depto + ", localidad=" + localidad.getNombreLocalidad() + '}';
     }
     
 }

@@ -4,9 +4,13 @@
  */
 package gestores;
 
+import daos.DAODomicilio;
 import dto.DomicilioDTO;
 import logica.Departamento;
 import logica.Domicilio;
+import logica.Localidad;
+import persistenciajpa.DomicilioJpaController;
+import persistenciajpa.LocalidadJpaController;
 
 /**
  *
@@ -16,29 +20,36 @@ public class GestorDomicilio {
 
     public Domicilio crearDomicilio(DomicilioDTO dom) {
         
-        Domicilio domNuevo = new Domicilio();
-        
-        domNuevo.setCalle(dom.getCalle());
-        domNuevo.setNumero(dom.getNumero());
-        domNuevo.setDepto(crearDepartamento(dom)); //ver si tengo que asignar el domicilio al depto tambien y updatearlo
+        Domicilio domNuevo = new Domicilio(dom.getCalle(),dom.getNumero(),dom.getDpto(),dom.getPiso());
         domNuevo.setLocalidad(dom.getLocalidad());
         
-        //Subir a BBDD
+        DAODomicilio daoDom = new DAODomicilio();
+        daoDom.guardarDomicilio(domNuevo);
         
         return domNuevo;
     }
     
-    public Departamento crearDepartamento(DomicilioDTO dom){
+    /*public Departamento crearDepartamento(DomicilioDTO dom, Domicilio domicilio){
         
         if(!(dom.getPiso()== null) && !(dom.getDpto() == null)){
             Departamento dep = new Departamento(dom.getPiso(),dom.getDpto());
+            dep.setDomicilio(domicilio);
+            
             //Subir a BBDD si es que no es necesario agregar el domicilio
+            try{
+                DepartamentoJpaController deptojpa = new DepartamentoJpaController();
+                deptojpa.create(dep);
+            }
+            catch(Exception e){
+                System.out.println("Error en la carga de BBDD de departamento");
+            }
+            
             return dep;
             
         }
         else{
             return null;
         }
-    }
+    }*/
     
 }

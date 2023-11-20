@@ -12,10 +12,10 @@ import javax.persistence.Query;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
-import logica.Departamento;
 import logica.Domicilio;
 import persistenciajpa.exceptions.NonexistentEntityException;
 import persistenciajpa.exceptions.PreexistingEntityException;
+import util.EntityManagerUtil;
 
 /**
  *
@@ -28,6 +28,10 @@ public class DomicilioJpaController implements Serializable {
     }
     private EntityManagerFactory emf = null;
 
+    public DomicilioJpaController() {
+        this.emf  = EntityManagerUtil.getEntityManagerFactory();
+    }
+
     public EntityManager getEntityManager() {
         return emf.createEntityManager();
     }
@@ -37,21 +41,7 @@ public class DomicilioJpaController implements Serializable {
         try {
             em = getEntityManager();
             em.getTransaction().begin();
-            Departamento depto = domicilio.getDepto();
-            if (depto != null) {
-                depto = em.getReference(depto.getClass(), depto.getId());
-                domicilio.setDepto(depto);
-            }
             em.persist(domicilio);
-            if (depto != null) {
-                Domicilio oldDomicilioOfDepto = depto.getDomicilio();
-                if (oldDomicilioOfDepto != null) {
-                    oldDomicilioOfDepto.setDepto(null);
-                    oldDomicilioOfDepto = em.merge(oldDomicilioOfDepto);
-                }
-                depto.setDomicilio(domicilio);
-                depto = em.merge(depto);
-            }
             em.getTransaction().commit();
         } catch (Exception ex) {
             if (findDomicilio(domicilio.getId()) != null) {
@@ -70,27 +60,7 @@ public class DomicilioJpaController implements Serializable {
         try {
             em = getEntityManager();
             em.getTransaction().begin();
-            Domicilio persistentDomicilio = em.find(Domicilio.class, domicilio.getId());
-            Departamento deptoOld = persistentDomicilio.getDepto();
-            Departamento deptoNew = domicilio.getDepto();
-            if (deptoNew != null) {
-                deptoNew = em.getReference(deptoNew.getClass(), deptoNew.getId());
-                domicilio.setDepto(deptoNew);
-            }
             domicilio = em.merge(domicilio);
-            if (deptoOld != null && !deptoOld.equals(deptoNew)) {
-                deptoOld.setDomicilio(null);
-                deptoOld = em.merge(deptoOld);
-            }
-            if (deptoNew != null && !deptoNew.equals(deptoOld)) {
-                Domicilio oldDomicilioOfDepto = deptoNew.getDomicilio();
-                if (oldDomicilioOfDepto != null) {
-                    oldDomicilioOfDepto.setDepto(null);
-                    oldDomicilioOfDepto = em.merge(oldDomicilioOfDepto);
-                }
-                deptoNew.setDomicilio(domicilio);
-                deptoNew = em.merge(deptoNew);
-            }
             em.getTransaction().commit();
         } catch (Exception ex) {
             String msg = ex.getLocalizedMessage();
@@ -119,11 +89,6 @@ public class DomicilioJpaController implements Serializable {
                 domicilio.getId();
             } catch (EntityNotFoundException enfe) {
                 throw new NonexistentEntityException("The domicilio with id " + id + " no longer exists.", enfe);
-            }
-            Departamento depto = domicilio.getDepto();
-            if (depto != null) {
-                depto.setDomicilio(null);
-                depto = em.merge(depto);
             }
             em.remove(domicilio);
             em.getTransaction().commit();

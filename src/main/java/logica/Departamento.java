@@ -18,13 +18,13 @@ import javax.persistence.Table;
 public class Departamento implements Serializable {
     
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     
     @OneToOne
     @MapsId
     @JoinColumn(name ="id")
     private Domicilio domicilio;
-
     private String Dpto;
     private String piso;
 
