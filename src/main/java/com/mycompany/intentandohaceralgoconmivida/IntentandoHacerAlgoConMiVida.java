@@ -16,9 +16,10 @@ public class IntentandoHacerAlgoConMiVida {
     
     public static void main(String[] args){
         
-        /*App aplicacion = new App();
-        aplicacion.inicioApp();*/
+        App aplicacion = new App();
+        aplicacion.inicioApp();
         
+        /*
         CargadorDeDatosPais cddp = new CargadorDeDatosPais();
         cddp.cargarPackPaisesLocIndic();
         
@@ -26,6 +27,7 @@ public class IntentandoHacerAlgoConMiVida {
         for (Pais p: gp.ObtenerPaises()){
             System.out.println(p.toString());
         }
+        */
         
     }
 }
