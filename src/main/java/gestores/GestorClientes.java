@@ -9,7 +9,6 @@ import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
 import logica.Domicilio;
 import logica.EstadoCliente;
-import logica.Iva;
 import persistenciajpa.ClienteJpaController;
 import util.ConversorEnum;
 
@@ -64,6 +63,8 @@ public class GestorClientes {
         cNuevo.setFechaNacimiento(cliente.getFechaNacimiento());
         
         //Subir a BBDD
+        DAOCliente daocli = new DAOCliente();
+        daocli.save(cNuevo);
         
         return cNuevo;
     }

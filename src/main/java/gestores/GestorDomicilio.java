@@ -20,7 +20,7 @@ public class GestorDomicilio {
         
         domNuevo.setCalle(dom.getCalle());
         domNuevo.setNumero(dom.getNumero());
-        domNuevo.setDepto(crearDepartamento(dom));
+        domNuevo.setDepto(crearDepartamento(dom)); //ver si tengo que asignar el domicilio al depto tambien y updatearlo
         domNuevo.setLocalidad(dom.getLocalidad());
         
         //Subir a BBDD
@@ -29,11 +29,16 @@ public class GestorDomicilio {
     }
     
     public Departamento crearDepartamento(DomicilioDTO dom){
-        Departamento dep = null;
         
-        //subiar a BBDD
-        
-        return dep;
+        if(!(dom.getPiso()== null) && !(dom.getDpto() == null)){
+            Departamento dep = new Departamento(dom.getPiso(),dom.getDpto());
+            //Subir a BBDD si es que no es necesario agregar el domicilio
+            return dep;
+            
+        }
+        else{
+            return null;
+        }
     }
     
 }
