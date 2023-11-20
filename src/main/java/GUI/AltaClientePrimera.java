@@ -6,6 +6,7 @@ package GUI;
 
 import GUI.*;
 import dto.ClienteDTO;
+import dto.DomicilioDTO;
 import gestores.GestorPais;
 import java.awt.GridBagConstraints;
 import java.awt.event.ActionEvent;
@@ -15,6 +16,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import logica.Cliente;
+import logica.Domicilio;
 import logica.EstadoCivil;
 import logica.Iva;
 import logica.Localidad;
@@ -48,13 +50,12 @@ public class AltaClientePrimera extends javax.swing.JPanel {
     String numeroD = "";
     String pisoD = "";
     String dptoD = "";
-    String paisD = "";
-    String provinciaD = "";
-    String localidadD = "";
+    Localidad localidadD;
     String codigoPostalD = "";
     String numClienteD = "";
     
     ClienteDTO cliente = new ClienteDTO();
+    DomicilioDTO domicilio = new DomicilioDTO();
     
     List<Pais> listaPaises;
     List<Provincia> listaProvincias;
@@ -303,11 +304,15 @@ public class AltaClientePrimera extends javax.swing.JPanel {
                 numeroD = numero.getText();
                 pisoD = piso.getText();
                 dptoD = dpto.getText();
-                paisD = pais.getSelectedItem();
-                provinciaD = provincia.getSelectedItem();
-                localidadD = localidad.getSelectedItem();
                 codigoPostalD = codigoPostal.getText(); 
 
+                for(Localidad loc: listaLocalidades){
+                    if(localidad.getSelectedItem().equals(loc.getNombreLocalidad())){
+                        localidadD = loc;
+                    }
+                }
+                
+                
                //buscar en base de datos por si ya existe
                armarDTO();
                
@@ -594,11 +599,13 @@ public class AltaClientePrimera extends javax.swing.JPanel {
                 numeroD = numero.getText();
                 pisoD = piso.getText();
                 dptoD = dpto.getText();
-                paisD = pais.getSelectedItem();
-                provinciaD = provincia.getSelectedItem();
-                localidadD = localidad.getSelectedItem();
                 codigoPostalD = codigoPostal.getText(); 
-
+                for(Localidad loc: listaLocalidades){
+                    if(localidad.getSelectedItem().equals(loc.getNombreLocalidad())){
+                        localidadD = loc;
+                    }
+                }
+                
                //buscar en base de datos por si ya existe
                armarDTO();
                
@@ -666,7 +673,7 @@ public class AltaClientePrimera extends javax.swing.JPanel {
     private void armarDTO(){
         
         cliente = new ClienteDTO(nombreD,apellidoD,nroDocumentoD,nroCuilD,tipoDocumentoD,sexoD,condicionIvaD,estadoCivilD,correoElectronicoD,profesionD,anioRegistroD,numClienteD,fechaNacimientoD);
-        
+        domicilio = new DomicilioDTO(calleD,numeroD,pisoD,dptoD,localidadD,codigoPostalD);
         
     }
     
