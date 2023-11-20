@@ -316,9 +316,7 @@ public class AltaClientePrimera extends javax.swing.JPanel {
                armarDTO();
                GestorClientes gc = new GestorClientes();
                Cliente cli;
-               cli = gc.crearCliente(cliente,domicilio);
-                System.out.println(cli.toString());
-               
+               cli = gc.crearCliente(cliente,domicilio);               
                
                //TO DO
                /*
@@ -335,7 +333,7 @@ public class AltaClientePrimera extends javax.swing.JPanel {
                //TO DO
                
                //presentar resultado
-               String nroEncontrado = cliente.getNumCliente();
+               String nroEncontrado = cli.getNumCliente();
                nroCliente.setText(nroEncontrado);
                VentanaError confirmacion = new VentanaError("Numero de cliente encontrado: " + nroEncontrado, "Numero Cliente");
             }
@@ -609,6 +607,9 @@ public class AltaClientePrimera extends javax.swing.JPanel {
                 
                //buscar en base de datos por si ya existe
                armarDTO();
+               GestorClientes gc = new GestorClientes();
+               Cliente cli;
+               cli = gc.crearCliente(cliente,domicilio);   
                
                //TO DO
                /*
@@ -625,7 +626,7 @@ public class AltaClientePrimera extends javax.swing.JPanel {
                //TO DO
                
                //presentar resultado
-               String nroEncontrado = "nroEncontrado";
+               String nroEncontrado = cli.getNumCliente();
                nroCliente.setText(nroEncontrado);
                VentanaError confirmacion = new VentanaError("Numero de cliente encontrado: " + nroEncontrado, "Numero Cliente");
             }
