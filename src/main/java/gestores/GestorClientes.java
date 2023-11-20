@@ -6,6 +6,9 @@ import daos.DAOCliente;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 
+import javax.mail.internet.AddressException;
+import javax.mail.internet.InternetAddress;
+
 public class GestorClientes {
 	
     public GestorClientes() {
@@ -49,14 +52,17 @@ public class GestorClientes {
     }
     
     private boolean existeClienteActivo(ClienteDTO cliente){
+        
         DAOCliente daocli = new DAOCliente();
+        
         Cliente cli = daocli.buscarCliente(cliente.getTipoDocumento(),cliente.getNumDocumento());
+        
         if(cli == null){
             return false;
         }
+        
         return true; 
     }
-    
     
     private boolean clienteMayorEdad(Date fechaNac){
         
@@ -65,6 +71,20 @@ public class GestorClientes {
         if(gf.obtenerAniosCliente(fechaNac)<18){
             return false;
         }
-            return true;
+        
+        return true;
     }
+    
+    private boolean emailValido(String email) {
+        
+        boolean result = true;
+        try {
+           InternetAddress emailAddr = new InternetAddress(email);
+           emailAddr.validate();
+        } catch (AddressException ex) {
+           result = false;
+        }
+        
+        return result;
+     }
 }
