@@ -53,11 +53,11 @@ public class GestorClientes {
     
     private boolean existeClienteActivo(ClienteDTO cliente){
         
-        DAOCliente daocli = new DAOCliente();
+        GestorPersona gp = new GestorPersona();
         
-        Cliente cli = daocli.buscarCliente(cliente.getTipoDocumento(),cliente.getNumDocumento());
+        //VER SI ISEMPTY ES LO IDEAL
         
-        if(cli == null){
+        if(gp.buscarPersonas(cliente.getTipoDocumento(), cliente.getNumDocumento()).isEmpty()){
             return false;
         }
         
