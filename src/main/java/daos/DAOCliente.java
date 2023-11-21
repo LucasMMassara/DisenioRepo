@@ -29,5 +29,45 @@ public class DAOCliente extends DAOAbstract<Cliente> {
         return q.getResultList();
         
     }
+    
+    public List<Cliente> filtroClientes(String numCliente, String nombre, String apellido, String tipoDoc, String numDoc){
+        
+        //TODO INCOMPLETO
+        
+        
+        if(!(numCliente == null)){
+            return obtenerClientePorNumCliente(numCliente);
+        }
+        
+        String squery ="SELECT c FROM " + Cliente.class.getName() + " c WHERE ";
+        
+        String cuerpoQuery = filtroAtributoGeneral(numCliente, "numCliente");
+        
+
+        cuerpoQuery = cuerpoQuery.concat(filtroAtributoGeneral(nombre, "nombre")) ;
+        
+        Query q = getEntityManager().createQuery(numDoc);
+        return q.getResultList();
+    }
+    
+    
+    private String filtroNumCliente(String numCliente){
+        
+        if(numCliente == null){
+            return "";
+        }
+        
+        return "c.numCliente = '" + numCliente + "' AND ";
+    }
+    
+    private String filtroAtributoGeneral(String valorAtributo, String nombreAtributo){
+        
+        if(valorAtributo == null){
+            return "";
+        }
+        
+        return "c." + nombreAtributo + " = " + valorAtributo + " AND ";
+    }
+    
 
 }
