@@ -3,6 +3,7 @@ package GUI;
 import dto.ClienteDTO;
 import dto.DomicilioDTO;
 import dto.HijoDTO;
+import dto.VehiculoDTO;
 import gestores.GestorPais;
 import java.awt.CardLayout;
 import java.awt.Color;
@@ -15,7 +16,11 @@ import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import javax.swing.BoxLayout;
@@ -32,6 +37,7 @@ import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.interactive.form.PDAcroForm;
 import org.apache.pdfbox.pdmodel.interactive.form.PDField;
 import org.apache.pdfbox.rendering.PDFRenderer;
+import static org.eclipse.persistence.expressions.ExpressionOperator.today;
 
 
 public class AltaPoliza extends JPanel {
@@ -53,35 +59,25 @@ public class AltaPoliza extends JPanel {
 
     MenuProductorSeguros main;
 
+    //------------------------------------
     //Cliente
     ClienteDTO clienteDTO = new ClienteDTO("", "", "", "", "", "", "", "", "", "", "", "", null,new DomicilioDTO("", "", "", "", null, ""));
-    
     
     //Hijos
     int clienteCantHijos = 0;
     List<HijoDTO> hijosDTO = new ArrayList<>();
     
     //Vehiculo
-    String clienteVehiculoPais = "";
-    String clienteVehiculoProvincia = "";
-    String clienteVehiculoLocalidad = "";
-    String clienteVehiculoMarca = "";
-    String clienteVehiculoModelo = "";
-    String clienteVehiculoAnio = "";
-    String clienteVehiculoPatente = "";
-    String clienteVehiculoChasis = "";
-    String clienteVehiculoMotor = "";
-    String clienteSumaAsegurada = "99999.9999";
-    Boolean clienteMedidasSeguridadGarage = false;
-    Boolean clienteMedidasSeguridadAlarma = false;
-    Boolean clienteMedidasSeguridadDispAntirrobo = false;
-    Boolean clienteMedidasSeguridadTuercasAntirrobo = false;
-    //TO DO Vehiculo DTO
+    String clienteSumaAsegurada = "";
+    Localidad localidadRiesgo = new Localidad();
+    VehiculoDTO vehiculoDTO = new VehiculoDTO();
     
-    String clienteFormaPagoCob = "Mensual";
-    Date clienteFechaInicioCob;
-    String clienteTipoCob;
-    //Cobertura DTO?
+    //poliza
+    Date clientePolizaInicio = new Date();
+    Date clientePolizaFin = new Date();
+    Date clienteFechaInicioCuota;
+    Date clienteUltimoDiaPagoCuota;
+    String clienteTipoCob = "Mensual";
 
     AltaPoliza(MenuProductorSeguros menu) {
 
@@ -469,6 +465,9 @@ public class AltaPoliza extends JPanel {
         });
         botonContinuar.addActionListener((ActionEvent e) -> {
 
+            //buscar suma asegurada
+            //clienteSumaAsegurada = 
+            
             List<PanelTextInput> listaPaneles = new ArrayList<>();
 
             // Add objects of different types to the list
@@ -493,19 +492,17 @@ public class AltaPoliza extends JPanel {
             if (inputVacio) {
                 VentanaError entradasVaciasError = new VentanaError("Faltan datos obligatorios", "Entrada incorrecta");       
             }else {
-                clienteVehiculoPais = pais.getSelectedItem();
-                clienteVehiculoProvincia = provincia.getSelectedItem();
-                clienteVehiculoLocalidad = localidad.getSelectedItem();
-                clienteVehiculoMarca = dMarca.getSelectedItem();
-                clienteVehiculoModelo = dModelo.getSelectedItem();
-                clienteVehiculoAnio = dAnio.getSelectedItem();
-                clienteVehiculoMotor = tiNroMotor.getText();
-                clienteVehiculoChasis = tiNroChasis.getText();
-                clienteVehiculoPatente = tiPatente.getText();
-                clienteMedidasSeguridadGarage = garage.isSelected();
-                clienteMedidasSeguridadAlarma = alarma.isSelected();
-                clienteMedidasSeguridadDispAntirrobo = dispositivo.isSelected();
-                clienteMedidasSeguridadTuercasAntirrobo = tuercas.isSelected();
+                vehiculoDTO.setKmPorAnio(tiKMAnio.getText());
+                vehiculoDTO.setMarcaVehiculo(dMarca.getSelectedItem());
+                vehiculoDTO.setModeloVehiculo(dModelo.getSelectedItem());
+                vehiculoDTO.setAnioVehiculo(dAnio.getSelectedItem());
+                vehiculoDTO.setNumMotor(tiNroMotor.getText());
+                vehiculoDTO.setNumChasis(tiNroChasis.getText());
+                vehiculoDTO.setNumPatente(tiPatente.getText());
+                vehiculoDTO.setGuardaEnGarage(garage.isSelected());
+                vehiculoDTO.setTieneAlarma(alarma.isSelected());
+                vehiculoDTO.setDispositivoRastreo(dispositivo.isSelected());
+                vehiculoDTO.setTuercasAntirrobo(tuercas.isSelected());
 
                 if (clienteCantHijos == 0) {
                     cambiarPantalla("4");
@@ -687,7 +684,6 @@ public class AltaPoliza extends JPanel {
                 hijosDTO.clear();
                 for(int i = 0; i < sexoDropDownList.size(); i++){
                 hijosDTO.add(new HijoDTO(fechaInputList.get(i).getDate(),sexoDropDownList.get(i).getSelectedItem(),estadoCivilDropDownList.get(i).getSelectedItem()));
-                    System.out.println(hijosDTO.get(i).toString());
                 }
                 cambiarPantalla("4");
             }
@@ -737,6 +733,12 @@ public class AltaPoliza extends JPanel {
         PanelDropDown tipoCoberturaDropDown = new PanelDropDown("CENTER", tiposCobertura);
         PanelDropDown formaPagoDropDown = new PanelDropDown("CENTER", formasPago);
 
+        Calendar calendar = Calendar.getInstance();
+        calendar.add(Calendar.DAY_OF_MONTH, 1);
+        fechaInput.setMinSelectableDate(calendar.getTime());
+        calendar.add(Calendar.MONTH, 1);
+        fechaInput.setMaxSelectableDate(calendar.getTime());
+        
         Boton botonVolver = new Boton("Volver");
         Boton botonCancelar = new Boton("Cancelar");
         Boton botonGenerar = new Boton("Generar poliza");
@@ -762,12 +764,17 @@ public class AltaPoliza extends JPanel {
                 VentanaError fechaErronea = new VentanaError("Falta fecha de inicio", "Entrada incorrecta");
             }
             else{
-                clienteFechaInicioCob = fechaInput.getDate();
+                clientePolizaInicio = fechaInput.getDate();
+                
+                LocalDate localOriginalDate = clientePolizaInicio.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+                LocalDate sixMonthsAfter = localOriginalDate.plusMonths(6);
+                clientePolizaFin = Date.from(sixMonthsAfter.atStartOfDay(ZoneId.systemDefault()).toInstant());
+                
                 clienteTipoCob = tipoCoberturaDropDown.getSelectedItem();
                 if ("Semestral".equals(formaPagoDropDown.getSelectedItem())) {
-                    clienteFormaPagoCob = "Semestral";
+                    clienteTipoCob = "Semestral";
                 } else {
-                    clienteFormaPagoCob = "Mensual";
+                    clienteTipoCob = "Mensual";
                 }
                 quintaConfig();
                 containerPanel.add(quinta, "5");
@@ -867,10 +874,10 @@ public class AltaPoliza extends JPanel {
         panelCuotas.setBackground(new Color(255, 255, 150));
 
         int cuotas;
-        if (clienteFormaPagoCob.equals("Mensual")) {
-            cuotas = 1;
-        } else {
+        if (clienteTipoCob.equals("Mensual")) {
             cuotas = 6;
+        } else {
+            cuotas = 1;
         }
 
         panelCuotasConfig(panelCuotas, cuotas);
@@ -1226,6 +1233,8 @@ public class AltaPoliza extends JPanel {
             PanelDropDown sexoDropDown = new PanelDropDown("CENTER", generos);
             PanelDropDown estadoCivilDropDown = new PanelDropDown("CENTER", estados);
             PanelDatePicker fechaInput = new PanelDatePicker();
+            fechaInput.setMinSelectableDate("1920-01-01");
+            fechaInput.setMaxSelectableDate(Calendar.getInstance().getTime());
             
             Boton boton0 = new Boton("🡰");
             Boton boton1 = new Boton("🡲");
@@ -1381,15 +1390,15 @@ public class AltaPoliza extends JPanel {
 
         PanelTextInput tituloI = new PanelTextInput(clienteDTO.getApellido() + " " + clienteDTO.getNombre(), 16);
         tituloI.setEditable(false);
-        PanelTextInput modeloI = new PanelTextInput(clienteVehiculoMarca + ", " + clienteVehiculoModelo + ", año " + clienteVehiculoAnio, 16);
+        PanelTextInput modeloI = new PanelTextInput(vehiculoDTO.getMarcaVehiculo() + ", " + vehiculoDTO.getModeloVehiculo() + ", año " + vehiculoDTO.getAnioVehiculo(), 16);
         modeloI.setEditable(false);
-        PanelTextInput patenteI = new PanelTextInput(clienteVehiculoPatente, 16);
+        PanelTextInput patenteI = new PanelTextInput(vehiculoDTO.getNumPatente(), 16);
         patenteI.setEditable(false);
         PanelTextInput sumaI = new PanelTextInput(clienteSumaAsegurada, 16);
         sumaI.setEditable(false);
-        PanelTextInput chasisI = new PanelTextInput(clienteVehiculoChasis, 16);
+        PanelTextInput chasisI = new PanelTextInput(vehiculoDTO.getNumChasis(), 16);
         chasisI.setEditable(false);
-        PanelTextInput motorI = new PanelTextInput(clienteVehiculoMotor, 16);
+        PanelTextInput motorI = new PanelTextInput(vehiculoDTO.getNumMotor(), 16);
         motorI.setEditable(false);
 
         GridBagConstraints gbc2 = new GridBagConstraints();
@@ -1481,11 +1490,13 @@ public class AltaPoliza extends JPanel {
         PanelText tipoPago = new PanelText("Tipo pago", "PLAIN", 16, "WEST");
         PanelText monto = new PanelText("Monto", "PLAIN", 16, "WEST");
 
-        PanelTextInput fechaInicioI = new PanelTextInput("placeholder", 16);
+        SimpleDateFormat sdf = new SimpleDateFormat("EEE dd-MMMM-yyyy");
+        
+        PanelTextInput fechaInicioI = new PanelTextInput(sdf.format(clientePolizaInicio), 16);
         fechaInicioI.setEditable(false);
-        PanelTextInput fechaFinI = new PanelTextInput("placeholder", 16);
+        PanelTextInput fechaFinI = new PanelTextInput(sdf.format(clientePolizaFin), 16);
         fechaFinI.setEditable(false);
-        PanelTextInput tipoPagoI = new PanelTextInput(clienteFormaPagoCob, 16);
+        PanelTextInput tipoPagoI = new PanelTextInput(clienteTipoCob, 16);
         tipoPagoI.setEditable(false);
         PanelTextInput montoI = new PanelTextInput("placeholder", 16);
         montoI.setEditable(false);
@@ -1563,16 +1574,21 @@ public class AltaPoliza extends JPanel {
 
             PanelText numero = new PanelText("" + i, "PLAIN", 18, "CENTER");
 
-            PanelTextInput premioI = new PanelTextInput("placeholder", 18);
-            premioI.setEditable(false);
-            PanelTextInput importeDescuentoI = new PanelTextInput("placeholder", 18);
-            importeDescuentoI.setEditable(false);
-            PanelTextInput importeI = new PanelTextInput("placeholder", 18);
-            importeI.setEditable(false);
-            PanelTextInput inicioCuotaI = new PanelTextInput("placeholder", 18);
-            inicioCuotaI.setEditable(false);
-            PanelTextInput ultimoDiaI = new PanelTextInput("placeholder", 18);
-            ultimoDiaI.setEditable(false);
+            
+            PanelTextInput premioI = new PanelTextInput("", 18);
+            PanelTextInput importeDescuentoI = new PanelTextInput("", 18);
+            PanelTextInput importeI = new PanelTextInput("", 18);
+            PanelTextInput inicioCuotaI = new PanelTextInput("", 18);
+            PanelTextInput ultimoDiaI = new PanelTextInput("", 18);
+            
+            //CU16
+            
+            if(cantidadCuotas == 1){
+                configurarCuotaSemestral(premioI,importeDescuentoI,importeI,inicioCuotaI,ultimoDiaI);
+            }
+            else{
+                configurarCuotaMensual(i,premioI,importeDescuentoI,importeI,inicioCuotaI,ultimoDiaI);
+            }
 
             Boton boton0 = new Boton("🡰");
             Boton boton1 = new Boton("🡲");
@@ -1665,6 +1681,72 @@ public class AltaPoliza extends JPanel {
 
         cl1.show(panelCuotas, "" + 1);
 
+    }
+    
+    private void configurarCuotaMensual(int i, PanelTextInput premioI,PanelTextInput importeDescuentoI,PanelTextInput importeI,PanelTextInput inicioCuotaI,PanelTextInput ultimoDiaI){
+        
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        
+        premioI.setText("placeholder");
+        premioI.setEditable(false);
+        importeDescuentoI.setText("placeholder");
+        importeDescuentoI.setEditable(false);
+        importeI.setText("placeholder");
+        importeI.setEditable(false);
+        
+        Calendar calendar = Calendar.getInstance();
+        if(i == 1){
+            clienteFechaInicioCuota = calendar.getTime();
+        }
+        else{
+            calendar.setTime(clientePolizaInicio);
+            calendar.add(Calendar.MONTH, +i-2);  
+            clienteFechaInicioCuota = calendar.getTime();  
+        }
+        
+        calendar.setTime(clientePolizaInicio);
+        calendar.add(Calendar.DAY_OF_MONTH, -1); 
+        calendar.add(Calendar.MONTH, i-1); 
+        clienteUltimoDiaPagoCuota = calendar.getTime();
+        
+        /*
+        LocalDate inicioPoliza = clientePolizaInicio.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+        LocalDate inicioCuota = inicioPoliza.plusMonths(i-1);
+        clienteFechaInicioCuota = Date.from(inicioCuota.atStartOfDay(ZoneId.systemDefault()).toInstant());
+        
+        inicioPoliza = clienteFechaInicioCuota.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+        inicioCuota = inicioPoliza.plusMonths(1);
+        clienteUltimoDiaPagoCuota = Date.from(inicioCuota.atStartOfDay(ZoneId.systemDefault()).toInstant());
+              */  
+        inicioCuotaI.setText(sdf.format(clienteFechaInicioCuota));
+        inicioCuotaI.setEditable(false);
+        ultimoDiaI.setText(sdf.format(clienteUltimoDiaPagoCuota));
+        ultimoDiaI.setEditable(false);
+        
+    }
+    
+    private void configurarCuotaSemestral(PanelTextInput premioI,PanelTextInput importeDescuentoI,PanelTextInput importeI,PanelTextInput inicioCuotaI,PanelTextInput ultimoDiaI){
+        
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        
+        premioI.setText("placeholder");
+        premioI.setEditable(false);
+        importeDescuentoI.setText("placeholder");
+        importeDescuentoI.setEditable(false);
+        importeI.setText("placeholder");
+        importeI.setEditable(false);
+        
+        Calendar calendar = Calendar.getInstance();
+        clienteFechaInicioCuota = calendar.getTime();
+        calendar.setTime(clientePolizaInicio);
+        calendar.add(Calendar.DAY_OF_MONTH, -1);  
+        clienteUltimoDiaPagoCuota = calendar.getTime();
+        
+        inicioCuotaI.setText(sdf.format(clienteFechaInicioCuota));
+        inicioCuotaI.setEditable(false);
+        ultimoDiaI.setText(sdf.format(clienteUltimoDiaPagoCuota));
+        ultimoDiaI.setEditable(false);
+        
     }
 
     private void actualizarListaProvincias(){
