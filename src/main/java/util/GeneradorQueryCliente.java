@@ -21,19 +21,18 @@ public class GeneradorQueryCliente {
 
         cuerpoQuery = cuerpoQuery.concat(cadenaComienzaCon(nombre, "nombre"));
         cuerpoQuery = cuerpoQuery.concat(cadenaComienzaCon(apellido, "apellido"));
-        cuerpoQuery = cuerpoQuery.concat(filtroAtributoGeneral(tipoDoc, "tipodni"));
+        cuerpoQuery = cuerpoQuery.concat(filtroAtributoGeneralTipoDoc(tipoDoc, "tipodni"));
         cuerpoQuery = cuerpoQuery.concat(filtroAtributoGeneral(numDoc, "numeroDni"));
         
         cuerpoQuery = verificarQuery(cuerpoQuery);
         
         squery = squery + cuerpoQuery;
-        
         return squery;
     }
     
     private String filtroNumCliente(String numCliente){
         
-        if(numCliente == null){
+        if(numCliente.isEmpty()){
             return "";
         }
         
@@ -42,16 +41,48 @@ public class GeneradorQueryCliente {
     
     private String filtroAtributoGeneral(String valorAtributo, String nombreAtributo){
         
-        if(valorAtributo == null){
+        if(valorAtributo.isEmpty()){
             return "";
         }
         
-        return "c." + nombreAtributo + " = ' " + valorAtributo + " ' AND ";
+        return "c." + nombreAtributo + " = '" + valorAtributo + "' AND ";
+    }
+    
+    private String filtroAtributoGeneralTipoDoc(String valorAtributo, String nombreAtributo){
+        
+        if(valorAtributo.isEmpty()){
+            return "";
+        }
+        
+        String tipoDoc = "";
+        
+        switch(valorAtributo){
+            case("DNI"):{
+                tipoDoc = "logica.TipoDocumento.DNI";
+                break;
+            }
+            case("CC"):{
+                tipoDoc = "logica.TipoDocumento.CC";
+                break;
+            }
+            case("CI"):{
+                tipoDoc = "logica.TipoDocumento.CI";
+                break;
+            }
+            case("CIC"):{
+                tipoDoc = "logica.TipoDocumento.CIC";
+                break;
+            }
+            
+            
+        }
+        
+        return "c." + nombreAtributo + " = " + tipoDoc + " AND ";
     }
     
     private String cadenaComienzaCon(String valorAtributo, String nombreAtributo){
     
-        if(valorAtributo == null){
+        if(valorAtributo.isEmpty()){
             return "";
         }
         

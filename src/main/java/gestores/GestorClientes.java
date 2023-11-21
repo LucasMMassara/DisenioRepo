@@ -40,14 +40,14 @@ public class GestorClientes {
         
         //Si hay num cliente como es unico busca por eso unicamente
         
-        if(numCliente != null){
+        if(!(numCliente.isEmpty())){
             clientesBBDD = daocli.obtenerClientePorNumCliente(numCliente);
             return listaClienteADTO(clientesBBDD);
         }
         
         //Si todo es nulo entonces obtiene todos
  
-        if(numCliente == null && nombre == null && apellido == null && numDoc == null){
+        if(numCliente.isEmpty() && nombre.isEmpty() && apellido.isEmpty() && numDoc.isEmpty()){
             clientesBBDD = daocli.obtenerAllClientes();
             return listaClienteADTO(clientesBBDD);
         }

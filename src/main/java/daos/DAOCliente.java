@@ -43,6 +43,8 @@ public class DAOCliente extends DAOAbstract<Cliente> {
         
         String squery = gqc.generarQueryFiltroClientes(numCliente, nombre, apellido, tipoDoc, numDoc);
         
+        System.out.println(squery);
+        
         Query q = getEntityManager().createQuery(squery);
         return q.getResultList();
     }
