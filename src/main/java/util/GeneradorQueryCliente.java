@@ -13,6 +13,7 @@ import logica.Cliente;
 public class GeneradorQueryCliente {
     
     public String generarQueryFiltroClientes(String numCliente, String nombre, String apellido, String tipoDoc, String numDoc){
+        
         String squery = "SELECT c FROM " + Cliente.class.getName() + " c WHERE ";
         
         String cuerpoQuery = filtroAtributoGeneral(numCliente, "numCliente");

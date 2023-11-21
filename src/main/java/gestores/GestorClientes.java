@@ -96,6 +96,7 @@ public class GestorClientes {
     }
     
     private boolean datosCompletos(ClienteDTO cliente){
+        //TODO HACER
         return true;
     }
     

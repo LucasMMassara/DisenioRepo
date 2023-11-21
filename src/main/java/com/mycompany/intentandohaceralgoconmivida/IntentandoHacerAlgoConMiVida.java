@@ -6,6 +6,9 @@ import daos.DAOPais;
 import dto.ClienteDTO;
 import gestores.GestorClientes;
 import gestores.GestorPais;
+import java.time.LocalDate;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import javax.persistence.Query;
 import logica.Cliente;
@@ -27,11 +30,16 @@ public class IntentandoHacerAlgoConMiVida {
     
     public static void main(String[] args){
         
+        /*
         GestorClientes gc = new GestorClientes();
         List<ClienteDTO> c = gc.obtenerClientePorParametros(null,"Jose" , "Sand", null, null);
         for(ClienteDTO cl:c){
             System.out.println(cl.getNombre() + " " + cl.getApellido());
-        }
+        }*/
+        
+        Date d = new Date();
+        System.out.println(d.getYear());
+        
         
         
         /*CargadorDeDatosPais cddp = new CargadorDeDatosPais();

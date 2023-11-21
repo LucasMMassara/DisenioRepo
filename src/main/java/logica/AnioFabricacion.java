@@ -11,23 +11,23 @@ import javax.persistence.Table;
 public class AnioFabricacion implements Serializable {
     
     @Id
-    private Integer anio;
+    private String anio;
 
     public AnioFabricacion() {
             super();
             // TODO Auto-generated constructor stub
     }
 
-    public AnioFabricacion(Integer anio) {
+    public AnioFabricacion(String anio) {
             super();
             this.anio = anio;
     }
 
-    public Integer getAnio() {
+    public String getAnio() {
             return anio;
     }
 
-    public void setAnio(Integer anio) {
+    public void setAnio(String anio) {
             this.anio = anio;
     }
 	

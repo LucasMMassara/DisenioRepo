@@ -16,6 +16,7 @@ import logica.Cobertura;
 import logica.PorcentajeCobertura;
 import persistenciajpa.exceptions.NonexistentEntityException;
 import persistenciajpa.exceptions.PreexistingEntityException;
+import util.EntityManagerUtil;
 
 /**
  *
@@ -27,6 +28,10 @@ public class CoberturaJpaController implements Serializable {
         this.emf = emf;
     }
     private EntityManagerFactory emf = null;
+
+    public CoberturaJpaController() {
+        this.emf = EntityManagerUtil.getEntityManagerFactory();
+    }
 
     public EntityManager getEntityManager() {
         return emf.createEntityManager();

@@ -4,7 +4,11 @@
  */
 package daos;
 
+import java.util.List;
+import javax.persistence.Query;
 import logica.Cobertura;
+import persistenciajpa.CoberturaJpaController;
+import static util.EntityManagerUtil.getEntityManager;
 
 /**
  *
@@ -16,4 +20,18 @@ public class DAOCobertura extends DAOAbstract<Cobertura>{
             setClazz(Cobertura.class);
     }
     
+    public List<Cobertura> obtenerCoberturas(){
+        
+            CoberturaJpaController  cobjpa = new CoberturaJpaController();
+            return cobjpa.findCoberturaEntities();
+    }
+
+    public List<Cobertura> buscarResponsabilidadCivil() {
+        
+        String stringquery = "SELECT c FROM " + Cobertura.class.getName() + " c WHERE c.detalle = ?1";
+        Query q = getEntityManager().createQuery(stringquery);
+        q.setParameter(1, "Responsabilidad Civil");
+        return q.getResultList();
+        
+    }
 }
