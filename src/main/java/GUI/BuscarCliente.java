@@ -12,8 +12,10 @@ import javax.swing.JScrollPane;
 import javax.swing.border.LineBorder;
 
 import dto.ClienteDTO;
+import gestores.GestorClientes;
 import java.awt.Dimension;
 import java.util.ArrayList;
+import java.util.List;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import logica.TipoDocumento;
@@ -107,7 +109,7 @@ public class BuscarCliente extends JPanel {
         });
 
         seleccionar.addActionListener((ActionEvent e) -> {
-
+            clienteEncontrado = clienteSeleccionado.getClienteDTO();
             main.actualizarPrimera(clienteEncontrado);
             main.cambiarPantalla("1");
         });
@@ -201,15 +203,17 @@ public class BuscarCliente extends JPanel {
             //POR AHORA se pasa solo el cliente ingreso for testing purposes
             //se tendria que chequear si la lista traida de la bd es vacia o no (hacer config con y sin arraylist)
             //si no se encuentra nada:
-            clienteNoEncontrado();
-
-            String tipoD = tipD;
             
-            clienteEncontrado = new ClienteDTO(nomb, apell, nroCli, tipoD, nroD);
-            ArrayList<ClienteDTO> clientes = new ArrayList<>();
-            clientes.add(clienteEncontrado);
-            resultadoConfig(resultado, clientes);
-            resultado.revalidate();
+            GestorClientes gc = new GestorClientes();
+            List<ClienteDTO> clientes = gc.obtenerClientePorParametros(nroCli, nomb, apell, tipD, nomb);
+                        
+            if(clientes.isEmpty()){
+                clienteNoEncontrado();
+            }
+            else{
+                resultadoConfig(resultado, clientes);
+                resultado.revalidate();
+            }         
 
         });
 
@@ -301,7 +305,7 @@ public class BuscarCliente extends JPanel {
 
     }
 
-    private void resultadoConfig(JPanel resultado, ArrayList<ClienteDTO> clientes) {
+    private void resultadoConfig(JPanel resultado, List<ClienteDTO> clientes) {
 
         resultado.removeAll();
         resultado.revalidate();
@@ -339,7 +343,7 @@ public class BuscarCliente extends JPanel {
 
     }
 
-    private void listaConfig(JPanel lista, ArrayList<ClienteDTO> clientes) {
+    private void listaConfig(JPanel lista, List<ClienteDTO> clientes) {
 
         lista.setLayout(new GridBagLayout());
 

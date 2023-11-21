@@ -51,6 +51,23 @@ public class ClienteDTO{
         this.numCliente = numCliente;
     }
 
+    public ClienteDTO(String nombre, String apellido, String numDocumento, String nroCuil, String tipoDocumento, String sexo, String condicionIva, String estadoCivil, String correoElectronico, String profesion, String anioRegistro, String numCliente, Date fechaNacimiento, DomicilioDTO domicilioDTO) {
+        this.nombre = nombre;
+        this.apellido = apellido;
+        this.numDocumento = numDocumento;
+        this.nroCuil = nroCuil;
+        this.tipoDocumento = tipoDocumento;
+        this.sexo = sexo;
+        this.condicionIva = condicionIva;
+        this.estadoCivil = estadoCivil;
+        this.correoElectronico = correoElectronico;
+        this.profesion = profesion;
+        this.anioRegistro = anioRegistro;
+        this.numCliente = numCliente;
+        this.fechaNacimiento = fechaNacimiento;
+        this.domicilioDTO = domicilioDTO;
+    }
+
     public String getNumCliente() {
             return numCliente;
     }

@@ -31,7 +31,7 @@ public class PanelDatePicker extends JPanel{
         dateChooser.setBackground(Color.YELLOW); // Set the background color
         dateChooser.setForeground(Color.BLUE);   // Set the text color
 
-        
+        /*
         JButton submitButton = new JButton("Submit");
         submitButton.addActionListener(e -> {
             Date selectedDate = dateChooser.getDate();
@@ -41,15 +41,31 @@ public class PanelDatePicker extends JPanel{
                 //System.out.println("No date selected.");
             }
         });
-
+        */
         add(dateChooser);
-        add(submitButton);
+        //add(submitButton);
         
         
     }
     
     public Date getDate(){
         return dateChooser.getDate();
+    }
+    
+    public void setMinSelectableDate(String date){
+        dateChooser.setMinSelectableDate(java.sql.Date.valueOf(date));
+    }
+    
+    public void setMaxSelectableDate(String date){
+        dateChooser.setMaxSelectableDate(java.sql.Date.valueOf(date));
+    }
+    
+    public void setMinSelectableDate(Date date){
+        dateChooser.setMinSelectableDate(date);
+    }
+    
+    public void setMaxSelectableDate(Date date){
+        dateChooser.setMaxSelectableDate(date);
     }
     
 }

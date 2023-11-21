@@ -12,6 +12,7 @@ import gestores.GestorPais;
 import java.awt.GridBagConstraints;
 import java.awt.event.ActionEvent;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -130,6 +131,10 @@ public class AltaClientePrimera extends javax.swing.JPanel {
         PanelDropDown sexo = new PanelDropDown(sexos);
         
         PanelDatePicker fechaNacimiento = new PanelDatePicker();
+        Calendar calendar = Calendar.getInstance();
+        fechaNacimiento.setMaxSelectableDate(calendar.getTime());
+        calendar.add(Calendar.YEAR, -120);
+        fechaNacimiento.setMinSelectableDate(calendar.getTime());
         
         PanelTextInput calle = new PanelTextInput("calle",16,0,0,0,0);
         calle.restrictToLetters();
