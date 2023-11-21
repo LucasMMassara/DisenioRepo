@@ -7,6 +7,7 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
@@ -26,8 +27,8 @@ public class Modelo implements Serializable {
     @ManyToOne(fetch = FetchType.LAZY)
     private Marca marca;
 
-    @OneToMany(mappedBy = "modelo")
-    private List<DatosModelo> datosModelo;
+    @ManyToMany
+    private List<AnioFabricacion> anioModelo;
 
     @OneToMany(mappedBy = "modelo")
     private List<EstadisticaRoboVehiculo> historial;
@@ -82,14 +83,14 @@ public class Modelo implements Serializable {
         this.marca = marca;
     }
 
-    public List<DatosModelo> getDatosModelo() {
-        return datosModelo;
+    public List<AnioFabricacion> getAnioModelo() {
+        return anioModelo;
     }
 
-    public void setDatosModelo(List<DatosModelo> datosModelo) {
-        this.datosModelo = datosModelo;
+    public void setAnioModelo(List<AnioFabricacion> anioModelo) {
+        this.anioModelo = anioModelo;
     }
-
+    
     public EstadisticaRoboVehiculo getEstadisticaActual() {
         return estadisticaActual;
     }
@@ -97,7 +98,5 @@ public class Modelo implements Serializable {
     public void setEstadisticaActual(EstadisticaRoboVehiculo estadisticaActual) {
         this.estadisticaActual = estadisticaActual;
     }
-    
-    
-	
+   	
 }

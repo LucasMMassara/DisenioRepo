@@ -36,7 +36,25 @@ public class GestorClientes {
     public List<ClienteDTO> obtenerClientePorParametros(String numCliente,String nombre, String apellido, String tipoDoc, String numDoc){
         
         DAOCliente daocli = new DAOCliente();
-        List<Cliente> clientesBBDD = daocli.filtroClientes(numCliente, nombre, apellido, tipoDoc, numDoc);
+        List<Cliente> clientesBBDD;
+        
+        //Si hay num cliente como es unico busca por eso unicamente
+        
+        if(numCliente != null){
+            clientesBBDD = daocli.obtenerClientePorNumCliente(numCliente);
+            return listaClienteADTO(clientesBBDD);
+        }
+        
+        //Si todo es nulo entonces obtiene todos
+ 
+        if(numCliente == null && nombre == null && apellido == null && numDoc == null){
+            clientesBBDD = daocli.obtenerAllClientes();
+            return listaClienteADTO(clientesBBDD);
+        }
+        
+        
+        clientesBBDD = daocli.filtroClientes(numCliente, nombre, apellido, tipoDoc, numDoc);
+        
         return listaClienteADTO(clientesBBDD);
         
     }
