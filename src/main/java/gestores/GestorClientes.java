@@ -175,6 +175,7 @@ public class GestorClientes {
         
         ClienteDTO cdto = new ClienteDTO();
         
+        cdto.setNroCuil(c.getCuil());
         cdto.setNumCliente(c.getNumCliente());
         cdto.setNumDocumento(c.getNumeroDni());
         cdto.setNombre(c.getNombre());

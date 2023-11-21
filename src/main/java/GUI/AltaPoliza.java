@@ -1,6 +1,8 @@
 package GUI;
 
 import dto.ClienteDTO;
+import dto.DomicilioDTO;
+import dto.HijoDTO;
 import gestores.GestorPais;
 import java.awt.CardLayout;
 import java.awt.Color;
@@ -51,18 +53,13 @@ public class AltaPoliza extends JPanel {
 
     MenuProductorSeguros main;
 
-    //datos Cliente
-    String clienteApellido = "";
-    String clienteNombre = "";
-    String clienteNumero = "";
-    String clienteTipoDoc = "";
-    String clienteNroDoc = "";
-    String clienteDireccion = "";
-    //TO DO Cliente DTO
+    //Cliente
+    ClienteDTO clienteDTO = new ClienteDTO("", "", "", "", "", "", "", "", "", "", "", "", null,new DomicilioDTO("", "", "", "", null, ""));
+    
     
     //Hijos
     int clienteCantHijos = 0;
-    //TO DO array hijos?
+    List<HijoDTO> hijosDTO = new ArrayList<>();
     
     //Vehiculo
     String clienteVehiculoPais = "";
@@ -157,12 +154,12 @@ public class AltaPoliza extends JPanel {
         JPanel clienteNroDocP = new JPanel();
         JPanel clienteDireccionP = new JPanel();
 
-        JLabel clienteApellidoLabel = new JLabel(clienteApellido);
-        JLabel clienteNombreLabel = new JLabel(clienteNombre);
-        JLabel clienteNumeroLabel = new JLabel(clienteNumero);
-        JLabel clienteTipoDocLabel = new JLabel(clienteTipoDoc);
-        JLabel clienteNroDocLabel = new JLabel(clienteNroDoc);
-        JLabel clienteDireccionLabel = new JLabel(clienteDireccion);
+        JLabel clienteApellidoLabel = new JLabel(clienteDTO.getApellido());
+        JLabel clienteNombreLabel = new JLabel(clienteDTO.getNombre());
+        JLabel clienteNumeroLabel = new JLabel(clienteDTO.getNumCliente());
+        JLabel clienteTipoDocLabel = new JLabel(clienteDTO.getTipoDocumento());
+        JLabel clienteNroDocLabel = new JLabel(clienteDTO.getNumDocumento());
+        JLabel clienteDireccionLabel = new JLabel("" + clienteDTO.getDomicilioDTO().getCalle() + " " + clienteDTO.getDomicilioDTO().getNumero());
 
         //config panelCliente
         panelCliente.setLayout(new GridBagLayout());
@@ -654,7 +651,11 @@ public class AltaPoliza extends JPanel {
     private void terceraConfig() {
 
         tercera = new Background("background.jpg");
-
+        
+        ArrayList<PanelDropDown> sexoDropDownList = new ArrayList<>();
+        ArrayList<PanelDropDown> estadoCivilDropDownList = new ArrayList<>();
+        ArrayList<PanelDatePicker> fechaInputList = new ArrayList<>();
+        
         Boton botonVolver = new Boton("Volver");
         Boton botonCancelar = new Boton("Cancelar");
         Boton botonConfirmar = new Boton("Confirmar datos");
@@ -668,13 +669,28 @@ public class AltaPoliza extends JPanel {
             cambiarPantalla("1");
             main.cambiarPantalla("1");
         });
-        botonConfirmar.addActionListener((ActionEvent e) -> {
+        botonConfirmar.addActionListener((ActionEvent e) -> { 
+
+            boolean entradaIncorrecta = false;
             
+            for(PanelDatePicker date: fechaInputList){
+                if(date.getDate() == null){
+                    entradaIncorrecta = true;
+                    break;
+                }
+            }
             
-            
-            
-            
-            cambiarPantalla("4");
+            if(entradaIncorrecta){
+                VentanaError fechaErronea = new VentanaError("Faltan fechas de nacimiento", "Entrada incorrecta");
+            }
+            else{
+                hijosDTO.clear();
+                for(int i = 0; i < sexoDropDownList.size(); i++){
+                hijosDTO.add(new HijoDTO(fechaInputList.get(i).getDate(),sexoDropDownList.get(i).getSelectedItem(),estadoCivilDropDownList.get(i).getSelectedItem()));
+                    System.out.println(hijosDTO.get(i).toString());
+                }
+                cambiarPantalla("4");
+            }
         });
 
         GridBagConstraints gbc = new GridBagConstraints();
@@ -689,7 +705,7 @@ public class AltaPoliza extends JPanel {
         tercera.add(botonVolver, gbc);
 
         panelHijos.setBackground(new Color(150, 255, 255));
-        panelHijosConfig(panelHijos, clienteCantHijos);
+        panelHijosConfig(panelHijos, clienteCantHijos,sexoDropDownList,estadoCivilDropDownList,fechaInputList);
         gbc.fill = GridBagConstraints.BOTH;
         gbc.gridwidth = 2;
         gbc.weighty = 0.95;
@@ -742,16 +758,21 @@ public class AltaPoliza extends JPanel {
         });
         botonGenerar.addActionListener((ActionEvent e) -> {
             
-            clienteFechaInicioCob = fechaInput.getDate();
-            clienteTipoCob = tipoCoberturaDropDown.getSelectedItem();
-            if ("Semestral".equals(formaPagoDropDown.getSelectedItem())) {
-                clienteFormaPagoCob = "Semestral";
-            } else {
-                clienteFormaPagoCob = "Mensual";
+            if(fechaInput.getDate() == null){
+                VentanaError fechaErronea = new VentanaError("Falta fecha de inicio", "Entrada incorrecta");
             }
-            quintaConfig();
-            containerPanel.add(quinta, "5");
-            cambiarPantalla("5");
+            else{
+                clienteFechaInicioCob = fechaInput.getDate();
+                clienteTipoCob = tipoCoberturaDropDown.getSelectedItem();
+                if ("Semestral".equals(formaPagoDropDown.getSelectedItem())) {
+                    clienteFormaPagoCob = "Semestral";
+                } else {
+                    clienteFormaPagoCob = "Mensual";
+                }
+                quintaConfig();
+                containerPanel.add(quinta, "5");
+                cambiarPantalla("5");   
+            }
         });
 
         GridBagConstraints gbc = new GridBagConstraints();
@@ -1170,7 +1191,7 @@ public class AltaPoliza extends JPanel {
 
     }
 
-    private void panelHijosConfig(JPanel panelHijos, int cantidadHijos) {
+    private void panelHijosConfig(JPanel panelHijos, int cantidadHijos, ArrayList<PanelDropDown> sexoDropDownList, ArrayList<PanelDropDown> estadoCivilDropDownList, ArrayList<PanelDatePicker> fechaInputList) {
 
         CardLayout cl1 = new CardLayout();
         LineBorder border = new LineBorder(Color.LIGHT_GRAY, 2);
@@ -1178,7 +1199,7 @@ public class AltaPoliza extends JPanel {
         //configurar panel container
         panelHijos.setLayout(cl1);
         panelHijos.setBorder(border);
-
+        
         //panelHijos.add(menuProductorSeguros, "1");
         for (int i = 1; i <= cantidadHijos; i++) {
 
@@ -1270,6 +1291,10 @@ public class AltaPoliza extends JPanel {
 
             panelHijos.add(panel, "" + i);
 
+            sexoDropDownList.add(sexoDropDown);
+            estadoCivilDropDownList.add(estadoCivilDropDown);
+            fechaInputList.add(fechaInput);
+            
             int a = i;
 
             boton0.addActionListener((ActionEvent e) -> {
@@ -1354,7 +1379,7 @@ public class AltaPoliza extends JPanel {
         PanelText chasis = new PanelText("Chasis", "PLAIN", 16, "WEST");
         PanelText motor = new PanelText("Motor", "PLAIN", 16, "WEST");
 
-        PanelTextInput tituloI = new PanelTextInput(clienteApellido + " " + clienteNombre, 16);
+        PanelTextInput tituloI = new PanelTextInput(clienteDTO.getApellido() + " " + clienteDTO.getNombre(), 16);
         tituloI.setEditable(false);
         PanelTextInput modeloI = new PanelTextInput(clienteVehiculoMarca + ", " + clienteVehiculoModelo + ", año " + clienteVehiculoAnio, 16);
         modeloI.setEditable(false);
@@ -1658,21 +1683,13 @@ public class AltaPoliza extends JPanel {
         localidad.setItems(localidades); 
     }
 
-    
     void cambiarPantalla(String pantalla) {
         //cambia el panel visible
         cl.show(containerPanel, pantalla);
     }
 
     void actualizarPrimera(ClienteDTO cliente) {
-
-        clienteNumero = cliente.getNumCliente();
-        clienteApellido = cliente.getApellido();
-        clienteNombre = cliente.getNombre();
-        clienteTipoDoc = cliente.getTipoDocumento();
-        clienteNroDoc = cliente.getNumDocumento();
-        clienteDireccion = "placeholder";
-
+        clienteDTO = cliente;
         primeraConfig();
         containerPanel.add(primera, "1");
 
