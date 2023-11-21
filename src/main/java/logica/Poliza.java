@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -26,10 +27,10 @@ public class Poliza implements Serializable {
     @Column(unique = true)
     private String numPoliza;
     
-    @Enumerated
+    @Enumerated(EnumType.STRING)
     private TipoPago formaDePago;
     
-    @Enumerated
+    @Enumerated(EnumType.STRING)
     private CantidadSiniestros cantidadSiniestros;
     
     @Temporal(javax.persistence.TemporalType.DATE)

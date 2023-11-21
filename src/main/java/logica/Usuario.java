@@ -2,6 +2,7 @@ package logica;
 
 import java.io.Serializable;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.Table;
 
@@ -16,7 +17,7 @@ public class Usuario extends Persona implements Serializable{
 
     private String contrasenia;
 
-    @Enumerated
+    @Enumerated(EnumType.STRING)
     private RolUsuario rol;
 
     public Usuario() {

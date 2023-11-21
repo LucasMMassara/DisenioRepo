@@ -3,6 +3,7 @@ package logica;
 import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -26,10 +27,10 @@ public abstract class Persona implements Serializable {
     private String apellido;
     private String numeroDni;
     
-    @Enumerated
+    @Enumerated(EnumType.STRING)
     private TipoDocumento tipodni;
     
-    @Enumerated
+    @Enumerated(EnumType.STRING)
     private TipoSexo sexo;
     
     @Temporal(javax.persistence.TemporalType.DATE)
@@ -37,7 +38,7 @@ public abstract class Persona implements Serializable {
     
     private String email;
     
-    @Enumerated
+    @Enumerated(EnumType.STRING)
     private EstadoCivil estadoCivil;
     
     private String anioRegistro;

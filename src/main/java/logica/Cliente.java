@@ -4,6 +4,7 @@ import java.io.Serializable;
 import javax.persistence.OneToOne;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.Table;
 
@@ -18,9 +19,9 @@ public class Cliente extends Persona implements Serializable {
     @Column(unique = true)  
     private String cuil;
 
-    @Enumerated
+    @Enumerated(EnumType.STRING)
     private Iva condicionIva;
-    @Enumerated
+    @Enumerated(EnumType.STRING)
     private EstadoCliente estadoCliente;
 
     private String profesion;

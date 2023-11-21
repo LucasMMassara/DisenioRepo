@@ -35,8 +35,8 @@ public class GestorClientes {
     
     public List<ClienteDTO> obtenerClientePorParametros(String numCliente,String nombre, String apellido, String tipoDoc, String numDoc){
         
-        List<Cliente> clientesBBDD = obtenerClientes();
-        
+        DAOCliente daocli = new DAOCliente();
+        List<Cliente> clientesBBDD = daocli.filtroClientes(numCliente, nombre, apellido, tipoDoc, numDoc);
         return listaClienteADTO(clientesBBDD);
         
     }
@@ -167,8 +167,8 @@ public class GestorClientes {
     }
     
     public List<Cliente> obtenerClientes(){
-        ClienteJpaController cjpa = new ClienteJpaController();
-        return cjpa.findClienteEntities();
+        DAOCliente daoc = new DAOCliente();
+        return daoc.obtenerAllClientes();
     }
     
     private ClienteDTO clienteADTO(Cliente c){

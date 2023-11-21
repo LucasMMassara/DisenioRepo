@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.Set;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -29,7 +30,7 @@ public class Modificacion implements Serializable {
     private String numChasis;
     private Integer kmPorAnio;
     
-    @Enumerated
+    @Enumerated(EnumType.STRING)
     private CantidadSiniestros cantidadSiniestros;
     
     private Boolean guardaEnGarage;

@@ -3,6 +3,7 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.Set;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -23,10 +24,10 @@ public class Hijo implements Serializable {
     @Temporal(javax.persistence.TemporalType.DATE)
     private Date fechaNac;
     
-    @Enumerated
+    @Enumerated(EnumType.STRING)
     private TipoSexo sexo;
     
-    @Enumerated
+    @Enumerated(EnumType.STRING)
     private EstadoCivil estadoCivil;
     
     public Hijo() {

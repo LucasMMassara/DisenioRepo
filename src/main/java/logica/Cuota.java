@@ -2,6 +2,7 @@ package logica;
 import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -28,7 +29,7 @@ public class Cuota implements Serializable {
     private Float recargoMora;
     private Float bonificacionAdelanto;
 
-    @Enumerated
+    @Enumerated(EnumType.STRING)
     private EstadoCuota estado;
 
     @OneToOne(mappedBy = "cuota")
