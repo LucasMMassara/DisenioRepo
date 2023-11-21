@@ -315,32 +315,23 @@ public class AltaClientePrimera extends javax.swing.JPanel {
                         localidadD = loc;
                     }
                 }
+
+                armarDTO();
+                GestorClientes gc = new GestorClientes();
+                Cliente cli;
                 
+                if(gc.verificarClienteActivo(cliente)){
+                    VentanaError existeCliente = new VentanaError("Ya existe un cliente activo con este CUIL/DNI","Cliente existente");
+                }
+                else{
+                    cli = gc.crearCliente(cliente);
+                    
+                    //presentar resultado
+                    String nroEncontrado = cli.getNumCliente();
+                    nroCliente.setText(nroEncontrado);
+                    VentanaError confirmacion = new VentanaError("Numero de cliente encontrado: " + nroEncontrado, "Numero Cliente");
+                }
                 
-               //buscar en base de datos por si ya existe
-               armarDTO();
-               GestorClientes gc = new GestorClientes();
-               Cliente cli;
-               cli = gc.crearCliente(cliente);               
-               
-               //TO DO
-               /*
-               boolean yaExiste               
-               if(yaExiste){
-                ventana ya existe el cliente ingresado
-               }
-               */
-               
-               //crear numero cliente
-               //TO DO
-               
-               //guardar cliente
-               //TO DO
-               
-               //presentar resultado
-               String nroEncontrado = cli.getNumCliente();
-               nroCliente.setText(nroEncontrado);
-               VentanaError confirmacion = new VentanaError("Numero de cliente encontrado: " + nroEncontrado, "Numero Cliente");
             }
             
         });
@@ -616,31 +607,21 @@ public class AltaClientePrimera extends javax.swing.JPanel {
                     }
                 }
                 
+                armarDTO();
+                GestorClientes gc = new GestorClientes();
+                Cliente cli;
                 
-               //buscar en base de datos por si ya existe
-               armarDTO();
-               GestorClientes gc = new GestorClientes();
-               Cliente cli;
-               cli = gc.crearCliente(cliente);               
-               
-               //TO DO
-               /*
-               boolean yaExiste               
-               if(yaExiste){
-                ventana ya existe el cliente ingresado
-               }
-               */
-               
-               //crear numero cliente
-               //TO DO
-               
-               //guardar cliente
-               //TO DO
-               
-               //presentar resultado
-               String nroEncontrado = cli.getNumCliente();
-               nroCliente.setText(nroEncontrado);
-               VentanaError confirmacion = new VentanaError("Numero de cliente encontrado: " + nroEncontrado, "Numero Cliente");
+                if(gc.verificarClienteActivo(cliente)){
+                    VentanaError existeCliente = new VentanaError("Ya existe un cliente activo con este CUIL/DNI","Cliente existente");
+                }
+                else{
+                    cli = gc.crearCliente(cliente);
+                    
+                    //presentar resultado
+                    String nroEncontrado = cli.getNumCliente();
+                    nroCliente.setText(nroEncontrado);
+                    VentanaError confirmacion = new VentanaError("Numero de cliente encontrado: " + nroEncontrado, "Numero Cliente");
+                }
             }
             
         });

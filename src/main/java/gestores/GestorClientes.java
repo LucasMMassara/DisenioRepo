@@ -225,4 +225,8 @@ public class GestorClientes {
         return listaDTO;
         
     }
+
+    public boolean verificarClienteActivo(ClienteDTO cliente) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
 }
