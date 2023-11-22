@@ -295,7 +295,7 @@ public class PanelCliente extends JPanel {
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
 
-        Color borderColor = Color.BLUE;
+        Color borderColor = new Color(137,255,192);
         int borderThickness = 2;
         LineBorder customBorder = new LineBorder(borderColor, borderThickness);
         LineBorder noBorder = new LineBorder(borderColor, 0);

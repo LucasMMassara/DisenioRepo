@@ -37,7 +37,6 @@ import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.interactive.form.PDAcroForm;
 import org.apache.pdfbox.pdmodel.interactive.form.PDField;
 import org.apache.pdfbox.rendering.PDFRenderer;
-import static org.eclipse.persistence.expressions.ExpressionOperator.today;
 
 
 public class AltaPoliza extends JPanel {
@@ -77,7 +76,14 @@ public class AltaPoliza extends JPanel {
     Date clientePolizaFin = new Date();
     Date clienteFechaInicioCuota;
     Date clienteUltimoDiaPagoCuota;
-    String clienteTipoCob = "Mensual";
+    String clienteFormaPago = "Mensual";
+    String clienteTipoCob = "";
+    String clienteNumPoliza = "";
+    
+    String prima = "";
+    String derechosEmision = "";
+    String descuentos = "";
+    String totalAbonar = "";
 
     AltaPoliza(MenuProductorSeguros menu) {
 
@@ -760,6 +766,8 @@ public class AltaPoliza extends JPanel {
         });
         botonGenerar.addActionListener((ActionEvent e) -> {
             
+            
+            
             if(fechaInput.getDate() == null){
                 VentanaError fechaErronea = new VentanaError("Falta fecha de inicio", "Entrada incorrecta");
             }
@@ -770,12 +778,14 @@ public class AltaPoliza extends JPanel {
                 LocalDate sixMonthsAfter = localOriginalDate.plusMonths(6);
                 clientePolizaFin = Date.from(sixMonthsAfter.atStartOfDay(ZoneId.systemDefault()).toInstant());
                 
-                clienteTipoCob = tipoCoberturaDropDown.getSelectedItem();
+                clienteFormaPago = tipoCoberturaDropDown.getSelectedItem();
                 if ("Semestral".equals(formaPagoDropDown.getSelectedItem())) {
-                    clienteTipoCob = "Semestral";
+                    clienteFormaPago = "Semestral";
                 } else {
-                    clienteTipoCob = "Mensual";
+                    clienteFormaPago = "Mensual";
                 }
+                clienteTipoCob = tipoCoberturaDropDown.getSelectedItem();
+                
                 quintaConfig();
                 containerPanel.add(quinta, "5");
                 cambiarPantalla("5");   
@@ -837,6 +847,7 @@ public class AltaPoliza extends JPanel {
             main.cambiarPantalla("1");
         });
         botonConfirmar.addActionListener((ActionEvent e) -> {
+            //crear numPoliza
             cambiarPantalla("6");
         });
 
@@ -874,7 +885,7 @@ public class AltaPoliza extends JPanel {
         panelCuotas.setBackground(new Color(255, 255, 150));
 
         int cuotas;
-        if (clienteTipoCob.equals("Mensual")) {
+        if (clienteFormaPago.equals("Mensual")) {
             cuotas = 6;
         } else {
             cuotas = 1;
@@ -980,11 +991,12 @@ public class AltaPoliza extends JPanel {
             PDDocument document = PDDocument.load(new File(pdfFilePath));
             PDFRenderer renderer = new PDFRenderer(document);
             
-            PDAcroForm pDAcroForm = document.getDocumentCatalog().getAcroForm();
-            PDField field = pDAcroForm.getField("Nombre");
-            field.setValue("testing");
-            field = pDAcroForm.getField("NroCliente");
-            field.setValue("69420");
+            try{
+            llenarPDF(document);
+            }
+            catch(Exception e){
+                VentanaError errorCargarDoc = new VentanaError("No se puede completar el cargado del PDF", "Error impresion");
+            }
             
             int pageCount = document.getNumberOfPages();
             for (int pageIndex = 0; pageIndex < pageCount; pageIndex++) {
@@ -1496,9 +1508,9 @@ public class AltaPoliza extends JPanel {
         fechaInicioI.setEditable(false);
         PanelTextInput fechaFinI = new PanelTextInput(sdf.format(clientePolizaFin), 16);
         fechaFinI.setEditable(false);
-        PanelTextInput tipoPagoI = new PanelTextInput(clienteTipoCob, 16);
+        PanelTextInput tipoPagoI = new PanelTextInput(clienteFormaPago, 16);
         tipoPagoI.setEditable(false);
-        PanelTextInput montoI = new PanelTextInput("placeholder", 16);
+        PanelTextInput montoI = new PanelTextInput(totalAbonar, 16);
         montoI.setEditable(false);
 
         GridBagConstraints gbc2 = new GridBagConstraints();
@@ -1687,11 +1699,11 @@ public class AltaPoliza extends JPanel {
         
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         
-        premioI.setText("placeholder");
+        premioI.setText(prima);
         premioI.setEditable(false);
-        importeDescuentoI.setText("placeholder");
+        importeDescuentoI.setText(descuentos);
         importeDescuentoI.setEditable(false);
-        importeI.setText("placeholder");
+        importeI.setText("CALCULAR");
         importeI.setEditable(false);
         
         Calendar calendar = Calendar.getInstance();
@@ -1729,11 +1741,11 @@ public class AltaPoliza extends JPanel {
         
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         
-        premioI.setText("placeholder");
+        premioI.setText(prima);
         premioI.setEditable(false);
-        importeDescuentoI.setText("placeholder");
+        importeDescuentoI.setText(descuentos);
         importeDescuentoI.setEditable(false);
-        importeI.setText("placeholder");
+        importeI.setText("CALCULAR");
         importeI.setEditable(false);
         
         Calendar calendar = Calendar.getInstance();
@@ -1777,4 +1789,65 @@ public class AltaPoliza extends JPanel {
 
     }
 
+    void llenarPDF(PDDocument document) throws IOException{
+              
+            PDAcroForm pDAcroForm = document.getDocumentCatalog().getAcroForm();
+            PDField field = pDAcroForm.getField("Nombre");
+            field.setValue(clienteDTO.getNombre());
+            field = pDAcroForm.getField("NroCliente");
+            field.setValue(clienteDTO.getNumCliente());
+            field = pDAcroForm.getField("DomicilioRiesgo");
+            field.setValue(clienteDTO.getDomicilioDTO().getCalle() + clienteDTO.getDomicilioDTO().getNumero());
+            field = pDAcroForm.getField("TipoDocumento");
+            field.setValue(clienteDTO.getTipoDocumento());
+            field = pDAcroForm.getField("NroDocumento");
+            field.setValue(clienteDTO.getNumDocumento());
+            field = pDAcroForm.getField("Marca");
+            field.setValue(vehiculoDTO.getMarcaVehiculo());
+            field = pDAcroForm.getField("Modelo");
+            field.setValue(vehiculoDTO.getModeloVehiculo());
+            field = pDAcroForm.getField("Patente");
+            field.setValue(vehiculoDTO.getNumPatente());
+            field = pDAcroForm.getField("AnioFabricacion");
+            field.setValue(vehiculoDTO.getAnioVehiculo());
+            field = pDAcroForm.getField("Motor");
+            field.setValue(vehiculoDTO.getNumMotor());
+            field = pDAcroForm.getField("Chasis");
+            field.setValue(vehiculoDTO.getNumChasis());
+            field = pDAcroForm.getField("NroPoliza");
+            field.setValue(clienteNumPoliza);
+            SimpleDateFormat sdf = new SimpleDateFormat("dd-MMMM-yyyy");
+            field = pDAcroForm.getField("InicioVigencia");
+            field.setValue(sdf.format(clientePolizaInicio));
+            field = pDAcroForm.getField("FinVigencia");
+            field.setValue(sdf.format(clientePolizaFin));
+            field = pDAcroForm.getField("TipoCobertura");
+            field.setValue(clienteTipoCob);
+            field = pDAcroForm.getField("SumaAsegurada");
+            field.setValue(clienteSumaAsegurada);
+            field = pDAcroForm.getField("FormaPago");
+            field.setValue(clienteFormaPago);
+            field = pDAcroForm.getField("UltimoDiaPago");
+            field.setValue(sdf.format(clienteUltimoDiaPagoCuota));
+            field = pDAcroForm.getField("Prima");
+            field.setValue(prima);
+            field = pDAcroForm.getField("DerechosEmision");
+            field.setValue(derechosEmision);
+            field = pDAcroForm.getField("Descuentos");
+            field.setValue(descuentos);
+            field = pDAcroForm.getField("TotalAbonar");
+            field.setValue(totalAbonar);
+            
+            Calendar calendar = Calendar.getInstance();
+            field = pDAcroForm.getField("Fecha");
+            field.setValue(sdf.format(calendar.getTime()));
+            field = pDAcroForm.getField("Agente");
+            field.setValue("TO DO");
+            field = pDAcroForm.getField("AgenteCorreo");
+            field.setValue("TO DO");
+            field = pDAcroForm.getField("AgenteTelefono");
+            field.setValue("TO DO");
+            
+        
+    }
 }

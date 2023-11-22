@@ -185,7 +185,10 @@ public class BuscarCliente extends JPanel {
             apellidoI.setText("");
             nombreI.setText("");
             nroDocumentoI.setText("");
-            //limpiarResultados?
+            //limpiarResultados
+            resultadoConfig(resultado);
+            resultado.revalidate();
+            
 
         });
 
@@ -198,17 +201,13 @@ public class BuscarCliente extends JPanel {
             tipD = tipoDocumentoI.getSelectedItem();
             nroD = nroDocumentoI.getText();
 
-            //buscar en db
-            //pasar a lista
-            //POR AHORA se pasa solo el cliente ingreso for testing purposes
-            //se tendria que chequear si la lista traida de la bd es vacia o no (hacer config con y sin arraylist)
-            //si no se encuentra nada:
-            
             GestorClientes gc = new GestorClientes();
-            List<ClienteDTO> clientes = gc.obtenerClientePorParametros(nroCli, nomb, apell, tipD, nomb);
+            List<ClienteDTO> clientes = gc.obtenerClientePorParametros(nroCli, nomb, apell, tipD, nroD);
                         
             if(clientes.isEmpty()){
                 clienteNoEncontrado();
+                resultadoConfig(resultado, clientes);
+                resultado.revalidate();
             }
             else{
                 resultadoConfig(resultado, clientes);
@@ -273,6 +272,10 @@ public class BuscarCliente extends JPanel {
 
     private void resultadoConfig(JPanel resultado) {
 
+        resultado.removeAll();
+        resultado.revalidate();
+        resultado.repaint();
+        
         resultado.setBackground(new Color(255, 255, 220));
 
         JPanel lista = new JPanel(new GridBagLayout());

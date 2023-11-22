@@ -30,25 +30,13 @@ public class AltaCliente extends JPanel  {
         main = menu;
 
         primeraConfig();
-        segundaConfig();
-        /*
-        terceraConfig();
-        cuartaConfig();
-        quintaConfig();
-        pdfConfig();
-        */
 
         //configurar panel container
         containerPanel.setLayout(cl);
         containerPanel.setPreferredSize(this.getSize());
         containerPanel.add(primera, "1");
         containerPanel.add(segunda, "2");
-        /*
-        containerPanel.add(tercera, "3");
-        containerPanel.add(cuarta, "4");
-        containerPanel.add(quinta, "5");
-        containerPanel.add(pdf, "6");
-        */
+
         cambiarPantalla("1");
 
         //agregar mainPanel
@@ -73,25 +61,13 @@ public class AltaCliente extends JPanel  {
         gbc0.fill = GridBagConstraints.BOTH;
         
         primera.add(primeraPanel, gbc0);
-        segundaConfig();
-        /*
-        terceraConfig();
-        cuartaConfig();
-        quintaConfig();
-        pdfConfig();
-        */
 
         //configurar panel container
         containerPanel.setLayout(cl);
         containerPanel.setPreferredSize(this.getSize());
         containerPanel.add(primera, "1");
         containerPanel.add(segunda, "2");
-        /*
-        containerPanel.add(tercera, "3");
-        containerPanel.add(cuarta, "4");
-        containerPanel.add(quinta, "5");
-        containerPanel.add(pdf, "6");
-        */
+       
         cambiarPantalla("1");
 
         //agregar mainPanel
@@ -114,10 +90,6 @@ public class AltaCliente extends JPanel  {
         gbc0.fill = GridBagConstraints.BOTH;
         
         primera.add(primeraPanel, gbc0);
-    }
-    
-    private void segundaConfig(){
-        
     }
     
     void cambiarPantalla(String pantalla) {

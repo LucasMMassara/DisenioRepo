@@ -259,7 +259,9 @@ public class AltaClientePrimera extends javax.swing.JPanel {
         listaPaneles.add(codigoPostal);
 
         confirmar.addActionListener((ActionEvent e) -> {
-
+            
+            GestorClientes gc = new GestorClientes();
+            
             //chequear inputs
             boolean inputVacio = false;
         
@@ -281,17 +283,33 @@ public class AltaClientePrimera extends javax.swing.JPanel {
             else{
                 nroCuil.setCorrectInput();
             }
+            
+            boolean emailvalido = gc.emailValido(correoElectronico.getText());
+            
+            if(!(emailvalido)){
+                correoElectronico.setWrongInput();
+            }
+            else{
+                correoElectronico.setCorrectInput();
+            }
+            
 
             fechaNacimientoD = fechaNacimiento.getDate();
             
-            if (inputVacio || fechaNacimientoD == null) {
-                if(fechaNacimientoD == null && inputVacio == false){
-                    VentanaError fechaVaciaError = new VentanaError("Debe seleccionar una fecha de nacimiento","Entrada incorrecta");
-                }
-                else{
+            if (inputVacio || fechaNacimientoD == null || emailvalido == false) {
+                
+                if(inputVacio){
                     VentanaError entradasVaciasError = new VentanaError("Faltan datos obligatorios", "Entrada incorrecta");
                 }
-            } else {        
+                else if(emailvalido == false){
+                    VentanaError fechaVaciaError = new VentanaError("El email ingresado es incorrecto","Entrada incorrecta");
+                }
+                else if(fechaNacimientoD == null){
+                    VentanaError fechaVaciaError = new VentanaError("Debe seleccionar una fecha de nacimiento","Entrada incorrecta");
+                }
+                
+            }
+            else {        
                 
                 nombreD = nombre.getText();
                 apellidoD = apellido.getText();
@@ -315,32 +333,22 @@ public class AltaClientePrimera extends javax.swing.JPanel {
                         localidadD = loc;
                     }
                 }
+
+                armarDTO();
+                Cliente cli;
                 
+                if(gc.verificarClienteActivo(cliente)){
+                    VentanaError existeCliente = new VentanaError("Ya existe un cliente activo con este CUIL/DNI","Cliente existente");
+                }
+                else{
+                    cli = gc.crearCliente(cliente);
+                    
+                    //presentar resultado
+                    String nroEncontrado = cli.getNumCliente();
+                    nroCliente.setText(nroEncontrado);
+                    VentanaError confirmacion = new VentanaError("Numero de cliente encontrado: " + nroEncontrado, "Numero Cliente");
+                }
                 
-               //buscar en base de datos por si ya existe
-               armarDTO();
-               GestorClientes gc = new GestorClientes();
-               Cliente cli;
-               cli = gc.crearCliente(cliente);               
-               
-               //TO DO
-               /*
-               boolean yaExiste               
-               if(yaExiste){
-                ventana ya existe el cliente ingresado
-               }
-               */
-               
-               //crear numero cliente
-               //TO DO
-               
-               //guardar cliente
-               //TO DO
-               
-               //presentar resultado
-               String nroEncontrado = cli.getNumCliente();
-               nroCliente.setText(nroEncontrado);
-               VentanaError confirmacion = new VentanaError("Numero de cliente encontrado: " + nroEncontrado, "Numero Cliente");
             }
             
         });
@@ -431,6 +439,10 @@ public class AltaClientePrimera extends javax.swing.JPanel {
         PanelDropDown sexo = new PanelDropDown(sexos);
         
         PanelDatePicker fechaNacimiento = new PanelDatePicker();
+        Calendar calendar = Calendar.getInstance();
+        fechaNacimiento.setMaxSelectableDate(calendar.getTime());
+        calendar.add(Calendar.YEAR, -120);
+        fechaNacimiento.setMinSelectableDate(calendar.getTime());
         
         PanelTextInput calle = new PanelTextInput("calle",16,0,0,0,0);
         calle.restrictToLetters();
@@ -446,31 +458,31 @@ public class AltaClientePrimera extends javax.swing.JPanel {
         PanelTextInput dpto = new PanelTextInput("dpto",16,0,0,0,0);
         dpto.restrictToNumbers();
         dpto.restrictSize(3);
-
+        
         try{
         GestorPais gp = new GestorPais();
-        listaPaises = gp.ObtenerPaises();         
+        listaPaises = gp.ObtenerPaises();    
         listaProvincias = listaPaises.get(0).getProvincias();
         listaLocalidades = listaProvincias.get(0).getLocalidades();
-
+        
         String[] paises = new String[listaPaises.size()];
         for (int i = 0; i < listaPaises.size(); i++) {
             paises[i] = listaPaises.get(i).getNombre();
         }
         pais = new PanelDropDown(paises);
-
+        
         String[] provincias = new String[listaProvincias.size()];
         for (int i = 0; i < listaProvincias.size(); i++) {
             provincias[i] = listaProvincias.get(i).getNombreProvincia();
         }
         provincia = new PanelDropDown(provincias);
-
+        
         String[] localidades = new String[listaLocalidades.size()];
         for (int i = 0; i < listaLocalidades.size(); i++) {
             localidades[i] = listaLocalidades.get(i).getNombreLocalidad();
         }
         localidad = new PanelDropDown(localidades);
-
+        
         pais.addCustomPanelListener(new CustomPanelListener() {
             @Override
             public void onPanelItemSelected(PanelDropDown source, String selectedItem) {
@@ -485,7 +497,7 @@ public class AltaClientePrimera extends javax.swing.JPanel {
                 }
             }
         });
-
+        
         provincia.addCustomPanelListener(new CustomPanelListener() {
             @Override
             public void onPanelItemSelected(PanelDropDown source, String selectedItem) {
@@ -502,6 +514,7 @@ public class AltaClientePrimera extends javax.swing.JPanel {
         catch(Exception e){
             
         }
+        
         
         PanelTextInput codigoPostal = new PanelTextInput("codigoPostal",16,0,0,0,0);
         codigoPostal.restrictToNumbers();
@@ -554,7 +567,9 @@ public class AltaClientePrimera extends javax.swing.JPanel {
         listaPaneles.add(codigoPostal);
 
         confirmar.addActionListener((ActionEvent e) -> {
-
+            
+            GestorClientes gc = new GestorClientes();
+            
             //chequear inputs
             boolean inputVacio = false;
         
@@ -576,17 +591,33 @@ public class AltaClientePrimera extends javax.swing.JPanel {
             else{
                 nroCuil.setCorrectInput();
             }
+            
+            boolean emailvalido = gc.emailValido(correoElectronico.getText());
+            
+            if(!(emailvalido)){
+                correoElectronico.setWrongInput();
+            }
+            else{
+                correoElectronico.setCorrectInput();
+            }
+            
 
             fechaNacimientoD = fechaNacimiento.getDate();
             
-            if (inputVacio || fechaNacimientoD == null) {
-                if(fechaNacimientoD == null && inputVacio == false){
-                    VentanaError fechaVaciaError = new VentanaError("Debe seleccionar una fecha de nacimiento","Entrada incorrecta");
-                }
-                else{
+            if (inputVacio || fechaNacimientoD == null || emailvalido == false) {
+                
+                if(inputVacio){
                     VentanaError entradasVaciasError = new VentanaError("Faltan datos obligatorios", "Entrada incorrecta");
                 }
-            } else {        
+                else if(emailvalido == false){
+                    VentanaError fechaVaciaError = new VentanaError("El email ingresado es incorrecto","Entrada incorrecta");
+                }
+                else if(fechaNacimientoD == null){
+                    VentanaError fechaVaciaError = new VentanaError("Debe seleccionar una fecha de nacimiento","Entrada incorrecta");
+                }
+                
+            }
+            else {        
                 
                 nombreD = nombre.getText();
                 apellidoD = apellido.getText();
@@ -604,36 +635,28 @@ public class AltaClientePrimera extends javax.swing.JPanel {
                 pisoD = piso.getText();
                 dptoD = dpto.getText();
                 codigoPostalD = codigoPostal.getText(); 
+
                 for(Localidad loc: listaLocalidades){
                     if(localidad.getSelectedItem().equals(loc.getNombreLocalidad())){
                         localidadD = loc;
                     }
                 }
+
+                armarDTO();
+                Cliente cli;
                 
-               //buscar en base de datos por si ya existe
-               armarDTO();
-               GestorClientes gc = new GestorClientes();
-               Cliente cli;
-               cli = gc.crearCliente(cliente);   
-               
-               //TO DO
-               /*
-               boolean yaExiste               
-               if(yaExiste){
-                ventana ya existe el cliente ingresado
-               }
-               */
-               
-               //crear numero cliente
-               //TO DO
-               
-               //guardar cliente
-               //TO DO
-               
-               //presentar resultado
-               String nroEncontrado = cli.getNumCliente();
-               nroCliente.setText(nroEncontrado);
-               VentanaError confirmacion = new VentanaError("Numero de cliente encontrado: " + nroEncontrado, "Numero Cliente");
+                if(gc.verificarClienteActivo(cliente)){
+                    VentanaError existeCliente = new VentanaError("Ya existe un cliente activo con este CUIL/DNI","Cliente existente");
+                }
+                else{
+                    cli = gc.crearCliente(cliente);
+                    
+                    //presentar resultado
+                    String nroEncontrado = cli.getNumCliente();
+                    nroCliente.setText(nroEncontrado);
+                    VentanaError confirmacion = new VentanaError("Numero de cliente encontrado: " + nroEncontrado, "Numero Cliente");
+                }
+                
             }
             
         });
@@ -660,7 +683,8 @@ public class AltaClientePrimera extends javax.swing.JPanel {
         jPanel17.add(codigoPostal,gbc);
         jPanel30.add(nroCliente,gbc);     
     }
-
+    
+    
     private void actualizarListaProvincias(){
        String[] provincias = new String[listaProvincias.size()];
         for (int i = 0; i < listaProvincias.size(); i++) {
