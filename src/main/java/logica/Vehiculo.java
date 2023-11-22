@@ -32,6 +32,8 @@ public class Vehiculo implements Serializable {
     
     @OneToOne
     private AnioFabricacion anioFabricacionVehiculo;
+    
+    
 
     public Vehiculo() {
             super();

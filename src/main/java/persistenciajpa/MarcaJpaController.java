@@ -16,6 +16,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import logica.Marca;
 import persistenciajpa.exceptions.NonexistentEntityException;
+import util.EntityManagerUtil;
 
 /**
  *
@@ -30,6 +31,10 @@ public class MarcaJpaController implements Serializable {
 
     public EntityManager getEntityManager() {
         return emf.createEntityManager();
+    }
+    
+        public MarcaJpaController() {
+        this.emf = EntityManagerUtil.getEntityManagerFactory();
     }
 
     public void create(Marca marca) {

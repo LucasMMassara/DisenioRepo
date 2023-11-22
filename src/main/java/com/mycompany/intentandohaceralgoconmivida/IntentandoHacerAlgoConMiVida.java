@@ -20,8 +20,10 @@ import persistenciajpa.DomicilioJpaController;
 import persistenciajpa.LocalidadJpaController;
 import persistenciajpa.PaisJpaController;
 import util.CargadorDatosCobertura;
+import util.CargadorDatosMarca;
 import util.CargadorDatosValoresCalculo;
 import util.CargadorDeDatosPais;
+import util.EntityManagerUtil;
 import static util.EntityManagerUtil.getEntityManager;
 
 
@@ -37,13 +39,20 @@ public class IntentandoHacerAlgoConMiVida {
             System.out.println(cl.getNombre() + " " + cl.getApellido());
         }*/
         
+        /*
+        
+        CargadorDatosMarca cdm = new CargadorDatosMarca();
+        cdm.cargarTodo();
+        */
+        
+        
+        
+        
+        /*
         Date d = new Date();
         System.out.println(d.getYear());
-        
-        
-        
-        /*CargadorDeDatosPais cddp = new CargadorDeDatosPais();
-        cddp.cargarPackPaisesLocIndic();*/
+        */
+       
         
         /*
         String squery ="SELECT c FROM " + Cliente.class.getName() + " c WHERE c.nombre = 'Sergio'";

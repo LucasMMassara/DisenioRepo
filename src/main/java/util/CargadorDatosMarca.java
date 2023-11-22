@@ -6,10 +6,13 @@ package util;
 
 import daos.DAOMarca;
 import daos.DAOModelo;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import logica.AnioFabricacion;
 import logica.Marca;
 import logica.Modelo;
+import persistenciajpa.AnioFabricacionJpaController;
 
 /**
  *
@@ -21,6 +24,13 @@ public class CargadorDatosMarca {
     
     DAOMarca daomarc = new DAOMarca();
     DAOModelo daomod = new DAOModelo();
+    AnioFabricacionJpaController ajpa = new AnioFabricacionJpaController();
+    
+    public void cargarTodo(){
+        cargarAnios();
+        cargarMarcas();
+        cargarModelo(daomarc.get(1).get(), daomarc.get(2).get());
+    }
     
     private void cargarMarcas(){
         List<String> list = Arrays.asList("Ford","Chevrolet");
@@ -32,16 +42,39 @@ public class CargadorDatosMarca {
     
     private void cargarModelo(Marca ford, Marca chevrolet){
         List<String> mford = Arrays.asList("Ka","Mustang");
-        List<String> mchevro = Arrays.asList("F100","Corsa");
+        List<String> mchevro = Arrays.asList("Camaro","Corsa");
         
         for(String modelo:mford){
             Modelo m = new Modelo(modelo,ford);
+            m.setAnioModelo(ajpa.findAnioFabricacionEntities());
             daomod.save(m);
         }
         
         for(String modelo:mchevro){
             Modelo m = new Modelo(modelo,chevrolet);
+            m.setAnioModelo(ajpa.findAnioFabricacionEntities());
             daomod.save(m);
+        }
+        
+    }
+    
+    private void cargarAnios(){
+        
+        List<AnioFabricacion> anios = new ArrayList();
+        
+        for(int i=2006; i<2024; i++){
+            AnioFabricacion af = new AnioFabricacion(i);
+            anios.add(af);
+        }
+        
+        for(AnioFabricacion a:anios){
+            try{
+                ajpa.create(a);
+            }
+            catch(Exception e){
+                System.out.println("Sos un boludo lucas");
+            }
+            
         }
         
     }

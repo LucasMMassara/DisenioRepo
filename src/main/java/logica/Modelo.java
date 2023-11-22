@@ -29,6 +29,8 @@ public class Modelo implements Serializable {
 
     @ManyToMany
     private List<AnioFabricacion> anioModelo;
+    
+    //CAMBIAR HISTORIAL
 
     @OneToMany(mappedBy = "modelo")
     private List<EstadisticaRoboVehiculo> historial;

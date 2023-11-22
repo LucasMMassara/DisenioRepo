@@ -77,6 +77,8 @@ public class Poliza implements Serializable {
     
     @OneToOne
     private PremioYDescuentos premioydescuentos;
+    
+    private double sumaAseguradaVehiculo;
 
     //metodos de atributos base
 
@@ -201,5 +203,12 @@ public class Poliza implements Serializable {
     public void setId(int id) {
         this.id = id;
     }
-    
+
+    public double getSumaAseguradaVehiculo() {
+        return sumaAseguradaVehiculo;
+    }
+
+    public void setSumaAseguradaVehiculo(double sumaAseguradaVehiculo) {
+        this.sumaAseguradaVehiculo = sumaAseguradaVehiculo;
+    }
 }
