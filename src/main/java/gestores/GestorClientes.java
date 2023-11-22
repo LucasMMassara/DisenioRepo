@@ -145,7 +145,7 @@ public class GestorClientes {
         return true;
     }
     
-    private boolean emailValido(String email) {
+    public boolean emailValido(String email) {
         
         boolean result = true;
         try {

@@ -259,7 +259,9 @@ public class AltaClientePrimera extends javax.swing.JPanel {
         listaPaneles.add(codigoPostal);
 
         confirmar.addActionListener((ActionEvent e) -> {
-
+            
+            GestorClientes gc = new GestorClientes();
+            
             //chequear inputs
             boolean inputVacio = false;
         
@@ -281,17 +283,33 @@ public class AltaClientePrimera extends javax.swing.JPanel {
             else{
                 nroCuil.setCorrectInput();
             }
+            
+            boolean emailvalido = gc.emailValido(correoElectronico.getText());
+            
+            if(!(emailvalido)){
+                correoElectronico.setWrongInput();
+            }
+            else{
+                correoElectronico.setCorrectInput();
+            }
+            
 
             fechaNacimientoD = fechaNacimiento.getDate();
             
-            if (inputVacio || fechaNacimientoD == null) {
-                if(fechaNacimientoD == null && inputVacio == false){
-                    VentanaError fechaVaciaError = new VentanaError("Debe seleccionar una fecha de nacimiento","Entrada incorrecta");
-                }
-                else{
+            if (inputVacio || fechaNacimientoD == null || emailvalido == false) {
+                
+                if(inputVacio){
                     VentanaError entradasVaciasError = new VentanaError("Faltan datos obligatorios", "Entrada incorrecta");
                 }
-            } else {        
+                else if(emailvalido == false){
+                    VentanaError fechaVaciaError = new VentanaError("El email ingresado es incorrecto","Entrada incorrecta");
+                }
+                else if(fechaNacimientoD == null){
+                    VentanaError fechaVaciaError = new VentanaError("Debe seleccionar una fecha de nacimiento","Entrada incorrecta");
+                }
+                
+            }
+            else {        
                 
                 nombreD = nombre.getText();
                 apellidoD = apellido.getText();
@@ -317,7 +335,6 @@ public class AltaClientePrimera extends javax.swing.JPanel {
                 }
 
                 armarDTO();
-                GestorClientes gc = new GestorClientes();
                 Cliente cli;
                 
                 if(gc.verificarClienteActivo(cliente)){
@@ -550,7 +567,9 @@ public class AltaClientePrimera extends javax.swing.JPanel {
         listaPaneles.add(codigoPostal);
 
         confirmar.addActionListener((ActionEvent e) -> {
-
+            
+            GestorClientes gc = new GestorClientes();
+            
             //chequear inputs
             boolean inputVacio = false;
         
@@ -572,17 +591,33 @@ public class AltaClientePrimera extends javax.swing.JPanel {
             else{
                 nroCuil.setCorrectInput();
             }
+            
+            boolean emailvalido = gc.emailValido(correoElectronico.getText());
+            
+            if(!(emailvalido)){
+                correoElectronico.setWrongInput();
+            }
+            else{
+                correoElectronico.setCorrectInput();
+            }
+            
 
             fechaNacimientoD = fechaNacimiento.getDate();
             
-            if (inputVacio || fechaNacimientoD == null) {
-                if(fechaNacimientoD == null && inputVacio == false){
-                    VentanaError fechaVaciaError = new VentanaError("Debe seleccionar una fecha de nacimiento","Entrada incorrecta");
-                }
-                else{
+            if (inputVacio || fechaNacimientoD == null || emailvalido == false) {
+                
+                if(inputVacio){
                     VentanaError entradasVaciasError = new VentanaError("Faltan datos obligatorios", "Entrada incorrecta");
                 }
-            } else {        
+                else if(emailvalido == false){
+                    VentanaError fechaVaciaError = new VentanaError("El email ingresado es incorrecto","Entrada incorrecta");
+                }
+                else if(fechaNacimientoD == null){
+                    VentanaError fechaVaciaError = new VentanaError("Debe seleccionar una fecha de nacimiento","Entrada incorrecta");
+                }
+                
+            }
+            else {        
                 
                 nombreD = nombre.getText();
                 apellidoD = apellido.getText();
@@ -606,9 +641,8 @@ public class AltaClientePrimera extends javax.swing.JPanel {
                         localidadD = loc;
                     }
                 }
-                
+
                 armarDTO();
-                GestorClientes gc = new GestorClientes();
                 Cliente cli;
                 
                 if(gc.verificarClienteActivo(cliente)){
@@ -622,6 +656,7 @@ public class AltaClientePrimera extends javax.swing.JPanel {
                     nroCliente.setText(nroEncontrado);
                     VentanaError confirmacion = new VentanaError("Numero de cliente encontrado: " + nroEncontrado, "Numero Cliente");
                 }
+                
             }
             
         });
@@ -648,7 +683,8 @@ public class AltaClientePrimera extends javax.swing.JPanel {
         jPanel17.add(codigoPostal,gbc);
         jPanel30.add(nroCliente,gbc);     
     }
-
+    
+    
     private void actualizarListaProvincias(){
        String[] provincias = new String[listaProvincias.size()];
         for (int i = 0; i < listaProvincias.size(); i++) {

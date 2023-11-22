@@ -1838,6 +1838,16 @@ public class AltaPoliza extends JPanel {
             field = pDAcroForm.getField("TotalAbonar");
             field.setValue(totalAbonar);
             
+            Calendar calendar = Calendar.getInstance();
+            field = pDAcroForm.getField("Fecha");
+            field.setValue(sdf.format(calendar.getTime()));
+            field = pDAcroForm.getField("Agente");
+            field.setValue("TO DO");
+            field = pDAcroForm.getField("AgenteCorreo");
+            field.setValue("TO DO");
+            field = pDAcroForm.getField("AgenteTelefono");
+            field.setValue("TO DO");
+            
         
     }
 }
