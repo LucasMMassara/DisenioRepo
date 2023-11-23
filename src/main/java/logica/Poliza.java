@@ -33,6 +33,9 @@ public class Poliza implements Serializable {
     @Enumerated(EnumType.STRING)
     private CantidadSiniestros cantidadSiniestros;
     
+    @Enumerated(EnumType.STRING)  
+    private EstadoPoliza estado;
+    
     @Temporal(javax.persistence.TemporalType.DATE)
     private Date inicioVigencia;
     
@@ -210,5 +213,13 @@ public class Poliza implements Serializable {
 
     public void setSumaAseguradaVehiculo(double sumaAseguradaVehiculo) {
         this.sumaAseguradaVehiculo = sumaAseguradaVehiculo;
+    }
+
+    public EstadoPoliza getEstado() {
+        return estado;
+    }
+
+    public void setEstado(EstadoPoliza estado) {
+        this.estado = estado;
     }
 }
