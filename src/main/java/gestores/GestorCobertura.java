@@ -8,15 +8,17 @@ import logica.Cobertura;
 
 public class GestorCobertura {
     
+    private List<Cobertura> coberturasDevueltas;
+    
     public List<String> obtenerCoberturas(String anio){
-        
-        List<Cobertura> cob;
         
         DAOCobertura daocob = new DAOCobertura();
         
         if(obtenerAniosVehiculo(anio)>10){
-            cob = daocob.buscarResponsabilidadCivil();
-            return obtenerStringCoberturas(cob);
+            
+            coberturasDevueltas = daocob.buscarResponsabilidadCivil();
+            
+            return obtenerStringCoberturas(coberturasDevueltas);
         }
         
         return obtenerStringCoberturas(daocob.obtenerCoberturas());

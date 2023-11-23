@@ -1,16 +1,30 @@
 package logica;
 
-public class CalculoPremioPrenda {
+import persistenciajpa.ValoresActualesCalculoJpaController;
+
+public class CalculoPremioPrenda{
+    
+        ValoresActualesCalculoJpaController vacjpa = new ValoresActualesCalculoJpaController();
+        ValoresActualesCalculo valactcal = vacjpa.findValoresActualesCalculo(1);
 	
-	public PremioDescuentosEmision calculoPremio(Poliza poliza){
+	public PremioYDescuentos calculoPremio(Poliza poliza){
 		//Nuevo premio
-		PremioDescuentosEmision premio = new PremioDescuentosEmision();
+		PremioYDescuentos premio = new PremioYDescuentos();
+                
+                //Valores usados para el calculo;
+                
+                valactcal.getValorGen();
+                valactcal.getValorSeg();
+                valactcal.getValorSin();
+                
 		//Set de los atributos usando los metodos de calculo de la clase
+                
 		premio.setPrima(calculoPrima(poliza));
 		premio.setBonificacionPorPago(calculoBonificacionPorPagoSemestral(poliza));
 		premio.setDerechoDeEmision(calculoDerechoEmision(poliza));
 		premio.setDescuentoPorUnidades(calculoDescuentoPorUnidades(poliza));
-		//retornamos el premio
+                
+		//setear premio a poliza  el premio
 		return premio;
 	}
 	

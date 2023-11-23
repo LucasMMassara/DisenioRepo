@@ -14,6 +14,7 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import logica.ValoresActualesCalculo;
 import persistenciajpa.exceptions.NonexistentEntityException;
+import util.EntityManagerUtil;
 
 /**
  *
@@ -25,6 +26,11 @@ public class ValoresActualesCalculoJpaController implements Serializable {
         this.emf = emf;
     }
     private EntityManagerFactory emf = null;
+
+    public ValoresActualesCalculoJpaController() {
+        this.emf =  EntityManagerUtil.getEntityManagerFactory();
+    }
+    
 
     public EntityManager getEntityManager() {
         return emf.createEntityManager();
