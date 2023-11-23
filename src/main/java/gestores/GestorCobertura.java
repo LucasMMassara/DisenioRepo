@@ -10,7 +10,7 @@ public class GestorCobertura {
     
     private List<Cobertura> coberturasDevueltas;
     
-    public List<String> obtenerCoberturas(String anio){
+    public String[] obtenerCoberturas(String anio){
         
         DAOCobertura daocob = new DAOCobertura();
         
@@ -40,12 +40,11 @@ public class GestorCobertura {
         return coberturaBuscada;
     }
     
-    private List<String> obtenerStringCoberturas(List<Cobertura> cob){
+    private String[] obtenerStringCoberturas(List<Cobertura> cob){
         
-        List<String> nombreCoberturas = new ArrayList();
-        
-        for(Cobertura c: cob){
-            nombreCoberturas.add(c.getDetalle());
+        String[] nombreCoberturas = new String[cob.size()];
+        for (int i = 0; i < cob.size(); i++) {
+            nombreCoberturas[i] = cob.get(i).getDetalle();
         }
         
         return nombreCoberturas;

@@ -65,10 +65,14 @@ public class IntentandoHacerAlgoConMiVida {
         /*
         DAOCliente daocli = new DAOCliente();
         daocli.filtroClientes(null, "Jose", "Sand", "DNI", null);
-        /*
+        */
+        //new CargadorDatosCobertura().agregarCoberturas();
+        
+        
         App aplicacion = new App();
         aplicacion.inicioApp();
-        */
+        
+        
         
     }
 }

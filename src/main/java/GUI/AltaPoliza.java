@@ -4,6 +4,7 @@ import dto.ClienteDTO;
 import dto.DomicilioDTO;
 import dto.HijoDTO;
 import dto.VehiculoDTO;
+import gestores.GestorCobertura;
 import gestores.GestorPais;
 import java.awt.CardLayout;
 import java.awt.Color;
@@ -92,7 +93,7 @@ public class AltaPoliza extends JPanel {
         primeraConfig();
         segundaConfig();
         terceraConfig();
-        cuartaConfig();
+        //cuartaConfig();
         quintaConfig();
         pdfConfig();
         buscarClienteConfig();
@@ -440,7 +441,7 @@ public class AltaPoliza extends JPanel {
         JPanel panelMedidas = new JPanel();
 
         //opciones dropdowns
-        String[] items = {"Option 1", "Option 2", "Option 3", "Option 4"};
+        String[] items = {"1969", "2000", "2015", "2010"};
         String[] marcas = {"Mercedes-Benz", "BMW", "Audi", "Porsche"};
         String[] modelosMercedes = {"Mercedes-Benz S-Class","Mercedes-Benz E-Class","Mercedes-Benz C-Class","Mercedes-Benz GLE"};
         String[] modelosBMW = {"BMW 7 Series","BMW 5 Series","BMW 3 Series","BMW X5"};
@@ -511,6 +512,7 @@ public class AltaPoliza extends JPanel {
                 vehiculoDTO.setTuercasAntirrobo(tuercas.isSelected());
 
                 if (clienteCantHijos == 0) {
+                    cuartaConfig();
                     cambiarPantalla("4");
                 } else {
                     cambiarPantalla("3");
@@ -545,6 +547,8 @@ public class AltaPoliza extends JPanel {
             localidades[i] = listaLocalidades.get(i).getNombreLocalidad();
         }
         localidad = new PanelDropDown(localidades);
+        
+        
         
         pais.addCustomPanelListener(new CustomPanelListener() {
             @Override
@@ -691,6 +695,7 @@ public class AltaPoliza extends JPanel {
                 for(int i = 0; i < sexoDropDownList.size(); i++){
                 hijosDTO.add(new HijoDTO(fechaInputList.get(i).getDate(),sexoDropDownList.get(i).getSelectedItem(),estadoCivilDropDownList.get(i).getSelectedItem()));
                 }
+                cuartaConfig();
                 cambiarPantalla("4");
             }
         });
@@ -733,7 +738,10 @@ public class AltaPoliza extends JPanel {
     private void cuartaConfig() {
 
         String[] formasPago = {"Mensual", "Semestral"};
-        String[] tiposCobertura = {"tipo 1", "tipo 2", "tipo 3", "tipo 4"};
+        
+        GestorCobertura gcb = new GestorCobertura();
+        
+        String[] tiposCobertura = gcb.obtenerCoberturas(vehiculoDTO.getAnioVehiculo());
 
         PanelDatePicker fechaInput = new PanelDatePicker();
         PanelDropDown tipoCoberturaDropDown = new PanelDropDown("CENTER", tiposCobertura);
