@@ -9,9 +9,9 @@ import logica.Modelo;
 
 public class GestorMarca {
 
-    public List<Marca> marcasObtenidas = null;
-    public List<Modelo> modelosObtenidos = null;
-    public List<AnioFabricacion> aniosObtenidos = null;
+    private List<Marca> marcasObtenidas = null;
+    private List<Modelo> modelosObtenidos = null;
+    private List<AnioFabricacion> aniosObtenidos = null;
 
     //Capaz hay que traer todo y ir filtrando a medida que elije el usuario y no hacerlo de esta manera.
     public String[] obtenerMarcas() {
@@ -27,8 +27,8 @@ public class GestorMarca {
 
         return obtenerStringModelos(modelosObtenidos);
     }
-    
-        public String[] obtenerAnios(String modelo) {
+
+    public String[] obtenerAnios(String modelo) {
 
         aniosObtenidos = obtenerModeloUnico(modelo).getAnioModelo();
 
@@ -46,7 +46,7 @@ public class GestorMarca {
         return nombreMarcas;
     }
 
-    public Marca obtenerMarcaUnica(String nombreMarca) {
+    private Marca obtenerMarcaUnica(String nombreMarca) {
 
         Marca marcaBuscada = null;
 
@@ -75,7 +75,7 @@ public class GestorMarca {
         return nombreModelos;
     }
 
-    public Modelo obtenerModeloUnico(String nombreModelo) {
+    private Modelo obtenerModeloUnico(String nombreModelo) {
 
         Modelo modeloBuscado = null;
 
@@ -90,21 +90,22 @@ public class GestorMarca {
     }
 
     private String[] obtenerStringAnios(List<AnioFabricacion> anios) {
-        
+
         String[] stringAnios = new String[anios.size()];
 
         for (int i = 0; i < anios.size(); i++) {
-            stringAnios[i] = anios.get(i).getAnio()+"";
+            stringAnios[i] = anios.get(i).getAnio() + "";
         }
 
         return stringAnios;
     }
-        public AnioFabricacion obtenerAnioUnico(String anio) {
+
+    private AnioFabricacion obtenerAnioUnico(String anio) {
 
         AnioFabricacion anioBuscado = null;
 
         for (AnioFabricacion a : aniosObtenidos) {
-            if ((a.getAnio()+"").equals(anio)) {
+            if ((a.getAnio() + "").equals(anio)) {
                 anioBuscado = a;
                 break;
             }

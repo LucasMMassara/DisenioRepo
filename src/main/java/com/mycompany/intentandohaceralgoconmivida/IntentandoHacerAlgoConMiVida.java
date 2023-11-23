@@ -5,6 +5,7 @@ import daos.DAOCliente;
 import daos.DAOPais;
 import dto.ClienteDTO;
 import gestores.GestorClientes;
+import gestores.GestorMarca;
 import gestores.GestorPais;
 import java.time.LocalDate;
 import java.util.Calendar;
@@ -68,9 +69,17 @@ public class IntentandoHacerAlgoConMiVida {
         */
         //new CargadorDatosCobertura().agregarCoberturas();
         
-        
+        /*
         App aplicacion = new App();
         aplicacion.inicioApp();
+        
+        */
+        
+        GestorMarca gm = new GestorMarca();
+        System.out.println((gm.obtenerModelos("Chevrolet"))[0]);
+        System.out.println((gm.obtenerModelos("Chevrolet"))[1]);
+        System.out.println((gm.obtenerModelos("Ford"))[0]);
+        System.out.println((gm.obtenerModelos("Ford"))[1]);
         
         
         
