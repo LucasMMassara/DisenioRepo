@@ -27,6 +27,9 @@ public class GeneradorQueryCliente {
         cuerpoQuery = verificarQuery(cuerpoQuery);
         
         squery = squery + cuerpoQuery;
+        
+        System.out.println(squery);
+        
         return squery;
     }
     

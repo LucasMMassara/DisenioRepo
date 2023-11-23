@@ -337,7 +337,7 @@ public class AltaClientePrimera extends javax.swing.JPanel {
                 armarDTO();
                 Cliente cli;
                 
-                if(gc.verificarClienteActivo(cliente)){
+                if(gc.existeClienteActivo(cliente)){
                     VentanaError existeCliente = new VentanaError("Ya existe un cliente activo con este CUIL/DNI","Cliente existente");
                 }
                 else{
@@ -645,7 +645,7 @@ public class AltaClientePrimera extends javax.swing.JPanel {
                 armarDTO();
                 Cliente cli;
                 
-                if(gc.verificarClienteActivo(cliente)){
+                if(gc.existeClienteActivo(cliente)){
                     VentanaError existeCliente = new VentanaError("Ya existe un cliente activo con este CUIL/DNI","Cliente existente");
                 }
                 else{

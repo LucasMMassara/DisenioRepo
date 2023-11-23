@@ -101,8 +101,11 @@ public class GestorClientes {
     }
     
     public int validarDatosCliente(ClienteDTO cliente){
-        //El retorno es 1 cuando hay otro cliente con el dni y tipo dni igual
         
+        //El retorno es 1 cuando hay otro cliente con el dni y tipo dni igual
+        if(existeClienteActivo(cliente)){
+            return 1;
+        }
         //El retorno es 2 cuando no coincide el cuil con el dni
         if(!validarCuilDNI(cliente.getNroCuil(), cliente.getNumDocumento())){
             return 2;
@@ -121,28 +124,24 @@ public class GestorClientes {
         return cuil.contains(dni);
     }
     
-    private boolean existeClienteActivo(ClienteDTO cliente){
+    public boolean existeClienteActivo(ClienteDTO cliente){ 
         
-        //TODO Provisorio 
+        DAOCliente daocli = new DAOCliente();
         
-        GestorPersona gp = new GestorPersona();
+        //Arma la query solo con el numdoc y tipo doc.
         
-        if(gp.buscarPersonas(cliente.getTipoDocumento(), cliente.getNumDocumento()).isEmpty()){
-            return false;
-        }
+        List<Cliente> clientesBBDD = daocli.filtroClientes("", "", "", cliente.getTipoDocumento(), cliente.getNumDocumento());
         
-        return true; 
+        //Retorna --> si es vacio entonces no existe cliente activo.
+        
+        return !clientesBBDD.isEmpty(); 
     }
     
     private boolean clienteMayorEdad(Date fechaNac){
         
         GestorFecha gf = new GestorFecha();
         
-        if(gf.obtenerAniosCliente(fechaNac)<18){
-            return false;
-        }
-        
-        return true;
+        return gf.obtenerAniosCliente(fechaNac) >= 18;
     }
     
     public boolean emailValido(String email) {
@@ -224,9 +223,5 @@ public class GestorClientes {
         
         return listaDTO;
         
-    }
-
-    public boolean verificarClienteActivo(ClienteDTO cliente) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 }
