@@ -69,18 +69,6 @@ public class IntentandoHacerAlgoConMiVida {
         */
         //new CargadorDatosCobertura().agregarCoberturas();
         
-        /*
-        App aplicacion = new App();
-        aplicacion.inicioApp();
-        
-        */
-        
-        GestorMarca gm = new GestorMarca();
-        System.out.println((gm.obtenerModelos("Chevrolet"))[0]);
-        System.out.println((gm.obtenerModelos("Chevrolet"))[1]);
-        System.out.println((gm.obtenerModelos("Ford"))[0]);
-        System.out.println((gm.obtenerModelos("Ford"))[1]);
-        
         
         
     }
