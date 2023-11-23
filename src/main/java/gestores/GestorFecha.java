@@ -11,7 +11,7 @@ public class GestorFecha {
         return date;
     }
     
-    public int obtenerAniosCliente(Date fechaNacimiento){
+    public int obtenerAnios(Date fechaNacimiento){
         Date fechaActual = new Date();
         // validate inputs ...                                                                               
         DateFormat formatter = new SimpleDateFormat("yyyyMMdd");                           
