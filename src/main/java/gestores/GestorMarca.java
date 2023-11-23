@@ -13,21 +13,24 @@ public class GestorMarca {
     private List<Modelo> modelosObtenidos = null;
     private List<AnioFabricacion> aniosObtenidos = null;
 
-    //Capaz hay que traer todo y ir filtrando a medida que elije el usuario y no hacerlo de esta manera.
+    //Obtiene todas las marcas de la BBDD y las pasa a una lista de string para que la use la interfaz
     public String[] obtenerMarcas() {
 
         marcasObtenidas = ((new DAOMarca()).obtenerAll());
 
         return obtenerStringMarcas(marcasObtenidas);
     }
-
+    
+    
+    //Obtiene todos los modelos en base a una marca en string de la BBDD y las pasa a una lista de string para que la use la interfaz
     public String[] obtenerModelos(String marca) {
 
         modelosObtenidos = obtenerMarcaUnica(marca).getModelos();
 
         return obtenerStringModelos(modelosObtenidos);
     }
-
+    
+    //Obtiene todos los anios de  un modelo determinado de la BBDD
     public String[] obtenerAnios(String modelo) {
 
         aniosObtenidos = obtenerModeloUnico(modelo).getAnioModelo();

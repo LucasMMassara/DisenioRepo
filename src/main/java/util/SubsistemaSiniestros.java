@@ -12,7 +12,7 @@ import java.util.Random;
  */
 public class SubsistemaSiniestros {
     
-    public String obtenerCantSiniestros(String tipoDni, String dni){
+    public String obtenerCantSiniestros(String tipoDni, String dni, String tipoSexo){
         
         Random rand = new Random();
         
