@@ -21,7 +21,23 @@ public class GestorCobertura {
             return obtenerStringCoberturas(coberturasDevueltas);
         }
         
-        return obtenerStringCoberturas(daocob.obtenerCoberturas());
+        coberturasDevueltas = daocob.obtenerCoberturas();
+        
+        return obtenerStringCoberturas(coberturasDevueltas);
+    }
+    
+    public Cobertura obtenerCoberturaUnica(String coberturaNombre){
+        
+        Cobertura coberturaBuscada = null;
+        
+        for(Cobertura c: coberturasDevueltas){    
+            if(c.getDetalle().equals(coberturaNombre)){
+                coberturaBuscada = c;
+                break;
+            }
+        }
+        
+        return coberturaBuscada;
     }
     
     private List<String> obtenerStringCoberturas(List<Cobertura> cob){

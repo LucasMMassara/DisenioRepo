@@ -19,10 +19,11 @@ public class CalculoPremioPrenda{
                 
 		//Set de los atributos usando los metodos de calculo de la clase
                 
-		premio.setPrima(calculoPrima(poliza));
+		/*premio.setPrima(calculoPrima(poliza));
 		premio.setBonificacionPorPago(calculoBonificacionPorPagoSemestral(poliza));
 		premio.setDerechoDeEmision(calculoDerechoEmision(poliza));
 		premio.setDescuentoPorUnidades(calculoDescuentoPorUnidades(poliza));
+                */
                 
 		//setear premio a poliza  el premio
 		return premio;
