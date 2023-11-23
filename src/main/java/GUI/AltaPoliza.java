@@ -5,6 +5,7 @@ import dto.DomicilioDTO;
 import dto.HijoDTO;
 import dto.VehiculoDTO;
 import gestores.GestorCobertura;
+import gestores.GestorMarca;
 import gestores.GestorPais;
 import java.awt.CardLayout;
 import java.awt.Color;
@@ -427,10 +428,19 @@ public class AltaPoliza extends JPanel {
     List<Provincia> listaProvincias;
     List<Localidad> listaLocalidades;
     
+    String[] listaMarcas;
+    String[] listaModelos;
+    String[] listaAnios;
+    
     String[] defaults = {""};
     PanelDropDown pais = new PanelDropDown("WEST", defaults);
     PanelDropDown provincia = new PanelDropDown("WEST", defaults);
     PanelDropDown localidad = new PanelDropDown("WEST", defaults);
+    
+    PanelDropDown dMarca = new PanelDropDown("WEST", defaults);
+    PanelDropDown dModelo = new PanelDropDown("WEST", defaults);
+    PanelDropDown dAnio = new PanelDropDown("WEST", defaults);
+    
     private void segundaConfig() {
 
         Boton botonVolver = new Boton("Volver");
@@ -440,17 +450,99 @@ public class AltaPoliza extends JPanel {
         JPanel panelVehiculo = new JPanel();
         JPanel panelMedidas = new JPanel();
 
-        //opciones dropdowns
-        String[] items = {"1969", "2000", "2015", "2010"};
-        String[] marcas = {"Mercedes-Benz", "BMW", "Audi", "Porsche"};
-        String[] modelosMercedes = {"Mercedes-Benz S-Class","Mercedes-Benz E-Class","Mercedes-Benz C-Class","Mercedes-Benz GLE"};
-        String[] modelosBMW = {"BMW 7 Series","BMW 5 Series","BMW 3 Series","BMW X5"};
-        String[] modelosAudi = {"Audi A8","Audi A6","Audi A4","Audi Q7"};
-        String[] modelosPorsche = {"Porsche 911","Porsche Cayenne","Porsche Panamera","Porsche Macan"};
+        try {
+
+            GestorPais gp = new GestorPais();
+            listaPaises = gp.ObtenerPaises();
+            listaProvincias = listaPaises.get(0).getProvincias();
+            listaLocalidades = listaProvincias.get(0).getLocalidades();
+
+            String[] paises = new String[listaPaises.size()];
+            for (int i = 0; i < listaPaises.size(); i++) {
+                paises[i] = listaPaises.get(i).getNombre();
+            }
+            pais = new PanelDropDown(paises);
+
+            String[] provincias = new String[listaProvincias.size()];
+            for (int i = 0; i < listaProvincias.size(); i++) {
+                provincias[i] = listaProvincias.get(i).getNombreProvincia();
+            }
+            provincia = new PanelDropDown(provincias);
+
+            String[] localidades = new String[listaLocalidades.size()];
+            for (int i = 0; i < listaLocalidades.size(); i++) {
+                localidades[i] = listaLocalidades.get(i).getNombreLocalidad();
+            }
+            localidad = new PanelDropDown(localidades);
+
+            pais.addCustomPanelListener(new CustomPanelListener() {
+                @Override
+                public void onPanelItemSelected(PanelDropDown source, String selectedItem) {
+                    for (Pais p : listaPaises) {
+                        if (p.getNombre().equals(selectedItem)) {
+                            listaProvincias = p.getProvincias();
+                            listaLocalidades = listaProvincias.get(0).getLocalidades();
+                            actualizarListaProvincias();
+                            actualizarListaLocalidades();
+                            break;
+                        }
+                    }
+                }
+            });
+
+            provincia.addCustomPanelListener(new CustomPanelListener() {
+                @Override
+                public void onPanelItemSelected(PanelDropDown source, String selectedItem) {
+                    for (Provincia p : listaProvincias) {
+                        if (p.getNombreProvincia().equals(selectedItem)) {
+                            listaLocalidades = p.getLocalidades();
+                            actualizarListaLocalidades();
+                            break;
+                        }
+                    }
+                }
+            });
+        } catch (Exception e) {
+
+        }
         
-        PanelDropDown dMarca = new PanelDropDown("WEST", marcas);
-        PanelDropDown dModelo = new PanelDropDown("WEST", modelosMercedes);
-        PanelDropDown dAnio = new PanelDropDown("WEST", items);
+        GestorMarca gm = new GestorMarca();
+        
+        try {
+            
+            listaMarcas = gm.obtenerMarcas();
+            listaModelos = gm.obtenerModelos(listaMarcas[0]);
+            listaAnios = gm.obtenerAnios(listaModelos[0]);
+
+            dMarca = new PanelDropDown(listaMarcas); 
+            dModelo = new PanelDropDown(listaModelos); 
+            dAnio = new PanelDropDown(listaAnios); 
+            
+           
+
+        }
+        catch(Exception e){
+            
+        }
+        
+        dMarca.addCustomPanelListener(new CustomPanelListener() {
+            @Override
+            public void onPanelItemSelected(PanelDropDown source, String selectedItem) {
+                listaModelos = gm.obtenerModelos(selectedItem);
+                listaAnios = gm.obtenerAnios(listaModelos[0]);
+                dModelo.setItems(listaModelos);
+                dAnio.setItems(listaAnios);
+            }
+        });
+
+        dModelo.addCustomPanelListener(new CustomPanelListener() {
+            @Override
+            public void onPanelItemSelected(PanelDropDown source, String selectedItem) {
+                listaAnios = gm.obtenerAnios(selectedItem);
+                dAnio.setItems(listaAnios);
+            }
+        });
+
         PanelTextInput tiNroMotor = new PanelTextInput(16);
         PanelTextInput tiNroChasis = new PanelTextInput(16);
         PanelTextInput tiPatente = new PanelTextInput(16);
@@ -523,92 +615,6 @@ public class AltaPoliza extends JPanel {
 
         });
         
-        try{
-        
-        GestorPais gp = new GestorPais();
-        listaPaises = gp.ObtenerPaises();    
-        listaProvincias = listaPaises.get(0).getProvincias();
-        listaLocalidades = listaProvincias.get(0).getLocalidades();
-        
-        String[] paises = new String[listaPaises.size()];
-        for (int i = 0; i < listaPaises.size(); i++) {
-            paises[i] = listaPaises.get(i).getNombre();
-        }
-        pais = new PanelDropDown(paises);
-        
-        String[] provincias = new String[listaProvincias.size()];
-        for (int i = 0; i < listaProvincias.size(); i++) {
-            provincias[i] = listaProvincias.get(i).getNombreProvincia();
-        }
-        provincia = new PanelDropDown(provincias);
-        
-        String[] localidades = new String[listaLocalidades.size()];
-        for (int i = 0; i < listaLocalidades.size(); i++) {
-            localidades[i] = listaLocalidades.get(i).getNombreLocalidad();
-        }
-        localidad = new PanelDropDown(localidades);
-        
-        
-        
-        pais.addCustomPanelListener(new CustomPanelListener() {
-            @Override
-            public void onPanelItemSelected(PanelDropDown source, String selectedItem) {
-                for(Pais p: listaPaises){    
-                    if(p.getNombre().equals(selectedItem)){
-                        listaProvincias = p.getProvincias();
-                        listaLocalidades = listaProvincias.get(0).getLocalidades();
-                        actualizarListaProvincias();
-                        actualizarListaLocalidades();
-                        break;
-                    }
-                }
-            }
-        });
-        
-        provincia.addCustomPanelListener(new CustomPanelListener() {
-            @Override
-            public void onPanelItemSelected(PanelDropDown source, String selectedItem) {
-                for(Provincia p: listaProvincias){    
-                    if(p.getNombreProvincia().equals(selectedItem)){
-                        listaLocalidades = p.getLocalidades();
-                        actualizarListaLocalidades();
-                        break;
-                    }
-                }
-            }
-        });
-        }
-        catch(Exception e){
-            
-        }
-        
-        //configuro dropdowns
-        
-        
-        
-        dMarca.addCustomPanelListener(new CustomPanelListener() {
-                    @Override
-                    public void onPanelItemSelected(PanelDropDown source, String selectedItem) {
-                        
-                        switch (selectedItem) {
-                            case "Mercedes-Benz":
-                                dModelo.setItems(modelosMercedes);
-                                break;
-                            case "BMW":
-                                dModelo.setItems(modelosBMW);
-                                break;
-                            case "Audi":
-                                dModelo.setItems(modelosAudi);
-                                break;
-                            case "Porsche":
-                                dModelo.setItems(modelosPorsche);
-                                break;
-                        }
-                        
-                    }
-                });
-        
-
         GridBagConstraints gbc = new GridBagConstraints();
         LineBorder border = new LineBorder(Color.LIGHT_GRAY, 2);
 
@@ -1062,10 +1068,6 @@ public class AltaPoliza extends JPanel {
         PanelText tProvincia = new PanelText("Provincia", "PLAIN", 16, "SOUTHWEST");
         PanelText tPais = new PanelText("Pais", "PLAIN", 16, "SOUTHWEST");
         PanelText tLocalidad = new PanelText("Localidad", "PLAIN", 16, "SOUTHWEST");
-
-        String[] items = {"Option 1", "Option 2", "Option 3", "Option 4"};
-
-      
 
         gbc.gridy = 1;
         panelVehiculo.add(tDomicilioRiesgo, gbc);

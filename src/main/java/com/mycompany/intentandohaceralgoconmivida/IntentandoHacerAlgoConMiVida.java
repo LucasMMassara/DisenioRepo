@@ -68,6 +68,8 @@ public class IntentandoHacerAlgoConMiVida {
         */
         //new CargadorDatosCobertura().agregarCoberturas();
         
+        //new CargadorDatosMarca().cargarTodo();
+        
         
         App aplicacion = new App();
         aplicacion.inicioApp();
