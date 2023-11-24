@@ -64,6 +64,8 @@ public class GestorCuotas {
 
     }
     
+    //Debe recibir polizaDTO y vehiculoDTO
+    
     public ArrayList<CuotaDTO> crearCuotasInferfaz(Date inicioPoliza, TipoPago formaDePago, String sumaAsegurada, EstadisticaRoboVehiculo erv, IndicadorRiesgo ir){
         
         Double suma = Double.parseDouble(sumaAsegurada);
