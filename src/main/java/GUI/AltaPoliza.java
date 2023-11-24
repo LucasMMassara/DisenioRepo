@@ -39,6 +39,7 @@ import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.interactive.form.PDAcroForm;
 import org.apache.pdfbox.pdmodel.interactive.form.PDField;
 import org.apache.pdfbox.rendering.PDFRenderer;
+import util.SubsistemaSiniestros;
 
 
 public class AltaPoliza extends JPanel {
@@ -63,6 +64,7 @@ public class AltaPoliza extends JPanel {
     //------------------------------------
     //Cliente
     ClienteDTO clienteDTO = new ClienteDTO("", "", "", "", "", "", "", "", "", "", "", "", null,new DomicilioDTO("", "", "", "", null, ""));
+    String cantSiniestros = "";
     
     //Hijos
     int clienteCantHijos = 0;
@@ -87,17 +89,25 @@ public class AltaPoliza extends JPanel {
     String descuentos = "";
     String totalAbonar = "";
 
+    Boolean primeraConfigurada = false;
+    Boolean segundaConfigurada = false;
+    Boolean cuartaConfigurada = false;
+    Boolean quintaConfigurada = false;
+    Boolean pdfConfigurado = false;
+    
     AltaPoliza(MenuProductorSeguros menu) {
 
         main = menu;
 
         primeraConfig();
-        segundaConfig();
-        terceraConfig();
+        primeraConfigurada = true;
+        //segundaConfig();
+        //terceraConfig();
         //cuartaConfig();
-        quintaConfig();
-        pdfConfig();
+        //quintaConfig();
+        //pdfConfig();
         buscarClienteConfig();
+        
 
         //configurar panel container
         containerPanel.setLayout(cl);
@@ -382,45 +392,55 @@ public class AltaPoliza extends JPanel {
             main.cambiarPantalla("1");
         });
         botonContinuar.addActionListener((ActionEvent e) -> {
-            //guardarDatos
-
-            if (hijosInput.getText().isEmpty()) {
-                clienteCantHijos = 0;
-            } else {
-                clienteCantHijos = Integer.parseInt(hijosInput.getText());
-            }
             
+            //chequear inputs
+            boolean inputVacio = false;
             List<JLabel> listaPaneles = new ArrayList<>();
             
-            // Add objects of different types to the list
             listaPaneles.add(clienteApellidoLabel);
             listaPaneles.add(clienteNombreLabel);
             listaPaneles.add(clienteNumeroLabel);
             listaPaneles.add(clienteTipoDocLabel);
             listaPaneles.add(clienteNroDocLabel);
             listaPaneles.add(clienteDireccionLabel);
-            
-             //chequear inputs
-            boolean inputVacio = false;
-        
-            for(JLabel panel: listaPaneles ){
 
-                if("".equals(panel.getText())){
+            for (JLabel panel : listaPaneles) {
+                if ("".equals(panel.getText())) {
                     inputVacio = true;
                     break;
                 }
             }
-
-            if (inputVacio) {
-                VentanaError entradasVaciasError = new VentanaError("Seleccione un cliente", "Entrada incorrecta");       
-            }else {
-               if (clienteCantHijos != 0) {
+            
+            if(inputVacio){
+                VentanaError entradasVaciasError = new VentanaError("Seleccione un cliente", "Entrada incorrecta");
+                return;
+            }
+            else if (hijosInput.getText().isEmpty()){
+                VentanaError entradasVaciasError = new VentanaError("Ingrese una cantidad de hijos", "Entrada incorrecta");
+                return;
+            }
+            else {
+                if (Integer.parseInt(hijosInput.getText()) != 0 && clienteCantHijos != Integer.parseInt(hijosInput.getText())) {
+                    clienteCantHijos = Integer.parseInt(hijosInput.getText());
                     terceraConfig();
                     containerPanel.add(tercera, "3");
                 }
-                hijosInput.setCorrectInput();
-                cambiarPantalla("2");
+                else if(Integer.parseInt(hijosInput.getText()) == 0 && clienteCantHijos != Integer.parseInt(hijosInput.getText())){
+                    clienteCantHijos = Integer.parseInt(hijosInput.getText());
+                    hijosDTO.clear();
+                }
+
+                if (!segundaConfigurada) {
+                    segundaConfig();
+                    segundaConfigurada = true;
+                    hijosInput.setCorrectInput();
+                    cambiarPantalla("2");
+                } else {
+                    hijosInput.setCorrectInput();
+                    cambiarPantalla("2");
+                }
             }
+            
         });
     }
  
@@ -461,19 +481,19 @@ public class AltaPoliza extends JPanel {
             for (int i = 0; i < listaPaises.size(); i++) {
                 paises[i] = listaPaises.get(i).getNombre();
             }
-            pais = new PanelDropDown(paises);
+            pais = new PanelDropDown("WEST",paises);
 
             String[] provincias = new String[listaProvincias.size()];
             for (int i = 0; i < listaProvincias.size(); i++) {
                 provincias[i] = listaProvincias.get(i).getNombreProvincia();
             }
-            provincia = new PanelDropDown(provincias);
+            provincia = new PanelDropDown("WEST",provincias);
 
             String[] localidades = new String[listaLocalidades.size()];
             for (int i = 0; i < listaLocalidades.size(); i++) {
                 localidades[i] = listaLocalidades.get(i).getNombreLocalidad();
             }
-            localidad = new PanelDropDown(localidades);
+            localidad = new PanelDropDown("WEST",localidades);
 
             pais.addCustomPanelListener(new CustomPanelListener() {
                 @Override
@@ -514,9 +534,9 @@ public class AltaPoliza extends JPanel {
             listaModelos = gm.obtenerModelos(listaMarcas[0]);
             listaAnios = gm.obtenerAnios(listaModelos[0]);
 
-            dMarca = new PanelDropDown(listaMarcas); 
-            dModelo = new PanelDropDown(listaModelos); 
-            dAnio = new PanelDropDown(listaAnios); 
+            dMarca = new PanelDropDown("WEST",listaMarcas); 
+            dModelo = new PanelDropDown("WEST",listaModelos); 
+            dAnio = new PanelDropDown("WEST",listaAnios); 
             
            
 
@@ -559,42 +579,46 @@ public class AltaPoliza extends JPanel {
             cambiarPantalla("1");
         });
         botonCancelar.addActionListener((ActionEvent e) -> {
-            cambiarPantalla("1");
             main.cambiarPantalla("1");
         });
         botonContinuar.addActionListener((ActionEvent e) -> {
 
             //buscar suma asegurada
             //clienteSumaAsegurada = 
-            
             List<PanelTextInput> listaPaneles = new ArrayList<>();
 
             // Add objects of different types to the list
             listaPaneles.add(tiNroMotor);
             listaPaneles.add(tiNroChasis);
             listaPaneles.add(tiKMAnio);
-            
-             //chequear inputs
-            boolean inputVacio = false;
-        
-            for(PanelTextInput panel: listaPaneles ){
 
-                if("".equals(panel.getText())){
+            //chequear inputs
+            boolean inputVacio = false;
+
+            for (PanelTextInput panel : listaPaneles) {
+
+                if ("".equals(panel.getText())) {
                     inputVacio = true;
                     panel.setWrongInput();
-                }
-                else{
+                } else {
                     panel.setCorrectInput();
                 }
             }
 
             if (inputVacio) {
-                VentanaError entradasVaciasError = new VentanaError("Faltan datos obligatorios", "Entrada incorrecta");       
-            }else {
+                VentanaError entradasVaciasError = new VentanaError("Faltan datos obligatorios", "Entrada incorrecta");
+            } else {
+                
+                if(vehiculoDTO.getAnioVehiculo() != dAnio.getSelectedItem()){
+                    vehiculoDTO.setAnioVehiculo(dAnio.getSelectedItem());
+                    cuarta.removeAll();
+                    cuartaConfig();
+                    cuartaConfigurada = true;
+                }
+                
                 vehiculoDTO.setKmPorAnio(tiKMAnio.getText());
                 vehiculoDTO.setMarcaVehiculo(dMarca.getSelectedItem());
                 vehiculoDTO.setModeloVehiculo(dModelo.getSelectedItem());
-                vehiculoDTO.setAnioVehiculo(dAnio.getSelectedItem());
                 vehiculoDTO.setNumMotor(tiNroMotor.getText());
                 vehiculoDTO.setNumChasis(tiNroChasis.getText());
                 vehiculoDTO.setNumPatente(tiPatente.getText());
@@ -604,14 +628,19 @@ public class AltaPoliza extends JPanel {
                 vehiculoDTO.setTuercasAntirrobo(tuercas.isSelected());
 
                 if (clienteCantHijos == 0) {
-                    cuartaConfig();
-                    cambiarPantalla("4");
+                    if (cuartaConfigurada) {
+                        cambiarPantalla("4");
+
+                    } else {
+                        cuarta.removeAll();
+                        cuartaConfig();
+                        cuartaConfigurada = true;
+                        cambiarPantalla("4");
+                    }
                 } else {
                     cambiarPantalla("3");
                 }
             }
-            
-            
 
         });
         
@@ -679,7 +708,6 @@ public class AltaPoliza extends JPanel {
             cambiarPantalla("2");
         });
         botonCancelar.addActionListener((ActionEvent e) -> {
-            cambiarPantalla("1");
             main.cambiarPantalla("1");
         });
         botonConfirmar.addActionListener((ActionEvent e) -> { 
@@ -701,8 +729,14 @@ public class AltaPoliza extends JPanel {
                 for(int i = 0; i < sexoDropDownList.size(); i++){
                 hijosDTO.add(new HijoDTO(fechaInputList.get(i).getDate(),sexoDropDownList.get(i).getSelectedItem(),estadoCivilDropDownList.get(i).getSelectedItem()));
                 }
-                cuartaConfig();
-                cambiarPantalla("4");
+                if(cuartaConfigurada){
+                    cambiarPantalla("4");
+                }
+                else{
+                    cuartaConfig();
+                    cuartaConfigurada = true;
+                    cambiarPantalla("4");
+                }
             }
         });
 
@@ -766,32 +800,27 @@ public class AltaPoliza extends JPanel {
         JPanel panelCobertura = new JPanel();
 
         botonVolver.addActionListener((ActionEvent e) -> {
-
             if (clienteCantHijos == 0) {
                 cambiarPantalla("2");
             } else {
                 cambiarPantalla("3");
             }
-
         });
+        
         botonCancelar.addActionListener((ActionEvent e) -> {
-            cambiarPantalla("1");
             main.cambiarPantalla("1");
         });
+        
         botonGenerar.addActionListener((ActionEvent e) -> {
-            
-            
-            
-            if(fechaInput.getDate() == null){
+            if (fechaInput.getDate() == null) {
                 VentanaError fechaErronea = new VentanaError("Falta fecha de inicio", "Entrada incorrecta");
-            }
-            else{
+            } else {
                 clientePolizaInicio = fechaInput.getDate();
-                
+
                 LocalDate localOriginalDate = clientePolizaInicio.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
                 LocalDate sixMonthsAfter = localOriginalDate.plusMonths(6);
                 clientePolizaFin = Date.from(sixMonthsAfter.atStartOfDay(ZoneId.systemDefault()).toInstant());
-                
+
                 clienteFormaPago = tipoCoberturaDropDown.getSelectedItem();
                 if ("Semestral".equals(formaPagoDropDown.getSelectedItem())) {
                     clienteFormaPago = "Semestral";
@@ -802,7 +831,7 @@ public class AltaPoliza extends JPanel {
                 
                 quintaConfig();
                 containerPanel.add(quinta, "5");
-                cambiarPantalla("5");   
+                cambiarPantalla("5");
             }
         });
 
@@ -844,7 +873,8 @@ public class AltaPoliza extends JPanel {
     private void quintaConfig() {
 
         quinta = new Background("background.jpg");
-
+        pdfConfig();
+        
         Boton botonVolver = new Boton("Volver");
         Boton botonCancelar = new Boton("Cancelar");
         Boton botonConfirmar = new Boton("Confirmar poliza");
@@ -862,6 +892,7 @@ public class AltaPoliza extends JPanel {
         });
         botonConfirmar.addActionListener((ActionEvent e) -> {
             //crear numPoliza
+            
             cambiarPantalla("6");
         });
 
@@ -1122,9 +1153,7 @@ public class AltaPoliza extends JPanel {
 
         gbc.gridx = 2;
         panelVehiculo.add(dAnio, gbc);
-
-        //suma asegurada ---------------------------
-        //TO DO recuperar suma asegurada
+        
         //clienteSumaAsegurada = result;
         PanelText tSumaAsegurada = new PanelText("Suma aseguradora en pesos: ", "ITALIC", 16, "WEST");
         PanelTextInput tSuma = new PanelTextInput(clienteSumaAsegurada, 16);
@@ -1148,7 +1177,7 @@ public class AltaPoliza extends JPanel {
         PanelText tKMAnio = new PanelText("KM. por año", "PLAIN", 16, "SOUTHWEST");
         tiKMAnio.restrictToNumbers();
         PanelText tCantidadSin = new PanelText("Cantidad de siniestros en el ultimo año", "PLAIN", 16, "SOUTHWEST");
-        PanelTextInput tiCantidadSin = new PanelTextInput("placeholder", 16);
+        PanelTextInput tiCantidadSin = new PanelTextInput(cantSiniestros, 16);
 
         tiCantidadSin.setEditable(false);
 
@@ -1779,7 +1808,7 @@ public class AltaPoliza extends JPanel {
         provincia.setItems(provincias); 
     }
     
-    private void  actualizarListaLocalidades(){
+    private void actualizarListaLocalidades(){
         String[] localidades = new String[listaLocalidades.size()];
         for (int i = 0; i < listaLocalidades.size(); i++) {
             localidades[i] = listaLocalidades.get(i).getNombreLocalidad();
@@ -1794,6 +1823,8 @@ public class AltaPoliza extends JPanel {
 
     void actualizarPrimera(ClienteDTO cliente) {
         clienteDTO = cliente;
+        segundaConfigurada = false;
+        cantSiniestros = SubsistemaSiniestros.obtenerCantSiniestros(clienteDTO.getTipoDocumento(), clienteDTO.getNumDocumento()); 
         primeraConfig();
         containerPanel.add(primera, "1");
 

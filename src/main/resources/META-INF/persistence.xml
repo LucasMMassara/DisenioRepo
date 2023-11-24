@@ -32,10 +32,10 @@
     <class>logica.PremioYDescuentos</class>
     <class>logica.DatosModelo</class>
     <properties>
-      <property name="javax.persistence.jdbc.url" value="jdbc:postgresql://localhost:5432/disenioTest"/>
+      <property name="javax.persistence.jdbc.url" value="jdbc:postgresql://localhost:5432/DisenioDB"/>
       <property name="javax.persistence.jdbc.user" value="postgres"/>
       <property name="javax.persistence.jdbc.driver" value="org.postgresql.Driver"/>
-      <property name="javax.persistence.jdbc.password" value="1"/>
+      <property name="javax.persistence.jdbc.password" value="test123"/>
       <property name="jakarta.persistence.schema-generation.database.action" value="drop-and-create"/>
     </properties>
   </persistence-unit>
