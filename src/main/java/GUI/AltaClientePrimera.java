@@ -295,8 +295,9 @@ public class AltaClientePrimera extends javax.swing.JPanel {
             
 
             fechaNacimientoD = fechaNacimiento.getDate();
+            Boolean clienteMayor = gc.clienteMayorEdad(fechaNacimientoD);
             
-            if (inputVacio || fechaNacimientoD == null || emailvalido == false) {
+            if (inputVacio || fechaNacimientoD == null || emailvalido == false || !clienteMayor) {
                 
                 if(inputVacio){
                     VentanaError entradasVaciasError = new VentanaError("Faltan datos obligatorios", "Entrada incorrecta");
@@ -307,7 +308,9 @@ public class AltaClientePrimera extends javax.swing.JPanel {
                 else if(fechaNacimientoD == null){
                     VentanaError fechaVaciaError = new VentanaError("Debe seleccionar una fecha de nacimiento","Entrada incorrecta");
                 }
-                
+                else if(!clienteMayor){
+                    VentanaError clienteMenor = new VentanaError("El cliente debe ser mayor de edad","Entrada incorrecta");
+                }
             }
             else {        
                 

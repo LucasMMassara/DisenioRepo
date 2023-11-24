@@ -30,8 +30,11 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
+import javax.swing.JFileChooser;
 import javax.swing.border.LineBorder;
 
 import javax.swing.JLabel;
@@ -666,6 +669,7 @@ public class AltaPoliza extends JPanel {
                 vehiculoDTO.setTieneAlarma(alarma.isSelected());
                 vehiculoDTO.setDispositivoRastreo(dispositivo.isSelected());
                 vehiculoDTO.setTuercasAntirrobo(tuercas.isSelected());
+                vehiculoDTO.setEstadisticaRobo(gm.obtenerModeloUnico(dModelo.getSelectedItem()).getEstadisticaActual());
 
                 if (clienteCantHijos == 0) {
                     if (cuartaConfigurada) {
@@ -1045,8 +1049,9 @@ public class AltaPoliza extends JPanel {
         Boton zoomInButton = new Boton("+");
         Boton zoomOutButton = new Boton("-");
         Boton confirmar = new Boton("Confirmar");
+        Boton descargar = new Boton("Descargar");
         
-        displayPDF("CU_11_form.pdf", zoomFactor, pdfPanel);
+        PDDocument document = displayPDF("CU_11_form.pdf", zoomFactor, pdfPanel);
         
         zoomInButton.addActionListener(new ActionListener() {
             @Override
@@ -1077,6 +1082,17 @@ public class AltaPoliza extends JPanel {
             }
         });
         
+        descargar.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    descargarPDF(document);
+                } catch (IOException ex) {
+                    Logger.getLogger(AltaPoliza.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        });
+        
         pdfPanel.setLayout(new BoxLayout(pdfPanel, BoxLayout.Y_AXIS));
         JScrollPane scrollPane = new JScrollPane(pdfPanel);
            
@@ -1104,12 +1120,23 @@ public class AltaPoliza extends JPanel {
         gbc.weightx = 1;
         gbc.weighty = 0.01;
         pdf.add(confirmar,gbc);
+        
+        gbc.gridx = 1;
+        gbc.gridy = 2;
+        gbc.fill = GridBagConstraints.VERTICAL;
+        gbc.anchor = GridBagConstraints.EAST;
+        gbc.weightx = 0.02;
+        gbc.weighty = 0.01;
+        pdf.add(descargar,gbc);
 
     }
     
-    private void displayPDF(String pdfFilePath, double zoomFactor, JPanel pdfPanel) {
+    private PDDocument displayPDF(String pdfFilePath, double zoomFactor, JPanel pdfPanel) {
+       
+        PDDocument document = new PDDocument();
+        
         try {
-            PDDocument document = PDDocument.load(new File(pdfFilePath));
+            document = PDDocument.load(new File(pdfFilePath));
             PDFRenderer renderer = new PDFRenderer(document);
             
             try{
@@ -1135,6 +1162,8 @@ public class AltaPoliza extends JPanel {
             e.printStackTrace();
         }
   
+        
+        return document;
     }
 
     private void updateZoom(JPanel pdfPanel,  double zoomFactor) {
@@ -1930,5 +1959,31 @@ public class AltaPoliza extends JPanel {
             field.setValue("TO DO");
             field = pDAcroForm.getField("AgenteTelefono");
             field.setValue("TO DO");
+    }
+    
+    void descargarPDF(PDDocument document) throws IOException{
+        
+        // Use JFileChooser to choose the location and filename for saving the PDF
+            JFileChooser fileChooser = new JFileChooser();
+            fileChooser.setDialogTitle("Save PDF");
+            int userSelection = fileChooser.showSaveDialog(null);
+
+            if (userSelection == JFileChooser.APPROVE_OPTION) {
+                // Get the selected file
+                File selectedFile = fileChooser.getSelectedFile();
+
+                // Ensure the file has a .pdf extension
+                String pdfFilePath = selectedFile.getAbsolutePath();
+                if (!pdfFilePath.toLowerCase().endsWith(".pdf")) {
+                    pdfFilePath += ".pdf";
+                }
+
+                // Save the document to the specified file
+                document.save(pdfFilePath);
+                //document.close();
+
+            }
+        
+        
     }
 }

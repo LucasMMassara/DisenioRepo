@@ -140,7 +140,7 @@ public class GestorClientes {
         return !clientesBBDD.isEmpty(); 
     }
     
-    private boolean clienteMayorEdad(Date fechaNac){
+    public boolean clienteMayorEdad(Date fechaNac){
         
         GestorFecha gf = new GestorFecha();
         

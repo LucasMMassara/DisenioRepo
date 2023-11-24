@@ -65,22 +65,22 @@ public class Poliza implements Serializable {
     @OneToMany(mappedBy="poliza")
     private List<Modificacion> modificaciones;
     
-    @ManyToOne(cascade = CascadeType.ALL) //por las dudas
+    @ManyToOne
     private Cliente clientePoliza;
     
-    @OneToOne(cascade = CascadeType.ALL)  //por las dudas
+    @OneToOne
     private PorcentajeCobertura cobertura;
     
-    @OneToOne(cascade = CascadeType.ALL)  //por las dudas
+    @OneToOne
     private IndicadorRiesgo riesgoLocalidad;
     
-    @OneToOne(cascade = CascadeType.ALL)  //por las dudas
+    @OneToOne
     private ValorSiniestro valorSiniestroUtilizados;
     
-    @OneToOne(cascade = CascadeType.ALL)  //por las dudas
+    @OneToOne
     private ValoresGenerales valoresGeneralesUtilizados;
     
-    @OneToOne(cascade = CascadeType.ALL)  //por las dudas
+    @OneToOne
     private ValorMedidaSeguridad valoresMedidasSeguridadUtilizados;
     
     @OneToOne(cascade = CascadeType.PERSIST)
