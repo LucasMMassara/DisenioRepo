@@ -8,6 +8,7 @@ import dto.PolizaDTO;
 import dto.VehiculoDTO;
 import gestores.GestorCobertura;
 import gestores.GestorCuotas;
+import gestores.GestorFecha;
 import gestores.GestorMarca;
 import gestores.GestorPais;
 import gestores.GestorPoliza;
@@ -1827,9 +1828,10 @@ public class AltaPoliza extends JPanel {
         importeDescuentoI.setEditable(false);
         importeI.setText(cuota.getImporteCuota());
         importeI.setEditable(false);
-        inicioCuotaI.setText(cuota.getInicioCuota());
+        GestorFecha gf = new GestorFecha();
+        inicioCuotaI.setText(gf.formatoFecha(cuota.getInicioCuota()));
         inicioCuotaI.setEditable(false);
-        ultimoDiaI.setText(cuota.getUltimoDiaPagoCuota());
+        ultimoDiaI.setText(gf.formatoFecha(cuota.getUltimoDiaPagoCuota()));
         ultimoDiaI.setEditable(false);
         
     }
@@ -1909,7 +1911,7 @@ public class AltaPoliza extends JPanel {
             field = pDAcroForm.getField("FormaPago");
             field.setValue(clienteFormaPago);
             field = pDAcroForm.getField("UltimoDiaPago");
-            field.setValue(listaCuotas.get(0).getInicioCuota());
+            field.setValue(new GestorFecha().formatoFecha(listaCuotas.get(0).getInicioCuota()));
             field = pDAcroForm.getField("Prima");
             field.setValue(listaCuotas.get(0).getPremio());
             field = pDAcroForm.getField("DerechosEmision");
