@@ -64,6 +64,17 @@ public class GestorCuotas {
         
         return crearCuotas(inicioPoliza,formaDePago,pyd);  
     }
+    
+    public Double montoTotal(List<CuotaDTO> cuotas){
+        
+        double montoTotal=0;
+        
+        for(CuotaDTO c:cuotas){
+            montoTotal = montoTotal + Double.parseDouble(c.getImporteCuota());
+        }
+        
+        return montoTotal;
+    }
 
     private ArrayList<CuotaDTO> crearCuotas(Date inicioPoliza, TipoPago formaDePago, PremioYDescuentos premioydescuentos) {
 
