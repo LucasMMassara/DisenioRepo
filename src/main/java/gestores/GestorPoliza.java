@@ -1,6 +1,7 @@
 package gestores;
 
 import daos.DAOPoliza;
+import daos.DAOPremioYDescuentos;
 import dto.HijoDTO;
 import dto.PolizaDTO;
 import java.util.ArrayList;
@@ -46,6 +47,8 @@ public class GestorPoliza {
         //Derecho de  emision premio y descuento
         
         poliza.setPremioydescuentos(pdto.getPyd());
+        DAOPremioYDescuentos dpyd = new DAOPremioYDescuentos();
+        dpyd.save(pdto.getPyd());
         
         //Valores de fk
         
