@@ -2,6 +2,7 @@ package gestores;
 
 import daos.DAOPoliza;
 import dto.HijoDTO;
+import java.util.ArrayList;
 import java.util.List;
 import logica.Cuota;
 import logica.EstadoPoliza;
@@ -9,9 +10,9 @@ import logica.Poliza;
 
 public class GestorPoliza {
 
-    public String[] EdadValidaHijos(List<HijoDTO> hijos) {
+    public ArrayList<String> EdadValidaHijos(List<HijoDTO> hijos) {
 
-        String[] numHijos = new String[hijos.size()];
+        ArrayList<String> numHijos = new ArrayList<>();
 
         GestorHijo gh = new GestorHijo();
         
@@ -20,7 +21,7 @@ public class GestorPoliza {
         for (HijoDTO h : hijos) {
             
             if (!gh.edadHijoValida(h)) {
-                numHijos[numHijo] = "Hijo " + numHijo;
+                numHijos.add("Hijo" + numHijo);
             }
             numHijo++;
         }

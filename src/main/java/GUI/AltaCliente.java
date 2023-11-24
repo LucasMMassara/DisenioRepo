@@ -20,23 +20,19 @@ public class AltaCliente extends JPanel  {
     CardLayout cl = new CardLayout();
     JPanel containerPanel = new JPanel();
     
-    Background primera = new Background("background.jpg");
-    Background segunda = new Background("background.jpg");
-    
+    Background primera = new Background("background.jpg");    
     
     
     AltaCliente(MenuProductorSeguros menu) {
 
         main = menu;
-
+        
         primeraConfig();
 
         //configurar panel container
         containerPanel.setLayout(cl);
         containerPanel.setPreferredSize(this.getSize());
         containerPanel.add(primera, "1");
-        containerPanel.add(segunda, "2");
-
         cambiarPantalla("1");
 
         //agregar mainPanel
@@ -66,7 +62,6 @@ public class AltaCliente extends JPanel  {
         containerPanel.setLayout(cl);
         containerPanel.setPreferredSize(this.getSize());
         containerPanel.add(primera, "1");
-        containerPanel.add(segunda, "2");
        
         cambiarPantalla("1");
 
