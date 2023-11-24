@@ -9,8 +9,12 @@ package dto;
  * @author Lucas
  */
 public class CuotaDTO {
-    String importe;
-    String descuentos;
+    String importeDescuentos;
     String premio;
+    String importeCuota;
+    String inicioCuota;
+    String ultimoDiaPagoCuota;
+    
+    
     
 }

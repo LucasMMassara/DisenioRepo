@@ -4,7 +4,10 @@
  */
 package gestores;
 
+import dto.CuotaDTO;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import logica.Cuota;
@@ -16,35 +19,104 @@ import logica.TipoPago;
  * @author Lucas
  */
 public class GestorCuotas {
-    /*
-    List<Cuota> crearCuotas(Date inicio, TipoPago formaDePago, PremioYDescuentos premioydescuentos) {
+
+    public List<CuotaDTO> cuotasADTO(List<Cuota> cuotas) {
+
+        List<CuotaDTO> cuotasDTO = new ArrayList();
+        GestorFecha gf = new GestorFecha();
         
+        String importesDescuento;
+        String premio;
+        String importe;
+        String inicioCuota;
+        String finCuota;
         
+        DecimalFormat df = new DecimalFormat("#.0");
         
-        if(formaDePago==TipoPago.MENSUAL){
+        for (Cuota c : cuotas) {
             
-            List<Cuota> listaCuotas = new ArrayList();
+            importesDescuento = df.format(c.getSumaTotalDescuentos());
+            premio = df.format(c.getPremio());
+            importe = df.format(c.getMonto());
+            inicioCuota = gf.formatoFecha(c.getInicioCuota());
+            finCuota = gf.formatoFecha(c.getUltimoDiaPago());
             
-            Cuota c = new Cuota();
+            //String importeDescuentos, String premio, String importeCuota, String inicioCuota, String ultimoDiaPagoCuota
             
+            CuotaDTO cuota = new CuotaDTO(importesDescuento,premio,importe,inicioCuota,finCuota);
+            cuotasDTO.add(cuota);
+
         }
         
-        Calendar calendar = Calendar.getInstance();
-        if(i == 1){
-            clienteFechaInicioCuota = calendar.getTime();
-        }
-        else{
-            calendar.setTime(clientePolizaInicio);
-            calendar.add(Calendar.MONTH, +i-2);  
-            clienteFechaInicioCuota = calendar.getTime();  
-        }
-        
-        calendar.setTime(clientePolizaInicio);
-        calendar.add(Calendar.DAY_OF_MONTH, -1); 
-        calendar.add(Calendar.MONTH, i-1); 
-        clienteUltimoDiaPagoCuota = calendar.getTime();
-        
+        return cuotasDTO;
+
     }
-*/
-    
+
+    public List<Cuota> crearCuotas(Date inicioPoliza, TipoPago formaDePago, PremioYDescuentos premioydescuentos) {
+
+        List<Cuota> cuotas = null;
+
+        if (formaDePago == TipoPago.SEMESTRAL) {
+            cuotas = crearCuotaSemestral(premioydescuentos, inicioPoliza);
+        } else if (formaDePago == TipoPago.MENSUAL) {
+            cuotas = crearCutoasMensuales(premioydescuentos, inicioPoliza);
+        }
+
+        return cuotas;
+    }
+
+    private List<Cuota> crearCuotaSemestral(PremioYDescuentos premioydescuentos, Date inicioPoliza) {
+
+        List<Cuota> cuota = new ArrayList();
+
+        Calendar calendar = Calendar.getInstance();
+
+        Date inicioCuota = calendar.getTime();
+
+        calendar.setTime(inicioPoliza);
+        calendar.add(Calendar.DAY_OF_MONTH, -1);
+
+        Date finCuota = calendar.getTime();
+
+        Float precioCuota = premioydescuentos.getPrimaCalculada();
+        Float descuentos = premioydescuentos.getBonificacionPorPagoSemestral() + premioydescuentos.getDescuentoPorUnidad();
+
+        //TODO NO ENTIENDO que es monto y que es premio
+        Cuota cuotaUnica = new Cuota(inicioCuota, finCuota, precioCuota, premioydescuentos.getDerechosEmision(),descuentos);
+
+        cuota.add(cuotaUnica);
+
+        return cuota;
+    }
+
+    private List<Cuota> crearCutoasMensuales(PremioYDescuentos premioydescuentos, Date inicioPoliza) {
+
+        List<Cuota> cuotas = new ArrayList();
+        Calendar calendar = Calendar.getInstance();
+        Date inicioCuota;
+        Date finCuota;
+        Float premio = (premioydescuentos.getPrimaCalculada()) / 6;
+        Float descuentos = (premioydescuentos.getBonificacionPorPagoSemestral() + premioydescuentos.getDescuentoPorUnidad()) / 6;
+        
+        for (int i = 1; i <= 6; i++) {
+            if (i == 1) {
+                inicioCuota = calendar.getTime();
+            } else {
+                calendar.setTime(inicioPoliza);
+                calendar.add(Calendar.MONTH, +i - 2);
+                inicioCuota = calendar.getTime();
+            }
+
+            calendar.setTime(inicioPoliza);
+            calendar.add(Calendar.DAY_OF_MONTH, -1);
+            calendar.add(Calendar.MONTH, i - 1);
+            finCuota = calendar.getTime();
+
+            Cuota cuota = new Cuota(inicioCuota, finCuota, premio-descuentos,premio, descuentos);
+            cuotas.add(cuota);
+        }
+
+        return cuotas;
+
+    }
 }

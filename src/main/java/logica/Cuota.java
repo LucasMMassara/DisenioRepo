@@ -29,6 +29,7 @@ public class Cuota implements Serializable {
 
     private Float monto;
     private Float premio;
+    private Float sumaTotalDescuentos;
     
     //private Float recargoMora;
     //private Float bonificacionAdelanto;
@@ -44,13 +45,12 @@ public class Cuota implements Serializable {
             // TODO Auto-generated constructor stub
     }
 
-    public Cuota(Date inicioCuota, Date ultimoDiaPago, Float monto, Float premio, EstadoCuota estado, Pago pago) {
+    public Cuota(Date inicioCuota, Date ultimoDiaPago, Float monto, Float premio, Float descuentos) {
         this.inicioCuota = inicioCuota;
         this.ultimoDiaPago = ultimoDiaPago;
         this.monto = monto;
         this.premio = premio;
-        this.estado = estado;
-        this.pago = pago;
+        this.estado = EstadoCuota.NO_PAGADA;
     }
     
     public Float getMonto() {
@@ -103,4 +103,18 @@ public class Cuota implements Serializable {
     public void setUltimoDiaPago(Date ultimoDiaPago) {
         this.ultimoDiaPago = ultimoDiaPago;
     }
+
+    @Override
+    public String toString() {
+        return "Cuota{" + "inicioCuota=" + inicioCuota.toString() + ", ultimoDiaPago=" + ultimoDiaPago.toString() + ", monto=" + monto + ", premio=" + premio + ", estado=" + estado.toString() + '}';
+    }
+
+    public Float getSumaTotalDescuentos() {
+        return sumaTotalDescuentos;
+    }
+
+    public void setSumaTotalDescuentos(Float sumaTotalDescuentos) {
+        this.sumaTotalDescuentos = sumaTotalDescuentos;
+    }
+    
 }

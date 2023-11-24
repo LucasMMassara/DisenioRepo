@@ -45,17 +45,4 @@ public class GestorPoliza {
         return false;
     }
 
-    private Poliza generarCuotas(Poliza poliza) {
-        
-        /*
-        //Retorna la poliza con las cuotas ya generadas
-        List<Cuota> cuotasPoliza = (new GestorCuotas()).crearCuotas(poliza.getInicioVigencia(), poliza.getFormaDePago(), poliza.getPremioydescuentos());
-
-        poliza.setCuotas(cuotasPoliza);
-        
-        */
-        
-        return poliza;
-    }
-
 }

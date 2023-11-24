@@ -29,6 +29,17 @@ public class PremioYDescuentos implements Serializable {
     private float descuentoPorUnidad;
     private float bonificacionPorPagoSemestral;
 
+    public PremioYDescuentos() {
+        super();
+    }
+
+    public PremioYDescuentos(float primaCalculada, float derechosEmision, float descuentoPorUnidad, float bonificacionPorPagoSemestral) {
+        this.primaCalculada = primaCalculada;
+        this.derechosEmision = derechosEmision;
+        this.descuentoPorUnidad = descuentoPorUnidad;
+        this.bonificacionPorPagoSemestral = bonificacionPorPagoSemestral;
+    }
+    
     public float getPrimaCalculada() {
         return primaCalculada;
     }
