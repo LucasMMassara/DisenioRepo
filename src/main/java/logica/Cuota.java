@@ -22,12 +22,16 @@ public class Cuota implements Serializable {
     private int id;
 
     @Temporal(TemporalType.DATE)
-    private Date fechaPago;
+    private Date inicioCuota;
+    
+    @Temporal(TemporalType.DATE)
+    private Date ultimoDiaPago;
 
     private Float monto;
     private Float premio;
-    private Float recargoMora;
-    private Float bonificacionAdelanto;
+    
+    //private Float recargoMora;
+    //private Float bonificacionAdelanto;
 
     @Enumerated(EnumType.STRING)
     private EstadoCuota estado;
@@ -39,22 +43,16 @@ public class Cuota implements Serializable {
             super();
             // TODO Auto-generated constructor stub
     }
-    public Cuota(Date fechaPago, Float monto, EstadoCuota estado, Float premio, Float recargoMora,
-                    Float bonificacionAdelanto) {
-            super();
-            this.fechaPago = fechaPago;
-            this.monto = monto;
-            this.estado = estado;
-            this.premio = premio;
-            this.recargoMora = recargoMora;
-            this.bonificacionAdelanto = bonificacionAdelanto;
+
+    public Cuota(Date inicioCuota, Date ultimoDiaPago, Float monto, Float premio, EstadoCuota estado, Pago pago) {
+        this.inicioCuota = inicioCuota;
+        this.ultimoDiaPago = ultimoDiaPago;
+        this.monto = monto;
+        this.premio = premio;
+        this.estado = estado;
+        this.pago = pago;
     }
-    public Date getFechaPago() {
-            return fechaPago;
-    }
-    public void setFechaPago(Date fechaPago) {
-            this.fechaPago = fechaPago;
-    }
+    
     public Float getMonto() {
             return monto;
     }
@@ -73,18 +71,6 @@ public class Cuota implements Serializable {
     public void setPremio(Float premio) {
             this.premio = premio;
     }
-    public Float getRecargoMora() {
-            return recargoMora;
-    }
-    public void setRecargoMora(Float recargoMora) {
-            this.recargoMora = recargoMora;
-    }
-    public Float getBonificacionAdelanto() {
-            return bonificacionAdelanto;
-    }
-    public void setBonificacionAdelanto(Float bonificacionAdelanto) {
-            this.bonificacionAdelanto = bonificacionAdelanto;
-    }
 
     public Pago getPago() {
         return pago;
@@ -101,5 +87,20 @@ public class Cuota implements Serializable {
     public void setId(int id) {
         this.id = id;
     }
-    
+
+    public Date getInicioCuota() {
+        return inicioCuota;
+    }
+
+    public void setInicioCuota(Date inicioCuota) {
+        this.inicioCuota = inicioCuota;
+    }
+
+    public Date getUltimoDiaPago() {
+        return ultimoDiaPago;
+    }
+
+    public void setUltimoDiaPago(Date ultimoDiaPago) {
+        this.ultimoDiaPago = ultimoDiaPago;
+    }
 }

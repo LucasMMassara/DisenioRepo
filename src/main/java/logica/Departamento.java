@@ -22,10 +22,8 @@ public class Departamento implements Serializable {
     private int id;
     
     @OneToOne
-    @MapsId
-    @JoinColumn(name ="id")
     private Domicilio domicilio;
-    private String Dpto;
+    private String numDpto;
     private String piso;
 
     public Departamento() {
@@ -35,20 +33,20 @@ public class Departamento implements Serializable {
 
     public Departamento(Domicilio domicilio, String numeroDpto, String piso) {
         this.domicilio = domicilio;
-        this.Dpto = numeroDpto;
+        this.numDpto = numeroDpto;
         this.piso = piso;
     }
 
     public Departamento(String piso, String nombredpto) {
-        this.Dpto = nombredpto;
+        this.numDpto = nombredpto;
         this.piso = piso;
     }
     
     public String getNumeroDpto() {
-            return Dpto;
+            return numDpto;
     }
     public void setNumeroDpto(String numeroDpto) {
-            this.Dpto = numeroDpto;
+            this.numDpto = numeroDpto;
     }
     public String getPiso() {
             return piso;
