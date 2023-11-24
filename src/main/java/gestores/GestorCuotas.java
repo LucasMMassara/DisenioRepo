@@ -106,7 +106,7 @@ public class GestorCuotas {
         Float descuentos = premioydescuentos.getBonificacionPorPagoSemestral() + premioydescuentos.getDescuentoPorUnidad();
 
         //TODO NO ENTIENDO que es monto y que es premio
-        Cuota cuotaUnica = new Cuota(inicioCuota, finCuota, precioCuota, premioydescuentos.getDerechosEmision(),descuentos);
+        Cuota cuotaUnica = new Cuota(inicioCuota, finCuota, precioCuota, premioydescuentos.getPrimaCalculada()+premioydescuentos.getDerechosEmision(),descuentos);
 
         cuota.add(cuotaUnica);
 
