@@ -40,10 +40,6 @@ public class Vehiculo implements Serializable {
             // TODO Auto-generated constructor stub
     }
 
-    public Vehiculo(VehiculoDTO vehiculo){
-            //TODO completar con DTO
-            super();
-    }
 
     public Vehiculo(String numMotor, String numChasis, Integer kmPorAnio, Boolean guardaEnGarage, Boolean alarma,
                     Boolean dispositivoRastreo, Boolean tuercasAntirobo, String patente) {

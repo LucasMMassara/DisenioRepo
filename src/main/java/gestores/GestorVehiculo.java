@@ -8,8 +8,18 @@ public class GestorVehiculo {
             return true;
     }
 
-    public Vehiculo newVehiculo(VehiculoDTO vehiculo) {
-            return new Vehiculo(vehiculo);
+    public Vehiculo DTOaClase(VehiculoDTO vdto) {
+        Vehiculo v = new Vehiculo();
+        v.setTuercasAntirobo(vdto.getTuercasAntirrobo());
+        v.setAlarma(vdto.getTieneAlarma());
+        v.setDispositivoRastreo(vdto.getDispositivoRastreo());
+        v.setGuardaEnGarage(vdto.getGuardaEnGarage());
+        v.setAnioFabricacionVehiculo(DAOAnioFabricacion.);
+        v.setKmPorAnio();
+        v.setNumChasis();
+        v.setNumMotor();
+        v.setPatente();
+        
     }
 
 }

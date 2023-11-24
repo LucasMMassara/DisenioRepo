@@ -1,7 +1,9 @@
 package com.mycompany.intentandohaceralgoconmivida;
 
 import GUI.App;
+import dto.CuotaDTO;
 import gestores.GestorCuotas;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -18,17 +20,7 @@ public class IntentandoHacerAlgoConMiVida {
         
         //new CargadorDatosGeneral().cargarDatos();
         
-        new App().inicioApp();
+        //new App().inicioApp();
         
-       /*PremioYDescuentos pyd = new PremioYDescuentos(1500,500,250,100);
-        
-        GestorCuotas gc = new GestorCuotas();
-        
-        List<Cuota> cuotas = gc.crearCuotas((new Date()), TipoPago.SEMESTRAL, pyd);
-        
-        for(Cuota c:cuotas){
-            System.out.println(c.toString());
-        }
-        */
     }
 }

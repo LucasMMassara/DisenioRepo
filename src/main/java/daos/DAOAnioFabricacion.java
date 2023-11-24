@@ -10,10 +10,10 @@ import logica.AnioFabricacion;
  *
  * @author Lucas
  */
-public class DAOAnioFabricacion extends DAOAbstract<AnioFabricacion>{
-    
-        public DAOAnioFabricacion(){
-            setClazz(AnioFabricacion.class);
+public class DAOAnioFabricacion extends DAOAbstract<AnioFabricacion> {
+
+    public DAOAnioFabricacion() {
+        setClazz(AnioFabricacion.class);
     }
-    
+
 }
