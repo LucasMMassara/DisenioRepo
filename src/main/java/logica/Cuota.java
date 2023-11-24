@@ -51,6 +51,7 @@ public class Cuota implements Serializable {
         this.monto = monto;
         this.premio = premio;
         this.estado = EstadoCuota.NO_PAGADA;
+        this.sumaTotalDescuentos = descuentos;
     }
     
     public Float getMonto() {
