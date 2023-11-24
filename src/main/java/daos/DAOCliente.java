@@ -11,6 +11,10 @@ import util.GeneradorQueryCliente;
 
 public class DAOCliente extends DAOAbstract<Cliente> {
     
+    public DAOCliente(){
+            setClazz(Cliente.class);
+    }
+    
     public void guardarCliente(Cliente c){
         
         try{

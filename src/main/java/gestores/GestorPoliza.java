@@ -8,6 +8,7 @@ import java.util.Random;
 import logica.Cuota;
 import logica.EstadoPoliza;
 import logica.Poliza;
+import logica.ValoresActualesCalculo;
 
 public class GestorPoliza {
 

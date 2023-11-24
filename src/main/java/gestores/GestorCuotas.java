@@ -16,12 +16,23 @@ import logica.EstadisticaRoboVehiculo;
 import logica.IndicadorRiesgo;
 import logica.PremioYDescuentos;
 import logica.TipoPago;
+import logica.ValoresActualesCalculo;
 
 /**
  *
  * @author Lucas
  */
 public class GestorCuotas {
+    
+    private ValoresActualesCalculo valactcal;
+
+    public ValoresActualesCalculo getValactcal() {
+        return valactcal;
+    }
+
+    public void setValactcal(ValoresActualesCalculo valactcal) {
+        this.valactcal = valactcal;
+    }
 
     public ArrayList<CuotaDTO> cuotasADTO(List<Cuota> cuotas) {
 
@@ -33,8 +44,6 @@ public class GestorCuotas {
         String importe;
         String inicioCuota;
         String finCuota;
-        
-        DecimalFormat df = new DecimalFormat("#.0");
         
         for (Cuota c : cuotas) {
             
@@ -61,6 +70,8 @@ public class GestorCuotas {
         
         CalculoPremioPrenda cpp =  new CalculoPremioPrenda();
         PremioYDescuentos pyd = cpp.calculoPremio(suma, erv, ir);
+        
+        valactcal = cpp.getValactcal();
         
         return crearCuotas(inicioPoliza,formaDePago,pyd);  
     }

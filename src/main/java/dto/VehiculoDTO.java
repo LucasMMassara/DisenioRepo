@@ -1,11 +1,6 @@
 package dto;
 
-import logica.AnioFabricacion;
-import logica.Marca;
-import logica.Modelo;
-
 public class VehiculoDTO {
-	private String id;
 	private String marcaVehiculo;
 	private String modeloVehiculo;
 	private String anioVehiculo;
@@ -21,24 +16,6 @@ public class VehiculoDTO {
     public VehiculoDTO() {
     }
 
-    public VehiculoDTO(String id, String marcaVehiculo, String modeloVehiculo, String anioVehiculo, String numMotor, String numChasis, String numPatente, String kmPorAnio, Boolean guardaEnGarage, Boolean tieneAlarma, Boolean dispositivoRastreo, Boolean tuercasAntirrobo) {
-        this.id = id;
-        this.marcaVehiculo = marcaVehiculo;
-        this.modeloVehiculo = modeloVehiculo;
-        this.anioVehiculo = anioVehiculo;
-        this.numMotor = numMotor;
-        this.numChasis = numChasis;
-        this.numPatente = numPatente;
-        this.kmPorAnio = kmPorAnio;
-        this.guardaEnGarage = guardaEnGarage;
-        this.tieneAlarma = tieneAlarma;
-        this.dispositivoRastreo = dispositivoRastreo;
-        this.tuercasAntirrobo = tuercasAntirrobo;
-    }
-
-    public String getId() {
-        return id;
-    }
 
     public String getMarcaVehiculo() {
         return marcaVehiculo;
@@ -83,11 +60,7 @@ public class VehiculoDTO {
     public Boolean getTuercasAntirrobo() {
         return tuercasAntirrobo;
     }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
+    
     public void setMarcaVehiculo(String marcaVehiculo) {
         this.marcaVehiculo = marcaVehiculo;
     }

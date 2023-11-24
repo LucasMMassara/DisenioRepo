@@ -1,12 +1,21 @@
 package dto;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import logica.*;
 
 public class PolizaDTO {
-	private Domicilio domicilioRiesgo;
-	private List<Hijo> listaHijos;
-	private Cobertura cobertura;
+	
+        private IndicadorRiesgo indicadorRiesgo;
+	private PorcentajeCobertura cobertura;
 	private Date inicioVigenciaPoliza;
-	private FormaPago formaPago;
+	private String formaPago;
+        private ClienteDTO cliente;
+        private ArrayList<HijoDTO> listaHijos;
+        private ArrayList<CuotaDTO> listaCuotas;
+        private Date finVigencia;
+        private Date fechaEmision;
+        private ValoresActualesCalculo valoresCalculo;
+        
+        
 }
