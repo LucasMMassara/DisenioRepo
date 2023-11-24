@@ -4,6 +4,8 @@
  */
 package dto;
 
+import java.util.Date;
+
 /**
  *
  * @author Lucas
@@ -13,10 +15,10 @@ public class CuotaDTO {
     String importeDescuentos;
     String premio;
     String importeCuota;
-    String inicioCuota;
-    String ultimoDiaPagoCuota;
+    Date inicioCuota;
+    Date ultimoDiaPagoCuota;
 
-    public CuotaDTO(String importeDescuentos, String premio, String importeCuota, String inicioCuota, String ultimoDiaPagoCuota) {
+    public CuotaDTO(String importeDescuentos, String premio, String importeCuota, Date inicioCuota, Date ultimoDiaPagoCuota) {
         this.importeDescuentos = importeDescuentos;
         this.premio = premio;
         this.importeCuota = importeCuota;
@@ -48,19 +50,19 @@ public class CuotaDTO {
         this.importeCuota = importeCuota;
     }
 
-    public String getInicioCuota() {
+    public Date getInicioCuota() {
         return inicioCuota;
     }
 
-    public void setInicioCuota(String inicioCuota) {
+    public void setInicioCuota(Date inicioCuota) {
         this.inicioCuota = inicioCuota;
     }
 
-    public String getUltimoDiaPagoCuota() {
+    public Date getUltimoDiaPagoCuota() {
         return ultimoDiaPagoCuota;
     }
 
-    public void setUltimoDiaPagoCuota(String ultimoDiaPagoCuota) {
+    public void setUltimoDiaPagoCuota(Date ultimoDiaPagoCuota) {
         this.ultimoDiaPagoCuota = ultimoDiaPagoCuota;
     }
     

@@ -20,6 +20,17 @@ public class PolizaDTO {
         private VehiculoDTO vehiculo;
         private String cantidadSiniestros;
         private String numPoliza;
+        private PremioYDescuentos pyd;
+
+    public PremioYDescuentos getPyd() {
+        return pyd;
+    }
+
+    public void setPyd(PremioYDescuentos pyd) {
+        this.pyd = pyd;
+    }
+        
+        
 
     public String getNumPoliza() {
         return numPoliza;
