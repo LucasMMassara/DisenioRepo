@@ -968,9 +968,9 @@ public class AltaPoliza extends JPanel {
             try{
             //gp.cargarPoliza(polizaDTO);
             }
-            catch(Exception e){
+            catch(Exception a){
                 VentanaError errorCargarPoliza = new VentanaError("Error al cargar la poliza a la base de datos", "Error");
-            }, 
+            }
             
             pdf.removeAll();
             pdfConfig();
