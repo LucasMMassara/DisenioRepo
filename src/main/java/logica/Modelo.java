@@ -2,7 +2,6 @@ package logica;
 
 import java.io.Serializable;
 import java.util.List;
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -36,7 +35,7 @@ public class Modelo implements Serializable {
     @OneToMany(mappedBy = "modelo")
     private List<EstadisticaRoboVehiculo> historial;
 
-    @OneToOne(cascade = CascadeType.PERSIST)
+    @OneToOne
     private EstadisticaRoboVehiculo estadisticaActual;
 
     public Modelo() {
