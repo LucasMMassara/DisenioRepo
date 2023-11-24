@@ -18,7 +18,7 @@ public class IntentandoHacerAlgoConMiVida {
         
         //new CargadorDatosGeneral().cargarDatos();
         
-        //new App().inicioApp();
+        new App().inicioApp();
         
        /*PremioYDescuentos pyd = new PremioYDescuentos(1500,500,250,100);
         

@@ -23,9 +23,9 @@ import logica.TipoPago;
  */
 public class GestorCuotas {
 
-    public List<CuotaDTO> cuotasADTO(List<Cuota> cuotas) {
+    public ArrayList<CuotaDTO> cuotasADTO(List<Cuota> cuotas) {
 
-        List<CuotaDTO> cuotasDTO = new ArrayList();
+        ArrayList<CuotaDTO> cuotasDTO = new ArrayList();
         GestorFecha gf = new GestorFecha();
         
         String importesDescuento;
@@ -38,9 +38,9 @@ public class GestorCuotas {
         
         for (Cuota c : cuotas) {
             
-            importesDescuento = df.format(c.getSumaTotalDescuentos());
-            premio = df.format(c.getPremio());
-            importe = df.format(c.getMonto());
+            importesDescuento = c.getSumaTotalDescuentos()+"";
+            premio = c.getPremio()+"";
+            importe = c.getMonto()+"";
             inicioCuota = gf.formatoFecha(c.getInicioCuota());
             finCuota = gf.formatoFecha(c.getUltimoDiaPago());
             
@@ -55,17 +55,19 @@ public class GestorCuotas {
 
     }
     
-    public List<CuotaDTO> crearCuotasInferfaz(Date inicioPoliza, TipoPago formaDePago, Double sumaAsegurada, EstadisticaRoboVehiculo erv, IndicadorRiesgo ir){
+    public ArrayList<CuotaDTO> crearCuotasInferfaz(Date inicioPoliza, TipoPago formaDePago, String sumaAsegurada, EstadisticaRoboVehiculo erv, IndicadorRiesgo ir){
+        
+        Double suma = Double.parseDouble(sumaAsegurada);
         
         CalculoPremioPrenda cpp =  new CalculoPremioPrenda();
-        PremioYDescuentos pyd = cpp.calculoPremio(sumaAsegurada, erv, ir);
+        PremioYDescuentos pyd = cpp.calculoPremio(suma, erv, ir);
         
         return crearCuotas(inicioPoliza,formaDePago,pyd);  
     }
 
-    private List<CuotaDTO> crearCuotas(Date inicioPoliza, TipoPago formaDePago, PremioYDescuentos premioydescuentos) {
+    private ArrayList<CuotaDTO> crearCuotas(Date inicioPoliza, TipoPago formaDePago, PremioYDescuentos premioydescuentos) {
 
-        List<Cuota> cuotas = null;
+        ArrayList<Cuota> cuotas = null;
 
         if (formaDePago == TipoPago.SEMESTRAL) {
             cuotas = crearCuotaSemestral(premioydescuentos, inicioPoliza);
@@ -76,9 +78,9 @@ public class GestorCuotas {
         return cuotasADTO(cuotas);
     }
 
-    private List<Cuota> crearCuotaSemestral(PremioYDescuentos premioydescuentos, Date inicioPoliza) {
+    private ArrayList<Cuota> crearCuotaSemestral(PremioYDescuentos premioydescuentos, Date inicioPoliza) {
 
-        List<Cuota> cuota = new ArrayList();
+        ArrayList<Cuota> cuota = new ArrayList();
 
         Calendar calendar = Calendar.getInstance();
 
@@ -100,9 +102,9 @@ public class GestorCuotas {
         return cuota;
     }
 
-    private List<Cuota> crearCutoasMensuales(PremioYDescuentos premioydescuentos, Date inicioPoliza) {
+    private ArrayList<Cuota> crearCutoasMensuales(PremioYDescuentos premioydescuentos, Date inicioPoliza) {
 
-        List<Cuota> cuotas = new ArrayList();
+        ArrayList<Cuota> cuotas = new ArrayList();
         Calendar calendar = Calendar.getInstance();
         Date inicioCuota;
         Date finCuota;

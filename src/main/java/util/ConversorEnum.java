@@ -38,10 +38,19 @@ public class ConversorEnum {
     }
     
     public static TipoPago convertirStringTipoPago(String tipoPago){
-        TipoPago tp = TipoPago.SEMESTRAL;
+
+        TipoPago tp;
         
-        if(tipoPago.equals(TipoPago.MENSUAL.toString())){
-            tp = TipoPago.MENSUAL;
+        switch(tipoPago){
+            case("Semestral") -> {
+                tp = TipoPago.SEMESTRAL;
+            }
+            case("Mensual") -> {
+                tp = TipoPago.MENSUAL;
+            }
+            default -> {
+                tp = TipoPago.MENSUAL;
+            }
         }
         
         return tp;

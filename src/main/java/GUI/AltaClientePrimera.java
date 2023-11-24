@@ -661,18 +661,18 @@ public class AltaClientePrimera extends javax.swing.JPanel {
             
         });
         
-        jPanel1.add(nombre,gbc);
-        jPanel3.add(apellido,gbc);
-        jPanel4.add(tipoDocumento,gbc);
-        jPanel5.add(nroDocumento,gbc);
-        jPanel11.add(nroCuil,gbc);
-        jPanel12.add(sexo,gbc);
-        jPanel9.add(fechaNacimiento,gbc);
-        jPanel6.add(condicionIva,gbc);
-        jPanel14.add(correoElectronico,gbc);
-        jPanel13.add(estadoCivil,gbc);
-        jPanel10.add(profesion,gbc);
-        jPanel8.add(anioRegistro,gbc);
+        jPanel5.add(nombre,gbc);
+        jPanel6.add(apellido,gbc);
+        jPanel9.add(tipoDocumento,gbc);
+        jPanel31.add(nroDocumento,gbc);
+        jPanel10.add(nroCuil,gbc);
+        jPanel11.add(sexo,gbc);
+        jPanel12.add(fechaNacimiento,gbc);
+        jPanel32.add(condicionIva,gbc);
+        jPanel13.add(correoElectronico,gbc);
+        jPanel14.add(estadoCivil,gbc);
+        jPanel27.add(profesion,gbc);
+        jPanel33.add(anioRegistro,gbc);
         jPanel23.add(calle,gbc);
         jPanel24.add(numero,gbc);
         jPanel25.add(piso,gbc);
@@ -683,7 +683,6 @@ public class AltaClientePrimera extends javax.swing.JPanel {
         jPanel17.add(codigoPostal,gbc);
         jPanel30.add(nroCliente,gbc);     
     }
-    
     
     private void actualizarListaProvincias(){
        String[] provincias = new String[listaProvincias.size()];

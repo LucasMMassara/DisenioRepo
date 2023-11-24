@@ -1,10 +1,12 @@
 package GUI;
 
 import dto.ClienteDTO;
+import dto.CuotaDTO;
 import dto.DomicilioDTO;
 import dto.HijoDTO;
 import dto.VehiculoDTO;
 import gestores.GestorCobertura;
+import gestores.GestorCuotas;
 import gestores.GestorMarca;
 import gestores.GestorPais;
 import gestores.GestorPoliza;
@@ -33,13 +35,20 @@ import javax.swing.border.LineBorder;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import logica.CalculoPremioPrenda;
+import logica.EstadisticaRoboVehiculo;
+import logica.IndicadorRiesgo;
 import logica.Localidad;
+import logica.Modelo;
 import logica.Pais;
+import logica.PremioYDescuentos;
 import logica.Provincia;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.interactive.form.PDAcroForm;
 import org.apache.pdfbox.pdmodel.interactive.form.PDField;
 import org.apache.pdfbox.rendering.PDFRenderer;
+import util.BusquedaSumaAsegurada;
+import util.ConversorEnum;
 import util.SubsistemaSiniestros;
 
 
@@ -73,7 +82,8 @@ public class AltaPoliza extends JPanel {
     
     //Vehiculo
     String clienteSumaAsegurada = "";
-    Localidad localidadRiesgo = new Localidad();
+    IndicadorRiesgo indicadorRiesgo = new IndicadorRiesgo();
+    Modelo modelo = new Modelo();
     VehiculoDTO vehiculoDTO = new VehiculoDTO();
     
     //poliza
@@ -95,6 +105,9 @@ public class AltaPoliza extends JPanel {
     Boolean cuartaConfigurada = false;
     Boolean quintaConfigurada = false;
     Boolean pdfConfigurado = false;
+    
+    //cuotas
+    ArrayList<CuotaDTO> listaCuotas = new ArrayList<>();
     
     AltaPoliza(MenuProductorSeguros menu) {
 
@@ -469,10 +482,13 @@ public class AltaPoliza extends JPanel {
         Boton botonVolver = new Boton("Volver");
         Boton botonCancelar = new Boton("Cancelar");
         Boton botonContinuar = new Boton("Continuar");
+        Boton botonCalcularSuma = new Boton("Confirmar modelo",18,false);
 
         JPanel panelVehiculo = new JPanel();
         JPanel panelMedidas = new JPanel();
 
+        PanelTextInput tSuma = new PanelTextInput(clienteSumaAsegurada, 16);
+        
         try {
 
             GestorPais gp = new GestorPais();
@@ -578,6 +594,15 @@ public class AltaPoliza extends JPanel {
         tiPatente.restrictSize(7);
         tiPatente.restrictToAlphanumerics();
 
+        botonCalcularSuma.addActionListener((ActionEvent e) -> {
+            
+            //buscar suma asegurada
+            double suma = BusquedaSumaAsegurada.buscarSuma(dMarca.getSelectedItem(),dModelo.getSelectedItem(),dAnio.getSelectedItem());
+            clienteSumaAsegurada = suma + "";
+            tSuma.setText(clienteSumaAsegurada);
+            
+        });
+        
         botonVolver.addActionListener((ActionEvent e) -> {
             cambiarPantalla("1");
         });
@@ -586,8 +611,16 @@ public class AltaPoliza extends JPanel {
         });
         botonContinuar.addActionListener((ActionEvent e) -> {
 
-            //buscar suma asegurada
-            //clienteSumaAsegurada = 
+            modelo = gm.obtenerModeloUnico(dModelo.getSelectedItem());
+            Localidad localidadElegida = new Localidad();
+            for(Localidad l: listaLocalidades){
+                if(localidad.getSelectedItem().equals(l.getNombreLocalidad())){
+                    localidadElegida = l;
+                }
+            }
+            indicadorRiesgo = localidadElegida.getIndicadorActual();
+            
+            
             List<PanelTextInput> listaPaneles = new ArrayList<>();
 
             // Add objects of different types to the list
@@ -610,12 +643,10 @@ public class AltaPoliza extends JPanel {
 
             if (inputVacio) {
                 VentanaError entradasVaciasError = new VentanaError("Faltan datos obligatorios", "Entrada incorrecta");
-            } 
-            /*
+            }
             else if(new GestorPoliza().existePolizaVigente(tiPatente.getText(), tiNroMotor.getText(), tiNroChasis.getText())){
                 VentanaError polizaExistente = new VentanaError("Ya existe una poliza vigente para los datos ingreasados", "Entrada incorrecta");
             }
-*/
             else{
                 if (vehiculoDTO.getAnioVehiculo() != dAnio.getSelectedItem()) {
                     vehiculoDTO.setAnioVehiculo(dAnio.getSelectedItem());
@@ -666,7 +697,7 @@ public class AltaPoliza extends JPanel {
 
         panelVehiculo.setBackground(new Color(240, 240, 240));
 
-        panelVehiculoConfig(panelVehiculo,pais, provincia, localidad, dMarca, dModelo, dAnio, tiNroMotor, tiNroChasis, tiPatente, tiKMAnio);
+        panelVehiculoConfig(panelVehiculo,pais, provincia, localidad, dMarca, dModelo, dAnio, tiNroMotor, tiNroChasis, tiPatente, tiKMAnio, tSuma, botonCalcularSuma);
         panelVehiculo.setBorder(border);
         gbc.fill = GridBagConstraints.BOTH;
         gbc.gridwidth = 2;
@@ -915,7 +946,6 @@ public class AltaPoliza extends JPanel {
             pdfConfig();
             
             cambiarPantalla("6");
-            
         });
 
         GridBagConstraints gbc = new GridBagConstraints();
@@ -928,7 +958,7 @@ public class AltaPoliza extends JPanel {
         gbc.anchor = GridBagConstraints.NORTHWEST;
         gbc.insets = new Insets(10, 10, 5, 10);
         quinta.add(botonVolver, gbc);
-
+        
         panelResumen.setBackground(new Color(240, 240, 240));
         panelResumenConfig(panelResumen);
         gbc.fill = GridBagConstraints.BOTH;
@@ -950,15 +980,11 @@ public class AltaPoliza extends JPanel {
         quinta.add(panelPoliza, gbc);
 
         panelCuotas.setBackground(new Color(255, 255, 150));
-
-        int cuotas;
-        if (clienteFormaPago.equals("Mensual")) {
-            cuotas = 6;
-        } else {
-            cuotas = 1;
-        }
-
-        panelCuotasConfig(panelCuotas, cuotas);
+        GestorCuotas gc = new GestorCuotas();
+        listaCuotas = gc.crearCuotasInferfaz(clientePolizaInicio,ConversorEnum.convertirStringTipoPago(clienteFormaPago),clienteSumaAsegurada,modelo.getEstadisticaActual(),indicadorRiesgo);
+        System.out.println(listaCuotas.size());
+        
+        panelCuotasConfig(panelCuotas);
         gbc.fill = GridBagConstraints.BOTH;
         //gbc.weighty = 0.35;
         gbc.gridy = 2;
@@ -1101,7 +1127,7 @@ public class AltaPoliza extends JPanel {
 
     }
 
-    private void panelVehiculoConfig(JPanel panelVehiculo, PanelDropDown dPais, PanelDropDown dProvincia, PanelDropDown dLocalidad, PanelDropDown dMarca, PanelDropDown dModelo, PanelDropDown dAnio, PanelTextInput tiNroMotor, PanelTextInput tiNroChasis, PanelTextInput tiPatente, PanelTextInput tiKMAnio) {
+    private void panelVehiculoConfig(JPanel panelVehiculo, PanelDropDown dPais, PanelDropDown dProvincia, PanelDropDown dLocalidad, PanelDropDown dMarca, PanelDropDown dModelo, PanelDropDown dAnio, PanelTextInput tiNroMotor, PanelTextInput tiNroChasis, PanelTextInput tiPatente, PanelTextInput tiKMAnio, PanelTextInput tSuma, Boton botonCalcularSuma) {
 
         PanelText tVehiculo = new PanelText("Vehiculo", "BOLD", 24, "WEST");
 
@@ -1178,7 +1204,6 @@ public class AltaPoliza extends JPanel {
         
         //clienteSumaAsegurada = result;
         PanelText tSumaAsegurada = new PanelText("Suma aseguradora en pesos: ", "ITALIC", 16, "WEST");
-        PanelTextInput tSuma = new PanelTextInput(clienteSumaAsegurada, 16);
         tSuma.setEditable(false);
 
         gbc.gridx = 0;
@@ -1188,6 +1213,13 @@ public class AltaPoliza extends JPanel {
 
         gbc.gridx = 1;
         panelVehiculo.add(tSuma, gbc);
+        
+        
+        gbc.gridx = 2;
+        gbc.insets = new Insets(10,10,0,10);
+        panelVehiculo.add(botonCalcularSuma, gbc);
+        gbc.insets = new Insets(0,0,0,0);
+
 
         //datos vehiculo ---------------------------
         PanelText tDatosVehiculo = new PanelText("Datos vehiculo", "BOLD", 16, "SOUTHWEST");
@@ -1622,7 +1654,7 @@ public class AltaPoliza extends JPanel {
 
     }
 
-    private void panelCuotasConfig(JPanel panelCuotas, int cantidadCuotas) {
+    private void panelCuotasConfig(JPanel panelCuotas) {
 
         CardLayout cl1 = new CardLayout();
         LineBorder border = new LineBorder(Color.LIGHT_GRAY, 2);
@@ -1631,7 +1663,9 @@ public class AltaPoliza extends JPanel {
         panelCuotas.setLayout(cl1);
         panelCuotas.setBorder(border);
 
-        for (int i = 1; i <= cantidadCuotas; i++) {
+        double montoTotal = 0;
+        
+        for (int i = 1; i <= listaCuotas.size(); i++) {
 
             JPanel panel = new JPanel();
 
@@ -1654,14 +1688,17 @@ public class AltaPoliza extends JPanel {
             PanelTextInput inicioCuotaI = new PanelTextInput("", 18);
             PanelTextInput ultimoDiaI = new PanelTextInput("", 18);
             
-            //CU16
+            configurarCuota(premioI,importeDescuentoI,importeI,inicioCuotaI,ultimoDiaI,listaCuotas.get(i-1));
+            montoTotal += Double.parseDouble(listaCuotas.get(i-1).getImporteCuota());
             
+            //CU16
+            /*
             if(cantidadCuotas == 1){
                 configurarCuotaSemestral(premioI,importeDescuentoI,importeI,inicioCuotaI,ultimoDiaI);
             }
             else{
                 configurarCuotaMensual(i,premioI,importeDescuentoI,importeI,inicioCuotaI,ultimoDiaI);
-            }
+            }*/
 
             Boton boton0 = new Boton("🡰");
             Boton boton1 = new Boton("🡲");
@@ -1754,6 +1791,21 @@ public class AltaPoliza extends JPanel {
 
         cl1.show(panelCuotas, "" + 1);
 
+    }
+    
+    private void configurarCuota(PanelTextInput premioI,PanelTextInput importeDescuentoI,PanelTextInput importeI,PanelTextInput inicioCuotaI,PanelTextInput ultimoDiaI, CuotaDTO cuota){
+
+        premioI.setText(cuota.getPremio());
+        premioI.setEditable(false);
+        importeDescuentoI.setText(cuota.getImporteDescuentos());
+        importeDescuentoI.setEditable(false);
+        importeI.setText(cuota.getImporteCuota());
+        importeI.setEditable(false);
+        inicioCuotaI.setText(cuota.getInicioCuota());
+        inicioCuotaI.setEditable(false);
+        ultimoDiaI.setText(cuota.getUltimoDiaPagoCuota());
+        ultimoDiaI.setEditable(false);
+        
     }
     
     private void configurarCuotaMensual(int i, PanelTextInput premioI,PanelTextInput importeDescuentoI,PanelTextInput importeI,PanelTextInput inicioCuotaI,PanelTextInput ultimoDiaI){
@@ -1897,7 +1949,7 @@ public class AltaPoliza extends JPanel {
             field = pDAcroForm.getField("Fecha");
             field.setValue(sdf.format(calendar.getTime()));
             field = pDAcroForm.getField("Agente");
-            field.setValue("TO DO");
+            field.setValue("007");
             field = pDAcroForm.getField("AgenteCorreo");
             field.setValue("TO DO");
             field = pDAcroForm.getField("AgenteTelefono");

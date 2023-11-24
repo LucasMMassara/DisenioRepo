@@ -83,7 +83,7 @@ public class GestorMarca {
         return nombreModelos;
     }
 
-    private Modelo obtenerModeloUnico(String nombreModelo) {
+    public Modelo obtenerModeloUnico(String nombreModelo) {
 
         Modelo modeloBuscado = null;
 
