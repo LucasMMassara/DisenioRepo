@@ -10,7 +10,10 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import logica.CalculoPremioPrenda;
 import logica.Cuota;
+import logica.EstadisticaRoboVehiculo;
+import logica.IndicadorRiesgo;
 import logica.PremioYDescuentos;
 import logica.TipoPago;
 
@@ -51,8 +54,16 @@ public class GestorCuotas {
         return cuotasDTO;
 
     }
+    
+    public List<CuotaDTO> crearCuotasInferfaz(Date inicioPoliza, TipoPago formaDePago, Double sumaAsegurada, EstadisticaRoboVehiculo erv, IndicadorRiesgo ir){
+        
+        CalculoPremioPrenda cpp =  new CalculoPremioPrenda();
+        PremioYDescuentos pyd = cpp.calculoPremio(sumaAsegurada, erv, ir);
+        
+        return crearCuotas(inicioPoliza,formaDePago,pyd);  
+    }
 
-    public List<Cuota> crearCuotas(Date inicioPoliza, TipoPago formaDePago, PremioYDescuentos premioydescuentos) {
+    private List<CuotaDTO> crearCuotas(Date inicioPoliza, TipoPago formaDePago, PremioYDescuentos premioydescuentos) {
 
         List<Cuota> cuotas = null;
 
@@ -62,7 +73,7 @@ public class GestorCuotas {
             cuotas = crearCutoasMensuales(premioydescuentos, inicioPoliza);
         }
 
-        return cuotas;
+        return cuotasADTO(cuotas);
     }
 
     private List<Cuota> crearCuotaSemestral(PremioYDescuentos premioydescuentos, Date inicioPoliza) {

@@ -8,6 +8,7 @@ import logica.EstadoCivil;
 import logica.EstadoCliente;
 import logica.Iva;
 import logica.TipoDocumento;
+import logica.TipoPago;
 import logica.TipoSexo;
 
 /**
@@ -34,6 +35,16 @@ public class ConversorEnum {
         
         return tsexo;
         
+    }
+    
+    public static TipoPago convertirStringTipoPago(String tipoPago){
+        TipoPago tp = TipoPago.SEMESTRAL;
+        
+        if(tipoPago.equals(TipoPago.MENSUAL.toString())){
+            tp = TipoPago.MENSUAL;
+        }
+        
+        return tp;
     }
     
     public ConversorEnum(){
