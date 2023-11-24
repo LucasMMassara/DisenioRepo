@@ -5,7 +5,7 @@
 package gestores;
 
 import dto.CuotaDTO;
-import java.text.DecimalFormat;
+import dto.PolizaDTO;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -16,7 +16,6 @@ import logica.EstadisticaRoboVehiculo;
 import logica.IndicadorRiesgo;
 import logica.PremioYDescuentos;
 import logica.TipoPago;
-import logica.ValoresActualesCalculo;
 
 /**
  *
@@ -24,16 +23,6 @@ import logica.ValoresActualesCalculo;
  */
 public class GestorCuotas {
     
-    private ValoresActualesCalculo valactcal;
-
-    public ValoresActualesCalculo getValactcal() {
-        return valactcal;
-    }
-
-    public void setValactcal(ValoresActualesCalculo valactcal) {
-        this.valactcal = valactcal;
-    }
-
     public ArrayList<CuotaDTO> cuotasADTO(List<Cuota> cuotas) {
 
         ArrayList<CuotaDTO> cuotasDTO = new ArrayList();
@@ -66,6 +55,32 @@ public class GestorCuotas {
     
     //Debe recibir polizaDTO y vehiculoDTO
     
+    public PolizaDTO crearCuotas(PolizaDTO pdto){
+        
+        //Obtenemos datos para la creacion de las cuotas y el premio y descuento
+        
+        Double suma = Double.parseDouble(pdto.getSumaAsegurada());
+        EstadisticaRoboVehiculo erv = pdto.getVehiculo().getEstadisticaRobo();
+        IndicadorRiesgo ir = pdto.getIndicadorRiesgo();
+        
+        //Iniciamos el calculo premio prenda y creamos el premio y descuento con los datos de la poliza.
+        
+        CalculoPremioPrenda cpp =  new CalculoPremioPrenda();
+        PremioYDescuentos pyd = cpp.calculoPremio(suma, erv, ir);
+        
+        //Creamos la lista de cuotasdto y se la asignamos a la polizadto
+        
+        pdto.setListaCuotas(crearCuotas(pdto.getInicioVigenciaPoliza(),pdto.getFormaPago(),pyd));
+        
+        //obtenemos los valores de calculo actuales y los seteamos a la poliza dto
+        
+        pdto.setValoresCalculo(cpp.getValactcal());
+        
+        return pdto;  
+    }
+    
+    /*
+    
     public ArrayList<CuotaDTO> crearCuotasInferfaz(Date inicioPoliza, TipoPago formaDePago, String sumaAsegurada, EstadisticaRoboVehiculo erv, IndicadorRiesgo ir){
         
         Double suma = Double.parseDouble(sumaAsegurada);
@@ -78,6 +93,8 @@ public class GestorCuotas {
         return crearCuotas(inicioPoliza,formaDePago,pyd);  
     }
     
+    */
+    
     public Double montoTotal(List<CuotaDTO> cuotas){
         
         double montoTotal=0;
@@ -87,6 +104,19 @@ public class GestorCuotas {
         }
         
         return montoTotal;
+    }
+    
+     private ArrayList<CuotaDTO> crearCuotas(Date inicioPoliza, String formaDePago, PremioYDescuentos premioydescuentos) {
+
+        ArrayList<Cuota> cuotas = null;
+
+        if (formaDePago.equalsIgnoreCase("Semestral")) {
+            cuotas = crearCuotaSemestral(premioydescuentos, inicioPoliza);
+        } else if (formaDePago.equalsIgnoreCase("Mensual")) {
+            cuotas = crearCutoasMensuales(premioydescuentos, inicioPoliza);
+        }
+
+        return cuotasADTO(cuotas);
     }
 
     private ArrayList<CuotaDTO> crearCuotas(Date inicioPoliza, TipoPago formaDePago, PremioYDescuentos premioydescuentos) {

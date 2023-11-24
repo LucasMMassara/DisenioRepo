@@ -2,15 +2,22 @@ package gestores;
 
 import daos.DAOPoliza;
 import dto.HijoDTO;
+import dto.PolizaDTO;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-import logica.Cuota;
 import logica.EstadoPoliza;
 import logica.Poliza;
-import logica.ValoresActualesCalculo;
 
 public class GestorPoliza {
+    
+    public PolizaDTO obtenerCoberturasPoliza(PolizaDTO pdto){
+        
+        pdto = (new GestorCuotas()).crearCuotas(pdto);
+        
+        return pdto;
+        
+    }
 
     public ArrayList<String> EdadValidaHijos(List<HijoDTO> hijos) {
 

@@ -1,6 +1,9 @@
 package dto;
 
+import logica.EstadisticaRoboVehiculo;
+
 public class VehiculoDTO {
+    
 	private String marcaVehiculo;
 	private String modeloVehiculo;
 	private String anioVehiculo;
@@ -12,6 +15,17 @@ public class VehiculoDTO {
 	private Boolean tieneAlarma;
 	private Boolean dispositivoRastreo;
 	private Boolean tuercasAntirrobo;
+        private EstadisticaRoboVehiculo estadisticaRobo;
+
+    public EstadisticaRoboVehiculo getEstadisticaRobo() {
+        return estadisticaRobo;
+    }
+
+    public void setEstadisticaRobo(EstadisticaRoboVehiculo estadisticaRobo) {
+        this.estadisticaRobo = estadisticaRobo;
+    }
+        
+        
 
     public VehiculoDTO() {
     }
