@@ -4,7 +4,11 @@
  */
 package daos;
 
+import java.util.List;
+import javax.persistence.Query;
 import logica.AnioFabricacion;
+import logica.Cliente;
+import static util.EntityManagerUtil.getEntityManager;
 
 /**
  *
@@ -15,9 +19,4 @@ public class DAOAnioFabricacion extends DAOAbstract<AnioFabricacion> {
     public DAOAnioFabricacion() {
         setClazz(AnioFabricacion.class);
     }
-    
-    public AnioFabricacion obtenerAnioFabricacion(String anio){
-        
-    }
-
 }

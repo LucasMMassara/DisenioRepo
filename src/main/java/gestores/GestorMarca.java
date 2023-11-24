@@ -14,9 +14,9 @@ public class GestorMarca {
     private List<Marca> marcasObtenidas = null;
     private List<Modelo> modelosObtenidos = null;
     private List<AnioFabricacion> aniosObtenidos = null;
-    
-    public EstadisticaRoboVehiculo estadsiticaRobo(String modelo){
-            return obtenerModeloUnico(modelo).getEstadisticaActual();
+
+    public EstadisticaRoboVehiculo estadsiticaRobo(String modelo) {
+        return obtenerModeloUnico(modelo).getEstadisticaActual();
     }
 
     //Obtiene todas las marcas de la BBDD y las pasa a una lista de string para que la use la interfaz
@@ -26,8 +26,7 @@ public class GestorMarca {
 
         return obtenerStringMarcas(marcasObtenidas);
     }
-    
-    
+
     //Obtiene todos los modelos en base a una marca en string de la BBDD y las pasa a una lista de string para que la use la interfaz
     public String[] obtenerModelos(String marca) {
 
@@ -35,7 +34,7 @@ public class GestorMarca {
 
         return obtenerStringModelos(modelosObtenidos);
     }
-    
+
     //Obtiene todos los anios de  un modelo determinado de la BBDD
     public String[] obtenerAnios(String modelo) {
 
@@ -122,13 +121,12 @@ public class GestorMarca {
 
         return anioBuscado;
     }
-    
-    public AnioFabricacion buscarAnioFabricacion(String anio){
 
-        AnioFabricacion anioBuscado = null;
-        anioBuscado = new DAOAnioFabricacion().obtenerAnioFabricacion(anio);
-        
-        return anioBuscado;
-        
+    public AnioFabricacion buscarAnioFabricacion(String anio) {
+
+        int id = Integer.parseInt(anio);
+
+        return new DAOAnioFabricacion().get(id).get();
+
     }
 }
