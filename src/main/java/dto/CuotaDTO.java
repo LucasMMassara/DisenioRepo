@@ -66,8 +66,4 @@ public class CuotaDTO {
         this.ultimoDiaPagoCuota = ultimoDiaPagoCuota;
     }
     
-    
-    
-    
-    
 }

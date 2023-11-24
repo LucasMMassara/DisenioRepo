@@ -1,13 +1,18 @@
 package gestores;
+import daos.DAOVehiculo;
 import dto.VehiculoDTO;
 import logica.Vehiculo;
 
 public class GestorVehiculo {
 	
-    Vehiculo DTOaVehiculo(VehiculoDTO vehiculo) {
+    public Vehiculo DTOaVehiculo(VehiculoDTO vehiculo) {
         
         //Se pasa a dto y se guarda en la BBDD TODO
+        
+        DAOVehiculo daov = new DAOVehiculo();
+        
         Vehiculo v = new Vehiculo();
+        
         v.setTuercasAntirobo(vehiculo.getTuercasAntirrobo());
         v.setAlarma(vehiculo.getTieneAlarma());
         v.setDispositivoRastreo(vehiculo.getDispositivoRastreo());
@@ -18,6 +23,8 @@ public class GestorVehiculo {
         v.setNumMotor(vehiculo.getNumMotor());
         v.setPatente(vehiculo.getNumPatente());
         v.setEstRobo(vehiculo.getEstadisticaRobo());
+        
+        daov.save(v);
         
         return v;
     }

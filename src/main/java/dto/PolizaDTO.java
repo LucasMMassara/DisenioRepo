@@ -1,7 +1,6 @@
 package dto;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 import logica.*;
 
 public class PolizaDTO {
@@ -55,8 +54,6 @@ public class PolizaDTO {
     public void setCantidadSiniestros(String cantidadSiniestros) {
         this.cantidadSiniestros = cantidadSiniestros;
     }
-    
-    
 
     public String getSumaAsegurada() {
         return sumaAsegurada;
@@ -150,9 +147,4 @@ public class PolizaDTO {
     public String toString() {
         return "PolizaDTO{" + "indicadorRiesgo=" + indicadorRiesgo + ", cobertura=" + cobertura + ", inicioVigenciaPoliza=" + inicioVigenciaPoliza + ", formaPago=" + formaPago + ", cliente=" + cliente + ", listaHijos=" + listaHijos + ", listaCuotas=" + listaCuotas + ", sumaAsegurada=" + sumaAsegurada + ", finVigencia=" + finVigencia + ", fechaEmision=" + fechaEmision + ", valoresCalculo=" + valoresCalculo + ", vehiculo=" + vehiculo + '}';
     }
-
-    public PremioYDescuentos getPyd() {
-        
-    }
-        
 }
