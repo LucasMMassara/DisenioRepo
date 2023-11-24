@@ -4,6 +4,7 @@ import daos.DAOPoliza;
 import dto.HijoDTO;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 import logica.Cuota;
 import logica.EstadoPoliza;
 import logica.Poliza;
@@ -44,6 +45,17 @@ public class GestorPoliza {
         }
 
         return false;
+    }
+    
+    public String generarNumPoliza(){
+        
+        Random rand = new Random();
+        
+        String numero = rand.nextLong(100000, 999999) +"";
+        
+        numero = numero + rand.nextLong(1000000, 9999999);
+        
+        return numero;
     }
     
 }
