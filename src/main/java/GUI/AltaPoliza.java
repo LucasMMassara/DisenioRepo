@@ -944,8 +944,8 @@ public class AltaPoliza extends JPanel {
         polizaDTO.setSumaAsegurada(clienteSumaAsegurada);
         polizaDTO.setFechaEmision(fechaActual);
         polizaDTO.setVehiculo(vehiculoDTO);
+        polizaDTO.setCantidadSiniestros(cantSiniestros);
         polizaDTO = gc.crearCuotas(polizaDTO);
-        
         listaCuotas = polizaDTO.getListaCuotas();
        
         Boton botonVolver = new Boton("Volver");
@@ -967,12 +967,13 @@ public class AltaPoliza extends JPanel {
         });
         botonConfirmar.addActionListener((ActionEvent e) -> {
             
-            try{
-            //gp.cargarPoliza(polizaDTO);
-            }
+            //try{
+            gp.cargarPoliza(polizaDTO);
+            /*}
             catch(Exception a){
                 VentanaError errorCargarPoliza = new VentanaError("Error al cargar la poliza a la base de datos", "Error");
-            }
+                System.out.println(a.getMessage());
+            }*/
             
             pdf.removeAll();
             pdfConfig();

@@ -26,7 +26,7 @@ public class SubsistemaSiniestros {
             case (0) -> "CERO";
             case (1) -> "UNO";
             case (2) -> "DOS";
-            case (3) -> "MAS_DE_UNO";
+            case (3) -> "MAS_DE_DOS";
             default -> "CERO";
         };
         
