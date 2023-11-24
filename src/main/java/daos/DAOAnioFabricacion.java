@@ -15,5 +15,9 @@ public class DAOAnioFabricacion extends DAOAbstract<AnioFabricacion> {
     public DAOAnioFabricacion() {
         setClazz(AnioFabricacion.class);
     }
+    
+    public AnioFabricacion obtenerAnioFabricacion(String anio){
+        
+    }
 
 }

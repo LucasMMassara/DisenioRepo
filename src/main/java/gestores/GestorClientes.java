@@ -20,7 +20,19 @@ public class GestorClientes {
     }
     
     public Cliente buscarCliente(ClienteDTO cdto){
-        //TODO buscarcliente en la bbdd y devolver  uno.
+
+        List<Cliente> clientesBBDD = new ArrayList<>();
+        
+        try{
+            DAOCliente daocli = new DAOCliente();
+            clientesBBDD = daocli.obtenerClientePorNumCliente(cdto.getNumCliente());
+        }
+        catch(Exception e){
+            System.out.println(e.getMessage());
+        }
+       
+        
+        return clientesBBDD.get(0);
     }
 
     

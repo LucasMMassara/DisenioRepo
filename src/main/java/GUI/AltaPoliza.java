@@ -932,6 +932,7 @@ public class AltaPoliza extends JPanel {
         
         //crear polizaDTO
         clienteNumPoliza = new GestorPoliza().generarNumPoliza();
+        
         polizaDTO.setIndicadorRiesgo(indicadorRiesgo);
         polizaDTO.setCobertura(porcentajeCobertura);
         polizaDTO.setInicioVigenciaPoliza(clientePolizaInicio);

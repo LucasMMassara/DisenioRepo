@@ -1,5 +1,6 @@
 package gestores;
 
+import daos.DAOAnioFabricacion;
 import java.util.List;
 
 import daos.DAOMarca;
@@ -120,5 +121,14 @@ public class GestorMarca {
         }
 
         return anioBuscado;
+    }
+    
+    public AnioFabricacion buscarAnioFabricacion(String anio){
+
+        AnioFabricacion anioBuscado = null;
+        anioBuscado = new DAOAnioFabricacion().obtenerAnioFabricacion(anio);
+        
+        return anioBuscado;
+        
     }
 }

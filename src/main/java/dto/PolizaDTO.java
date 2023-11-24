@@ -139,5 +139,9 @@ public class PolizaDTO {
     public String toString() {
         return "PolizaDTO{" + "indicadorRiesgo=" + indicadorRiesgo + ", cobertura=" + cobertura + ", inicioVigenciaPoliza=" + inicioVigenciaPoliza + ", formaPago=" + formaPago + ", cliente=" + cliente + ", listaHijos=" + listaHijos + ", listaCuotas=" + listaCuotas + ", sumaAsegurada=" + sumaAsegurada + ", finVigencia=" + finVigencia + ", fechaEmision=" + fechaEmision + ", valoresCalculo=" + valoresCalculo + ", vehiculo=" + vehiculo + '}';
     }
+
+    public PremioYDescuentos getPyd() {
+        
+    }
         
 }
