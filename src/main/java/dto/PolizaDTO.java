@@ -114,5 +114,10 @@ public class PolizaDTO {
     public void setVehiculo(VehiculoDTO vehiculo) {
         this.vehiculo = vehiculo;
     }   
+
+    @Override
+    public String toString() {
+        return "PolizaDTO{" + "indicadorRiesgo=" + indicadorRiesgo + ", cobertura=" + cobertura + ", inicioVigenciaPoliza=" + inicioVigenciaPoliza + ", formaPago=" + formaPago + ", cliente=" + cliente + ", listaHijos=" + listaHijos + ", listaCuotas=" + listaCuotas + ", sumaAsegurada=" + sumaAsegurada + ", finVigencia=" + finVigencia + ", fechaEmision=" + fechaEmision + ", valoresCalculo=" + valoresCalculo + ", vehiculo=" + vehiculo + '}';
+    }
         
 }

@@ -20,7 +20,7 @@ public class IntentandoHacerAlgoConMiVida {
         
         //new CargadorDatosGeneral().cargarDatos();
         
-        //new App().inicioApp();
+        new App().inicioApp();
         
     }
 }

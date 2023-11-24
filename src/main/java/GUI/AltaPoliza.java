@@ -4,6 +4,7 @@ import dto.ClienteDTO;
 import dto.CuotaDTO;
 import dto.DomicilioDTO;
 import dto.HijoDTO;
+import dto.PolizaDTO;
 import dto.VehiculoDTO;
 import gestores.GestorCobertura;
 import gestores.GestorCuotas;
@@ -39,6 +40,7 @@ import logica.IndicadorRiesgo;
 import logica.Localidad;
 import logica.Modelo;
 import logica.Pais;
+import logica.PorcentajeCobertura;
 import logica.Provincia;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.interactive.form.PDAcroForm;
@@ -75,7 +77,7 @@ public class AltaPoliza extends JPanel {
     
     //Hijos
     int clienteCantHijos = 0;
-    List<HijoDTO> hijosDTO = new ArrayList<>();
+    ArrayList<HijoDTO> hijosDTO = new ArrayList<>();
     
     //Vehiculo
     String clienteSumaAsegurada = "";
@@ -89,10 +91,9 @@ public class AltaPoliza extends JPanel {
     String clienteFormaPago = "Mensual";
     String clienteTipoCob = "";
     String clienteNumPoliza = "";
+    PolizaDTO polizaDTO = new PolizaDTO();
     
-    String prima = "";
     String derechosEmision = "";
-    String descuentos = "";
     Double totalAbonar = 0.0;
 
     Boolean primeraConfigurada = false;
@@ -100,6 +101,9 @@ public class AltaPoliza extends JPanel {
     Boolean cuartaConfigurada = false;
     Boolean quintaConfigurada = false;
     Boolean pdfConfigurado = false;
+    
+    Date fechaActual = new Date();
+    PorcentajeCobertura porcentajeCobertura;
     
     //cuotas
     ArrayList<CuotaDTO> listaCuotas = new ArrayList<>();
@@ -875,6 +879,7 @@ public class AltaPoliza extends JPanel {
                     clienteFormaPago = "Mensual";
                 }
                 clienteTipoCob = tipoCoberturaDropDown.getSelectedItem();
+                porcentajeCobertura = gcb.obtenerCoberturaUnica(clienteTipoCob).getPorcentajeActual();
                 
                 quinta.removeAll();
                 quintaConfig();
@@ -923,8 +928,24 @@ public class AltaPoliza extends JPanel {
         quinta = new Background("background.jpg");
         
         GestorCuotas gc = new GestorCuotas();
-        listaCuotas = gc.crearCuotasInferfaz(clientePolizaInicio,ConversorEnum.convertirStringTipoPago(clienteFormaPago),clienteSumaAsegurada,modelo.getEstadisticaActual(),indicadorRiesgo);
+        GestorPoliza gp = new GestorPoliza();
         
+        //crear polizaDTO
+        clienteNumPoliza = new GestorPoliza().generarNumPoliza();
+        polizaDTO.setIndicadorRiesgo(indicadorRiesgo);
+        polizaDTO.setCobertura(porcentajeCobertura);
+        polizaDTO.setInicioVigenciaPoliza(clientePolizaInicio);
+        polizaDTO.setFinVigencia(clientePolizaFin);
+        polizaDTO.setFormaPago(clienteFormaPago);
+        polizaDTO.setCliente(clienteDTO);
+        polizaDTO.setListaHijos(hijosDTO);
+        polizaDTO.setSumaAsegurada(clienteSumaAsegurada);
+        polizaDTO.setFechaEmision(fechaActual);
+        polizaDTO.setVehiculo(vehiculoDTO);
+        polizaDTO = gc.crearCuotas(polizaDTO);
+        
+        listaCuotas = polizaDTO.getListaCuotas();
+       
         Boton botonVolver = new Boton("Volver");
         Boton botonCancelar = new Boton("Cancelar");
         Boton botonConfirmar = new Boton("Confirmar poliza");
@@ -933,6 +954,9 @@ public class AltaPoliza extends JPanel {
         JPanel panelPoliza = new JPanel();
         JPanel panelCuotas = new JPanel();
         
+        Calendar calendar = Calendar.getInstance();
+        fechaActual = calendar.getTime();
+        
         botonVolver.addActionListener((ActionEvent e) -> {
             cambiarPantalla("4");
         });
@@ -940,8 +964,13 @@ public class AltaPoliza extends JPanel {
             main.cambiarPantalla("1");
         });
         botonConfirmar.addActionListener((ActionEvent e) -> {
-            //crear numPoliza
-            clienteNumPoliza = new GestorPoliza().generarNumPoliza();
+            
+            try{
+            //gp.cargarPoliza(polizaDTO);
+            }
+            catch(Exception e){
+                VentanaError errorCargarPoliza = new VentanaError("Error al cargar la poliza a la base de datos", "Error");
+            }, 
             
             pdf.removeAll();
             pdfConfig();
@@ -1890,7 +1919,7 @@ public class AltaPoliza extends JPanel {
             field.setValue(totalAbonar+"");
             Calendar calendar = Calendar.getInstance();
             field = pDAcroForm.getField("Fecha");
-            field.setValue(sdf.format(calendar.getTime()));
+            field.setValue(sdf.format(fechaActual));
             field = pDAcroForm.getField("Agente");
             field.setValue("007");
             field = pDAcroForm.getField("AgenteCorreo");
