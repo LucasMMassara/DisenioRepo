@@ -193,9 +193,7 @@ public class GestorCuotas {
         DAOCuota daoc = new DAOCuota();
 
         for (CuotaDTO cdto : listaCuotas) {
-            Cuota cnueva = DTOaClase(cdto);
-            daoc.save(cnueva);
-            listaC.add(cnueva);
+            listaC.add(DTOaClase(cdto));
         }
         return listaC;
 

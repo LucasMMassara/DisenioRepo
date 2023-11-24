@@ -24,8 +24,6 @@ public class GestorVehiculo {
         v.setPatente(vehiculo.getNumPatente());
         v.setEstRobo(vehiculo.getEstadisticaRobo());
         
-        daov.save(v);
-        
         return v;
     }
 }

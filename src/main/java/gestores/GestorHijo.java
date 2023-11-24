@@ -29,12 +29,9 @@ public class GestorHijo {
     public List<Hijo> DTOaHijos(ArrayList<HijoDTO> listaHijos) {
         
         List<Hijo> listaH = new ArrayList();
-        DAOHijo daoh = new DAOHijo();
 
         for (HijoDTO hdto : listaHijos) {
-            Hijo hnuevo = DTOaClase(hdto);
-            daoh.save(hnuevo);
-            listaH.add(hnuevo);
+            listaH.add(DTOaClase(hdto));
         }
         return listaH;
     }

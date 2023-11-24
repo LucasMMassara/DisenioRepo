@@ -25,6 +25,8 @@ public class Poliza implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     
+    private double sumaAseguradaVehiculo;
+    
     @Column(unique = true)
     private String numPoliza;
     
@@ -51,39 +53,40 @@ public class Poliza implements Serializable {
     //atributos de relacion
 
     
-    @OneToOne
+    @OneToOne(cascade = CascadeType.PERSIST)
     private Vehiculo vehiculoAsegurado;
     
-    @OneToMany
+    @OneToMany(cascade = CascadeType.PERSIST)
     private List<Cuota> cuotas;
     
-    @OneToMany
+    @OneToMany(cascade = CascadeType.PERSIST)
     private List<Hijo> hijosDeclarados;
     
     @OneToMany(mappedBy="poliza")
     private List<Modificacion> modificaciones;
     
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL) //por las dudas
     private Cliente clientePoliza;
     
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)  //por las dudas
     private PorcentajeCobertura cobertura;
-    @OneToOne
+    
+    @OneToOne(cascade = CascadeType.ALL)  //por las dudas
     private IndicadorRiesgo riesgoLocalidad;
     
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)  //por las dudas
     private ValorSiniestro valorSiniestroUtilizados;
     
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)  //por las dudas
     private ValoresGenerales valoresGeneralesUtilizados;
     
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)  //por las dudas
     private ValorMedidaSeguridad valoresMedidasSeguridadUtilizados;
     
-    @OneToOne
+    @OneToOne(cascade = CascadeType.PERSIST)
     private PremioYDescuentos premioydescuentos;
     
-    private double sumaAseguradaVehiculo;
+    
 
     //metodos de atributos base
 

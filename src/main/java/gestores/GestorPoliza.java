@@ -47,8 +47,6 @@ public class GestorPoliza {
         //Derecho de  emision premio y descuento
         
         poliza.setPremioydescuentos(pdto.getPyd());
-        DAOPremioYDescuentos dpyd = new DAOPremioYDescuentos();
-        dpyd.save(pdto.getPyd());
         
         //Valores de fk
         
