@@ -4,6 +4,7 @@
  */
 package util;
 
+import logica.CantidadSiniestros;
 import logica.EstadoCivil;
 import logica.EstadoCliente;
 import logica.Iva;
@@ -138,6 +139,30 @@ public class ConversorEnum {
         
         
         return estadoCliente;
+    }
+    
+    public static CantidadSiniestros convertirCantSiniestros(String cantSin){
+        CantidadSiniestros cs;
+        
+        switch(cantSin){
+            case("CERO") -> {
+                cs = CantidadSiniestros.CERO;
+            }
+            case("UNO") -> {
+                cs = CantidadSiniestros.UNO;
+            }
+            case("DOS") -> {
+                cs = CantidadSiniestros.DOS;
+            }
+            case("MAS_DE_DOS") -> {
+                cs = CantidadSiniestros.MAS_DE_DOS;
+            }
+            default -> {
+                cs = CantidadSiniestros.CERO;  
+            }
+            
+        }   
+        return cs;
     }
     
     

@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Random;
 import logica.EstadoPoliza;
 import logica.Poliza;
+import util.ConversorEnum;
 
 public class GestorPoliza {
     
@@ -17,6 +18,60 @@ public class GestorPoliza {
         
         return pdto;
         
+    }
+    
+    public void cargarPoliza(PolizaDTO pdto){
+        
+        DAOPoliza daop = new DAOPoliza();
+        daop.save(DTOaObjeto(pdto));
+        
+        
+    } 
+    
+    private Poliza DTOaObjeto(PolizaDTO pdto){
+        
+        Poliza poliza = new Poliza();
+        
+        //Datos ingresados
+        
+        poliza.setCantidadSiniestros(ConversorEnum.convertirCantSiniestros(pdto.getCantidadSiniestros()));
+        poliza.setEstado(EstadoPoliza.GENERADA);
+        poliza.setFechaEmision(pdto.getFechaEmision());
+        poliza.setInicioVigencia(pdto.getInicioVigenciaPoliza());
+        poliza.setFinVigencia(pdto.getFinVigencia());
+        poliza.setFormaDePago(ConversorEnum.convertirStringTipoPago(pdto.getFormaPago()));
+        poliza.setSumaAseguradaVehiculo(Double.parseDouble(pdto.getSumaAsegurada()));
+        poliza.setNumPoliza(pdto.getNumPoliza());
+        
+        //Derecho de  emision premio y descuento
+        
+        poliza.setPremioydescuentos(pdto.getPyd());
+        
+        //Valores de fk
+        
+        poliza.setRiesgoLocalidad(pdto.getIndicadorRiesgo());
+        poliza.setCobertura(pdto.getCobertura());
+        
+        
+        //Generamos el vehiculo        
+        poliza.setVehiculoAsegurado(new GestorVehiculo().DTOaVehiculo(pdto.getVehiculo()));
+        
+        //Generamos lista de hijos
+        poliza.setHijosDeclarados(new GestorHijo().DTOaHijos(pdto.getListaHijos()));
+        
+        //Generamos las cuotas
+        poliza.setCuotas(new GestorCuotas().DTOaCuotas(pdto.getListaCuotas()));
+        
+        //Generamos el cliente
+        poliza.setClientePoliza(new GestorClientes().buscarCliente(pdto.getCliente()));
+        
+        //Asignamos los valores con los que se realizo el calculo
+        
+        poliza.setValorSiniestroUtilizados(pdto.getValoresCalculo().getValorSin());
+        poliza.setValoresGeneralesUtilizados(pdto.getValoresCalculo().getValorGen());
+        poliza.setValoresMedidasSeguridadUtilizados(pdto.getValoresCalculo().getValorSeg());
+        
+        return poliza;
     }
 
     public ArrayList<String> EdadValidaHijos(List<HijoDTO> hijos) {

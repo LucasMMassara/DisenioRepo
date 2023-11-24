@@ -4,11 +4,9 @@ import logica.Vehiculo;
 
 public class GestorVehiculo {
 	
-    public Boolean validarDatos(VehiculoDTO vehiculo) {
-            return true;
-    }
-/*
-    public Vehiculo DTOaClase(VehiculoDTO vdto) {
+    Vehiculo DTOaVehiculo(VehiculoDTO vehiculo) {
+        
+        //Se pasa a dto y se guarda en la BBDD TODO
         Vehiculo v = new Vehiculo();
         v.setTuercasAntirobo(vdto.getTuercasAntirrobo());
         v.setAlarma(vdto.getTieneAlarma());
@@ -19,7 +17,6 @@ public class GestorVehiculo {
         v.setNumChasis();
         v.setNumMotor();
         v.setPatente();
-        
+
     }
-*/
 }

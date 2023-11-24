@@ -66,7 +66,7 @@ public class GestorCuotas {
         //Iniciamos el calculo premio prenda y creamos el premio y descuento con los datos de la poliza.
         
         CalculoPremioPrenda cpp =  new CalculoPremioPrenda();
-        PremioYDescuentos pyd = cpp.calculoPremio(suma, erv, ir);
+        PremioYDescuentos pyd = cpp.calculoPremio(suma, erv, ir);              
         
         //Creamos la lista de cuotasdto y se la asignamos a la polizadto
         
@@ -75,6 +75,10 @@ public class GestorCuotas {
         //obtenemos los valores de calculo actuales y los seteamos a la poliza dto
         
         pdto.setValoresCalculo(cpp.getValactcal());
+        
+        //Seteamos el premio y descuento
+        
+        pdto.setPyd(pyd);
         
         return pdto;  
     }
@@ -185,5 +189,10 @@ public class GestorCuotas {
 
         return cuotas;
 
+    }
+
+    List<Cuota> DTOaCuotas(ArrayList<CuotaDTO> listaCuotas) {
+        
+        //TODO crear cuotas y subir a bbdd
     }
 }

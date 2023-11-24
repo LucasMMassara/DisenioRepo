@@ -5,6 +5,8 @@
 package gestores;
 
 import dto.HijoDTO;
+import java.util.ArrayList;
+import java.util.List;
 import logica.Hijo;
 
 /**
@@ -21,6 +23,10 @@ public class GestorHijo {
         
         return ((aniosHijo>=18)&&(aniosHijo<=30));
         
+    }
+
+    List<Hijo> DTOaHijos(ArrayList<HijoDTO> listaHijos) {
+        //Pasar a clase y cargar en la BBDD
     }
     
 }

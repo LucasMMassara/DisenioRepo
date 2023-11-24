@@ -18,6 +18,16 @@ public class PolizaDTO {
         private Date fechaEmision;
         private ValoresActualesCalculo valoresCalculo;
         private VehiculoDTO vehiculo;
+        private String cantidadSiniestros;
+        private String numPoliza;
+
+    public String getNumPoliza() {
+        return numPoliza;
+    }
+
+    public void setNumPoliza(String numPoliza) {
+        this.numPoliza = numPoliza;
+    }
 
     public IndicadorRiesgo getIndicadorRiesgo() {
         return indicadorRiesgo;
@@ -26,6 +36,16 @@ public class PolizaDTO {
     public void setIndicadorRiesgo(IndicadorRiesgo indicadorRiesgo) {
         this.indicadorRiesgo = indicadorRiesgo;
     }
+
+    public String getCantidadSiniestros() {
+        return cantidadSiniestros;
+    }
+
+    public void setCantidadSiniestros(String cantidadSiniestros) {
+        this.cantidadSiniestros = cantidadSiniestros;
+    }
+    
+    
 
     public String getSumaAsegurada() {
         return sumaAsegurada;

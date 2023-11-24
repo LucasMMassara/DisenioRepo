@@ -18,20 +18,11 @@ public class GestorClientes {
             super();
             // TODO Auto-generated constructor stub
     }
-
-    public Boolean validarFormato(ClienteDTO cliente) {
-            //Validamos formatos
-            //Nombre y apellido hace falta?
-            //Nro cliente que tenga el formato, lo podemos hacer desde la entrada tambien
-            //Num doc, es dificil, no todos los tipos de documentos son iguales.
-            
-            
-            //si el formato es correcto, pasamos a crear el cliente y consultar a la base de datos
-            
-            //Si el formato es incorrecto devolvemos un mensaje de error
-            
-            return true;
+    
+    public Cliente buscarCliente(ClienteDTO cdto){
+        //TODO buscarcliente en la bbdd y devolver  uno.
     }
+
     
     public List<ClienteDTO> obtenerClientePorParametros(String numCliente,String nombre, String apellido, String tipoDoc, String numDoc){
         
