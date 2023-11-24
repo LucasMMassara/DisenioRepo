@@ -12,11 +12,27 @@ import java.util.Random;
  */
 public class BusquedaSumaAsegurada{
     
-    public static double buscarSuma(String marca,String modelo, String año){
+    private static String marcaGuardada = null;
+    private static String modeloGuardado = null;
+    private static String anioGuardado = null;
+    private static double sumaGuardada  = 0.0;
+    
+    public static double buscarSuma(String marca,String modelo, String anio){
         
-        //TODO HACER DE VERDAD
-        Random rand = new Random();
-        return rand.nextDouble(5000, 20000);
+        if(!actual(marca,modelo,anio)){
+            marcaGuardada = marca;
+            modeloGuardado = modelo;
+            anioGuardado = anio;
+            
+            Random rand = new Random(); 
+            sumaGuardada = rand.nextDouble(5000, 20000);
+        }
+        
+        return sumaGuardada;
+    }
+    
+    private static boolean actual(String marca, String modelo, String anio){
+        return (marcaGuardada == marca && modeloGuardado == modelo &&  anioGuardado == anio);
     }
     
 }
