@@ -94,6 +94,10 @@ public class VentanaError extends JFrame{
     this.setLocationRelativeTo(null); // Center the frame on the screen
     this.setMinimumSize(new Dimension(650, 200));
 
+    //cambio icono ventana
+    ImageIcon customIcon = new ImageIcon("logo.png");
+    this.setIconImage(customIcon.getImage());
+    
     JPanel panel = new JPanel(new GridBagLayout());
     Background fondo = new Background("background.jpg");
     PanelText errorLabel = new PanelText(mensajeError,19);

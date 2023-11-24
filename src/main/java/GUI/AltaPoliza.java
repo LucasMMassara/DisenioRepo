@@ -7,6 +7,7 @@ import dto.VehiculoDTO;
 import gestores.GestorCobertura;
 import gestores.GestorMarca;
 import gestores.GestorPais;
+import gestores.GestorPoliza;
 import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.Font;
@@ -422,6 +423,7 @@ public class AltaPoliza extends JPanel {
             else {
                 if (Integer.parseInt(hijosInput.getText()) != 0 && clienteCantHijos != Integer.parseInt(hijosInput.getText())) {
                     clienteCantHijos = Integer.parseInt(hijosInput.getText());
+                    tercera.removeAll();
                     terceraConfig();
                     containerPanel.add(tercera, "3");
                 }
@@ -431,6 +433,7 @@ public class AltaPoliza extends JPanel {
                 }
 
                 if (!segundaConfigurada) {
+                    segunda.removeAll();
                     segundaConfig();
                     segundaConfigurada = true;
                     hijosInput.setCorrectInput();
@@ -607,15 +610,20 @@ public class AltaPoliza extends JPanel {
 
             if (inputVacio) {
                 VentanaError entradasVaciasError = new VentanaError("Faltan datos obligatorios", "Entrada incorrecta");
-            } else {
-                
-                if(vehiculoDTO.getAnioVehiculo() != dAnio.getSelectedItem()){
+            } 
+            /*
+            else if(new GestorPoliza().existePolizaVigente(tiPatente.getText(), tiNroMotor.getText(), tiNroChasis.getText())){
+                VentanaError polizaExistente = new VentanaError("Ya existe una poliza vigente para los datos ingreasados", "Entrada incorrecta");
+            }
+*/
+            else{
+                if (vehiculoDTO.getAnioVehiculo() != dAnio.getSelectedItem()) {
                     vehiculoDTO.setAnioVehiculo(dAnio.getSelectedItem());
                     cuarta.removeAll();
                     cuartaConfig();
                     cuartaConfigurada = true;
                 }
-                
+
                 vehiculoDTO.setKmPorAnio(tiKMAnio.getText());
                 vehiculoDTO.setMarcaVehiculo(dMarca.getSelectedItem());
                 vehiculoDTO.setModeloVehiculo(dModelo.getSelectedItem());
@@ -726,16 +734,28 @@ public class AltaPoliza extends JPanel {
             }
             else{
                 hijosDTO.clear();
-                for(int i = 0; i < sexoDropDownList.size(); i++){
-                hijosDTO.add(new HijoDTO(fechaInputList.get(i).getDate(),sexoDropDownList.get(i).getSelectedItem(),estadoCivilDropDownList.get(i).getSelectedItem()));
+                for (int i = 0; i < sexoDropDownList.size(); i++) {
+                    hijosDTO.add(new HijoDTO(fechaInputList.get(i).getDate(), sexoDropDownList.get(i).getSelectedItem(), estadoCivilDropDownList.get(i).getSelectedItem()));
                 }
-                if(cuartaConfigurada){
-                    cambiarPantalla("4");
+                ArrayList<String> hijosErroneos = new GestorPoliza().EdadValidaHijos(hijosDTO);
+                
+                if (hijosErroneos.isEmpty()) {
+                    if (cuartaConfigurada) {
+                        cambiarPantalla("4");
+                    } else {
+                        cuarta.removeAll();
+                        cuartaConfig();
+                        cuartaConfigurada = true;
+                        cambiarPantalla("4");
+                    }
                 }
                 else{
-                    cuartaConfig();
-                    cuartaConfigurada = true;
-                    cambiarPantalla("4");
+                    
+                    String mensajeError = "Los hijos siguientes hijos fueron declarados fuera del rango 18 a 30 años: ";
+                    for(int i = 0; i < hijosErroneos.size(); i++){
+                        mensajeError = mensajeError + " <" + hijosErroneos.get(0) + "> ";
+                    }
+                    VentanaError hijosRangoErroneo = new VentanaError(mensajeError, "Entrada Incorrecta");
                 }
             }
         });
@@ -829,6 +849,7 @@ public class AltaPoliza extends JPanel {
                 }
                 clienteTipoCob = tipoCoberturaDropDown.getSelectedItem();
                 
+                quinta.removeAll();
                 quintaConfig();
                 containerPanel.add(quinta, "5");
                 cambiarPantalla("5");
@@ -873,7 +894,6 @@ public class AltaPoliza extends JPanel {
     private void quintaConfig() {
 
         quinta = new Background("background.jpg");
-        pdfConfig();
         
         Boton botonVolver = new Boton("Volver");
         Boton botonCancelar = new Boton("Cancelar");
@@ -887,13 +907,15 @@ public class AltaPoliza extends JPanel {
             cambiarPantalla("4");
         });
         botonCancelar.addActionListener((ActionEvent e) -> {
-            cambiarPantalla("1");
             main.cambiarPantalla("1");
         });
         botonConfirmar.addActionListener((ActionEvent e) -> {
             //crear numPoliza
+            pdf.removeAll();
+            pdfConfig();
             
             cambiarPantalla("6");
+            
         });
 
         GridBagConstraints gbc = new GridBagConstraints();
@@ -1649,7 +1671,7 @@ public class AltaPoliza extends JPanel {
             gbc2.gridwidth = 3;
             gbc2.weightx = 1;
             gbc2.weighty = 1;
-            // gbc2.insets = new Insets(10, 10, 10, 10);
+            //gbc2.insets = new Insets(10, 10, 10, 10);
 
             gbc2.gridx = 0;
             gbc2.gridy = 0;
@@ -1759,16 +1781,7 @@ public class AltaPoliza extends JPanel {
         calendar.add(Calendar.DAY_OF_MONTH, -1); 
         calendar.add(Calendar.MONTH, i-1); 
         clienteUltimoDiaPagoCuota = calendar.getTime();
-        
-        /*
-        LocalDate inicioPoliza = clientePolizaInicio.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-        LocalDate inicioCuota = inicioPoliza.plusMonths(i-1);
-        clienteFechaInicioCuota = Date.from(inicioCuota.atStartOfDay(ZoneId.systemDefault()).toInstant());
-        
-        inicioPoliza = clienteFechaInicioCuota.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-        inicioCuota = inicioPoliza.plusMonths(1);
-        clienteUltimoDiaPagoCuota = Date.from(inicioCuota.atStartOfDay(ZoneId.systemDefault()).toInstant());
-              */  
+         
         inicioCuotaI.setText(sdf.format(clienteFechaInicioCuota));
         inicioCuotaI.setEditable(false);
         ultimoDiaI.setText(sdf.format(clienteUltimoDiaPagoCuota));
@@ -1825,6 +1838,7 @@ public class AltaPoliza extends JPanel {
         clienteDTO = cliente;
         segundaConfigurada = false;
         cantSiniestros = SubsistemaSiniestros.obtenerCantSiniestros(clienteDTO.getTipoDocumento(), clienteDTO.getNumDocumento()); 
+        primera.removeAll();
         primeraConfig();
         containerPanel.add(primera, "1");
 
