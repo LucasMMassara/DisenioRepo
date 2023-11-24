@@ -4,7 +4,9 @@
  */
 package gestores;
 
+import daos.DAOIndicadorRiesgo;
 import java.util.List;
+import logica.IndicadorRiesgo;
 import logica.Pais;
 import persistenciajpa.PaisJpaController;
 
@@ -30,6 +32,4 @@ public class GestorPais {
 
         return paises;
     }
-    
-    
 }

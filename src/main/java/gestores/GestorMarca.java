@@ -4,6 +4,7 @@ import java.util.List;
 
 import daos.DAOMarca;
 import logica.AnioFabricacion;
+import logica.EstadisticaRoboVehiculo;
 import logica.Marca;
 import logica.Modelo;
 
@@ -12,6 +13,10 @@ public class GestorMarca {
     private List<Marca> marcasObtenidas = null;
     private List<Modelo> modelosObtenidos = null;
     private List<AnioFabricacion> aniosObtenidos = null;
+    
+    public EstadisticaRoboVehiculo estadsiticaRobo(String modelo){
+            return obtenerModeloUnico(modelo).getEstadisticaActual();
+    }
 
     //Obtiene todas las marcas de la BBDD y las pasa a una lista de string para que la use la interfaz
     public String[] obtenerMarcas() {
