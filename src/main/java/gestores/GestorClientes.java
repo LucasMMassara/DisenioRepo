@@ -50,7 +50,7 @@ public class GestorClientes {
         
         //Si todo es nulo entonces obtiene todos
  
-        if(numCliente.isEmpty() && nombre.isEmpty() && apellido.isEmpty() && numDoc.isEmpty()){
+        if(numCliente.isEmpty() && nombre.isEmpty() && apellido.isEmpty() && numDoc.isEmpty() && tipoDoc.equals("Cualquiera")){
             clientesBBDD = daocli.obtenerAllClientes();
             return listaClienteADTO(clientesBBDD);
         }

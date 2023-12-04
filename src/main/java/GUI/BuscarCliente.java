@@ -14,11 +14,10 @@ import javax.swing.border.LineBorder;
 import dto.ClienteDTO;
 import gestores.GestorClientes;
 import java.awt.Dimension;
-import java.util.ArrayList;
 import java.util.List;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
-import logica.TipoDocumento;
+import javax.swing.JList;
 
 public class BuscarCliente extends JPanel {
 
@@ -142,7 +141,7 @@ public class BuscarCliente extends JPanel {
         nroDocumentoI.restrictToNumbers();
         nroDocumentoI.restrictSize(8);
 
-        String[] items = {"DNI","CC", "CI", "CIC"};
+        String[] items = {"Cualquiera","DNI","CC", "CI", "CIC"};
         PanelDropDown tipoDocumentoI = new PanelDropDown(items);
 
         tipoDocumentoI.addCustomPanelListener(new CustomPanelListener() {
@@ -365,12 +364,15 @@ public class BuscarCliente extends JPanel {
         JPanel lista2 = new JPanel(new GridBagLayout());
         lista2.setBackground(Color.WHITE);
         GridBagConstraints gbc2 = new GridBagConstraints();
-        gbc2.fill = GridBagConstraints.BOTH;
+        gbc2.fill = GridBagConstraints.HORIZONTAL;
+        gbc2.anchor = GridBagConstraints.NORTH;
         gbc2.weightx = 1;
         gbc2.weighty = 1;
         gbc2.gridx = 0;
         gbc2.gridy = 0;
         gbc2.anchor = GridBagConstraints.CENTER;
+        
+        JList lista3 =new JList();
 
         int size = clientes.size();
 
@@ -378,13 +380,14 @@ public class BuscarCliente extends JPanel {
 
             panel = new PanelCliente(this, i, clientes.get(i));
             gbc2.gridy = i;
-            lista2.add(panel, gbc2);
+            //lista2.add(panel, gbc2);
+            lista3.add(panel);
 
         }
 
         gbc.gridy = 1;
         gbc.weighty = 0.95;
-        lista.add(lista2, gbc);
+        lista.add(lista3, gbc);
 
     }
 
