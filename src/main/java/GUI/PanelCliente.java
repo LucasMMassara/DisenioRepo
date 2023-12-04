@@ -102,13 +102,12 @@ public class PanelCliente extends JPanel {
 
     }
 
-    PanelCliente(BuscarCliente panel, int a, ClienteDTO cliente) {
+    PanelCliente(BuscarCliente panel, int a, ClienteDTO cliente, int width) {
 
         clientedto = cliente;
         
         this.setLayout(new GridBagLayout());
-        this.setPreferredSize(new Dimension(200, 50));
-        this.setMaximumSize(new Dimension(200, 60));
+        this.setMaximumSize(new Dimension(9000, 50));
         this.setBackground(Color.GRAY);
 
         JPanel nroCliente = new JPanel(new GridBagLayout());

@@ -13,8 +13,11 @@ import javax.swing.border.LineBorder;
 
 import dto.ClienteDTO;
 import gestores.GestorClientes;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.util.List;
+import javax.swing.BoxLayout;
+import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JList;
@@ -36,7 +39,8 @@ public class BuscarCliente extends JPanel {
 
     JPanel resultado = new JPanel();
     ClienteDTO clienteEncontrado = new ClienteDTO();
-
+    int cant = 100;
+    
     BuscarCliente(AltaPoliza mainI) {
 
         main = mainI;
@@ -121,18 +125,22 @@ public class BuscarCliente extends JPanel {
         LineBorder border = new LineBorder(Color.LIGHT_GRAY, 2);
         busqueda.setBorder(border);
 
-        //String text, String fontType, int fontSize, String position
         PanelText busquedaCliente = new PanelText("Busqueda cliente", "BOLD", 20, "WEST");
         PanelText nroCliente = new PanelText("Numero cliente", "PLAIN", 18, "SOUTHWEST");
         PanelText apellido = new PanelText("Apellido", "PLAIN", 18, "SOUTHWEST");
         PanelText nombre = new PanelText("Nombre", "PLAIN", 18, "SOUTHWEST");
         PanelText tipoDocumento = new PanelText("Tipo documento", "PLAIN", 18, "SOUTHWEST");
         PanelText nroDocumento = new PanelText("Numero documento", "PLAIN", 18, "SOUTHWEST");
+        PanelText cantClientes = new PanelText("Cantidad de clientes a buscar:", "PLAIN", 18, "SOUTHEAST");
 
         PanelTextInput nroClienteI = new PanelTextInput(16);
         PanelTextInput apellidoI = new PanelTextInput(16);
         PanelTextInput nombreI = new PanelTextInput(16);
         PanelTextInput nroDocumentoI = new PanelTextInput(16);
+        PanelTextInput cantClientesI = new PanelTextInput(16);
+
+        //cant = metodo que consigue el numero seteado por el cliente
+        cantClientesI.setText(cant+"");
 
         //configuro inputs
         nroClienteI.restrictToAlphanumerics();
@@ -200,6 +208,9 @@ public class BuscarCliente extends JPanel {
             tipD = tipoDocumentoI.getSelectedItem();
             nroD = nroDocumentoI.getText();
 
+            cant = Integer.parseInt(cantClientesI.getText());
+            //actualizar valor cant maxima de clientes a buscar
+
             GestorClientes gc = new GestorClientes();
             List<ClienteDTO> clientes = gc.obtenerClientePorParametros(nroCli, nomb, apell, tipD, nroD);
                         
@@ -240,7 +251,7 @@ public class BuscarCliente extends JPanel {
 
         gbc.gridx = 4;
         busqueda.add(nroDocumento, gbc);
-
+        
         gbc.gridx = 0;
         gbc.gridy = 2;
         gbc.fill = GridBagConstraints.HORIZONTAL;
@@ -258,7 +269,17 @@ public class BuscarCliente extends JPanel {
         gbc.gridx = 4;
         busqueda.add(nroDocumentoI, gbc);
 
+        gbc.gridy = 3;
+        gbc.gridx = 0;
+       // gbc.gridwidth = 2;
+        busqueda.add(cantClientes, gbc);
+        
+        gbc.gridx = 1;
+        busqueda.add(cantClientesI, gbc);
+        
         gbc.gridx = 3;
+        //gbc.gridwidth = 1;
+        //gbc.gridheight = 2;
         gbc.gridy = 3;
         gbc.insets = new Insets(10, 10, 10, 5);
         busqueda.add(limpiar, gbc);
@@ -360,34 +381,30 @@ public class BuscarCliente extends JPanel {
         PanelCliente panel = new PanelCliente();
         gbc.gridy = 0;
         lista.add(panel, gbc);
-
-        JPanel lista2 = new JPanel(new GridBagLayout());
-        lista2.setBackground(Color.WHITE);
-        GridBagConstraints gbc2 = new GridBagConstraints();
-        gbc2.fill = GridBagConstraints.HORIZONTAL;
-        gbc2.anchor = GridBagConstraints.NORTH;
-        gbc2.weightx = 1;
-        gbc2.weighty = 1;
-        gbc2.gridx = 0;
-        gbc2.gridy = 0;
-        gbc2.anchor = GridBagConstraints.CENTER;
         
-        JList lista3 =new JList();
-
         int size = clientes.size();
+        int maximo;
+        if(size < cant){
+            maximo = size;
+        }
+        else{
+            maximo = cant;
+        }
+        
+        JPanel list = new JPanel();
+        list.setLayout(new BoxLayout(list, BoxLayout.Y_AXIS));
 
-        for (int i = 0; i < size; i++) {
+        for (int i = 0; i < maximo; i++) {
 
-            panel = new PanelCliente(this, i, clientes.get(i));
-            gbc2.gridy = i;
-            //lista2.add(panel, gbc2);
-            lista3.add(panel);
+            panel = new PanelCliente(this, i, clientes.get(i), lista.getWidth());
+            panel.setAlignmentX(Component.LEFT_ALIGNMENT);
+            list.add(panel);
 
         }
 
         gbc.gridy = 1;
         gbc.weighty = 0.95;
-        lista.add(lista3, gbc);
+        lista.add(list, gbc);
 
     }
 
