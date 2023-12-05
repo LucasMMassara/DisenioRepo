@@ -23,7 +23,7 @@ public class GestorDomicilio {
         
         DAODomicilio daoDom = new DAODomicilio();
         
-        daoDom.guardarDomicilio(domNuevo);
+        daoDom.save(domNuevo);
         
         return domNuevo;
     }

@@ -21,7 +21,7 @@ public class GestorCobertura {
             return obtenerStringCoberturas(coberturasDevueltas);
         }
         
-        coberturasDevueltas = daocob.obtenerCoberturas();
+        coberturasDevueltas = daocob.getAll();
         
         return obtenerStringCoberturas(coberturasDevueltas);
     }

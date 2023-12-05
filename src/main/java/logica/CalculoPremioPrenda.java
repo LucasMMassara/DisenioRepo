@@ -7,10 +7,6 @@ public class CalculoPremioPrenda{
         ValoresActualesCalculoJpaController vacjpa = new ValoresActualesCalculoJpaController();
         ValoresActualesCalculo valactcal = vacjpa.findValoresActualesCalculo(1);
         
-        public static ValorSiniestro vs;
-        public static ValoresGenerales vg;
-	public static ValorMedidaSeguridad vms;
-        
 	public PremioYDescuentos calculoPremio(double valorAsegurado, EstadisticaRoboVehiculo erv, IndicadorRiesgo ir){
                 
                 PremioYDescuentos premio = new PremioYDescuentos(2500, 250,100, 150);

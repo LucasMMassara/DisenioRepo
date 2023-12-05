@@ -9,7 +9,6 @@ import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
 import logica.Domicilio;
 import logica.EstadoCliente;
-import persistenciajpa.ClienteJpaController;
 import util.ConversorEnum;
 
 public class GestorClientes {
@@ -51,7 +50,7 @@ public class GestorClientes {
         //Si todo es nulo entonces obtiene todos
  
         if(numCliente.isEmpty() && nombre.isEmpty() && apellido.isEmpty() && numDoc.isEmpty() && tipoDoc.equals("Cualquiera")){
-            clientesBBDD = daocli.obtenerAllClientes();
+            clientesBBDD = daocli.getAll();
             return listaClienteADTO(clientesBBDD);
         }
         
@@ -93,7 +92,7 @@ public class GestorClientes {
         
         //Subir a BBDD
         DAOCliente daocli = new DAOCliente();
-        daocli.guardarCliente(cNuevo);
+        daocli.save(cNuevo);
         
         return cNuevo;
     }
@@ -189,7 +188,7 @@ public class GestorClientes {
     
     public List<Cliente> obtenerClientes(){
         DAOCliente daoc = new DAOCliente();
-        return daoc.obtenerAllClientes();
+        return daoc.getAll();
     }
     
     private ClienteDTO clienteADTO(Cliente c){

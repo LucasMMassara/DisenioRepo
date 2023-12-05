@@ -13,26 +13,8 @@ import persistenciajpa.DomicilioJpaController;
  */
 public class DAODomicilio extends DAOAbstract<Domicilio> {
     
-    public void guardarDomicilio(Domicilio d){
-        try{
-            DomicilioJpaController domjpa = new DomicilioJpaController();
-            domjpa.create(d);
-        }
-        catch(Exception e){
-            System.out.println("Error al cargar el domicilio en la BBDD");
-        }
+    public DAODomicilio(){
+        setClazz(Domicilio.class);
     }
-    
-    public void actualizarDomicilio(Domicilio d){
-        try{
-            DomicilioJpaController domjpa = new DomicilioJpaController();
-            domjpa.edit(d);
-        }
-        catch(Exception e){
-            System.out.println("Error al cargar el domicilio en la BBDD" + e.getMessage());
-        }
-    }
-    
-    
     
 }

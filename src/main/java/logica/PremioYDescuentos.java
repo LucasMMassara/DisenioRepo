@@ -26,7 +26,7 @@ public class PremioYDescuentos implements Serializable {
     
     private float primaCalculada;
     private float derechosEmision;
-    private float descuentoPorUnidad;
+    private float descuentoPorUnidad; //Si el clietne tiene mas de un vehiculo tiene descuento por unidad
     private float bonificacionPorPagoSemestral;
 
     public PremioYDescuentos() {

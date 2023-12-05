@@ -28,7 +28,7 @@ public abstract class DAOAbstract<T> implements DAO<T> {
 
     @Override
     public List<T> getAll() {
-        String qlString = "FROM " + clazz.getName();
+        String qlString = "SELECT o FROM " + clazz.getName()+" o";
         Query query = em.createQuery(qlString);
         return query.getResultList();
     }

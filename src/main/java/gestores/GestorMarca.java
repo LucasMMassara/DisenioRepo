@@ -22,7 +22,7 @@ public class GestorMarca {
     //Obtiene todas las marcas de la BBDD y las pasa a una lista de string para que la use la interfaz
     public String[] obtenerMarcas() {
 
-        marcasObtenidas = ((new DAOMarca()).obtenerAll());
+        marcasObtenidas = ((new DAOMarca()).getAll());
 
         return obtenerStringMarcas(marcasObtenidas);
     }
@@ -59,7 +59,7 @@ public class GestorMarca {
         Marca marcaBuscada = null;
 
         if (marcasObtenidas == null) {
-            marcasObtenidas = ((new DAOMarca()).obtenerAll());
+            marcasObtenidas = ((new DAOMarca()).getAll());
         }
 
         for (Marca m : marcasObtenidas) {

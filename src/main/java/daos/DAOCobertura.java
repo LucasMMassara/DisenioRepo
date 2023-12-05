@@ -19,12 +19,6 @@ public class DAOCobertura extends DAOAbstract<Cobertura>{
     public DAOCobertura(){
             setClazz(Cobertura.class);
     }
-    
-    public List<Cobertura> obtenerCoberturas(){
-        
-            CoberturaJpaController  cobjpa = new CoberturaJpaController();
-            return cobjpa.findCoberturaEntities();
-    }
 
     public List<Cobertura> buscarResponsabilidadCivil() {
         
