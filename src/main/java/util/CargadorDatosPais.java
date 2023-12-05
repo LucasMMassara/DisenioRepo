@@ -15,7 +15,6 @@ import logica.IndicadorRiesgo;
 import logica.Localidad;
 import logica.Pais;
 import logica.Provincia;
-import persistenciajpa.LocalidadJpaController;
 
 /**
  *
@@ -93,9 +92,7 @@ public class CargadorDatosPais {
         
         DAOIndicadorRiesgo daoir = new DAOIndicadorRiesgo();
         
-        LocalidadJpaController ljpa = new LocalidadJpaController();
-        
-        List<Localidad> localidades = ljpa.findLocalidadEntities();
+        List<Localidad> localidades = daoloc.getAll();
         
         Random rand = new Random();
         

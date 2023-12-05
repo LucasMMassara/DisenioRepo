@@ -4,6 +4,7 @@
  */
 package util;
 
+import daos.DAOAnioFabricacion;
 import daos.DAOMarca;
 import daos.DAOModelo;
 import java.util.ArrayList;
@@ -12,7 +13,6 @@ import java.util.List;
 import logica.AnioFabricacion;
 import logica.Marca;
 import logica.Modelo;
-import persistenciajpa.AnioFabricacionJpaController;
 
 /**
  *
@@ -24,7 +24,7 @@ public class CargadorDatosMarca {
     
     DAOMarca daomarc = new DAOMarca();
     DAOModelo daomod = new DAOModelo();
-    AnioFabricacionJpaController ajpa = new AnioFabricacionJpaController();
+    DAOAnioFabricacion daoanio = new DAOAnioFabricacion();
     
     public void cargarTodo(){
         cargarAnios();
@@ -46,13 +46,13 @@ public class CargadorDatosMarca {
         
         for(String modelo:mford){
             Modelo m = new Modelo(modelo,ford);
-            m.setAnioModelo(ajpa.findAnioFabricacionEntities());
+            m.setAnioModelo(daoanio.getAll());
             daomod.save(m);
         }
         
         for(String modelo:mchevro){
             Modelo m = new Modelo(modelo,chevrolet);
-            m.setAnioModelo(ajpa.findAnioFabricacionEntities());
+            m.setAnioModelo(daoanio.getAll());
             daomod.save(m);
         }
         
@@ -69,7 +69,7 @@ public class CargadorDatosMarca {
         
         for(AnioFabricacion a:anios){
             try{
-                ajpa.create(a);
+                daoanio.save(a);
             }
             catch(Exception e){
                 System.out.println("Sos un boludo lucas");
