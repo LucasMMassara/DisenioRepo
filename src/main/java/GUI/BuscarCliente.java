@@ -119,6 +119,85 @@ public class BuscarCliente extends JPanel {
 
     }
 
+    BuscarCliente(MenuProductorSeguros mainI) {
+
+        MenuProductorSeguros mainP = mainI;
+        
+        Background fondo = new Background("background.jpg");
+
+        this.setLayout(new GridBagLayout());
+
+        JPanel busqueda = new JPanel();
+        JLabel empty = new JLabel("");
+
+        Boton cancelar = new Boton("Cancelar");
+
+        busqueda.setBackground(new Color(240, 240, 240));
+
+        GridBagConstraints gbc = new GridBagConstraints();
+
+        busquedaConfig(busqueda);
+        gbc.anchor = GridBagConstraints.WEST;
+        gbc.fill = GridBagConstraints.BOTH;
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        gbc.gridwidth = 3;
+        gbc.weightx = 1;
+        gbc.weighty = 0.1;
+        gbc.insets = new Insets(10, 10, 5, 10);
+        fondo.add(busqueda, gbc);
+
+        resultadoConfig(resultado);
+        gbc.gridy = 1;
+        gbc.weighty = 1;
+        gbc.insets = new Insets(5, 10, 5, 10);
+        fondo.add(resultado, gbc);
+
+        gbc.fill = GridBagConstraints.NONE;
+        gbc.anchor = GridBagConstraints.WEST;
+        gbc.gridwidth = 1;
+        gbc.gridy = 2;
+        gbc.weighty = 0.05;
+        gbc.weightx = 0.2;
+        gbc.insets = new Insets(0, 10, 0, 0);
+        fondo.add(cancelar, gbc);
+
+        gbc.anchor = GridBagConstraints.CENTER;
+        gbc.gridx = 1;
+        gbc.weightx = 0.6;
+        gbc.insets = new Insets(0, 0, 0, 0);
+        fondo.add(empty, gbc);
+
+        seleccionar.setEnabled(false);
+        gbc.anchor = GridBagConstraints.EAST;
+        gbc.gridx = 2;
+        gbc.weightx = 0.2;
+        gbc.insets = new Insets(0, 0, 0, 10);
+        fondo.add(seleccionar, gbc);
+
+        gbc.anchor = GridBagConstraints.CENTER;
+        gbc.fill = GridBagConstraints.BOTH;
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        gbc.gridwidth = 1;
+        gbc.weightx = 1;
+        gbc.weighty = 1;
+        gbc.insets = new Insets(0, 0, 0, 0);
+        this.add(fondo, gbc);
+
+        cancelar.addActionListener((ActionEvent e) -> {
+            main.cambiarPantalla("1");
+        });
+
+        seleccionar.addActionListener((ActionEvent e) -> {
+            //clienteEncontrado = clienteSeleccionado.getClienteDTO();
+            //mainP.actualizarPrimera(clienteEncontrado);
+            mainP.cambiarPantalla("1");
+        });
+
+    }
+
+    
     private void busquedaConfig(JPanel busqueda) {
 
         busqueda.setLayout(new GridBagLayout());

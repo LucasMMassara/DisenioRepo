@@ -5,6 +5,8 @@ import dto.CuotaDTO;
 import dto.DomicilioDTO;
 import dto.HijoDTO;
 import dto.LocalidadDTO;
+import dto.MarcaDTO;
+import dto.ModeloDTO;
 import dto.PaisDTO;
 import dto.PolizaDTO;
 import dto.ProvinciaDTO;
@@ -14,6 +16,7 @@ import gestores.GestorCuotas;
 import gestores.GestorFecha;
 import gestores.GestorLocalidad;
 import gestores.GestorMarca;
+import gestores.GestorModelo;
 import gestores.GestorPais;
 import gestores.GestorPoliza;
 import gestores.GestorProvincias;
@@ -45,18 +48,15 @@ import javax.swing.border.LineBorder;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import logica.IndicadorRiesgo;
-import logica.Localidad;
 import logica.Modelo;
-import logica.Pais;
 import logica.PorcentajeCobertura;
-import logica.Provincia;
 import org.apache.pdfbox.pdmodel.PDDocument;
+import org.apache.pdfbox.pdmodel.PDDocumentCatalog;
+import org.apache.pdfbox.pdmodel.PDPage;
 import org.apache.pdfbox.pdmodel.interactive.form.PDAcroForm;
 import org.apache.pdfbox.pdmodel.interactive.form.PDField;
 import org.apache.pdfbox.rendering.PDFRenderer;
 import util.BusquedaSumaAsegurada;
-import util.ConversorEnum;
 import util.SubsistemaSiniestros;
 
 
@@ -91,7 +91,7 @@ public class AltaPoliza extends JPanel {
     //Vehiculo
     String clienteSumaAsegurada = "";
     LocalidadDTO localidadRiesgo = new LocalidadDTO();
-    Modelo modelo = new Modelo();
+    ModeloDTO modeloDTO = new ModeloDTO();
     VehiculoDTO vehiculoDTO = new VehiculoDTO();
     
     //poliza
@@ -477,9 +477,9 @@ public class AltaPoliza extends JPanel {
     List<ProvinciaDTO> listaProvincias;
     List<LocalidadDTO> listaLocalidades;
     
-    String[] listaMarcas;
-    String[] listaModelos;
-    String[] listaAnios;
+    List<MarcaDTO> listaMarcas;
+    List<ModeloDTO> listaModelos;
+    List<Integer> listaAnios;
     
     String[] defaults = {""};
     PanelDropDown pais = new PanelDropDown("WEST", defaults);
@@ -562,18 +562,32 @@ public class AltaPoliza extends JPanel {
         }
         
         GestorMarca gm = new GestorMarca();
+        GestorModelo gmd = new GestorModelo();
         
         try {
             
             listaMarcas = gm.obtenerMarcas();
-            listaModelos = gm.obtenerModelos(listaMarcas[0]);
-            listaAnios = gm.obtenerAnios(listaModelos[0]);
+            listaModelos = gmd.obtenerModelos(listaMarcas.get(0).getId());
+            listaAnios = gmd.obtenerAniosIntegers(listaModelos.get(0).getId());
 
-            dMarca = new PanelDropDown("WEST",listaMarcas); 
-            dModelo = new PanelDropDown("WEST",listaModelos); 
-            dAnio = new PanelDropDown("WEST",listaAnios); 
+            String[] marcas = new String[listaMarcas.size()];
+            for (int i = 0; i < listaMarcas.size(); i++) {
+                marcas[i] = listaMarcas.get(i).getNombre();
+            }
+
+            String[] modelos = new String[listaModelos.size()];
+            for (int i = 0; i < listaModelos.size(); i++) {
+                modelos[i] = listaModelos.get(i).getNombre();
+            }
+
+            String[] anios = new String[listaAnios.size()];
+            for (int i = 0; i < listaAnios.size(); i++) {
+                anios[i] = listaAnios.get(i)+"";
+            }            
             
-           
+            dMarca = new PanelDropDown("WEST",marcas); 
+            dModelo = new PanelDropDown("WEST",modelos); 
+            dAnio = new PanelDropDown("WEST",anios); 
 
         }
         catch(Exception e){
@@ -583,18 +597,28 @@ public class AltaPoliza extends JPanel {
         dMarca.addCustomPanelListener(new CustomPanelListener() {
             @Override
             public void onPanelItemSelected(PanelDropDown source, String selectedItem) {
-                listaModelos = gm.obtenerModelos(selectedItem);
-                listaAnios = gm.obtenerAnios(listaModelos[0]);
-                dModelo.setItems(listaModelos);
-                dAnio.setItems(listaAnios);
+                for (MarcaDTO m : listaMarcas) {
+                    if (m.getNombre().equals(selectedItem)) {
+                        listaModelos = gmd.obtenerModelos(m.getId());
+                        listaAnios = gmd.obtenerAniosIntegers(listaModelos.get(0).getId());
+                        actualizarListaModelos();
+                        actualizarListaAnios();
+                        break;
+                    }
+                }
             }
         });
 
         dModelo.addCustomPanelListener(new CustomPanelListener() {
             @Override
             public void onPanelItemSelected(PanelDropDown source, String selectedItem) {
-                listaAnios = gm.obtenerAnios(selectedItem);
-                dAnio.setItems(listaAnios);
+                for (ModeloDTO m : listaModelos) {
+                    if (m.getNombre().equals(selectedItem)) {
+                        listaAnios = gmd.obtenerAniosIntegers(m.getId());
+                        actualizarListaLocalidades();
+                        break;
+                    }
+                }
             }
         });
 
@@ -607,6 +631,8 @@ public class AltaPoliza extends JPanel {
         PanelCheckBox dispositivo = new PanelCheckBox("Dispositivo antirrobo");
         PanelCheckBox tuercas = new PanelCheckBox("Tuercas antirrobo");
         
+        tiNroChasis.restrictSize(17);
+        tiNroChasis.restrictToNumbersAndUpperCase();
         tiPatente.restrictSize(7);
         tiPatente.restrictToAlphanumerics();
 
@@ -626,8 +652,14 @@ public class AltaPoliza extends JPanel {
             main.cambiarPantalla("1");
         });
         botonContinuar.addActionListener((ActionEvent e) -> {
-
-            modelo = gm.obtenerModeloUnico(dModelo.getSelectedItem());
+            
+            for (ModeloDTO m : listaModelos) {
+                    if (m.getNombre().equals(dModelo.getSelectedItem())) {
+                        modeloDTO = m;
+                        break;
+                    }
+                }
+            
             for(LocalidadDTO l: listaLocalidades){
                 if(localidad.getSelectedItem().equals(l.getNombre())){
                     localidadRiesgo = l;
@@ -680,7 +712,7 @@ public class AltaPoliza extends JPanel {
                 vehiculoDTO.setTieneAlarma(alarma.isSelected());
                 vehiculoDTO.setDispositivoRastreo(dispositivo.isSelected());
                 vehiculoDTO.setTuercasAntirrobo(tuercas.isSelected());
-                vehiculoDTO.setEstadisticaRobo(gm.obtenerModeloUnico(dModelo.getSelectedItem()).getEstadisticaActual());
+                vehiculoDTO.setModelo(modeloDTO);
 
                 if (clienteCantHijos == 0) {
                     if (cuartaConfigurada) {
@@ -982,13 +1014,13 @@ public class AltaPoliza extends JPanel {
         });
         botonConfirmar.addActionListener((ActionEvent e) -> {
             
-            //try{
+            try{
             gp.cargarPoliza(polizaDTO);
-            /*}
+            }
             catch(Exception a){
                 VentanaError errorCargarPoliza = new VentanaError("Error al cargar la poliza a la base de datos", "Error");
                 System.out.println(a.getMessage());
-            }*/
+            }
             
             pdf.removeAll();
             pdfConfig();
@@ -1886,6 +1918,24 @@ public class AltaPoliza extends JPanel {
         }
         localidad.setItems(localidades); 
     }
+ 
+    private void actualizarListaModelos() {
+
+        String[] modelos = new String[listaModelos.size()];
+        for (int i = 0; i < listaModelos.size(); i++) {
+            modelos[i] = listaModelos.get(i).getNombre();
+        }
+        dModelo.setItems(modelos);
+
+    }
+
+    private void actualizarListaAnios() {
+        String[] anios = new String[listaAnios.size()];
+        for (int i = 0; i < listaAnios.size(); i++) {
+            anios[i] = listaAnios.get(i) + "";
+        }
+        dAnio.setItems(anios);
+    }
 
     void cambiarPantalla(String pantalla) {
         //cambia el panel visible
@@ -1983,10 +2033,29 @@ public class AltaPoliza extends JPanel {
                     pdfFilePath += ".pdf";
                 }
 
+                // Set the form fields as read-only
+                setFormFieldsReadOnly(document);
+                
                 // Save the document to the specified file
                 document.save(pdfFilePath);
                 document.close();
             }
+    }
+    
+    private void setFormFieldsReadOnly(PDDocument document) {
+        PDDocumentCatalog catalog = document.getDocumentCatalog();
+        PDAcroForm acroForm = catalog.getAcroForm();
+
+        if (acroForm != null) {
+            // Iterate through all pages
+            for (PDPage page : document.getPages()) {
+                // Iterate through all fields on the page
+                acroForm.getFields().forEach(field -> {
+                    // Set the read-only flag for each field
+                    field.setReadOnly(true);
+                });
+            }
+        }
     }
     
     int getCantidadClientesBusqueda(){

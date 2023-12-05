@@ -307,6 +307,47 @@ public class PanelTextInput extends JPanel {
             textField.setDocument(doc);
         }
     }
+    
+     void restrictToNumbersAndUpperCase() {
+        onlyNumbers = false; // Allow alphanumerics
+
+        if (limitedSize) {
+            PlainDocument doc = new PlainDocument() {
+                @Override
+                public void insertString(int offs, String str, AttributeSet a) throws BadLocationException {
+                    if (str != null) {
+                        // Check if the current text length plus the inserted text length is less than or equal to the limit (e.g., 10 characters)
+                        if (getLength() + str.length() <= size) {
+                            // Check if the inserted text contains only alphanumeric characters
+                            for (int i = 0; i < str.length(); i++) {
+                                if (!Character.isDigit(str.charAt(i)) && !Character.isUpperCase(str.charAt(i))) {
+                                    return; // Reject non-alphanumeric characters
+                                }
+                            }
+                            super.insertString(offs, str, a);
+                        }
+                    }
+                }
+            };
+            textField.setDocument(doc);
+        } else {
+            PlainDocument doc = new PlainDocument() {
+                @Override
+                public void insertString(int offs, String str, AttributeSet a) throws BadLocationException {
+                    if (str != null) {
+                        // Check if the inserted text contains only alphanumeric characters
+                        for (int i = 0; i < str.length(); i++) {
+                            if (!Character.isDigit(str.charAt(i)) && !Character.isUpperCase(str.charAt(i))) {
+                                return; // Reject non-alphanumeric characters
+                            }
+                        }
+                    }
+                    super.insertString(offs, str, a);
+                }
+            };
+            textField.setDocument(doc);
+        }
+    }
 
     void restrictToNumbers() {
         //permite solo enteros positivos
