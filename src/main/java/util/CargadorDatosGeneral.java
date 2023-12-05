@@ -16,6 +16,7 @@ public class CargadorDatosGeneral {
         new CargadorDatosPais().cargarPackPaisesLocIndic();
         new CargadorDatosValoresCalculo().cargarDatosValoresCalculo();
         new CargadorDatosCobertura().agregarCoberturas();
+        CargadorUsuario.cargar();
         
     }
     
