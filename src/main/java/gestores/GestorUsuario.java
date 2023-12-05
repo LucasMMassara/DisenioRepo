@@ -4,6 +4,7 @@
  */
 package gestores;
 
+import daos.DAOUsuario;
 import logica.Usuario;
 
 /**
@@ -29,6 +30,23 @@ public class GestorUsuario {
             
         }
     }
+    
+    public void setUsuario(String usuario, String contra){
+        Usuario usuarioLogeado = new DAOUsuario().get(1).get();
+        setUsuarioLogueado(usuarioLogeado);
+    }
+
+    public GestorUsuario() {
+    }
+
+    public void actualizarCantidadClientesBusqueda(int cantidad) {
+        
+        usuarioLogueado.getCu().setCantClientesBusqueda(cantidad);
+        new DAOUsuario().update(usuarioLogueado);
+        
+    }
+    
+    
     
     
 }

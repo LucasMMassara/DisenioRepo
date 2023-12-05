@@ -4,14 +4,19 @@ import dto.ClienteDTO;
 import dto.CuotaDTO;
 import dto.DomicilioDTO;
 import dto.HijoDTO;
+import dto.LocalidadDTO;
+import dto.PaisDTO;
 import dto.PolizaDTO;
+import dto.ProvinciaDTO;
 import dto.VehiculoDTO;
 import gestores.GestorCobertura;
 import gestores.GestorCuotas;
 import gestores.GestorFecha;
+import gestores.GestorLocalidad;
 import gestores.GestorMarca;
 import gestores.GestorPais;
 import gestores.GestorPoliza;
+import gestores.GestorProvincias;
 import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.Font;
@@ -85,7 +90,7 @@ public class AltaPoliza extends JPanel {
     
     //Vehiculo
     String clienteSumaAsegurada = "";
-    IndicadorRiesgo indicadorRiesgo = new IndicadorRiesgo();
+    LocalidadDTO localidadRiesgo = new LocalidadDTO();
     Modelo modelo = new Modelo();
     VehiculoDTO vehiculoDTO = new VehiculoDTO();
     
@@ -403,7 +408,12 @@ public class AltaPoliza extends JPanel {
         primera.add(botonContinuar, gbc);
 
         botonBuscarCliente.addActionListener((ActionEvent e) -> {
-            cambiarPantalla("buscarCliente");
+            if (getCantidadClientesBusqueda() == -1) {
+                VentanaError errorUsuario = new VentanaError("Error al cargar datos del usuario", "Error usuario");
+            }
+            else{
+                cambiarPantalla("buscarCliente");
+            }
         });
         botonCancelar.addActionListener((ActionEvent e) -> {
             main.cambiarPantalla("1");
@@ -463,9 +473,9 @@ public class AltaPoliza extends JPanel {
         });
     }
  
-    List<Pais> listaPaises;
-    List<Provincia> listaProvincias;
-    List<Localidad> listaLocalidades;
+    List<PaisDTO> listaPaises;
+    List<ProvinciaDTO> listaProvincias;
+    List<LocalidadDTO> listaLocalidades;
     
     String[] listaMarcas;
     String[] listaModelos;
@@ -495,9 +505,11 @@ public class AltaPoliza extends JPanel {
         try {
 
             GestorPais gp = new GestorPais();
-            listaPaises = gp.ObtenerPaises();
-            listaProvincias = listaPaises.get(0).getProvincias();
-            listaLocalidades = listaProvincias.get(0).getLocalidades();
+            GestorProvincias gpr = new GestorProvincias();
+            GestorLocalidad gl = new GestorLocalidad();
+            listaPaises = gp.getPaisesDTO();
+            listaProvincias = gpr.getProvinciasDTO(listaPaises.get(0).getId());
+            listaLocalidades = gl.getLocalidadesDTO(listaProvincias.get(0).getId());
 
             String[] paises = new String[listaPaises.size()];
             for (int i = 0; i < listaPaises.size(); i++) {
@@ -507,23 +519,24 @@ public class AltaPoliza extends JPanel {
 
             String[] provincias = new String[listaProvincias.size()];
             for (int i = 0; i < listaProvincias.size(); i++) {
-                provincias[i] = listaProvincias.get(i).getNombreProvincia();
+                provincias[i] = listaProvincias.get(i).getNombre();
             }
             provincia = new PanelDropDown("WEST",provincias);
 
             String[] localidades = new String[listaLocalidades.size()];
             for (int i = 0; i < listaLocalidades.size(); i++) {
-                localidades[i] = listaLocalidades.get(i).getNombreLocalidad();
+                localidades[i] = listaLocalidades.get(i).getNombre();
             }
             localidad = new PanelDropDown("WEST",localidades);
-
+            
+            
             pais.addCustomPanelListener(new CustomPanelListener() {
                 @Override
                 public void onPanelItemSelected(PanelDropDown source, String selectedItem) {
-                    for (Pais p : listaPaises) {
+                    for (PaisDTO p : listaPaises) {
                         if (p.getNombre().equals(selectedItem)) {
-                            listaProvincias = p.getProvincias();
-                            listaLocalidades = listaProvincias.get(0).getLocalidades();
+                            listaProvincias = gpr.getProvinciasDTO(p.getId());
+                            listaLocalidades = gl.getLocalidadesDTO(listaProvincias.get(0).getId());
                             actualizarListaProvincias();
                             actualizarListaLocalidades();
                             break;
@@ -535,9 +548,9 @@ public class AltaPoliza extends JPanel {
             provincia.addCustomPanelListener(new CustomPanelListener() {
                 @Override
                 public void onPanelItemSelected(PanelDropDown source, String selectedItem) {
-                    for (Provincia p : listaProvincias) {
-                        if (p.getNombreProvincia().equals(selectedItem)) {
-                            listaLocalidades = p.getLocalidades();
+                    for (ProvinciaDTO p : listaProvincias) {
+                        if (p.getNombre().equals(selectedItem)) {
+                            listaLocalidades = gl.getLocalidadesDTO(p.getId());
                             actualizarListaLocalidades();
                             break;
                         }
@@ -602,7 +615,7 @@ public class AltaPoliza extends JPanel {
             //buscar suma asegurada
             double suma = BusquedaSumaAsegurada.buscarSuma(dMarca.getSelectedItem(),dModelo.getSelectedItem(),dAnio.getSelectedItem());
             clienteSumaAsegurada = suma + "";
-            tSuma.setText(clienteSumaAsegurada);
+            tSuma.setText("ARS$ " + clienteSumaAsegurada);
             
         });
         
@@ -615,13 +628,11 @@ public class AltaPoliza extends JPanel {
         botonContinuar.addActionListener((ActionEvent e) -> {
 
             modelo = gm.obtenerModeloUnico(dModelo.getSelectedItem());
-            Localidad localidadElegida = new Localidad();
-            for(Localidad l: listaLocalidades){
-                if(localidad.getSelectedItem().equals(l.getNombreLocalidad())){
-                    localidadElegida = l;
+            for(LocalidadDTO l: listaLocalidades){
+                if(localidad.getSelectedItem().equals(l.getNombre())){
+                    localidadRiesgo = l;
                 }
             }
-            indicadorRiesgo = localidadElegida.getIndicadorActual();
             
             
             List<PanelTextInput> listaPaneles = new ArrayList<>();
@@ -938,7 +949,7 @@ public class AltaPoliza extends JPanel {
         //crear polizaDTO
         clienteNumPoliza = new GestorPoliza().generarNumPoliza();
         polizaDTO.setNumPoliza(clienteNumPoliza);
-        polizaDTO.setIndicadorRiesgo(indicadorRiesgo);
+        polizaDTO.setLocalidad(localidadRiesgo);
         polizaDTO.setCobertura(porcentajeCobertura);
         polizaDTO.setInicioVigenciaPoliza(clientePolizaInicio);
         polizaDTO.setFinVigencia(clientePolizaFin);
@@ -1078,6 +1089,11 @@ public class AltaPoliza extends JPanel {
         confirmar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                try {
+                    document.close();
+                } catch (IOException ex) {
+                   VentanaError cerrarArchivo = new VentanaError("Error al cerrar el documento PDF", "Error PDF");
+                }
                 main.cambiarPantalla("1");
             }
         });
@@ -1156,8 +1172,6 @@ public class AltaPoliza extends JPanel {
                 JLabel label = new JLabel(imageIcon);
                 pdfPanel.add(label);
             }
-
-            document.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -1262,7 +1276,7 @@ public class AltaPoliza extends JPanel {
         panelVehiculo.add(dAnio, gbc);
         
         //clienteSumaAsegurada = result;
-        PanelText tSumaAsegurada = new PanelText("Suma aseguradora en pesos: ", "ITALIC", 16, "WEST");
+        PanelText tSumaAsegurada = new PanelText("ARS$ " + "Suma aseguradora en pesos: ", "ITALIC", 16, "WEST");
         tSuma.setEditable(false);
 
         gbc.gridx = 0;
@@ -1663,7 +1677,7 @@ public class AltaPoliza extends JPanel {
         PanelTextInput tipoPagoI = new PanelTextInput(clienteFormaPago, 16);
         tipoPagoI.setEditable(false);
         totalAbonar = new GestorCuotas().montoTotal(listaCuotas);
-        PanelTextInput montoI = new PanelTextInput(totalAbonar+"", 16);
+        PanelTextInput montoI = new PanelTextInput("ARS$ " + totalAbonar+"", 16);
         montoI.setEditable(false);
 
         GridBagConstraints gbc2 = new GridBagConstraints();
@@ -1747,15 +1761,6 @@ public class AltaPoliza extends JPanel {
             PanelTextInput ultimoDiaI = new PanelTextInput("", 18);
             
             configurarCuota(premioI,importeDescuentoI,importeI,inicioCuotaI,ultimoDiaI,listaCuotas.get(i-1));
-            
-            //CU16
-            /*
-            if(cantidadCuotas == 1){
-                configurarCuotaSemestral(premioI,importeDescuentoI,importeI,inicioCuotaI,ultimoDiaI);
-            }
-            else{
-                configurarCuotaMensual(i,premioI,importeDescuentoI,importeI,inicioCuotaI,ultimoDiaI);
-            }*/
 
             Boton boton0 = new Boton("🡰");
             Boton boton1 = new Boton("🡲");
@@ -1852,11 +1857,11 @@ public class AltaPoliza extends JPanel {
     
     private void configurarCuota(PanelTextInput premioI,PanelTextInput importeDescuentoI,PanelTextInput importeI,PanelTextInput inicioCuotaI,PanelTextInput ultimoDiaI, CuotaDTO cuota){
 
-        premioI.setText(cuota.getPremio());
+        premioI.setText("ARS$ " + cuota.getPremio());
         premioI.setEditable(false);
-        importeDescuentoI.setText(cuota.getImporteDescuentos());
+        importeDescuentoI.setText("ARS$ " + cuota.getImporteDescuentos());
         importeDescuentoI.setEditable(false);
-        importeI.setText(cuota.getImporteCuota());
+        importeI.setText("ARS$ " + cuota.getImporteCuota());
         importeI.setEditable(false);
         GestorFecha gf = new GestorFecha();
         inicioCuotaI.setText(gf.formatoFecha(cuota.getInicioCuota()));
@@ -1869,7 +1874,7 @@ public class AltaPoliza extends JPanel {
     private void actualizarListaProvincias(){
        String[] provincias = new String[listaProvincias.size()];
         for (int i = 0; i < listaProvincias.size(); i++) {
-            provincias[i] = listaProvincias.get(i).getNombreProvincia();
+            provincias[i] = listaProvincias.get(i).getNombre();
         }
         provincia.setItems(provincias); 
     }
@@ -1877,7 +1882,7 @@ public class AltaPoliza extends JPanel {
     private void actualizarListaLocalidades(){
         String[] localidades = new String[listaLocalidades.size()];
         for (int i = 0; i < listaLocalidades.size(); i++) {
-            localidades[i] = listaLocalidades.get(i).getNombreLocalidad();
+            localidades[i] = listaLocalidades.get(i).getNombre();
         }
         localidad.setItems(localidades); 
     }
@@ -1980,10 +1985,20 @@ public class AltaPoliza extends JPanel {
 
                 // Save the document to the specified file
                 document.save(pdfFilePath);
-                //document.close();
-
+                document.close();
             }
-        
-        
     }
+    
+    int getCantidadClientesBusqueda(){
+            if(main == null){
+                return -1;
+            }
+            else{
+               return main.getCantidadClientesBusqueda(); 
+            }
+        }
+    
+    void actualizarCantidadClientesBusqueda(int cantidad){
+            main.actualizarCantidadClientesBusqueda( cantidad);
+        }
 }

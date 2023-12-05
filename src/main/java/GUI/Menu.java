@@ -1,5 +1,6 @@
 package GUI;
 
+import gestores.GestorUsuario;
 import java.awt.CardLayout;
 import java.awt.Dimension;
 import javax.swing.ImageIcon;
@@ -7,6 +8,7 @@ import javax.swing.ImageIcon;
 //import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import logica.Usuario;
 
 public class Menu extends JFrame {
 
@@ -24,17 +26,9 @@ public class Menu extends JFrame {
 	JPanel menuProductorSeguros = new MenuProductorSeguros(this);
         JPanel login = new Login(this);
         
+        GestorUsuario gestorUsuario = new GestorUsuario();
 	
 	Menu(){
-			
-                    /*
-                    //armado ventana
-                    this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-                    this.setTitle("Gestión de Logística");
-		    this.setSize(1100, 720); // Set your preferred size
-		    this.setLocationRelativeTo(null); // Center the frame on the screen
-		    this.setMinimumSize(new Dimension(1000, 700));
-                    */
 
 		    //cambio icono ventana
 		    ImageIcon customIcon = new ImageIcon("logo.png");
@@ -63,6 +57,24 @@ public class Menu extends JFrame {
 		cl.show(containerPanel, pantalla);
 	}
 	
-	
+        void setUsuario(String usuario, String con){
+            gestorUsuario.setUsuario(usuario, con);
+        }
+        
+        int getCantidadClientesBusqueda(){
+            
+            if(gestorUsuario.getUsuarioLogueado().getCu() == null){
+                return -1;
+            }
+            else{
+               return gestorUsuario.getUsuarioLogueado().getCu().getCantClientesBusqueda();
+            }
+        }
+        
+        void actualizarCantidadClientesBusqueda(int cantidad){
+            
+            gestorUsuario.actualizarCantidadClientesBusqueda( cantidad);
+            
+        }
 }
 

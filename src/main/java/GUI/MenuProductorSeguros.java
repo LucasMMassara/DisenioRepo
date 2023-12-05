@@ -159,4 +159,21 @@ public class MenuProductorSeguros extends JPanel {
         //cambia el panel visible
         cl.show(containerPanel, pantalla);
     }
+    
+    int getCantidadClientesBusqueda(){
+        
+            if(menu == null){
+                return -1;
+            }
+            else{
+               return menu.getCantidadClientesBusqueda(); 
+            }
+
+        }
+    
+    void actualizarCantidadClientesBusqueda(int cantidad){
+            
+            menu.actualizarCantidadClientesBusqueda( cantidad);
+            
+        }
 }

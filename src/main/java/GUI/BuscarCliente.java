@@ -133,21 +133,20 @@ public class BuscarCliente extends JPanel {
         PanelText nroDocumento = new PanelText("Numero documento", "PLAIN", 18, "SOUTHWEST");
         PanelText cantClientes = new PanelText("Cantidad de clientes a buscar:", "PLAIN", 18, "SOUTHEAST");
 
-        PanelTextInput nroClienteI = new PanelTextInput(16);
+        PanelTextInputNroCliente nroClienteI = new PanelTextInputNroCliente(16);
         PanelTextInput apellidoI = new PanelTextInput(16);
         PanelTextInput nombreI = new PanelTextInput(16);
         PanelTextInput nroDocumentoI = new PanelTextInput(16);
         PanelTextInput cantClientesI = new PanelTextInput(16);
 
-        //cant = metodo que consigue el numero seteado por el cliente
+        cant = main.getCantidadClientesBusqueda();
         cantClientesI.setText(cant+"");
 
         //configuro inputs
-        nroClienteI.restrictToAlphanumerics();
         nombreI.restrictSize(40);
         apellidoI.restrictSize(70);
+        nroDocumentoI.setEditable(false);
         nroDocumentoI.restrictToNumbers();
-        nroDocumentoI.restrictSize(8);
 
         String[] items = {"Cualquiera","DNI","CC", "CI", "CIC"};
         PanelDropDown tipoDocumentoI = new PanelDropDown(items);
@@ -159,19 +158,27 @@ public class BuscarCliente extends JPanel {
                 switch (selectedItem) {
                     case "CC":
                         nroDocumentoI.restrictSize(4);
+                        nroDocumentoI.setEditable(true);
                         // limitar nroDocumentoI acordemente
                         break;
                     case "CI":
                         nroDocumentoI.restrictSize(4);
+                        nroDocumentoI.setEditable(true);
                         // limitar nroDocumentoI acordemente
                         break;
                     case "CIC":
                         nroDocumentoI.restrictSize(4);
+                        nroDocumentoI.setEditable(true);
                         // limitar nroDocumentoI acordemente
                         break;
                     case "DNI":
                         nroDocumentoI.restrictSize(8);
-                        // limitar nroDocumentoI acordemente
+                        nroDocumentoI.setEditable(true);
+                        break;
+                    case "Cualquiera":
+                        nroDocumentoI.restrictSize(8);
+                        nroDocumentoI.setText("");
+                        nroDocumentoI.setEditable(false);
                         break;
                 }
 
@@ -188,7 +195,7 @@ public class BuscarCliente extends JPanel {
                 clienteSeleccionado.setSelected(false);
             }
             //limpiar campos de busqueda
-            nroClienteI.setText("");
+            nroClienteI.vaciar();
             apellidoI.setText("");
             nombreI.setText("");
             nroDocumentoI.setText("");
@@ -202,14 +209,19 @@ public class BuscarCliente extends JPanel {
         buscar.addActionListener((ActionEvent e) -> {
 
             //obtener valores input
-            nroCli = nroClienteI.getText();
+            if(!nroClienteI.getText().equals("00-00000000")){
+                nroCli = nroClienteI.getText();
+            }
+            else{
+                nroCli = "";
+            }
             nomb = nombreI.getText();
             apell = apellidoI.getText();
             tipD = tipoDocumentoI.getSelectedItem();
             nroD = nroDocumentoI.getText();
 
             cant = Integer.parseInt(cantClientesI.getText());
-            //actualizar valor cant maxima de clientes a buscar
+            main.actualizarCantidadClientesBusqueda(cant);
 
             GestorClientes gc = new GestorClientes();
             List<ClienteDTO> clientes = gc.obtenerClientePorParametros(nroCli, nomb, apell, tipD, nroD);
@@ -254,10 +266,12 @@ public class BuscarCliente extends JPanel {
         
         gbc.gridx = 0;
         gbc.gridy = 2;
+        gbc.insets = new Insets(0, 10, 0, 0);
         gbc.fill = GridBagConstraints.HORIZONTAL;
         busqueda.add(nroClienteI, gbc);
 
         gbc.gridx = 1;
+        gbc.insets = new Insets(0, 0, 0, 0);
         busqueda.add(nombreI, gbc);
 
         gbc.gridx = 2;

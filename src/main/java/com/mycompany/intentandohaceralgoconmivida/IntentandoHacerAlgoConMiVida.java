@@ -11,6 +11,7 @@ import logica.Cuota;
 import logica.PremioYDescuentos;
 import logica.TipoPago;
 import util.CargadorDatosGeneral;
+import util.CargadorUsuario;
 
 
 
@@ -19,7 +20,6 @@ public class IntentandoHacerAlgoConMiVida {
     public static void main(String[] args){
         
         //new CargadorDatosGeneral().cargarDatos();
-        
         new App().inicioApp();
         
     }

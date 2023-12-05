@@ -12,6 +12,7 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Arrays;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -19,6 +20,7 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
+import logica.Usuario;
 
 /**
  *
@@ -34,7 +36,6 @@ public class Login extends JPanel{
     PanelText usuario = new PanelText("Usuario: ", "BOLD",18, "SOUTH");
     PanelText contrasenia = new PanelText("Contraseña: ","BOLD",18,"SOUTH");
     PanelTextInput usuarioI = new PanelTextInput("",18);
-    //PanelTextInput contraseniaI = new PanelTextInput("",18);
     
     JPasswordField contraseniaI = new JPasswordField();
     contraseniaI.setEchoChar('●');
@@ -113,6 +114,9 @@ public class Login extends JPanel{
     bg.add(ingresar,gbc);
     
     ingresar.addActionListener((ActionEvent e) -> {
+        
+        frame.setUsuario(usuarioI.getText(),Arrays.toString(contraseniaI.getPassword()));
+        
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setTitle("Gestión de Logística");
         frame.setSize(1100, 720); // Set your preferred size

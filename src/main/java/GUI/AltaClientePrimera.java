@@ -7,8 +7,13 @@ package GUI;
 import GUI.*;
 import dto.ClienteDTO;
 import dto.DomicilioDTO;
+import dto.LocalidadDTO;
+import dto.PaisDTO;
+import dto.ProvinciaDTO;
 import gestores.GestorClientes;
+import gestores.GestorLocalidad;
 import gestores.GestorPais;
+import gestores.GestorProvincias;
 import java.awt.GridBagConstraints;
 import java.awt.event.ActionEvent;
 import java.util.ArrayList;
@@ -52,16 +57,16 @@ public class AltaClientePrimera extends javax.swing.JPanel {
     String numeroD = "";
     String pisoD = "";
     String dptoD = "";
-    Localidad localidadD;
+    LocalidadDTO localidadD;
     String codigoPostalD = "";
     String numClienteD = "";
     
     ClienteDTO cliente = new ClienteDTO();
     DomicilioDTO domicilio = new DomicilioDTO();
     
-    List<Pais> listaPaises;
-    List<Provincia> listaProvincias;
-    List<Localidad> listaLocalidades;
+    List<PaisDTO> listaPaises;
+    List<ProvinciaDTO> listaProvincias;
+    List<LocalidadDTO> listaLocalidades;
     
     String[] defaults = {""};
     PanelDropDown pais = new PanelDropDown(defaults);
@@ -83,16 +88,15 @@ public class AltaClientePrimera extends javax.swing.JPanel {
         jPanel21.add(confirmar,gbc);
         
         PanelTextInput nombre = new PanelTextInput("nombre",16,0,0,0,0);
-        nombre.restrictToLetters();
+        nombre.restrictToLettersPlusSpace();
         
         PanelTextInput apellido = new PanelTextInput("apellido",16,0,0,0,0);
-        apellido.restrictToLetters();
+        apellido.restrictToLettersPlusSpace();
         
         String[] tipos = {"DNI","CC", "CI", "CIC"};
         PanelDropDown tipoDocumento = new PanelDropDown(tipos);
         
         PanelTextInput nroDocumento = new PanelTextInput("nroDocumento",16,0,0,0,0);
-        //TO DO configurar input documento
         nroDocumento.restrictToNumbers();
         nroDocumento.restrictSize(8);
         
@@ -137,7 +141,7 @@ public class AltaClientePrimera extends javax.swing.JPanel {
         fechaNacimiento.setMinSelectableDate(calendar.getTime());
         
         PanelTextInput calle = new PanelTextInput("calle",16,0,0,0,0);
-        calle.restrictToLetters();
+        calle.restrictToLettersPlusSpace();
         
         PanelTextInput numero = new PanelTextInput("numero",16,0,0,0,0);
         numero.restrictSize(5);
@@ -153,9 +157,12 @@ public class AltaClientePrimera extends javax.swing.JPanel {
         
         try{
         GestorPais gp = new GestorPais();
-        listaPaises = gp.ObtenerPaises();    
-        listaProvincias = listaPaises.get(0).getProvincias();
-        listaLocalidades = listaProvincias.get(0).getLocalidades();
+        GestorProvincias gpr = new GestorProvincias();
+        GestorLocalidad gl = new GestorLocalidad();
+        listaPaises = gp.getPaisesDTO();
+        listaProvincias = gpr.getProvinciasDTO(listaPaises.get(0).getId());
+        listaLocalidades = gl.getLocalidadesDTO(listaProvincias.get(0).getId());
+        
         
         String[] paises = new String[listaPaises.size()];
         for (int i = 0; i < listaPaises.size(); i++) {
@@ -165,43 +172,43 @@ public class AltaClientePrimera extends javax.swing.JPanel {
         
         String[] provincias = new String[listaProvincias.size()];
         for (int i = 0; i < listaProvincias.size(); i++) {
-            provincias[i] = listaProvincias.get(i).getNombreProvincia();
+            provincias[i] = listaProvincias.get(i).getNombre();
         }
         provincia = new PanelDropDown(provincias);
         
         String[] localidades = new String[listaLocalidades.size()];
         for (int i = 0; i < listaLocalidades.size(); i++) {
-            localidades[i] = listaLocalidades.get(i).getNombreLocalidad();
+            localidades[i] = listaLocalidades.get(i).getNombre();
         }
         localidad = new PanelDropDown(localidades);
         
         pais.addCustomPanelListener(new CustomPanelListener() {
-            @Override
-            public void onPanelItemSelected(PanelDropDown source, String selectedItem) {
-                for(Pais p: listaPaises){    
-                    if(p.getNombre().equals(selectedItem)){
-                        listaProvincias = p.getProvincias();
-                        listaLocalidades = listaProvincias.get(0).getLocalidades();
-                        actualizarListaProvincias();
-                        actualizarListaLocalidades();
-                        break;
+                @Override
+                public void onPanelItemSelected(PanelDropDown source, String selectedItem) {
+                    for (PaisDTO p : listaPaises) {
+                        if (p.getNombre().equals(selectedItem)) {
+                            listaProvincias = gpr.getProvinciasDTO(p.getId());
+                            listaLocalidades = gl.getLocalidadesDTO(listaProvincias.get(0).getId());
+                            actualizarListaProvincias();
+                            actualizarListaLocalidades();
+                            break;
+                        }
                     }
                 }
-            }
-        });
-        
-        provincia.addCustomPanelListener(new CustomPanelListener() {
-            @Override
-            public void onPanelItemSelected(PanelDropDown source, String selectedItem) {
-                for(Provincia p: listaProvincias){    
-                    if(p.getNombreProvincia().equals(selectedItem)){
-                        listaLocalidades = p.getLocalidades();
-                        actualizarListaLocalidades();
-                        break;
+            });
+
+            provincia.addCustomPanelListener(new CustomPanelListener() {
+                @Override
+                public void onPanelItemSelected(PanelDropDown source, String selectedItem) {
+                    for (ProvinciaDTO p : listaProvincias) {
+                        if (p.getNombre().equals(selectedItem)) {
+                            listaLocalidades = gl.getLocalidadesDTO(p.getId());
+                            actualizarListaLocalidades();
+                            break;
+                        }
                     }
                 }
-            }
-        });
+            });
         }
         catch(Exception e){
             
@@ -231,7 +238,7 @@ public class AltaClientePrimera extends javax.swing.JPanel {
         PanelDropDown estadoCivil = new PanelDropDown(estados);
         
         PanelTextInput profesion = new PanelTextInput("profesion",16,0,0,0,0);
-        profesion.restrictToLetters();
+        profesion.restrictToLettersPlusSpace();
         
         PanelTextInput anioRegistro = new PanelTextInput("anioRegistro",16,0,0,0,0);
         anioRegistro.restrictSize(4);
@@ -259,7 +266,7 @@ public class AltaClientePrimera extends javax.swing.JPanel {
         listaPaneles.add(codigoPostal);
 
         confirmar.addActionListener((ActionEvent e) -> {
-            
+
             GestorClientes gc = new GestorClientes();
             
             //chequear inputs
@@ -267,7 +274,7 @@ public class AltaClientePrimera extends javax.swing.JPanel {
         
             for(PanelTextInput panel: listaPaneles ){
 
-                if("".equals(panel.getText())){
+                if(panel.getText().trim().isEmpty()){
                     inputVacio = true;
                     panel.setWrongInput();
                 }
@@ -295,7 +302,11 @@ public class AltaClientePrimera extends javax.swing.JPanel {
             
 
             fechaNacimientoD = fechaNacimiento.getDate();
-            Boolean clienteMayor = gc.clienteMayorEdad(fechaNacimientoD);
+            Boolean clienteMayor = true;
+            if(fechaNacimientoD != null){
+                clienteMayor = gc.clienteMayorEdad(fechaNacimientoD);
+            }
+        
             
             if (inputVacio || fechaNacimientoD == null || emailvalido == false || !clienteMayor) {
                 
@@ -314,8 +325,8 @@ public class AltaClientePrimera extends javax.swing.JPanel {
             }
             else {        
                 
-                nombreD = nombre.getText();
-                apellidoD = apellido.getText();
+                nombreD = nombre.getText().replaceFirst("^\\s+", "");
+                apellidoD = apellido.getText().replaceFirst("^\\s+", "");
                 tipoDocumentoD = tipoDocumento.getSelectedItem();
                 nroDocumentoD = nroDocumento.getText();
                 nroCuilD = nroCuil.getText();
@@ -323,16 +334,16 @@ public class AltaClientePrimera extends javax.swing.JPanel {
                 condicionIvaD = condicionIva.getSelectedItem();
                 correoElectronicoD = correoElectronico.getText();
                 estadoCivilD = estadoCivil.getSelectedItem();
-                profesionD = profesion.getText();
+                profesionD = profesion.getText().replaceFirst("^\\s+", "");
                 anioRegistroD = anioRegistro.getText();
-                calleD = calle.getText();
+                calleD = calle.getText().replaceFirst("^\\s+", "");
                 numeroD = numero.getText();
                 pisoD = piso.getText();
                 dptoD = dpto.getText();
                 codigoPostalD = codigoPostal.getText(); 
 
-                for(Localidad loc: listaLocalidades){
-                    if(localidad.getSelectedItem().equals(loc.getNombreLocalidad())){
+                for(LocalidadDTO loc: listaLocalidades){
+                    if(localidad.getSelectedItem().equals(loc.getNombre())){
                         localidadD = loc;
                     }
                 }
@@ -379,7 +390,7 @@ public class AltaClientePrimera extends javax.swing.JPanel {
         jPanel30.add(nroCliente,gbc);     
     }
     
-    public AltaClientePrimera(AltaPoliza main) {
+     public AltaClientePrimera(AltaPoliza main) {
         initComponents();
         
         GridBagConstraints gbc = new GridBagConstraints();
@@ -394,16 +405,15 @@ public class AltaClientePrimera extends javax.swing.JPanel {
         jPanel21.add(confirmar,gbc);
         
         PanelTextInput nombre = new PanelTextInput("nombre",16,0,0,0,0);
-        nombre.restrictToLetters();
+        nombre.restrictToLettersPlusSpace();
         
         PanelTextInput apellido = new PanelTextInput("apellido",16,0,0,0,0);
-        apellido.restrictToLetters();
+        apellido.restrictToLettersPlusSpace();
         
         String[] tipos = {"DNI","CC", "CI", "CIC"};
         PanelDropDown tipoDocumento = new PanelDropDown(tipos);
         
         PanelTextInput nroDocumento = new PanelTextInput("nroDocumento",16,0,0,0,0);
-        //TO DO configurar input documento
         nroDocumento.restrictToNumbers();
         nroDocumento.restrictSize(8);
         
@@ -448,7 +458,7 @@ public class AltaClientePrimera extends javax.swing.JPanel {
         fechaNacimiento.setMinSelectableDate(calendar.getTime());
         
         PanelTextInput calle = new PanelTextInput("calle",16,0,0,0,0);
-        calle.restrictToLetters();
+        calle.restrictToLettersPlusSpace();
         
         PanelTextInput numero = new PanelTextInput("numero",16,0,0,0,0);
         numero.restrictSize(5);
@@ -464,9 +474,12 @@ public class AltaClientePrimera extends javax.swing.JPanel {
         
         try{
         GestorPais gp = new GestorPais();
-        listaPaises = gp.ObtenerPaises();    
-        listaProvincias = listaPaises.get(0).getProvincias();
-        listaLocalidades = listaProvincias.get(0).getLocalidades();
+        GestorProvincias gpr = new GestorProvincias();
+        GestorLocalidad gl = new GestorLocalidad();
+        listaPaises = gp.getPaisesDTO();
+        listaProvincias = gpr.getProvinciasDTO(listaPaises.get(0).getId());
+        listaLocalidades = gl.getLocalidadesDTO(listaProvincias.get(0).getId());
+        
         
         String[] paises = new String[listaPaises.size()];
         for (int i = 0; i < listaPaises.size(); i++) {
@@ -476,43 +489,43 @@ public class AltaClientePrimera extends javax.swing.JPanel {
         
         String[] provincias = new String[listaProvincias.size()];
         for (int i = 0; i < listaProvincias.size(); i++) {
-            provincias[i] = listaProvincias.get(i).getNombreProvincia();
+            provincias[i] = listaProvincias.get(i).getNombre();
         }
         provincia = new PanelDropDown(provincias);
         
         String[] localidades = new String[listaLocalidades.size()];
         for (int i = 0; i < listaLocalidades.size(); i++) {
-            localidades[i] = listaLocalidades.get(i).getNombreLocalidad();
+            localidades[i] = listaLocalidades.get(i).getNombre();
         }
         localidad = new PanelDropDown(localidades);
         
         pais.addCustomPanelListener(new CustomPanelListener() {
-            @Override
-            public void onPanelItemSelected(PanelDropDown source, String selectedItem) {
-                for(Pais p: listaPaises){    
-                    if(p.getNombre().equals(selectedItem)){
-                        listaProvincias = p.getProvincias();
-                        listaLocalidades = listaProvincias.get(0).getLocalidades();
-                        actualizarListaProvincias();
-                        actualizarListaLocalidades();
-                        break;
+                @Override
+                public void onPanelItemSelected(PanelDropDown source, String selectedItem) {
+                    for (PaisDTO p : listaPaises) {
+                        if (p.getNombre().equals(selectedItem)) {
+                            listaProvincias = gpr.getProvinciasDTO(p.getId());
+                            listaLocalidades = gl.getLocalidadesDTO(listaProvincias.get(0).getId());
+                            actualizarListaProvincias();
+                            actualizarListaLocalidades();
+                            break;
+                        }
                     }
                 }
-            }
-        });
-        
-        provincia.addCustomPanelListener(new CustomPanelListener() {
-            @Override
-            public void onPanelItemSelected(PanelDropDown source, String selectedItem) {
-                for(Provincia p: listaProvincias){    
-                    if(p.getNombreProvincia().equals(selectedItem)){
-                        listaLocalidades = p.getLocalidades();
-                        actualizarListaLocalidades();
-                        break;
+            });
+
+            provincia.addCustomPanelListener(new CustomPanelListener() {
+                @Override
+                public void onPanelItemSelected(PanelDropDown source, String selectedItem) {
+                    for (ProvinciaDTO p : listaProvincias) {
+                        if (p.getNombre().equals(selectedItem)) {
+                            listaLocalidades = gl.getLocalidadesDTO(p.getId());
+                            actualizarListaLocalidades();
+                            break;
+                        }
                     }
                 }
-            }
-        });
+            });
         }
         catch(Exception e){
             
@@ -542,7 +555,7 @@ public class AltaClientePrimera extends javax.swing.JPanel {
         PanelDropDown estadoCivil = new PanelDropDown(estados);
         
         PanelTextInput profesion = new PanelTextInput("profesion",16,0,0,0,0);
-        profesion.restrictToLetters();
+        profesion.restrictToLettersPlusSpace();
         
         PanelTextInput anioRegistro = new PanelTextInput("anioRegistro",16,0,0,0,0);
         anioRegistro.restrictSize(4);
@@ -570,7 +583,7 @@ public class AltaClientePrimera extends javax.swing.JPanel {
         listaPaneles.add(codigoPostal);
 
         confirmar.addActionListener((ActionEvent e) -> {
-            
+
             GestorClientes gc = new GestorClientes();
             
             //chequear inputs
@@ -578,7 +591,7 @@ public class AltaClientePrimera extends javax.swing.JPanel {
         
             for(PanelTextInput panel: listaPaneles ){
 
-                if("".equals(panel.getText())){
+                if(panel.getText().trim().isEmpty()){
                     inputVacio = true;
                     panel.setWrongInput();
                 }
@@ -606,8 +619,13 @@ public class AltaClientePrimera extends javax.swing.JPanel {
             
 
             fechaNacimientoD = fechaNacimiento.getDate();
+            Boolean clienteMayor = true;
+            if(fechaNacimientoD != null){
+                clienteMayor = gc.clienteMayorEdad(fechaNacimientoD);
+            }
+        
             
-            if (inputVacio || fechaNacimientoD == null || emailvalido == false) {
+            if (inputVacio || fechaNacimientoD == null || emailvalido == false || !clienteMayor) {
                 
                 if(inputVacio){
                     VentanaError entradasVaciasError = new VentanaError("Faltan datos obligatorios", "Entrada incorrecta");
@@ -618,12 +636,14 @@ public class AltaClientePrimera extends javax.swing.JPanel {
                 else if(fechaNacimientoD == null){
                     VentanaError fechaVaciaError = new VentanaError("Debe seleccionar una fecha de nacimiento","Entrada incorrecta");
                 }
-                
+                else if(!clienteMayor){
+                    VentanaError clienteMenor = new VentanaError("El cliente debe ser mayor de edad","Entrada incorrecta");
+                }
             }
             else {        
                 
-                nombreD = nombre.getText();
-                apellidoD = apellido.getText();
+                nombreD = nombre.getText().replaceFirst("^\\s+", "");
+                apellidoD = apellido.getText().replaceFirst("^\\s+", "");
                 tipoDocumentoD = tipoDocumento.getSelectedItem();
                 nroDocumentoD = nroDocumento.getText();
                 nroCuilD = nroCuil.getText();
@@ -631,16 +651,16 @@ public class AltaClientePrimera extends javax.swing.JPanel {
                 condicionIvaD = condicionIva.getSelectedItem();
                 correoElectronicoD = correoElectronico.getText();
                 estadoCivilD = estadoCivil.getSelectedItem();
-                profesionD = profesion.getText();
+                profesionD = profesion.getText().replaceFirst("^\\s+", "");
                 anioRegistroD = anioRegistro.getText();
-                calleD = calle.getText();
+                calleD = calle.getText().replaceFirst("^\\s+", "");
                 numeroD = numero.getText();
                 pisoD = piso.getText();
                 dptoD = dpto.getText();
                 codigoPostalD = codigoPostal.getText(); 
 
-                for(Localidad loc: listaLocalidades){
-                    if(localidad.getSelectedItem().equals(loc.getNombreLocalidad())){
+                for(LocalidadDTO loc: listaLocalidades){
+                    if(localidad.getSelectedItem().equals(loc.getNombre())){
                         localidadD = loc;
                     }
                 }
@@ -690,7 +710,7 @@ public class AltaClientePrimera extends javax.swing.JPanel {
     private void actualizarListaProvincias(){
        String[] provincias = new String[listaProvincias.size()];
         for (int i = 0; i < listaProvincias.size(); i++) {
-            provincias[i] = listaProvincias.get(i).getNombreProvincia();
+            provincias[i] = listaProvincias.get(i).getNombre();
         }
         provincia.setItems(provincias); 
     }
@@ -698,7 +718,7 @@ public class AltaClientePrimera extends javax.swing.JPanel {
     private void actualizarListaLocalidades(){
         String[] localidades = new String[listaLocalidades.size()];
         for (int i = 0; i < listaLocalidades.size(); i++) {
-            localidades[i] = listaLocalidades.get(i).getNombreLocalidad();
+            localidades[i] = listaLocalidades.get(i).getNombre();
         }
         localidad.setItems(localidades); 
     }

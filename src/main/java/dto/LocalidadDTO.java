@@ -1,5 +1,7 @@
 package dto;
 
+import logica.IndicadorRiesgo;
+
 public class LocalidadDTO {
     private int id;
     private String nombre;
@@ -23,5 +25,8 @@ public class LocalidadDTO {
 
     public void setNombre(String nombre) {
         this.nombre = nombre;
+    }
+
+    public LocalidadDTO() {
     }
 }

@@ -5,7 +5,7 @@ import logica.*;
 
 public class PolizaDTO {
 	
-        private IndicadorRiesgo indicadorRiesgo;
+        private LocalidadDTO localidadRiesgo;
 	private PorcentajeCobertura cobertura;
 	private Date inicioVigenciaPoliza;
 	private String formaPago;
@@ -39,12 +39,12 @@ public class PolizaDTO {
         this.numPoliza = numPoliza;
     }
 
-    public IndicadorRiesgo getIndicadorRiesgo() {
-        return indicadorRiesgo;
+    public LocalidadDTO getLocalidadRiesgo() {
+        return localidadRiesgo;
     }
 
-    public void setIndicadorRiesgo(IndicadorRiesgo indicadorRiesgo) {
-        this.indicadorRiesgo = indicadorRiesgo;
+    public void setLocalidadRiesgo(LocalidadDTO localidadRiesgo) {
+        this.localidadRiesgo = localidadRiesgo;
     }
 
     public String getCantidadSiniestros() {
@@ -145,6 +145,10 @@ public class PolizaDTO {
 
     @Override
     public String toString() {
-        return "PolizaDTO{" + "indicadorRiesgo=" + indicadorRiesgo + ", cobertura=" + cobertura + ", inicioVigenciaPoliza=" + inicioVigenciaPoliza + ", formaPago=" + formaPago + ", cliente=" + cliente + ", listaHijos=" + listaHijos + ", listaCuotas=" + listaCuotas + ", sumaAsegurada=" + sumaAsegurada + ", finVigencia=" + finVigencia + ", fechaEmision=" + fechaEmision + ", valoresCalculo=" + valoresCalculo + ", vehiculo=" + vehiculo + '}';
+        return "PolizaDTO{" + "localidadRiesgo=" + localidadRiesgo + ", cobertura=" + cobertura + ", inicioVigenciaPoliza=" + inicioVigenciaPoliza + ", formaPago=" + formaPago + ", cliente=" + cliente + ", listaHijos=" + listaHijos + ", listaCuotas=" + listaCuotas + ", sumaAsegurada=" + sumaAsegurada + ", finVigencia=" + finVigencia + ", fechaEmision=" + fechaEmision + ", valoresCalculo=" + valoresCalculo + ", vehiculo=" + vehiculo + '}';
+    }
+
+    public void setLocalidad(LocalidadDTO localidad) {
+        localidadRiesgo = localidad;
     }
 }

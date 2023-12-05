@@ -181,6 +181,92 @@ public class PanelTextInput extends JPanel {
         
     }
     
+    void restrictToLettersPlusSpace(){
+        
+        onlyNumbers = false; // Allow alphanumerics
+
+        if (limitedSize) {
+            PlainDocument doc = new PlainDocument() {
+                @Override
+                public void insertString(int offs, String str, AttributeSet a) throws BadLocationException {
+                    if (str != null) {
+                        // Check if the current text length plus the inserted text length is less than or equal to the limit (e.g., 10 characters)
+                        if (getLength() + str.length() <= 10) {
+                            // Check if the inserted text contains only alphanumeric characters
+                            for (int i = 0; i < str.length(); i++) {
+                                if (!Character.isLetter(str.charAt(i)) && str.charAt(i) != ' ') {
+                                    return; // Reject non-alphanumeric characters
+                                }
+                            }
+                            super.insertString(offs, str, a);
+                        }
+                    }
+                }
+            };
+            textField.setDocument(doc);
+        } else {
+            PlainDocument doc = new PlainDocument() {
+                @Override
+                public void insertString(int offs, String str, AttributeSet a) throws BadLocationException {
+                    if (str != null) {
+                        // Check if the inserted text contains only alphanumeric characters
+                        for (int i = 0; i < str.length(); i++) {
+                            if (!Character.isLetter(str.charAt(i)) && str.charAt(i) != ' ') {
+                                return; // Reject non-alphanumeric characters
+                            }
+                        }
+                    }
+                    super.insertString(offs, str, a);
+                }
+            };
+            textField.setDocument(doc);
+        }
+        
+        
+        
+    }
+    
+    void restrictToAlphanumericsPlusSpace() {
+        onlyNumbers = false; // Allow alphanumerics
+
+        if (limitedSize) {
+            PlainDocument doc = new PlainDocument() {
+                @Override
+                public void insertString(int offs, String str, AttributeSet a) throws BadLocationException {
+                    if (str != null) {
+                        // Check if the current text length plus the inserted text length is less than or equal to the limit (e.g., 10 characters)
+                        if (getLength() + str.length() <= size) {
+                            // Check if the inserted text contains only alphanumeric characters
+                            for (int i = 0; i < str.length(); i++) {
+                                if (!Character.isLetterOrDigit(str.charAt(i)) && str.charAt(i) != ' ') {
+                                    return; // Reject non-alphanumeric characters
+                                }
+                            }
+                            super.insertString(offs, str, a);
+                        }
+                    }
+                }
+            };
+            textField.setDocument(doc);
+        } else {
+            PlainDocument doc = new PlainDocument() {
+                @Override
+                public void insertString(int offs, String str, AttributeSet a) throws BadLocationException {
+                    if (str != null) {
+                        // Check if the inserted text contains only alphanumeric characters
+                        for (int i = 0; i < str.length(); i++) {
+                            if (!Character.isLetterOrDigit(str.charAt(i)) && str.charAt(i) != ' ') {
+                                return; // Reject non-alphanumeric characters
+                            }
+                        }
+                    }
+                    super.insertString(offs, str, a);
+                }
+            };
+            textField.setDocument(doc);
+        }
+    }
+    
     void restrictToAlphanumerics() {
         onlyNumbers = false; // Allow alphanumerics
 
