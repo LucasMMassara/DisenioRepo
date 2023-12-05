@@ -76,5 +76,16 @@ public class Menu extends JFrame {
             gestorUsuario.actualizarCantidadClientesBusqueda( cantidad);
             
         }
+        
+        public String obtenerNombreAgente(){
+            return "TO DO";
+        }
+        public String obtenerCorreoElectronico(){
+            return "TO DO";
+        }
+        public String obtenerTelefono(){
+            return "TO DO";
+        }
+        
 }
 

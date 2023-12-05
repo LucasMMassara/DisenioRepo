@@ -1,6 +1,7 @@
 package GUI;
 
 import dto.ClienteDTO;
+import dto.CoberturaDTO;
 import dto.CuotaDTO;
 import dto.DomicilioDTO;
 import dto.HijoDTO;
@@ -9,6 +10,7 @@ import dto.MarcaDTO;
 import dto.ModeloDTO;
 import dto.PaisDTO;
 import dto.PolizaDTO;
+import dto.PremioYDescuentosDTO;
 import dto.ProvinciaDTO;
 import dto.VehiculoDTO;
 import gestores.GestorCobertura;
@@ -48,6 +50,7 @@ import javax.swing.border.LineBorder;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import logica.CalculoPremioPrenda;
 import logica.Modelo;
 import logica.PorcentajeCobertura;
 import org.apache.pdfbox.pdmodel.PDDocument;
@@ -101,6 +104,7 @@ public class AltaPoliza extends JPanel {
     String clienteTipoCob = "";
     String clienteNumPoliza = "";
     PolizaDTO polizaDTO = new PolizaDTO();
+    PremioYDescuentosDTO premioDescuentosDTO = new PremioYDescuentosDTO();
     
     String derechosEmision = "";
     Double totalAbonar = 0.0;
@@ -112,6 +116,7 @@ public class AltaPoliza extends JPanel {
     Boolean pdfConfigurado = false;
     
     Date fechaActual = new Date();
+    CoberturaDTO coberturaDTO = new CoberturaDTO();
     PorcentajeCobertura porcentajeCobertura;
     
     //cuotas
@@ -879,6 +884,7 @@ public class AltaPoliza extends JPanel {
         String[] formasPago = {"Mensual", "Semestral"};
         
         GestorCobertura gcb = new GestorCobertura();
+        GestorCuotas gc = new GestorCuotas();
         
         String[] tiposCobertura = gcb.obtenerCoberturas(vehiculoDTO.getAnioVehiculo());
 
@@ -927,7 +933,9 @@ public class AltaPoliza extends JPanel {
                     clienteFormaPago = "Mensual";
                 }
                 clienteTipoCob = tipoCoberturaDropDown.getSelectedItem();
-                porcentajeCobertura = gcb.obtenerCoberturaUnica(clienteTipoCob).getPorcentajeActual();
+                coberturaDTO = gcb.obtenerCoberturaDTOUnica(clienteTipoCob);
+                premioDescuentosDTO = new CalculoPremioPrenda().calculoPremio(Double.parseDouble(clienteSumaAsegurada), modeloDTO, localidadRiesgo);
+                listaCuotas = gc.crearCuotas(premioDescuentosDTO, clientePolizaInicio, clienteFormaPago);
                 
                 quinta.removeAll();
                 quintaConfig();
@@ -975,14 +983,13 @@ public class AltaPoliza extends JPanel {
 
         quinta = new Background("background.jpg");
         
-        GestorCuotas gc = new GestorCuotas();
         GestorPoliza gp = new GestorPoliza();
         
         //crear polizaDTO
         clienteNumPoliza = new GestorPoliza().generarNumPoliza();
         polizaDTO.setNumPoliza(clienteNumPoliza);
         polizaDTO.setLocalidad(localidadRiesgo);
-        polizaDTO.setCobertura(porcentajeCobertura);
+        polizaDTO.setCobertura(coberturaDTO);
         polizaDTO.setInicioVigenciaPoliza(clientePolizaInicio);
         polizaDTO.setFinVigencia(clientePolizaFin);
         polizaDTO.setFormaPago(clienteFormaPago);
@@ -992,8 +999,8 @@ public class AltaPoliza extends JPanel {
         polizaDTO.setFechaEmision(fechaActual);
         polizaDTO.setVehiculo(vehiculoDTO);
         polizaDTO.setCantidadSiniestros(cantSiniestros);
-        polizaDTO = gc.crearCuotas(polizaDTO);
-        listaCuotas = polizaDTO.getListaCuotas();
+        polizaDTO.setPyd(premioDescuentosDTO);
+        polizaDTO.setListaCuotas(listaCuotas);
        
         Boton botonVolver = new Boton("Volver");
         Boton botonCancelar = new Boton("Cancelar");
@@ -1604,7 +1611,7 @@ public class AltaPoliza extends JPanel {
         modeloI.setEditable(false);
         PanelTextInput patenteI = new PanelTextInput(vehiculoDTO.getNumPatente(), 16);
         patenteI.setEditable(false);
-        PanelTextInput sumaI = new PanelTextInput(clienteSumaAsegurada, 16);
+        PanelTextInput sumaI = new PanelTextInput("ARS$ " +clienteSumaAsegurada, 16);
         sumaI.setEditable(false);
         PanelTextInput chasisI = new PanelTextInput(vehiculoDTO.getNumChasis(), 16);
         chasisI.setEditable(false);

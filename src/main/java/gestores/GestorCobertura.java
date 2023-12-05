@@ -1,6 +1,7 @@
 package gestores;
 
 import daos.DAOCobertura;
+import dto.CoberturaDTO;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -9,8 +10,6 @@ import logica.PorcentajeCobertura;
 
 public class GestorCobertura {
     
-    private List<Cobertura> coberturasDevueltas;
-    
     public Cobertura obtenerCoberturaPorId(int idCobertura){
         return new DAOCobertura().get(idCobertura).get();
     }
@@ -18,6 +17,8 @@ public class GestorCobertura {
     public String[] obtenerCoberturas(String anio){
         
         DAOCobertura daocob = new DAOCobertura();
+        
+        List<Cobertura> coberturasDevueltas; 
         
         if(obtenerAniosVehiculo(anio)>10){
             
@@ -33,7 +34,10 @@ public class GestorCobertura {
     
     public Cobertura obtenerCoberturaUnica(String coberturaNombre){
         
+        DAOCobertura daocob = new DAOCobertura();
         Cobertura coberturaBuscada = null;
+        List<Cobertura> coberturasDevueltas; 
+        coberturasDevueltas = daocob.getAll();
         
         for(Cobertura c: coberturasDevueltas){    
             if(c.getDetalle().equals(coberturaNombre)){
@@ -43,6 +47,14 @@ public class GestorCobertura {
         }
         
         return coberturaBuscada;
+    }
+    
+    private CoberturaDTO CoberturaADTO(Cobertura cobertura){
+        return new CoberturaDTO(cobertura.getDetalle(),cobertura.getId());
+    }
+    
+    public CoberturaDTO obtenerCoberturaDTOUnica(String coberturaNombre){
+        return CoberturaADTO(obtenerCoberturaUnica(coberturaNombre));
     }
     
     private String[] obtenerStringCoberturas(List<Cobertura> cob){

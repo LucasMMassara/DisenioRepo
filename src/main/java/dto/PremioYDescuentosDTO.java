@@ -90,5 +90,10 @@ public class PremioYDescuentosDTO {
     public float getPremio(){
         return this.primaCalculada + this.derechosEmision;
     }
+
+    @Override
+    public String toString() {
+        return "PremioYDescuentosDTO{" + "primaCalculada=" + primaCalculada + ", derechosEmision=" + derechosEmision + ", descuentoPorUnidad=" + descuentoPorUnidad + ", bonificacionPorPagoSemestral=" + bonificacionPorPagoSemestral + ", idValorMedidaSeguridad=" + idValorMedidaSeguridad + ", idValorSiniestros=" + idValorSiniestros + ", idDatosGenerales=" + idDatosGenerales + '}';
+    }
     
 }

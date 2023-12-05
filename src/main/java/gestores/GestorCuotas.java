@@ -56,8 +56,9 @@ public class GestorCuotas {
     }
     //Primero hacer el calculo premio prenda y luego calculamos las cuotas
     //Debe recibir polizaDTO y vehiculoDTO
-    public List<CuotaDTO> crearCuotas(PremioYDescuentosDTO pydto, Date inicioVigenciaPoliza, String formaPago) {
+    public ArrayList<CuotaDTO> crearCuotas(PremioYDescuentosDTO pydto, Date inicioVigenciaPoliza, String formaPago) {
         //Creamos la lista de cuotasdto y se la asignamos a la polizadto
+        System.err.println(pydto.toString());
         return crearCuotas(inicioVigenciaPoliza, formaPago, pydto);
     }
 

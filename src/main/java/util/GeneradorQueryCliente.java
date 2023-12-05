@@ -23,9 +23,8 @@ public class GeneradorQueryCliente {
         cuerpoQuery = cuerpoQuery.concat(filtroAtributoGeneralTipoDoc(tipoDoc, "tipodni"));
         cuerpoQuery = cuerpoQuery.concat(filtroAtributoGeneral(numDoc, "numeroDni"));
         
-        cuerpoQuery = verificarQuery(cuerpoQuery);
-        
         squery = squery + cuerpoQuery;
+        squery = verificarQuery(squery);
                 
         return squery;
     }

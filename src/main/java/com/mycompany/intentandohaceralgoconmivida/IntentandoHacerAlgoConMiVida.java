@@ -10,5 +10,10 @@ public class IntentandoHacerAlgoConMiVida {
     
     public static void main(String[] args){
         
+        //new CargadorDatosGeneral().cargarDatos();
+        
+        new App().inicioApp();
+        
+        
     }
 }
