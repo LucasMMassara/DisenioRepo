@@ -1,9 +1,11 @@
 package logica;
 
 import java.io.Serializable;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -19,7 +21,13 @@ public class Usuario extends Persona implements Serializable{
 
     @Enumerated(EnumType.STRING)
     private RolUsuario rol;
-
+    
+    @OneToOne
+    private Sucursal sucursal;
+    
+    @OneToOne(cascade = CascadeType.ALL) //CUIDADO
+    private ConfiguracionesUsuario cu;
+    
     public Usuario() {
             super();
             // TODO Auto-generated constructor stub
@@ -56,6 +64,22 @@ public class Usuario extends Persona implements Serializable{
 
     public void setRol(RolUsuario rol) {
         this.rol = rol;
+    }
+
+    public Sucursal getSucursal() {
+        return sucursal;
+    }
+
+    public void setSucursal(Sucursal sucursal) {
+        this.sucursal = sucursal;
+    }
+
+    public ConfiguracionesUsuario getCu() {
+        return cu;
+    }
+
+    public void setCu(ConfiguracionesUsuario cu) {
+        this.cu = cu;
     }
     
 }
