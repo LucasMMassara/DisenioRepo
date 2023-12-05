@@ -4,6 +4,7 @@ import daos.DAOLocalidad;
 import dto.LocalidadDTO;
 import java.util.ArrayList;
 import java.util.List;
+import logica.IndicadorRiesgo;
 import logica.Localidad;
 
 public class GestorLocalidad{
@@ -29,6 +30,14 @@ public class GestorLocalidad{
     
     private LocalidadDTO provinciaADTO(Localidad l){
         return new LocalidadDTO(l.getId(),l.getNombreLocalidad());
+    }
+
+    public Localidad obtenerLocalidad(int idLocalidad) {
+        return new DAOLocalidad().get(idLocalidad).get();
+    }
+    
+    public IndicadorRiesgo obtenerIndicadorRiesgo(int idLocalidad){
+        return obtenerLocalidad(idLocalidad).getIndicadorActual();
     }
 	
 }

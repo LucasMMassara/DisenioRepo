@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import logica.EstadoPoliza;
+import logica.IndicadorRiesgo;
 import logica.Poliza;
 import util.ConversorEnum;
 
@@ -50,7 +51,9 @@ public class GestorPoliza {
         
         //Valores de fk
         
-        poliza.setRiesgoLocalidad(pdto.getIndicadorRiesgo());
+        IndicadorRiesgo ir = new GestorLocalidad().obtenerIndicadorRiesgo(pdto.getLocalidadRiesgo().getId());
+        
+        poliza.setRiesgoLocalidad(ir);
         poliza.setCobertura(pdto.getCobertura());
         
         

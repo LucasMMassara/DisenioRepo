@@ -20,9 +20,6 @@ public class Marca implements Serializable {
 
     private String nombre;
 
-    @OneToMany(mappedBy = "marca")
-    private List<Modelo> modelos;
-
     public Marca() {
             super();
             // TODO Auto-generated constructor stub
@@ -48,14 +45,5 @@ public class Marca implements Serializable {
     public void setId(int id) {
         this.id = id;
     }
-
-    public List<Modelo> getModelos() {
-        return modelos;
-    }
-
-    public void setModelos(List<Modelo> modelos) {
-        this.modelos = modelos;
-    }
-    
     
 }

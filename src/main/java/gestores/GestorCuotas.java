@@ -53,14 +53,15 @@ public class GestorCuotas {
         return cuotasDTO;
 
     }
-
+    //Primero hacer el calculo premio prenda y luego calculamos las cuotas
     //Debe recibir polizaDTO y vehiculoDTO
     public PolizaDTO crearCuotas(PolizaDTO pdto) {
 
         //Obtenemos datos para la creacion de las cuotas y el premio y descuento
         Double suma = Double.parseDouble(pdto.getSumaAsegurada());
         EstadisticaRoboVehiculo erv = pdto.getVehiculo().getEstadisticaRobo();
-        IndicadorRiesgo ir = pdto.getIndicadorRiesgo();
+        
+        IndicadorRiesgo ir = new GestorLocalidad().obtenerIndicadorRiesgo(pdto.getLocalidadRiesgo().getId());;
 
         //Iniciamos el calculo premio prenda y creamos el premio y descuento con los datos de la poliza.
         CalculoPremioPrenda cpp = new CalculoPremioPrenda();

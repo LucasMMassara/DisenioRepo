@@ -30,5 +30,9 @@ public class GestorProvincias {
     private ProvinciaDTO provinciaADTO(Provincia p){
         return new ProvinciaDTO(p.getId(), p.getNombreProvincia());
     }
+
+    public Provincia obtenerProvincia(int idprovincia) {
+        return new DAOProvincia().get(idprovincia).get();
+    }
     
 }

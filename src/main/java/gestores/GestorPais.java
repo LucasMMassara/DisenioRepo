@@ -37,4 +37,10 @@ public class GestorPais {
         return new PaisDTO(p.getId(), p.getNombre());
         
     }
+
+    int obtenerIdPais(int idLocalidad) {
+        int idprovincia = new GestorLocalidad().obtenerLocalidad(idLocalidad).getProvincia().getId();
+        int idpais = new GestorProvincias().obtenerProvincia(idprovincia).getPais().getId();
+        return idpais;
+    }
 }

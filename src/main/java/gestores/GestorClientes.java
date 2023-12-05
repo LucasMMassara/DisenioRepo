@@ -70,8 +70,10 @@ public class GestorClientes {
         
         Cliente cNuevo = new Cliente();
         
+        int idPais = new GestorPais().obtenerIdPais(cliente.getDomicilioDTO().getLocalidad().getId());
+        
         //Atributos de cliente
-        cNuevo.setNumCliente(generarNumeroCliente(cliente.getDomicilioDTO().getLocalidad().getProvincia().getPais().getId()));
+        cNuevo.setNumCliente(generarNumeroCliente(idPais));
         cNuevo.setCuil(cliente.getNroCuil());
         cNuevo.setCondicionIva(ConversorEnum.convertirStringIva(cliente.getCondicionIva()));
         cNuevo.setEstadoCliente(EstadoCliente.ACTIVO);

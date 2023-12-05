@@ -24,7 +24,7 @@ public class Modelo implements Serializable {
 
     private String nombre;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     private Marca marca;
 
     @ManyToMany

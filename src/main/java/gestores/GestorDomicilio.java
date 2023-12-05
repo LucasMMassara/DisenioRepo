@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package gestores;
 
 import daos.DAODomicilio;
@@ -9,16 +5,14 @@ import dto.DomicilioDTO;
 import logica.Departamento;
 import logica.Domicilio;
 
-/**
- *
- * @author Lucas
- */
 public class GestorDomicilio {
 
     public Domicilio crearDomicilio(DomicilioDTO dom) {
         
+        GestorLocalidad gl = new GestorLocalidad();
+        
         Domicilio domNuevo = new Domicilio(dom.getCalle(),dom.getNumero());
-        domNuevo.setLocalidad(dom.getLocalidad());
+        domNuevo.setLocalidad(gl.obtenerLocalidad(dom.getLocalidad().getId()));
         domNuevo.setDepto(crearDepto(dom.getDpto(),dom.getNumero()));
         
         DAODomicilio daoDom = new DAODomicilio();

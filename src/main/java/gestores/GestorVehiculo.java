@@ -17,12 +17,15 @@ public class GestorVehiculo {
         v.setAlarma(vehiculo.getTieneAlarma());
         v.setDispositivoRastreo(vehiculo.getDispositivoRastreo());
         v.setGuardaEnGarage(vehiculo.getGuardaEnGarage());
-        v.setAnioFabricacionVehiculo(new GestorMarca().buscarAnioFabricacion(vehiculo.getAnioVehiculo()));
+        
+        v.setAnioFabricacionVehiculo(new GestorModelo().obtenerAnioFabricacion(vehiculo.getAnioVehiculo()));
+        
         v.setKmPorAnio(Integer.parseInt(vehiculo.getKmPorAnio()));
         v.setNumChasis(vehiculo.getNumChasis());
         v.setNumMotor(vehiculo.getNumMotor());
         v.setPatente(vehiculo.getNumPatente());
-        v.setEstRobo(vehiculo.getEstadisticaRobo());
+        
+        v.setEstRobo(new GestorModelo().obtenerEstadisticaRobo(vehiculo.getModelo().getId()));
         
         return v;
     }
