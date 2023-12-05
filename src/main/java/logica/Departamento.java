@@ -23,23 +23,19 @@ public class Departamento implements Serializable {
     
     @OneToOne
     private Domicilio domicilio;
+    
     private String numDpto;
-    private String piso;
+    private String numPisoDepto;
 
     public Departamento() {
             super();
             // TODO Auto-generated constructor stub
     }
 
-    public Departamento(Domicilio domicilio, String numeroDpto, String piso) {
+    public Departamento(Domicilio domicilio, String numDpto, String numPisoDepto) {
         this.domicilio = domicilio;
-        this.numDpto = numeroDpto;
-        this.piso = piso;
-    }
-
-    public Departamento(String piso, String nombredpto) {
-        this.numDpto = nombredpto;
-        this.piso = piso;
+        this.numDpto = numDpto;
+        this.numPisoDepto = numPisoDepto;
     }
     
     public String getNumeroDpto() {
@@ -47,12 +43,6 @@ public class Departamento implements Serializable {
     }
     public void setNumeroDpto(String numeroDpto) {
             this.numDpto = numeroDpto;
-    }
-    public String getPiso() {
-            return piso;
-    }
-    public void setPiso(String piso) {
-            this.piso = piso;
     }
 
     public Domicilio getDomicilio() {
@@ -69,6 +59,14 @@ public class Departamento implements Serializable {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public String getNumPisoDepto() {
+        return numPisoDepto;
+    }
+
+    public void setNumPisoDepto(String numPisoDepto) {
+        this.numPisoDepto = numPisoDepto;
     }
     
 }

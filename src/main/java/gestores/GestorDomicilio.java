@@ -8,9 +8,6 @@ import daos.DAODomicilio;
 import dto.DomicilioDTO;
 import logica.Departamento;
 import logica.Domicilio;
-import logica.Localidad;
-import persistenciajpa.DomicilioJpaController;
-import persistenciajpa.LocalidadJpaController;
 
 /**
  *
@@ -20,36 +17,25 @@ public class GestorDomicilio {
 
     public Domicilio crearDomicilio(DomicilioDTO dom) {
         
-        Domicilio domNuevo = new Domicilio(dom.getCalle(),dom.getNumero(),dom.getDpto(),dom.getPiso());
+        Domicilio domNuevo = new Domicilio(dom.getCalle(),dom.getNumero());
         domNuevo.setLocalidad(dom.getLocalidad());
+        domNuevo.setDepto(crearDepto(dom.getDpto(),dom.getNumero()));
         
         DAODomicilio daoDom = new DAODomicilio();
+        
         daoDom.guardarDomicilio(domNuevo);
         
         return domNuevo;
     }
-    
-    /*public Departamento crearDepartamento(DomicilioDTO dom, Domicilio domicilio){
-        
-        if(!(dom.getPiso()== null) && !(dom.getDpto() == null)){
-            Departamento dep = new Departamento(dom.getPiso(),dom.getDpto());
-            dep.setDomicilio(domicilio);
-            
-            //Subir a BBDD si es que no es necesario agregar el domicilio
-            try{
-                DepartamentoJpaController deptojpa = new DepartamentoJpaController();
-                deptojpa.create(dep);
-            }
-            catch(Exception e){
-                System.out.println("Error en la carga de BBDD de departamento");
-            }
-            
-            return dep;
-            
+
+    private Departamento crearDepto(String dpto, String numero) {
+        if(!(dpto== null) && !(numero == null)){
+        Departamento d = new Departamento();
+        d.setNumeroDpto(numero);
+        d.setNumPisoDepto(dpto);
+        return d;
         }
-        else{
-            return null;
-        }
-    }*/
+        return null;
+    }
     
 }

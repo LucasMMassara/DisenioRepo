@@ -1,6 +1,7 @@
 package logica;
 
 import java.io.Serializable;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -16,19 +17,12 @@ public class Domicilio implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    /*
-    @OneToOne
-    @MapsId
-    @JoinColumn(name ="id")   
-    private Cliente cliente;*/
     
     private String calle;
     private String numeroCalle;
-    private String numeroDepto;
-    private String pisoDepto;
     
-    /*@OneToOne(mappedBy = "domicilio")
-    private Departamento depto;*/
+    @OneToOne(mappedBy = "domicilio", cascade = CascadeType.ALL)
+    private Departamento depto;
     
     @OneToOne
     private Localidad localidad;
@@ -37,12 +31,10 @@ public class Domicilio implements Serializable {
             super();
             // TODO Auto-generated constructor stub
     }
-    public Domicilio(String calle, String numero, String depto, String piso) {
+    public Domicilio(String calle, String numero) {
             super();
             this.calle = calle;
             this.numeroCalle = numero;
-            this.numeroDepto = depto;
-            this.pisoDepto = piso;
     }
 
     public String getCalle() {
@@ -61,22 +53,6 @@ public class Domicilio implements Serializable {
         this.numeroCalle = numeroCalle;
     }
 
-    public String getNumeroDepto() {
-        return numeroDepto;
-    }
-
-    public void setNumeroDepto(String numeroDepto) {
-        this.numeroDepto = numeroDepto;
-    }
-
-    public String getPisoDepto() {
-        return pisoDepto;
-    }
-
-    public void setPisoDepto(String pisoDepto) {
-        this.pisoDepto = pisoDepto;
-    }
-
     public Localidad getLocalidad() {
         return localidad;
     }
@@ -91,6 +67,14 @@ public class Domicilio implements Serializable {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public Departamento getDepto() {
+        return depto;
+    }
+
+    public void setDepto(Departamento depto) {
+        this.depto = depto;
     }
     
 }
