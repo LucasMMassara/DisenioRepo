@@ -5,7 +5,6 @@
 package daos;
 
 import logica.Domicilio;
-import persistenciajpa.DomicilioJpaController;
 
 /**
  *

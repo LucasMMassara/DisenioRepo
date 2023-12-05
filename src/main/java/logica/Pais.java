@@ -1,12 +1,10 @@
 package logica;
 
 import java.io.Serializable;
-import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -18,9 +16,6 @@ public class Pais implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id; //lo usamos como codigo pais
     private String nombre;
-    
-    @OneToMany(mappedBy="pais")
-    private List<Provincia> provincias;
 
     public int getId() {
         return id;
@@ -38,23 +33,9 @@ public class Pais implements Serializable {
         this.nombre = nombre;
     }
 
-    public List<Provincia> getProvincias() {
-        return provincias;
-    }
-
-    public void setProvincias(List<Provincia> provincias) {
-        this.provincias = provincias;
-    }
-
     @Override
     public String toString() {
-        
         return "Pais{" + "id=" + id + ", nombre=" + nombre + '}';
     }
     
-    public void mostrarProvincias(){
-        for(Provincia p :provincias) {
-        System.out.println(p.toString());
-        }
-    }
 }

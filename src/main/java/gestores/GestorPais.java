@@ -4,32 +4,37 @@
  */
 package gestores;
 
-import daos.DAOIndicadorRiesgo;
+import daos.DAOPais;
+import dto.PaisDTO;
+import java.util.ArrayList;
 import java.util.List;
-import logica.IndicadorRiesgo;
 import logica.Pais;
-import persistenciajpa.PaisJpaController;
 
-/**
- *
- * @author Lucas
- */
 public class GestorPais {
     
-    public List<Pais> ObtenerPaises(){
-        PaisJpaController pjpa = new PaisJpaController();
-        return pjpa.findPaisEntities();
+    
+    public List<PaisDTO> getPaisesDTO(){
+        return listaPaisADTO(ObtenerPaises());
     }
     
-    public String[] getPaisesAsString(){
+    private List<Pais> ObtenerPaises(){
+        return new DAOPais().getAll();
+    }
+    
+    private List<PaisDTO> listaPaisADTO(List<Pais> paises){
         
-        List<Pais> listaPaises = this.ObtenerPaises();
+        List<PaisDTO> paisesDTO = new ArrayList();
         
-        String[] paises = new String[listaPaises.size()];
-        for (int i = 0; i < listaPaises.size(); i++) {
-            paises[i] = listaPaises.get(i).getNombre();
+        for(Pais p:paises){
+            paisesDTO.add(paisADTO(p));
         }
-
-        return paises;
+        
+        return paisesDTO;
+    }
+    
+    private PaisDTO paisADTO(Pais p){
+        
+        return new PaisDTO(p.getId(), p.getNombre());
+        
     }
 }

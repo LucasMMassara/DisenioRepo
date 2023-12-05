@@ -7,7 +7,6 @@ package daos;
 import java.util.List;
 import javax.persistence.Query;
 import logica.Cobertura;
-import persistenciajpa.CoberturaJpaController;
 import static util.EntityManagerUtil.getEntityManager;
 
 /**

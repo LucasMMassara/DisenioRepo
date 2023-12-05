@@ -1,11 +1,11 @@
 package logica;
 
-import persistenciajpa.ValoresActualesCalculoJpaController;
+import daos.DAOValoresActualesCalculo;
 
 public class CalculoPremioPrenda{
     
-        ValoresActualesCalculoJpaController vacjpa = new ValoresActualesCalculoJpaController();
-        ValoresActualesCalculo valactcal = vacjpa.findValoresActualesCalculo(1);
+        DAOValoresActualesCalculo daovac = new DAOValoresActualesCalculo();
+        ValoresActualesCalculo valactcal = daovac.get(1).get();
         
 	public PremioYDescuentos calculoPremio(double valorAsegurado, EstadisticaRoboVehiculo erv, IndicadorRiesgo ir){
                 
