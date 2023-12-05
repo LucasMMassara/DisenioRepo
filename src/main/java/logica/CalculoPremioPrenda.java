@@ -1,17 +1,27 @@
 package logica;
 
 import daos.DAOValoresActualesCalculo;
+import dto.LocalidadDTO;
+import dto.ModeloDTO;
+import dto.PremioYDescuentosDTO;
 
-public class CalculoPremioPrenda{
-    
-        DAOValoresActualesCalculo daovac = new DAOValoresActualesCalculo();
-        ValoresActualesCalculo valactcal = daovac.get(1).get();
+public class CalculoPremioPrenda{   
         
-	public PremioYDescuentos calculoPremio(double valorAsegurado, EstadisticaRoboVehiculo erv, IndicadorRiesgo ir){
-                
-                PremioYDescuentos premio = new PremioYDescuentos(2500, 250,100, 150);
-                
-		return premio;
+	public PremioYDescuentosDTO calculoPremio(double sumaAsegurada, ModeloDTO modelo, LocalidadDTO localidad){
+            
+            DAOValoresActualesCalculo daovac = new DAOValoresActualesCalculo();
+            ValoresActualesCalculo valactcal = daovac.get(1).get();
+            
+            PremioYDescuentosDTO premio = new PremioYDescuentosDTO();
+            premio.setPrimaCalculada(2500);
+            premio.setDerechosEmision(250);
+            premio.setBonificacionPorPagoSemestral(100);
+            premio.setDescuentoPorUnidad(150);
+            premio.setIdDatosGenerales(valactcal.getValorGen().getId());
+            premio.setIdValorMedidaSeguridad(valactcal.getValorSeg().getId());
+            premio.setIdValorSiniestros(valactcal.getValorSin().getId());
+            
+            return premio;
 	}
 	
 	public Double calculoPrima(Poliza poliza) {
@@ -33,13 +43,5 @@ public class CalculoPremioPrenda{
 		//TODO hacer calculo
 		return 0.0;
 	}
-
-        public ValoresActualesCalculo getValactcal() {
-            return valactcal;
-        }
-
-        public void setValactcal(ValoresActualesCalculo valactcal) {
-            this.valactcal = valactcal;
-        }
 
 }

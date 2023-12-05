@@ -1,12 +1,11 @@
 package dto;
 import java.util.ArrayList;
 import java.util.Date;
-import logica.*;
 
 public class PolizaDTO {
 	
         private LocalidadDTO localidadRiesgo;
-	private PorcentajeCobertura cobertura;
+	private CoberturaDTO cobertura;
 	private Date inicioVigenciaPoliza;
 	private String formaPago;
         private ClienteDTO cliente;
@@ -15,21 +14,18 @@ public class PolizaDTO {
         private String sumaAsegurada;
         private Date finVigencia;
         private Date fechaEmision;
-        private ValoresActualesCalculo valoresCalculo;
         private VehiculoDTO vehiculo;
         private String cantidadSiniestros;
         private String numPoliza;
-        private PremioYDescuentos pyd;
+        private PremioYDescuentosDTO pyd;
 
-    public PremioYDescuentos getPyd() {
+    public PremioYDescuentosDTO getPyd() {
         return pyd;
     }
 
-    public void setPyd(PremioYDescuentos pyd) {
+    public void setPyd(PremioYDescuentosDTO pyd) {
         this.pyd = pyd;
-    }
-        
-        
+    }     
 
     public String getNumPoliza() {
         return numPoliza;
@@ -62,12 +58,12 @@ public class PolizaDTO {
     public void setSumaAsegurada(String sumaAsegurada) {
         this.sumaAsegurada = sumaAsegurada;
     }
-    
-    public PorcentajeCobertura getCobertura() {
+
+    public CoberturaDTO getCobertura() {
         return cobertura;
     }
 
-    public void setCobertura(PorcentajeCobertura cobertura) {
+    public void setCobertura(CoberturaDTO cobertura) {
         this.cobertura = cobertura;
     }
 
@@ -126,15 +122,7 @@ public class PolizaDTO {
     public void setFechaEmision(Date fechaEmision) {
         this.fechaEmision = fechaEmision;
     }
-
-    public ValoresActualesCalculo getValoresCalculo() {
-        return valoresCalculo;
-    }
-
-    public void setValoresCalculo(ValoresActualesCalculo valoresCalculo) {
-        this.valoresCalculo = valoresCalculo;
-    }
-
+    
     public VehiculoDTO getVehiculo() {
         return vehiculo;
     }
@@ -142,11 +130,6 @@ public class PolizaDTO {
     public void setVehiculo(VehiculoDTO vehiculo) {
         this.vehiculo = vehiculo;
     }   
-
-    @Override
-    public String toString() {
-        return "PolizaDTO{" + "localidadRiesgo=" + localidadRiesgo + ", cobertura=" + cobertura + ", inicioVigenciaPoliza=" + inicioVigenciaPoliza + ", formaPago=" + formaPago + ", cliente=" + cliente + ", listaHijos=" + listaHijos + ", listaCuotas=" + listaCuotas + ", sumaAsegurada=" + sumaAsegurada + ", finVigencia=" + finVigencia + ", fechaEmision=" + fechaEmision + ", valoresCalculo=" + valoresCalculo + ", vehiculo=" + vehiculo + '}';
-    }
 
     public void setLocalidad(LocalidadDTO localidad) {
         localidadRiesgo = localidad;

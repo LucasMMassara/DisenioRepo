@@ -49,10 +49,10 @@ public class GestorClientes {
         
         //Si todo es nulo entonces obtiene todos
  
-        if(numCliente.isEmpty() && nombre.isEmpty() && apellido.isEmpty() && numDoc.isEmpty() && tipoDoc.equals("Cualquiera")){
+        /*if(numCliente.isEmpty() && nombre.isEmpty() && apellido.isEmpty() && numDoc.isEmpty() && tipoDoc.equals("Cualquiera")){
             clientesBBDD = daocli.getAll();
             return listaClienteADTO(clientesBBDD);
-        }
+        }*/
         
         
         clientesBBDD = daocli.filtroClientes(numCliente, nombre, apellido, tipoDoc, numDoc);

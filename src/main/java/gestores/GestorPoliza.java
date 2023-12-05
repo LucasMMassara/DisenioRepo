@@ -1,7 +1,6 @@
 package gestores;
 
 import daos.DAOPoliza;
-import daos.DAOPremioYDescuentos;
 import dto.HijoDTO;
 import dto.PolizaDTO;
 import java.util.ArrayList;
@@ -14,20 +13,9 @@ import util.ConversorEnum;
 
 public class GestorPoliza {
     
-    public PolizaDTO obtenerCoberturasPoliza(PolizaDTO pdto){
-        
-        pdto = (new GestorCuotas()).crearCuotas(pdto);
-        
-        return pdto;
-        
-    }
-    
-    public void cargarPoliza(PolizaDTO pdto){
-        
+    public void cargarPoliza(PolizaDTO pdto){      
         DAOPoliza daop = new DAOPoliza();
         daop.save(DTOaObjeto(pdto));
-        
-        
     } 
     
     private Poliza DTOaObjeto(PolizaDTO pdto){
@@ -47,14 +35,12 @@ public class GestorPoliza {
         
         //Derecho de  emision premio y descuento
         
-        poliza.setPremioydescuentos(pdto.getPyd());
+        poliza.setPremioydescuentos(new GestorPremioYDescuentos().convertirDTOAClase(pdto.getPyd()));
         
-        //Valores de fk
+        //Valores de fk 
         
-        IndicadorRiesgo ir = new GestorLocalidad().obtenerIndicadorRiesgo(pdto.getLocalidadRiesgo().getId());
-        
-        poliza.setRiesgoLocalidad(ir);
-        poliza.setCobertura(pdto.getCobertura());
+        poliza.setRiesgoLocalidad(new GestorLocalidad().obtenerIndicadorRiesgo(pdto.getLocalidadRiesgo().getId()));
+        poliza.setCobertura(new GestorCobertura().obtenerPorcentajeCoberturaPorId(pdto.getCobertura().getIdCobertura()));
         
         
         //Generamos el vehiculo        
@@ -71,9 +57,9 @@ public class GestorPoliza {
         
         //Asignamos los valores con los que se realizo el calculo
         
-        poliza.setValorSiniestroUtilizados(pdto.getValoresCalculo().getValorSin());
-        poliza.setValoresGeneralesUtilizados(pdto.getValoresCalculo().getValorGen());
-        poliza.setValoresMedidasSeguridadUtilizados(pdto.getValoresCalculo().getValorSeg());
+        poliza.setValorSiniestroUtilizados(new GestorValorSiniestros().buscarValorPorId(pdto.getPyd().getIdValorSiniestros()));
+        poliza.setValoresGeneralesUtilizados(new GestorDatosGenerales().buscarValorPorId(pdto.getPyd().getIdDatosGenerales()));
+        poliza.setValoresMedidasSeguridadUtilizados(new GestorValorMedidasSeguridad().buscarValorPorId(pdto.getPyd().getIdValorMedidaSeguridad()));
         
         return poliza;
     }

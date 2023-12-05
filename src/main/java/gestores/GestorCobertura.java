@@ -5,10 +5,15 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import logica.Cobertura;
+import logica.PorcentajeCobertura;
 
 public class GestorCobertura {
     
     private List<Cobertura> coberturasDevueltas;
+    
+    public Cobertura obtenerCoberturaPorId(int idCobertura){
+        return new DAOCobertura().get(idCobertura).get();
+    }
     
     public String[] obtenerCoberturas(String anio){
         
@@ -58,6 +63,10 @@ public class GestorCobertura {
         int anioAuto = Integer.parseInt(anioVehiculo);
         
         return anioActual-anioAuto;
+    }
+
+    public PorcentajeCobertura obtenerPorcentajeCoberturaPorId(int idCobertura) {
+        return obtenerCoberturaPorId(idCobertura).getPorcentajeActual();
     }
     
 

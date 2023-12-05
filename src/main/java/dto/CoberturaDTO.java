@@ -1,17 +1,24 @@
 package dto;
 
-import java.util.ArrayList;
-import logica.PorcentajeCobertura;
-
 public class CoberturaDTO {
 
     private String detalle;
-    private PorcentajeCobertura porcentajeActual;
-    private ArrayList<PorcentajeCobertura> historialPorcentajes = new ArrayList<>();
+    private int idCobertura;
 
-    public CoberturaDTO(String detalle, PorcentajeCobertura porcentajeActual) {
+    public CoberturaDTO(String detalle, int idCobertura) {
         this.detalle = detalle;
-        this.porcentajeActual = porcentajeActual;
+        this.idCobertura = idCobertura;
+    }
+
+    public CoberturaDTO() {
+    }
+
+    public int getIdCobertura() {
+        return idCobertura;
+    }
+
+    public void setIdCobertura(int idCobertura) {
+        this.idCobertura = idCobertura;
     }
 
     public String getDetalle() {
@@ -20,22 +27,6 @@ public class CoberturaDTO {
 
     public void setDetalle(String detalle) {
         this.detalle = detalle;
-    }
-
-    public PorcentajeCobertura getPorcentajeActual() {
-        return porcentajeActual;
-    }
-
-    public void setPorcentajeActual(PorcentajeCobertura porcentajeActual) {
-        this.porcentajeActual = porcentajeActual;
-    }
-
-    public ArrayList<PorcentajeCobertura> getHistorialPorcentajes() {
-        return historialPorcentajes;
-    }
-
-    public void setHistorialPorcentajes(ArrayList<PorcentajeCobertura> historialPorcentajes) {
-        this.historialPorcentajes = historialPorcentajes;
     }
 
 }

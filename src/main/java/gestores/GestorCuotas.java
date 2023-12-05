@@ -7,6 +7,7 @@ package gestores;
 import daos.DAOCuota;
 import dto.CuotaDTO;
 import dto.PolizaDTO;
+import dto.PremioYDescuentosDTO;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -55,28 +56,9 @@ public class GestorCuotas {
     }
     //Primero hacer el calculo premio prenda y luego calculamos las cuotas
     //Debe recibir polizaDTO y vehiculoDTO
-    public PolizaDTO crearCuotas(PolizaDTO pdto) {
-
-        //Obtenemos datos para la creacion de las cuotas y el premio y descuento
-        Double suma = Double.parseDouble(pdto.getSumaAsegurada());
-        EstadisticaRoboVehiculo erv = pdto.getVehiculo().getEstadisticaRobo();
-        
-        IndicadorRiesgo ir = new GestorLocalidad().obtenerIndicadorRiesgo(pdto.getLocalidadRiesgo().getId());;
-
-        //Iniciamos el calculo premio prenda y creamos el premio y descuento con los datos de la poliza.
-        CalculoPremioPrenda cpp = new CalculoPremioPrenda();
-        PremioYDescuentos pyd = cpp.calculoPremio(suma, erv, ir);
-
+    public List<CuotaDTO> crearCuotas(PremioYDescuentosDTO pydto, Date inicioVigenciaPoliza, String formaPago) {
         //Creamos la lista de cuotasdto y se la asignamos a la polizadto
-        pdto.setListaCuotas(crearCuotas(pdto.getInicioVigenciaPoliza(), pdto.getFormaPago(), pyd));
-
-        //obtenemos los valores de calculo actuales y los seteamos a la poliza dto
-        pdto.setValoresCalculo(cpp.getValactcal());
-
-        //Seteamos el premio y descuento
-        pdto.setPyd(pyd);
-
-        return pdto;
+        return crearCuotas(inicioVigenciaPoliza, formaPago, pydto);
     }
 
     /*
@@ -105,7 +87,7 @@ public class GestorCuotas {
         return montoTotal;
     }
 
-    private ArrayList<CuotaDTO> crearCuotas(Date inicioPoliza, String formaDePago, PremioYDescuentos premioydescuentos) {
+    private ArrayList<CuotaDTO> crearCuotas(Date inicioPoliza, String formaDePago, PremioYDescuentosDTO premioydescuentos) {
 
         ArrayList<Cuota> cuotas = null;
 
@@ -118,7 +100,7 @@ public class GestorCuotas {
         return cuotasADTO(cuotas);
     }
 
-    private ArrayList<CuotaDTO> crearCuotas(Date inicioPoliza, TipoPago formaDePago, PremioYDescuentos premioydescuentos) {
+    private ArrayList<CuotaDTO> crearCuotas(Date inicioPoliza, TipoPago formaDePago, PremioYDescuentosDTO premioydescuentos) {
 
         ArrayList<Cuota> cuotas = null;
 
@@ -131,7 +113,7 @@ public class GestorCuotas {
         return cuotasADTO(cuotas);
     }
 
-    private ArrayList<Cuota> crearCuotaSemestral(PremioYDescuentos premioydescuentos, Date inicioPoliza) {
+    private ArrayList<Cuota> crearCuotaSemestral(PremioYDescuentosDTO premioydescuentos, Date inicioPoliza) {
 
         ArrayList<Cuota> cuota = new ArrayList();
 
@@ -155,7 +137,7 @@ public class GestorCuotas {
         return cuota;
     }
 
-    private ArrayList<Cuota> crearCutoasMensuales(PremioYDescuentos premioydescuentos, Date inicioPoliza) {
+    private ArrayList<Cuota> crearCutoasMensuales(PremioYDescuentosDTO premioydescuentos, Date inicioPoliza) {
 
         ArrayList<Cuota> cuotas = new ArrayList();
         Calendar calendar = Calendar.getInstance();
