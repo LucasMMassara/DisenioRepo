@@ -40,7 +40,7 @@ public class DAOPoliza extends DAOAbstract<Poliza> {
         return q.getResultList();
         }
         catch(Exception e){
-          return null;   
+          return null;   //Ver que retornar en caso de excepcion
         }
     }
 

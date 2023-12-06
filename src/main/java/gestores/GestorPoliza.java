@@ -111,8 +111,7 @@ public class GestorPoliza {
     }
 
     public List<Poliza> obtenerPolizasCliente(int id) {
-
-            
+        return new DAOPoliza().obtenerPolizasCliente(id);
     }
     
 }

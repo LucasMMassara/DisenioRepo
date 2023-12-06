@@ -20,7 +20,7 @@ public class GestorHijo {
     //HijoDTO? O solo hijo?
     public boolean edadHijoValida(HijoDTO hijo) {
 
-        int aniosHijo = new GestorFecha().obtenerAnios(hijo.getFechaNacimiento());
+        int aniosHijo = new GestorFecha().obtenerAniosDesde(hijo.getFechaNacimiento());
 
         return ((aniosHijo >= 18) && (aniosHijo <= 30));
 

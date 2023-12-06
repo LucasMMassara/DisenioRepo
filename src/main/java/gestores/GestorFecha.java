@@ -11,11 +11,11 @@ public class GestorFecha {
         return date;
     }
 
-    public int obtenerAnios(Date fechaNacimiento) {
+    public int obtenerAniosDesde(Date fechaInicio) {
         Date fechaActual = new Date();
         // validate inputs ...                                                                               
         DateFormat formatter = new SimpleDateFormat("yyyyMMdd");
-        int d1 = Integer.parseInt(formatter.format(fechaNacimiento));
+        int d1 = Integer.parseInt(formatter.format(fechaInicio));
         int d2 = Integer.parseInt(formatter.format(fechaActual));
         int age = (d2 - d1) / 10000;
         return age;

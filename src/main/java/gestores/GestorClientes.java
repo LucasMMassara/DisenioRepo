@@ -133,7 +133,7 @@ public class GestorClientes {
         
         GestorFecha gf = new GestorFecha();
         
-        return gf.obtenerAnios(fechaNac) >= 18;
+        return gf.obtenerAniosDesde(fechaNac) >= 18;
     }
     
     public boolean emailValido(String email) {
