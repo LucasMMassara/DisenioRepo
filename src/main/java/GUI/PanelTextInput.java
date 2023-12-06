@@ -11,6 +11,7 @@ import javax.swing.JTextField;
 import javax.swing.border.LineBorder;
 import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
+import javax.swing.text.AbstractDocument;
 import javax.swing.text.AttributeSet;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.PlainDocument;
@@ -453,5 +454,13 @@ public class PanelTextInput extends JPanel {
         textField.setBorder(compoundBorder);
 
     }
+    
+    void setUppercaseAndNumbers(){
+
+        ((AbstractDocument) textField.getDocument()).setDocumentFilter(new UppercaseDocumentFilter());
+
+    }
+    
+    
 
 }

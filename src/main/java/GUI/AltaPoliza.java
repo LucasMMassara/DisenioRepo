@@ -128,13 +128,7 @@ public class AltaPoliza extends JPanel {
 
         primeraConfig();
         primeraConfigurada = true;
-        //segundaConfig();
-        //terceraConfig();
-        //cuartaConfig();
-        //quintaConfig();
-        //pdfConfig();
-        buscarClienteConfig();
-        
+        buscarClienteConfig(); 
 
         //configurar panel container
         containerPanel.setLayout(cl);
@@ -637,7 +631,9 @@ public class AltaPoliza extends JPanel {
         PanelCheckBox dispositivo = new PanelCheckBox("Dispositivo antirrobo");
         PanelCheckBox tuercas = new PanelCheckBox("Tuercas antirrobo");
         
-
+        tiKMAnio.restrictSize(6);
+        tiNroMotor.restrictSize(30);
+        
         botonCalcularSuma.addActionListener((ActionEvent e) -> {
             
             //buscar suma asegurada

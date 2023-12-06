@@ -40,7 +40,7 @@ public class PanelTextInputNroChasis extends JPanel {
         
         MaskFormatter formatter;
             try {
-                formatter = new MaskFormatter("HHHHHHHHHHHHHHHHH");
+                formatter = new MaskFormatter("********#***#####");
                 formatter.setValidCharacters("ABCDEFGHJKLMNPRSTUVWXYZ0123456789");
             } catch (ParseException e) {
                 e.printStackTrace();
