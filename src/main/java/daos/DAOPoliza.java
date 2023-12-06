@@ -29,10 +29,19 @@ public class DAOPoliza extends DAOAbstract<Poliza> {
         
         Query q = getEntityManager().createQuery(squery);
         
-        //Deberiamos ver si podemos hacer que retorne el primer valor encontrado unicamente asi no busca demas.
-        
         return q.getResultList();
     
+    }
+
+    public List<Poliza> obtenerPolizasCliente(int id) {     
+        try{
+        String squery = "SELECT p FROM " + Poliza.class.getName() + " p WHERE p.clientePoliza.id = " + id;
+        Query q = getEntityManager().createQuery(squery);
+        return q.getResultList();
+        }
+        catch(Exception e){
+          return null;   
+        }
     }
 
 }
