@@ -7,6 +7,8 @@ package gestores;
 import daos.DAOCuota;
 import dto.CuotaDTO;
 import dto.PremioYDescuentosDTO;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -50,6 +52,7 @@ public class GestorCuotas {
         return cuotasDTO;
 
     }
+
     //Primero hacer el calculo premio prenda y luego calculamos las cuotas
     //Debe recibir polizaDTO y vehiculoDTO
     public ArrayList<CuotaDTO> crearCuotas(PremioYDescuentosDTO pydto, Date inicioVigenciaPoliza, String formaPago) {
@@ -141,9 +144,17 @@ public class GestorCuotas {
         Calendar calendar = Calendar.getInstance();
         Date inicioCuota;
         Date finCuota;
-        Float premio = premioydescuentos.getPrimaCalculada() / 6;
-        Float descuentos = (premioydescuentos.getBonificacionPorPagoSemestral() + premioydescuentos.getDescuentoPorUnidad()) / 6;
+        
+        Float premio = (premioydescuentos.getPrimaCalculada()) / 6;
+        premio = redondear(premio);
 
+
+        float descuentoTotal = premioydescuentos.getBonificacionPorPagoSemestral() + premioydescuentos.getDescuentoPorUnidad();
+        Float descuentos = descuentoTotal / 6;
+        descuentos = redondear(descuentos);
+
+        
+        
         for (int i = 1; i <= 6; i++) {
             if (i == 1) {
                 inicioCuota = calendar.getTime();
@@ -161,15 +172,14 @@ public class GestorCuotas {
             Cuota cuota = new Cuota(inicioCuota, finCuota, premio - descuentos, premio, descuentos);
             cuotas.add(cuota);
         }
-
-        return cuotas;
+        
+        return corregirCuotas(cuotas,premioydescuentos.getPrimaCalculada(),descuentoTotal);
 
     }
 
     List<Cuota> DTOaCuotas(ArrayList<CuotaDTO> listaCuotas) {
-        
+
         //TODO crear cuotas y subir a bbdd
-        
         List<Cuota> listaC = new ArrayList();
         DAOCuota daoc = new DAOCuota();
 
@@ -183,7 +193,7 @@ public class GestorCuotas {
     private Cuota DTOaClase(CuotaDTO cdto) {
 
         Cuota cNueva = new Cuota();
-        
+
         cNueva.setEstado(EstadoCuota.NO_PAGADA);
         cNueva.setInicioCuota(cdto.getInicioCuota());
         cNueva.setUltimoDiaPago(cdto.getUltimoDiaPagoCuota());
@@ -194,4 +204,41 @@ public class GestorCuotas {
         return cNueva;
 
     }
+
+    private float redondear(float num) {
+        // Convertir el float a BigDecimal y redondear
+        BigDecimal bigDecimal = new BigDecimal(num);
+        bigDecimal = bigDecimal.setScale(2, RoundingMode.HALF_UP);
+
+        // Obtener el resultado redondeado como float
+        return bigDecimal.floatValue();
+    }
+
+    
+    private ArrayList<Cuota> corregirCuotas(ArrayList<Cuota> cuotas, float premio, float descuento){
+        
+        float monto = premio - descuento;
+        
+        float sumaCuotas = 0;
+        float sumaDescuentos = 0;
+        float sumaMontos = 0;
+        
+        for(Cuota c : cuotas){
+            sumaCuotas += c.getPremio();
+            sumaDescuentos += c.getSumaTotalDescuentos();
+            sumaMontos += c.getMonto();
+        }
+        
+        float premioOriginal = cuotas.getLast().getPremio();
+        float descuentoOriginal = cuotas.getLast().getSumaTotalDescuentos();
+        float montoOriginal = cuotas.getLast().getMonto();
+        
+        cuotas.getLast().setPremio(premioOriginal-(sumaCuotas - premio));
+        cuotas.getLast().setSumaTotalDescuentos(descuentoOriginal - (sumaDescuentos - descuento));
+        cuotas.getLast().setMonto(montoOriginal - (sumaMontos - monto));
+
+        return cuotas;
+    }
+    
 }
+

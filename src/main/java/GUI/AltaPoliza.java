@@ -2085,4 +2085,6 @@ public class AltaPoliza extends JPanel {
     void actualizarCantidadClientesBusqueda(int cantidad){
             main.actualizarCantidadClientesBusqueda( cantidad);
         }
+    
+    
 }
