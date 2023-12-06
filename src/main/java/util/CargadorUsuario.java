@@ -36,7 +36,7 @@ public class CargadorUsuario {
     }
     
     private static Sucursal cargarSucursal(){
-        Sucursal suc = new Sucursal("Casa central","01");
+        Sucursal suc = new Sucursal("Casa central","0001");
         (new DAOSucursal()).save(suc);
         return (new DAOSucursal()).get(1).get();
     }

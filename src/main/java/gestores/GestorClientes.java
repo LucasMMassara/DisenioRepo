@@ -19,41 +19,26 @@ public class GestorClientes {
     }
     
     public Cliente buscarCliente(ClienteDTO cdto){
-
-        List<Cliente> clientesBBDD = new ArrayList<>();
         
-        try{
-            DAOCliente daocli = new DAOCliente();
-            clientesBBDD = daocli.obtenerClientePorNumCliente(cdto.getNumCliente());
-        }
-        catch(Exception e){
-            System.out.println(e.getMessage());
-        }
-       
+        DAOCliente daocli = new DAOCliente();
+        Cliente clienteBBDD = daocli.obtenerClientePorNumCliente(cdto.getNumCliente());
         
-        return clientesBBDD.get(0);
+        return clienteBBDD;
     }
 
     
     public List<ClienteDTO> obtenerClientePorParametros(String numCliente,String nombre, String apellido, String tipoDoc, String numDoc){
         
         DAOCliente daocli = new DAOCliente();
-        List<Cliente> clientesBBDD;
+        List<Cliente> clientesBBDD = new ArrayList();
         
         //Si hay num cliente como es unico busca por eso unicamente
         
         if(!(numCliente.isEmpty())){
-            clientesBBDD = daocli.obtenerClientePorNumCliente(numCliente);
+            Cliente clienteBBDD = daocli.obtenerClientePorNumCliente(numCliente);
+            clientesBBDD.add(clienteBBDD);
             return listaClienteADTO(clientesBBDD);
         }
-        
-        //Si todo es nulo entonces obtiene todos
- 
-        /*if(numCliente.isEmpty() && nombre.isEmpty() && apellido.isEmpty() && numDoc.isEmpty() && tipoDoc.equals("Cualquiera")){
-            clientesBBDD = daocli.getAll();
-            return listaClienteADTO(clientesBBDD);
-        }*/
-        
         
         clientesBBDD = daocli.filtroClientes(numCliente, nombre, apellido, tipoDoc, numDoc);
         
@@ -227,5 +212,36 @@ public class GestorClientes {
         
         return listaDTO;
         
+    }
+    
+    public void ActualizarConsideracionCliente(int idCliente){
+        
+        DAOCliente daocli = new DAOCliente();
+        Cliente c = daocli.get(idCliente).get();
+        
+        if(condicionEstadoPlata(c)){ //Condicion
+            c.setEstadoCliente(EstadoCliente.PLATA);
+        }
+        else{
+            c.setEstadoCliente(EstadoCliente.NORMAL);
+        }
+        
+        daocli.save(c);
+    }
+
+    private boolean condicionEstadoPlata(Cliente c) {
+        return (!tieneSiniestosUltimoAnio(c) && !tieneCuotasImpagas(c) && dosAniosActivo(c));
+    }
+
+    private boolean tieneSiniestosUltimoAnio(Cliente c) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    private boolean tieneCuotasImpagas(Cliente c) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    private boolean dosAniosActivo(Cliente c) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 }

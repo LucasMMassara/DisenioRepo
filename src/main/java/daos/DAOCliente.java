@@ -14,12 +14,12 @@ public class DAOCliente extends DAOAbstract<Cliente> {
     }
     
     
-    public List<Cliente> obtenerClientePorNumCliente(String numCliente){
+    public Cliente obtenerClientePorNumCliente(String numCliente){
         
         String stringquery = "SELECT c FROM " + Cliente.class.getName() + " c WHERE c.numCliente = ?1";
         Query q = getEntityManager().createQuery(stringquery);
         q.setParameter(1, numCliente);
-        return q.getResultList();
+        return (Cliente) q.getSingleResult();
         
     }
     
