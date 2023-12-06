@@ -17,7 +17,6 @@ import logica.Cuota;
 import logica.EstadoCuota;
 import logica.Poliza;
 import logica.TipoPago;
-import util.GestorNumerico;
 
 /**
  *
@@ -242,8 +241,47 @@ public class GestorCuotas {
     }
 
     public List<Cuota> obtenerCuotasImpagas(List<Poliza> listaPolizas) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        
+        List<Cuota> cuotasNoPagadas = new ArrayList<>();
+        
+        for(Poliza p: listaPolizas){
+            for(Cuota c: p.getCuotas()){
+                if(cuotaNoPagada(c)){
+                    cuotasNoPagadas.add(c);
+                }
+            }
+        }
+        
+        return cuotasNoPagadas;
     }
-    
+
+    private boolean cuotaNoPagada(Cuota c) {
+        
+        Calendar calendar = Calendar.getInstance();
+        Date currentDate = calendar.getTime();
+        
+        boolean cuotaVencida;
+        boolean cuotaPaga;
+        
+        int comparisonResult = c.getUltimoDiaPago().compareTo(currentDate);
+        
+        if (comparisonResult < 0) {
+            cuotaVencida = true;
+        } 
+        else{
+            cuotaVencida = false;
+        }
+        
+        if(c.getEstado().toString().equals("PAGADA")){
+            cuotaPaga = true;
+        }
+        else{
+            cuotaPaga = false;
+        }
+        
+        return (cuotaVencida && !cuotaPaga);
+        
+    }
+
 }
 

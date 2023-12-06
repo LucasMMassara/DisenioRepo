@@ -257,11 +257,10 @@ public class GestorClientes {
         //chequear si tiene impagas
         return(!cuotasImpagas.isEmpty());
         
-        
-        
     }
 
     private boolean dosAniosActivo(Cliente c) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        
+
     }
 }
