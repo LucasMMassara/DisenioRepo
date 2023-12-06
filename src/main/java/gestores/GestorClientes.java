@@ -79,6 +79,7 @@ public class GestorClientes {
         cNuevo.setEstadoCivil(ConversorEnum.convertirStringEstadoCivil(cliente.getEstadoCivil()));
         cNuevo.setEmail(cliente.getCorreoElectronico());
         cNuevo.setFechaNacimiento(cliente.getFechaNacimiento());
+        cNuevo.setFechaCreacion(new Date());
         
         //Subir a BBDD
         DAOCliente daocli = new DAOCliente();
@@ -259,8 +260,8 @@ public class GestorClientes {
         
     }
 
-    private boolean dosAniosActivo(Cliente c) {
-        
-
+    private boolean dosAniosActivo(Cliente c) {     
+       int anios =  new GestorFecha().obtenerAniosDesde(c.getFechaCreacion());
+       return anios>=2;
     }
 }

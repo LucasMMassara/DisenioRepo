@@ -41,6 +41,7 @@ public class Cliente extends Persona implements Serializable {
             this.estadoCliente = estadoCliente;
             this.numCliente = numCliente;
     }
+    
     public String getCuil() {
             return cuil;
     }

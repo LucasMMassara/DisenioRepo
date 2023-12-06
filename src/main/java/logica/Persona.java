@@ -36,6 +36,9 @@ public abstract class Persona implements Serializable {
     @Temporal(javax.persistence.TemporalType.DATE)
     private Date fechaNacimiento;
     
+    @Temporal(javax.persistence.TemporalType.DATE)
+    private Date fechaCreacion;
+    
     private String email;
     
     @Enumerated(EnumType.STRING)
@@ -105,4 +108,14 @@ public abstract class Persona implements Serializable {
     public void setId(int id) {
         this.id = id;
     }
+
+    public Date getFechaCreacion() {
+        return fechaCreacion;
+    }
+
+    public void setFechaCreacion(Date fechaCreacion) {
+        this.fechaCreacion = fechaCreacion;
+    }
+    
+    
 }
