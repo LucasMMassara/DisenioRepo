@@ -43,7 +43,7 @@ public class MenuProductorSeguros extends JPanel {
     //pantallas de este menu
     JPanel pantallaAltaPoliza = new AltaPoliza(this);
     JPanel pantallaAltaCliente = new AltaCliente(this);
-   // JPanel pantallaConsultaCliente = new BuscarCliente(this);
+    JPanel pantallaConsultaCliente = new BuscarCliente(this);
 
     MenuProductorSeguros(Menu frame) {
 
@@ -52,6 +52,10 @@ public class MenuProductorSeguros extends JPanel {
         tittleConfig(titulo, "titulo_productorSeguros");
 
         //configuro botones
+        
+        botonPropuestasRenovacion.disable(true);
+        botonFactores.disable(true);
+        
         botonAltaPoliza.addActionListener((ActionEvent e) -> {
             pantallaAltaPoliza.removeAll();
             pantallaAltaPoliza = new AltaPoliza(this);
@@ -65,13 +69,13 @@ public class MenuProductorSeguros extends JPanel {
             containerPanel.add(pantallaAltaCliente, "3");
             cambiarPantalla("3");
         });
-        /*
+        
         botonConsultarCliente.addActionListener((ActionEvent e) -> {
-            pantallaAltaCliente.removeAll();
-            pantallaAltaCliente = new AltaCliente(this);
+            pantallaConsultaCliente.removeAll();
+            pantallaConsultaCliente = new BuscarCliente(this);
             containerPanel.add(pantallaConsultaCliente, "4");
             cambiarPantalla("4");
-        });*/
+        });
 
         GridBagConstraints gbc = new GridBagConstraints();
 

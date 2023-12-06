@@ -30,7 +30,7 @@ public class BuscarCliente extends JPanel {
     Boton seleccionar = new Boton("Seleccionar");
     PanelCliente clienteSeleccionado;
     AltaPoliza main;
-    
+
     String nroCli = "";
     String nomb = "";
     String apell = "";
@@ -40,11 +40,11 @@ public class BuscarCliente extends JPanel {
     JPanel resultado = new JPanel();
     ClienteDTO clienteEncontrado = new ClienteDTO();
     int cant = 100;
-    
+
     BuscarCliente(AltaPoliza mainI) {
 
         main = mainI;
-        
+
         Background fondo = new Background("background.jpg");
 
         this.setLayout(new GridBagLayout());
@@ -58,6 +58,7 @@ public class BuscarCliente extends JPanel {
 
         GridBagConstraints gbc = new GridBagConstraints();
 
+        cant = main.getCantidadClientesBusqueda();
         busquedaConfig(busqueda);
         gbc.anchor = GridBagConstraints.WEST;
         gbc.fill = GridBagConstraints.BOTH;
@@ -122,7 +123,7 @@ public class BuscarCliente extends JPanel {
     BuscarCliente(MenuProductorSeguros mainI) {
 
         MenuProductorSeguros mainP = mainI;
-        
+
         Background fondo = new Background("background.jpg");
 
         this.setLayout(new GridBagLayout());
@@ -136,7 +137,8 @@ public class BuscarCliente extends JPanel {
 
         GridBagConstraints gbc = new GridBagConstraints();
 
-        busquedaConfig(busqueda);
+        cant = mainP.getCantidadClientesBusqueda();
+        busquedaConfigProductorSeguros(busqueda);
         gbc.anchor = GridBagConstraints.WEST;
         gbc.fill = GridBagConstraints.BOTH;
         gbc.gridx = 0;
@@ -186,7 +188,7 @@ public class BuscarCliente extends JPanel {
         this.add(fondo, gbc);
 
         cancelar.addActionListener((ActionEvent e) -> {
-            main.cambiarPantalla("1");
+            mainP.cambiarPantalla("1");
         });
 
         seleccionar.addActionListener((ActionEvent e) -> {
@@ -197,7 +199,6 @@ public class BuscarCliente extends JPanel {
 
     }
 
-    
     private void busquedaConfig(JPanel busqueda) {
 
         busqueda.setLayout(new GridBagLayout());
@@ -218,8 +219,7 @@ public class BuscarCliente extends JPanel {
         PanelTextInput nroDocumentoI = new PanelTextInput(16);
         PanelTextInput cantClientesI = new PanelTextInput(16);
 
-        cant = main.getCantidadClientesBusqueda();
-        cantClientesI.setText(cant+"");
+        cantClientesI.setText(cant + "");
 
         //configuro inputs
         nombreI.restrictSize(40);
@@ -227,7 +227,7 @@ public class BuscarCliente extends JPanel {
         nroDocumentoI.setEditable(false);
         nroDocumentoI.restrictToNumbers();
 
-        String[] items = {"Cualquiera","DNI","CC", "CI", "CIC"};
+        String[] items = {"Cualquiera", "DNI", "CC", "CI", "CIC"};
         PanelDropDown tipoDocumentoI = new PanelDropDown(items);
 
         tipoDocumentoI.addCustomPanelListener(new CustomPanelListener() {
@@ -281,17 +281,15 @@ public class BuscarCliente extends JPanel {
             //limpiarResultados
             resultadoConfig(resultado);
             resultado.revalidate();
-            
 
         });
 
         buscar.addActionListener((ActionEvent e) -> {
 
             //obtener valores input
-            if(!nroClienteI.getText().equals("00-00000000")){
+            if (!nroClienteI.getText().equals("00-00000000")) {
                 nroCli = nroClienteI.getText();
-            }
-            else{
+            } else {
                 nroCli = "";
             }
             nomb = nombreI.getText();
@@ -304,16 +302,15 @@ public class BuscarCliente extends JPanel {
 
             GestorClientes gc = new GestorClientes();
             List<ClienteDTO> clientes = gc.obtenerClientePorParametros(nroCli, nomb, apell, tipD, nroD);
-                        
-            if(clientes.isEmpty()){
+
+            if (clientes.isEmpty()) {
                 clienteNoEncontrado();
                 resultadoConfig(resultado, clientes);
                 resultado.revalidate();
-            }
-            else{
+            } else {
                 resultadoConfig(resultado, clientes);
                 resultado.revalidate();
-            }         
+            }
 
         });
 
@@ -342,7 +339,7 @@ public class BuscarCliente extends JPanel {
 
         gbc.gridx = 4;
         busqueda.add(nroDocumento, gbc);
-        
+
         gbc.gridx = 0;
         gbc.gridy = 2;
         gbc.insets = new Insets(0, 10, 0, 0);
@@ -364,12 +361,190 @@ public class BuscarCliente extends JPanel {
 
         gbc.gridy = 3;
         gbc.gridx = 0;
-       // gbc.gridwidth = 2;
+        // gbc.gridwidth = 2;
         busqueda.add(cantClientes, gbc);
-        
+
         gbc.gridx = 1;
         busqueda.add(cantClientesI, gbc);
-        
+
+        gbc.gridx = 3;
+        //gbc.gridwidth = 1;
+        //gbc.gridheight = 2;
+        gbc.gridy = 3;
+        gbc.insets = new Insets(10, 10, 10, 5);
+        busqueda.add(limpiar, gbc);
+
+        gbc.insets = new Insets(10, 5, 10, 10);
+        gbc.gridx = 4;
+        busqueda.add(buscar, gbc);
+
+    }
+
+    private void busquedaConfigProductorSeguros(JPanel busqueda) {
+
+        busqueda.setLayout(new GridBagLayout());
+        LineBorder border = new LineBorder(Color.LIGHT_GRAY, 2);
+        busqueda.setBorder(border);
+
+        PanelText busquedaCliente = new PanelText("Busqueda cliente", "BOLD", 20, "WEST");
+        PanelText nroCliente = new PanelText("Numero cliente", "PLAIN", 18, "SOUTHWEST");
+        PanelText apellido = new PanelText("Apellido", "PLAIN", 18, "SOUTHWEST");
+        PanelText nombre = new PanelText("Nombre", "PLAIN", 18, "SOUTHWEST");
+        PanelText tipoDocumento = new PanelText("Tipo documento", "PLAIN", 18, "SOUTHWEST");
+        PanelText nroDocumento = new PanelText("Numero documento", "PLAIN", 18, "SOUTHWEST");
+        PanelText cantClientes = new PanelText("Cantidad de clientes a buscar:", "PLAIN", 18, "SOUTHEAST");
+
+        PanelTextInputNroCliente nroClienteI = new PanelTextInputNroCliente(16);
+        PanelTextInput apellidoI = new PanelTextInput(16);
+        PanelTextInput nombreI = new PanelTextInput(16);
+        PanelTextInput nroDocumentoI = new PanelTextInput(16);
+        PanelTextInput cantClientesI = new PanelTextInput(16);
+
+        cantClientesI.setText(cant + "");
+
+        //configuro inputs
+        nombreI.restrictSize(40);
+        apellidoI.restrictSize(70);
+        nroDocumentoI.setEditable(false);
+        nroDocumentoI.restrictToNumbers();
+
+        String[] items = {"Cualquiera", "DNI", "CC", "CI", "CIC"};
+        PanelDropDown tipoDocumentoI = new PanelDropDown(items);
+
+        tipoDocumentoI.addCustomPanelListener(new CustomPanelListener() {
+            @Override
+            public void onPanelItemSelected(PanelDropDown source, String selectedItem) {
+
+                switch (selectedItem) {
+                    case "CC":
+                        nroDocumentoI.restrictSize(4);
+                        nroDocumentoI.setEditable(true);
+                        // limitar nroDocumentoI acordemente
+                        break;
+                    case "CI":
+                        nroDocumentoI.restrictSize(4);
+                        nroDocumentoI.setEditable(true);
+                        // limitar nroDocumentoI acordemente
+                        break;
+                    case "CIC":
+                        nroDocumentoI.restrictSize(4);
+                        nroDocumentoI.setEditable(true);
+                        // limitar nroDocumentoI acordemente
+                        break;
+                    case "DNI":
+                        nroDocumentoI.restrictSize(8);
+                        nroDocumentoI.setEditable(true);
+                        break;
+                    case "Cualquiera":
+                        nroDocumentoI.restrictSize(8);
+                        nroDocumentoI.setText("");
+                        nroDocumentoI.setEditable(false);
+                        break;
+                }
+
+            }
+        });
+
+        Boton limpiar = new Boton("Limpiar");
+        Boton buscar = new Boton("Buscar");
+
+        limpiar.addActionListener((ActionEvent e) -> {
+            //resetear seleccion de cliente
+            setSelected(false);
+            if (clienteSeleccionado != null) {
+                clienteSeleccionado.setSelected(false);
+            }
+            //limpiar campos de busqueda
+            nroClienteI.vaciar();
+            apellidoI.setText("");
+            nombreI.setText("");
+            nroDocumentoI.setText("");
+            //limpiarResultados
+            resultadoConfig(resultado);
+            resultado.revalidate();
+
+        });
+
+        buscar.addActionListener((ActionEvent e) -> {
+
+            //obtener valores input
+            if (!nroClienteI.getText().equals("00-00000000")) {
+                nroCli = nroClienteI.getText();
+            } else {
+                nroCli = "";
+            }
+            nomb = nombreI.getText();
+            apell = apellidoI.getText();
+            tipD = tipoDocumentoI.getSelectedItem();
+            nroD = nroDocumentoI.getText();
+
+            GestorClientes gc = new GestorClientes();
+            List<ClienteDTO> clientes = gc.obtenerClientePorParametros(nroCli, nomb, apell, tipD, nroD);
+
+            if (clientes.isEmpty()) {
+                clienteNoEncontrado();
+                resultadoConfig(resultado, clientes);
+                resultado.revalidate();
+            } else {
+                resultadoConfig(resultado, clientes);
+                resultado.revalidate();
+            }
+
+        });
+
+        GridBagConstraints gbc = new GridBagConstraints();
+
+        gbc.fill = GridBagConstraints.BOTH;
+        gbc.weightx = 1;
+        gbc.weighty = 1;
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        gbc.anchor = GridBagConstraints.CENTER;
+        gbc.insets = new Insets(0, 0, 0, 0);
+        busqueda.add(busquedaCliente, gbc);
+
+        gbc.gridy = 1;
+        busqueda.add(nroCliente, gbc);
+
+        gbc.gridx = 1;
+        busqueda.add(nombre, gbc);
+
+        gbc.gridx = 2;
+        busqueda.add(apellido, gbc);
+
+        gbc.gridx = 3;
+        busqueda.add(tipoDocumento, gbc);
+
+        gbc.gridx = 4;
+        busqueda.add(nroDocumento, gbc);
+
+        gbc.gridx = 0;
+        gbc.gridy = 2;
+        gbc.insets = new Insets(0, 10, 0, 0);
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        busqueda.add(nroClienteI, gbc);
+
+        gbc.gridx = 1;
+        gbc.insets = new Insets(0, 0, 0, 0);
+        busqueda.add(nombreI, gbc);
+
+        gbc.gridx = 2;
+        busqueda.add(apellidoI, gbc);
+
+        gbc.gridx = 3;
+        busqueda.add(tipoDocumentoI, gbc);
+
+        gbc.gridx = 4;
+        busqueda.add(nroDocumentoI, gbc);
+
+        gbc.gridy = 3;
+        gbc.gridx = 0;
+        // gbc.gridwidth = 2;
+        busqueda.add(cantClientes, gbc);
+
+        gbc.gridx = 1;
+        busqueda.add(cantClientesI, gbc);
+
         gbc.gridx = 3;
         //gbc.gridwidth = 1;
         //gbc.gridheight = 2;
@@ -388,7 +563,7 @@ public class BuscarCliente extends JPanel {
         resultado.removeAll();
         resultado.revalidate();
         resultado.repaint();
-        
+
         resultado.setBackground(new Color(255, 255, 220));
 
         JPanel lista = new JPanel(new GridBagLayout());
@@ -474,16 +649,15 @@ public class BuscarCliente extends JPanel {
         PanelCliente panel = new PanelCliente();
         gbc.gridy = 0;
         lista.add(panel, gbc);
-        
+
         int size = clientes.size();
         int maximo;
-        if(size < cant){
+        if (size < cant) {
             maximo = size;
-        }
-        else{
+        } else {
             maximo = cant;
         }
-        
+
         JPanel list = new JPanel();
         list.setLayout(new BoxLayout(list, BoxLayout.Y_AXIS));
 
@@ -558,7 +732,7 @@ public class BuscarCliente extends JPanel {
     private void clienteNoEncontrado() {
 
         JFrame ventanaClienteNoEncontrado = new JFrame();
-        
+
         //armado ventana
         ventanaClienteNoEncontrado.setTitle("Cliente no encontrado");
         ventanaClienteNoEncontrado.setSize(500, 350); // Set your preferred size
@@ -571,12 +745,12 @@ public class BuscarCliente extends JPanel {
 
         JPanel panel = new JPanel(new GridBagLayout());
         Background fondo = new Background("background.jpg");
-        
-        PanelText errorLabel = new PanelText("Cliente no encontrado, ¿desea crear uno nuevo?",19);
-        errorLabel.setBackgroundColor(255,255, 255, 0);
+
+        PanelText errorLabel = new PanelText("Cliente no encontrado, ¿desea crear uno nuevo?", 19);
+        errorLabel.setBackgroundColor(255, 255, 255, 0);
         Boton botonCrear = new Boton("CREAR", 19);
         Boton botonCancelar = new Boton("CANCELAR", 19);
-        
+
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.gridheight = 1;
         gbc.gridwidth = 2;
@@ -587,27 +761,26 @@ public class BuscarCliente extends JPanel {
         gbc.gridy = 0;
         gbc.insets = new Insets(10, 10, 10, 10);
         fondo.add(errorLabel, gbc);
-        
-        gbc.gridy= 1;
+
+        gbc.gridy = 1;
         gbc.gridwidth = 1;
         gbc.weighty = 0.05;
         gbc.fill = GridBagConstraints.VERTICAL;
         fondo.add(botonCancelar, gbc);
-        
-        gbc.gridx= 1;
+
+        gbc.gridx = 1;
         fondo.add(botonCrear, gbc);
-        
-        
+
         botonCancelar.addActionListener((ActionEvent e) -> {
             ventanaClienteNoEncontrado.dispose();
         });
-        
+
         botonCrear.addActionListener((ActionEvent e) -> {
             //cargar pantalla altaCliente
             main.cambiarPantalla("altaCliente");
             ventanaClienteNoEncontrado.dispose();
         });
-        
+
         ventanaClienteNoEncontrado.setContentPane(fondo);
         ventanaClienteNoEncontrado.setVisible(true);
 

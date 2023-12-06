@@ -628,18 +628,15 @@ public class AltaPoliza extends JPanel {
         });
 
         PanelTextInput tiNroMotor = new PanelTextInput(16);
-        PanelTextInput tiNroChasis = new PanelTextInput(16);
-        PanelTextInput tiPatente = new PanelTextInput(16);
+        tiNroMotor.restrictToAlphanumerics();
+        PanelTextInputNroChasis tiNroChasis = new PanelTextInputNroChasis(16);
+        PanelTextInputPatente tiPatente = new PanelTextInputPatente(16);
         PanelTextInput tiKMAnio = new PanelTextInput(16);
         PanelCheckBox garage = new PanelCheckBox("Garage");
         PanelCheckBox alarma = new PanelCheckBox("Alarma");
         PanelCheckBox dispositivo = new PanelCheckBox("Dispositivo antirrobo");
         PanelCheckBox tuercas = new PanelCheckBox("Tuercas antirrobo");
         
-        tiNroChasis.restrictSize(17);
-        tiNroChasis.restrictToNumbersAndUpperCase();
-        tiPatente.restrictSize(7);
-        tiPatente.restrictToAlphanumerics();
 
         botonCalcularSuma.addActionListener((ActionEvent e) -> {
             
@@ -676,7 +673,6 @@ public class AltaPoliza extends JPanel {
 
             // Add objects of different types to the list
             listaPaneles.add(tiNroMotor);
-            listaPaneles.add(tiNroChasis);
             listaPaneles.add(tiKMAnio);
             listaPaneles.add(tSuma);
 
@@ -692,6 +688,15 @@ public class AltaPoliza extends JPanel {
                     panel.setCorrectInput();
                 }
             }
+            
+            if(tiNroChasis.getText().equals("")){
+                inputVacio = true;
+                tiNroChasis.setWrongInput();
+            }
+            else{
+                tiNroChasis.setCorrectInput(); 
+            }
+            
 
             if (inputVacio) {
                 VentanaError entradasVaciasError = new VentanaError("Faltan datos obligatorios", "Entrada incorrecta");
@@ -1239,7 +1244,7 @@ public class AltaPoliza extends JPanel {
 
     }
 
-    private void panelVehiculoConfig(JPanel panelVehiculo, PanelDropDown dPais, PanelDropDown dProvincia, PanelDropDown dLocalidad, PanelDropDown dMarca, PanelDropDown dModelo, PanelDropDown dAnio, PanelTextInput tiNroMotor, PanelTextInput tiNroChasis, PanelTextInput tiPatente, PanelTextInput tiKMAnio, PanelTextInput tSuma, Boton botonCalcularSuma) {
+    private void panelVehiculoConfig(JPanel panelVehiculo, PanelDropDown dPais, PanelDropDown dProvincia, PanelDropDown dLocalidad, PanelDropDown dMarca, PanelDropDown dModelo, PanelDropDown dAnio, PanelTextInput tiNroMotor, PanelTextInputNroChasis tiNroChasis, PanelTextInputPatente tiPatente, PanelTextInput tiKMAnio, PanelTextInput tSuma, Boton botonCalcularSuma) {
 
         PanelText tVehiculo = new PanelText("Vehiculo", "BOLD", 24, "WEST");
 
@@ -1315,7 +1320,7 @@ public class AltaPoliza extends JPanel {
         panelVehiculo.add(dAnio, gbc);
         
         //clienteSumaAsegurada = result;
-        PanelText tSumaAsegurada = new PanelText("ARS$ " + "Suma aseguradora en pesos: ", "ITALIC", 16, "WEST");
+        PanelText tSumaAsegurada = new PanelText("Suma aseguradora en pesos: ", "ITALIC", 16, "WEST");
         tSuma.setEditable(false);
 
         gbc.gridx = 0;
@@ -1364,12 +1369,15 @@ public class AltaPoliza extends JPanel {
         gbc.gridy = 10;
         panelVehiculo.add(tiNroMotor, gbc);
         gbc.gridx = 1;
+        gbc.insets = new Insets(0, 5, 0, 5);
         panelVehiculo.add(tiNroChasis, gbc);
         gbc.gridx = 2;
+        gbc.insets = new Insets(0, 5, 0, 10);
         panelVehiculo.add(tiPatente, gbc);
 
         gbc.gridx = 0;
         gbc.gridy = 11;
+        gbc.insets = new Insets(0, 0, 0, 0);
         panelVehiculo.add(tKMAnio, gbc);
         gbc.gridx = 1;
         panelVehiculo.add(tCantidadSin, gbc);

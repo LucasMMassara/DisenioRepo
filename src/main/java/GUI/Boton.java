@@ -95,4 +95,8 @@ public class Boton extends JButton {
         });
     }
 	
+        public void disable(boolean bool){
+            this.setEnabled(!bool);
+        }
+        
 }
