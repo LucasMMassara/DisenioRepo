@@ -7,9 +7,12 @@ import java.util.*;
 
 import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
+import logica.Cuota;
 import logica.Domicilio;
 import logica.EstadoCliente;
+import logica.Poliza;
 import util.ConversorEnum;
+import util.SubsistemaSiniestros;
 
 public class GestorClientes {
 	
@@ -234,11 +237,28 @@ public class GestorClientes {
     }
 
     private boolean tieneSiniestosUltimoAnio(Cliente c) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+       
+        String cantSiniestros = new SubsistemaSiniestros().obtenerCantSiniestros(c.getTipodni().toString(),c.getNumeroDni());
+        
+        return(cantSiniestros != "CERO");
+        
     }
 
     private boolean tieneCuotasImpagas(Cliente c) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        
+        //obtener polizas cliente
+        GestorPoliza gp = new GestorPoliza();
+        
+        List<Poliza> listaPolizas =  gp.obtenerPolizasCliente(c.getId());
+        
+        //obtener cuotas
+        List<Cuota> cuotasImpagas = new GestorCuotas().obtenerCuotasImpagas(listaPolizas);
+        
+        //chequear si tiene impagas
+        return(!cuotasImpagas.isEmpty());
+        
+        
+        
     }
 
     private boolean dosAniosActivo(Cliente c) {

@@ -15,6 +15,7 @@ import java.util.Date;
 import java.util.List;
 import logica.Cuota;
 import logica.EstadoCuota;
+import logica.Poliza;
 import logica.TipoPago;
 import util.GestorNumerico;
 
@@ -238,6 +239,10 @@ public class GestorCuotas {
         cuotas.getLast().setMonto(montoOriginal - (sumaMontos - monto));
 
         return cuotas;
+    }
+
+    public List<Cuota> obtenerCuotasImpagas(List<Poliza> listaPolizas) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
     
 }

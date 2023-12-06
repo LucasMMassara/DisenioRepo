@@ -109,5 +109,10 @@ public class GestorPoliza {
         
         return numero;
     }
+
+    public List<Poliza> obtenerPolizasCliente(int id) {
+
+            
+    }
     
 }
