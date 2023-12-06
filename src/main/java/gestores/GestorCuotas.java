@@ -6,19 +6,15 @@ package gestores;
 
 import daos.DAOCuota;
 import dto.CuotaDTO;
-import dto.PolizaDTO;
 import dto.PremioYDescuentosDTO;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-import logica.CalculoPremioPrenda;
 import logica.Cuota;
-import logica.EstadisticaRoboVehiculo;
 import logica.EstadoCuota;
-import logica.IndicadorRiesgo;
-import logica.PremioYDescuentos;
 import logica.TipoPago;
+import util.GestorNumerico;
 
 /**
  *
@@ -100,6 +96,7 @@ public class GestorCuotas {
 
         return cuotasADTO(cuotas);
     }
+    
 
     private ArrayList<CuotaDTO> crearCuotas(Date inicioPoliza, TipoPago formaDePago, PremioYDescuentosDTO premioydescuentos) {
 
@@ -144,7 +141,7 @@ public class GestorCuotas {
         Calendar calendar = Calendar.getInstance();
         Date inicioCuota;
         Date finCuota;
-        Float premio = (premioydescuentos.getPrimaCalculada()) / 6;
+        Float premio = premioydescuentos.getPrimaCalculada() / 6;
         Float descuentos = (premioydescuentos.getBonificacionPorPagoSemestral() + premioydescuentos.getDescuentoPorUnidad()) / 6;
 
         for (int i = 1; i <= 6; i++) {

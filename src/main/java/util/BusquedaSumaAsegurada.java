@@ -28,7 +28,7 @@ public class BusquedaSumaAsegurada{
             sumaGuardada = rand.nextDouble(5000, 20000);
         }
         
-        return sumaGuardada;
+        return new GestorNumerico().redondearNumero(sumaGuardada);
     }
     
     private static boolean actual(String marca, String modelo, String anio){

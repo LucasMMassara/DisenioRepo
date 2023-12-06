@@ -31,8 +31,8 @@ public class Cuota implements Serializable {
     private Float premio;
     private Float sumaTotalDescuentos;
     
-    //private Float recargoMora;
-    //private Float bonificacionAdelanto;
+    private Float recargoMora;
+    private Float bonificacionAdelanto;
 
     @Enumerated(EnumType.STRING)
     private EstadoCuota estado;

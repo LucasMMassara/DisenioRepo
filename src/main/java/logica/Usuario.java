@@ -5,6 +5,7 @@ import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
@@ -22,7 +23,7 @@ public class Usuario extends Persona implements Serializable{
     @Enumerated(EnumType.STRING)
     private RolUsuario rol;
     
-    @OneToOne
+    @ManyToOne
     private Sucursal sucursal;
     
     @OneToOne(cascade = CascadeType.ALL) //CUIDADO

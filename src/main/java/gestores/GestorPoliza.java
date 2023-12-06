@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import logica.EstadoPoliza;
-import logica.IndicadorRiesgo;
 import logica.Poliza;
 import util.ConversorEnum;
 
