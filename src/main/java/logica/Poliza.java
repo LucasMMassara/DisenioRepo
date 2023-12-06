@@ -48,8 +48,6 @@ public class Poliza implements Serializable {
     @Temporal(javax.persistence.TemporalType.DATE)
     private Date fechaEmision;
 
-    //Hay que ver los atributos que pasan a la nueva entidad premioDescuentosEmision
-
     //atributos de relacion
 
     
@@ -59,7 +57,7 @@ public class Poliza implements Serializable {
     @OneToMany(cascade = CascadeType.PERSIST)
     private List<Cuota> cuotas;
     
-    @OneToMany(cascade = CascadeType.PERSIST)
+    @OneToMany(cascade = CascadeType.PERSIST, mappedBy = "poliza")
     private List<Hijo> hijosDeclarados;
     
     @OneToMany(mappedBy="poliza")
