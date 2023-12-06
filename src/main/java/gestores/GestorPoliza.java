@@ -14,7 +14,9 @@ public class GestorPoliza {
     
     public void cargarPoliza(PolizaDTO pdto){      
         DAOPoliza daop = new DAOPoliza();
-        daop.save(DTOaObjeto(pdto));
+        Poliza poliza = DTOaObjeto(pdto);
+        new GestorClientes().ActualizarConsideracionCliente(poliza.getClientePoliza().getId());
+        daop.save(poliza);
     } 
     
     private Poliza DTOaObjeto(PolizaDTO pdto){
@@ -22,7 +24,6 @@ public class GestorPoliza {
         Poliza poliza = new Poliza();
         
         //Datos ingresados
-        
         poliza.setCantidadSiniestros(ConversorEnum.convertirCantSiniestros(pdto.getCantidadSiniestros()));
         poliza.setEstado(EstadoPoliza.GENERADA);
         poliza.setFechaEmision(pdto.getFechaEmision());
@@ -33,11 +34,9 @@ public class GestorPoliza {
         poliza.setNumPoliza(pdto.getNumPoliza());
         
         //Derecho de  emision premio y descuento
-        
         poliza.setPremioydescuentos(new GestorPremioYDescuentos().convertirDTOAClase(pdto.getPyd()));
         
         //Valores de fk 
-        
         poliza.setRiesgoLocalidad(new GestorLocalidad().obtenerIndicadorRiesgo(pdto.getLocalidadRiesgo().getId()));
         poliza.setCobertura(new GestorCobertura().obtenerPorcentajeCoberturaPorId(pdto.getCobertura().getIdCobertura()));
         

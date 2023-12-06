@@ -230,7 +230,7 @@ public class GestorClientes {
             c.setEstadoCliente(EstadoCliente.NORMAL);
         }
         
-        daocli.save(c);
+        daocli.update(c);
     }
 
     private boolean condicionEstadoPlata(Cliente c) {
