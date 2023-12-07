@@ -3,7 +3,10 @@ import daos.DAOCliente;
 import logica.Cliente;
 import dto.ClienteDTO;
 import dto.DomicilioDTO;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Random;
 
 import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;

@@ -19,7 +19,9 @@ public class Usuario extends Persona implements Serializable{
     private String usuario;
 
     private String contrasenia;
-
+    
+    private String numTelefono;
+    
     @Enumerated(EnumType.STRING)
     private RolUsuario rol;
     
@@ -81,6 +83,14 @@ public class Usuario extends Persona implements Serializable{
 
     public void setCu(ConfiguracionesUsuario cu) {
         this.cu = cu;
+    }
+
+    public String getNumTelefono() {
+        return numTelefono;
+    }
+
+    public void setNumTelefono(String numTelefono) {
+        this.numTelefono = numTelefono;
     }
     
 }

@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package daos;
 
 import java.util.List;
@@ -12,10 +8,6 @@ import javax.persistence.EntityTransaction;
 import javax.persistence.Query;
 import util.EntityManagerUtil;
 
-/**
- *
- * @author Lucas
- */
 public abstract class DAOAbstract<T> implements DAO<T> {
     
     private EntityManager em = EntityManagerUtil.getEntityManager();

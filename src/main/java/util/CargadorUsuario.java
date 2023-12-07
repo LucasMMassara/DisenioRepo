@@ -25,6 +25,10 @@ public class CargadorUsuario {
         u.setContrasenia("123456aA");
         u.setCu(generarConfig());
         u.setSucursal(cargarSucursal());
+        u.setNombre("James");
+        u.setApellido("Bond");
+        u.setEmail("jb007@gmail.com");
+        u.setNumTelefono("34250073821");
         (new DAOUsuario()).save(u);
     }
     

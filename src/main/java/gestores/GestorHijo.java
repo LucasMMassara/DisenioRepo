@@ -36,6 +36,22 @@ public class GestorHijo {
         }
         return listaH;
     }
+    
+        public ArrayList<String> EdadValidaHijos(List<HijoDTO> hijos) {
+
+        ArrayList<String> numHijos = new ArrayList<>();
+        
+        int numHijo = 0;
+
+        for (HijoDTO h : hijos) {
+            
+            if (!edadHijoValida(h)) {
+                numHijos.add("Hijo" + numHijo);
+            }
+            numHijo++;
+        }
+        return numHijos;
+    }
 
     private Hijo DTOaClase(HijoDTO hdto, Poliza poliza) {
 

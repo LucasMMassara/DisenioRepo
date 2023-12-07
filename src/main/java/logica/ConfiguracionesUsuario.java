@@ -39,9 +39,5 @@ public class ConfiguracionesUsuario implements Serializable {
     public void setCantClientesBusqueda(int cantClientesBusqueda) {
         this.cantClientesBusqueda = cantClientesBusqueda;
     }
-    
-    
-    
-    
-    
+
 }

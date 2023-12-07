@@ -22,7 +22,6 @@ public class Sucursal implements Serializable {
     private int id;
     private String nombre;
     private String numeroSucursal;
-    private int polizasGeneradas;
 
     public Sucursal(String nombre, String numeroSucursal) {
         this.nombre = nombre;
@@ -55,13 +54,4 @@ public class Sucursal implements Serializable {
     public void setNumeroSucursal(String numeroSucursal) {
         this.numeroSucursal = numeroSucursal;
     }
-
-    public int getPolizasGeneradas() {
-        return polizasGeneradas;
-    }
-
-    public void setPolizasGeneradas(int polizasGeneradas) {
-        this.polizasGeneradas = polizasGeneradas;
-    }
-    
 }

@@ -16,6 +16,7 @@ import dto.VehiculoDTO;
 import gestores.GestorCobertura;
 import gestores.GestorCuotas;
 import gestores.GestorFecha;
+import gestores.GestorHijo;
 import gestores.GestorLocalidad;
 import gestores.GestorMarca;
 import gestores.GestorModelo;
@@ -832,7 +833,7 @@ public class AltaPoliza extends JPanel {
                 for (int i = 0; i < sexoDropDownList.size(); i++) {
                     hijosDTO.add(new HijoDTO(fechaInputList.get(i).getDate(), sexoDropDownList.get(i).getSelectedItem(), estadoCivilDropDownList.get(i).getSelectedItem()));
                 }
-                ArrayList<String> hijosErroneos = new GestorPoliza().EdadValidaHijos(hijosDTO);
+                ArrayList<String> hijosErroneos = new GestorHijo().EdadValidaHijos(hijosDTO);
                 
                 if (hijosErroneos.isEmpty()) {
                     if (cuartaConfigurada) {

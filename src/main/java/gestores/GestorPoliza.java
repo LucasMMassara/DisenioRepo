@@ -1,11 +1,8 @@
 package gestores;
 
 import daos.DAOPoliza;
-import dto.HijoDTO;
 import dto.PolizaDTO;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 import logica.EstadoPoliza;
 import logica.Poliza;
 import util.ConversorEnum;
@@ -17,7 +14,16 @@ public class GestorPoliza {
         Poliza poliza = DTOaObjeto(pdto);
         new GestorClientes().ActualizarConsideracionCliente(poliza.getClientePoliza().getId());
         daop.save(poliza);
-    } 
+    }
+    
+    public String generarNumPoliza(String nroSucursal, String documento, String chasis){
+        String digitosAuto = digitosAuto(documento,chasis);
+        return nroSucursal + digitosAuto + digitosRenovacion(nroSucursal + digitosAuto);
+    }
+
+    public List<Poliza> obtenerPolizasCliente(int id) {
+        return new DAOPoliza().obtenerPolizasCliente(id);
+    }
     
     private Poliza DTOaObjeto(PolizaDTO pdto){
         
@@ -62,24 +68,6 @@ public class GestorPoliza {
         return poliza;
     }
 
-    public ArrayList<String> EdadValidaHijos(List<HijoDTO> hijos) {
-
-        ArrayList<String> numHijos = new ArrayList<>();
-
-        GestorHijo gh = new GestorHijo();
-        
-        int numHijo = 0;
-
-        for (HijoDTO h : hijos) {
-            
-            if (!gh.edadHijoValida(h)) {
-                numHijos.add("Hijo" + numHijo);
-            }
-            numHijo++;
-        }
-        return numHijos;
-    }
-
     public boolean existePolizaVigente(String patente, String numMotor, String chasis) {
 
         //Si es vacio devuelve false, si contiene poliza devuelve true.
@@ -96,15 +84,6 @@ public class GestorPoliza {
         }
 
         return false;
-    }
-    
-    public String generarNumPoliza(String nroSucursal, String documento, String chasis){
-        String digitosAuto = digitosAuto(documento,chasis);
-        return nroSucursal + digitosAuto + digitosRenovacion(nroSucursal + digitosAuto);
-    }
-
-    public List<Poliza> obtenerPolizasCliente(int id) {
-        return new DAOPoliza().obtenerPolizasCliente(id);
     }
     
     private String digitosAuto(String documento, String chasis) {
