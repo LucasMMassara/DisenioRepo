@@ -2,7 +2,6 @@ package gestores;
 import daos.DAOCliente;
 import logica.Cliente;
 import dto.ClienteDTO;
-import dto.DomicilioDTO;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;

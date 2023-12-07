@@ -9,7 +9,7 @@ import util.ConversorEnum;
 
 public class GestorPoliza {
     
-    public void cargarPoliza(PolizaDTO pdto){      
+    public void altaPoliza(PolizaDTO pdto){      
         DAOPoliza daop = new DAOPoliza();
         Poliza poliza = DTOaObjeto(pdto);
         new GestorClientes().ActualizarConsideracionCliente(poliza.getClientePoliza().getId());
