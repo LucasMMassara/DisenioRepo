@@ -1,12 +1,11 @@
 package logica;
 
-import dto.VehiculoDTO;
 import java.io.Serializable;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToOne;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -27,10 +26,10 @@ public class Vehiculo implements Serializable {
     private Boolean tuercasAntirobo;
     private String patente;
     
-    @OneToOne
+    @ManyToOne
     private EstadisticaRoboVehiculo estRobo;
     
-    @OneToOne
+    @ManyToOne
     private AnioFabricacion anioFabricacionVehiculo;
     
     

@@ -23,8 +23,7 @@ public class Pago implements Serializable {
     private Float montoAbonado;
     private Float montoActualizadoAbonar;
     private Float vueltoTotal;
-    private int nroPoliza;
-    //private Float premio; Este no va aca mepa
+    private String nroPoliza;
 
     @Temporal(TemporalType.DATE)
     private Date fechaPago;
@@ -39,7 +38,7 @@ public class Pago implements Serializable {
             super();
             // TODO Auto-generated constructor stub
     }
-    public Pago(Float montoAbonado, Float vueltoTotal, Date fechaPago, Date hora, int nroRecibo, int nroPoliza) {
+    public Pago(Float montoAbonado, Float vueltoTotal, Date fechaPago, Date hora, int nroRecibo, String nroPoliza) {
             super();
             this.montoAbonado = montoAbonado;
             this.vueltoTotal = vueltoTotal;
@@ -72,14 +71,7 @@ public class Pago implements Serializable {
     public void setHora(Date hora) {
             this.hora = hora;
     }
-    /*
-    public Float getPremio() {
-            return premio;
-    }
-    public void setPremio(Float premio) {
-            this.premio = premio;
-    }
-    */
+
     public Cuota getCuota() {
         return cuota;
     }
@@ -96,11 +88,11 @@ public class Pago implements Serializable {
         this.nroRecibo = nroRecibo;
     }
 
-    public int getNroPoliza() {
+    public String getNroPoliza() {
         return nroPoliza;
     }
 
-    public void setNroPoliza(int nroPoliza) {
+    public void setNroPoliza(String nroPoliza) {
         this.nroPoliza = nroPoliza;
     }
 

@@ -21,7 +21,7 @@ public class Domicilio implements Serializable {
     private String calle;
     private String numeroCalle;
     
-    @OneToOne(mappedBy = "domicilio", cascade = CascadeType.ALL)
+    @OneToOne(mappedBy = "domicilio", cascade = CascadeType.ALL, optional = true)
     private Departamento depto;
     
     @OneToOne

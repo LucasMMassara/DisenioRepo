@@ -50,6 +50,12 @@ public class Modificacion implements Serializable {
     @OneToOne(optional=false)
     private Usuario usuarioEditor;
     
+    @ManyToOne
+    private AnioFabricacion anioFabricacion;
+    
+    @ManyToOne
+    private PorcentajeCobertura porcentajeCobertura;
+    
     //TODO Falta el usuario
     
     public Modificacion() {
@@ -184,5 +190,23 @@ public class Modificacion implements Serializable {
     public void setUsuarioEditor(Usuario usuarioEditor) {
         this.usuarioEditor = usuarioEditor;
     }
+
+    public AnioFabricacion getAnioFabricacion() {
+        return anioFabricacion;
+    }
+
+    public void setAnioFabricacion(AnioFabricacion anioFabricacion) {
+        this.anioFabricacion = anioFabricacion;
+    }
+
+    public PorcentajeCobertura getPorcentajeCobertura() {
+        return porcentajeCobertura;
+    }
+
+    public void setPorcentajeCobertura(PorcentajeCobertura porcentajeCobertura) {
+        this.porcentajeCobertura = porcentajeCobertura;
+    }
+    
+    
     
 }
