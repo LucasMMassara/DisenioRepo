@@ -44,8 +44,10 @@ public class DAOPoliza extends DAOAbstract<Poliza> {
         }
     }
 
-    public List<Poliza> obtenerVersionesPoliza() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public List<Poliza> obtenerVersionesPoliza(String comienzoNumPoliza) {
+        String squery = "SELECT p FROM " + Poliza.class.getName() + " p WHERE p.numPoliza like '" + comienzoNumPoliza + "%' ";
+        Query q = getEntityManager().createQuery(squery);
+        return q.getResultList();
     }
 
 }
