@@ -87,5 +87,9 @@ public class Menu extends JFrame {
             return "TO DO";
         }
         
+        public String obtenerNroSucursal(){
+            return gestorUsuario.getUsuarioLogueado().getSucursal().getNumeroSucursal();
+        }
+        
 }
 

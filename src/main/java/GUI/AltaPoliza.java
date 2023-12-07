@@ -51,7 +51,6 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import logica.CalculoPremioPrenda;
-import logica.Modelo;
 import logica.PorcentajeCobertura;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.PDDocumentCatalog;
@@ -685,6 +684,13 @@ public class AltaPoliza extends JPanel {
                 }
             }
             
+            if(tiNroChasis.getText().length() < 17){
+                tiNroChasis.setWrongInput();
+            }
+            else{
+                tiNroChasis.setCorrectInput(); 
+            }
+            
             if(tiNroChasis.getText().equals("")){
                 inputVacio = true;
                 tiNroChasis.setWrongInput();
@@ -693,8 +699,10 @@ public class AltaPoliza extends JPanel {
                 tiNroChasis.setCorrectInput(); 
             }
             
-
-            if (inputVacio) {
+            if(tiNroChasis.getText().length() < 17){
+                VentanaError nroChasisErroneo = new VentanaError("El numero de chasis debe tener 17 caracteres", "Entrada incorrecta");
+            }
+            else if (inputVacio) {
                 VentanaError entradasVaciasError = new VentanaError("Faltan datos obligatorios", "Entrada incorrecta");
             }
             else if(new GestorPoliza().existePolizaVigente(tiPatente.getText(), tiNroMotor.getText(), tiNroChasis.getText())){
@@ -987,7 +995,7 @@ public class AltaPoliza extends JPanel {
         GestorPoliza gp = new GestorPoliza();
         
         //crear polizaDTO
-        clienteNumPoliza = new GestorPoliza().generarNumPoliza();
+        clienteNumPoliza = new GestorPoliza().generarNumPoliza(obtenerNroSucursal(),clienteDTO.getNumDocumento(),vehiculoDTO.getNumChasis());
         polizaDTO.setNumPoliza(clienteNumPoliza);
         polizaDTO.setLocalidad(localidadRiesgo);
         polizaDTO.setCobertura(coberturaDTO);
@@ -2082,5 +2090,7 @@ public class AltaPoliza extends JPanel {
             main.actualizarCantidadClientesBusqueda( cantidad);
         }
     
-    
+    String obtenerNroSucursal(){
+        return main.obtenerNroSucursal();
+    }
 }

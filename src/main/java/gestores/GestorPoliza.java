@@ -98,19 +98,37 @@ public class GestorPoliza {
         return false;
     }
     
-    public String generarNumPoliza(){
+    public String generarNumPoliza(String nroSucursal, String documento, String chasis){
+
+        return nroSucursal + digitosAuto(documento,chasis) + digitosRenovacion();
         
-        Random rand = new Random();
-        
+        /*
         String numero = rand.nextLong(100000, 999999) +"";
         
         numero = numero + rand.nextLong(1000000, 9999999);
         
         return numero;
+        */
     }
 
     public List<Poliza> obtenerPolizasCliente(int id) {
         return new DAOPoliza().obtenerPolizasCliente(id);
+    }
+    
+    private String digitosAuto(String documento, String chasis) {
+        return documento.substring(documento.length() - 2) + chasis.substring(chasis.length() - 5);
+    }
+
+    private String digitosRenovacion() {
+        
+        int nroPolizas = new DAOPoliza().obtenerVersionesPoliza().size();
+        
+        nroPolizas++;
+        if(nroPolizas < 10){
+            return ""+ 0 + nroPolizas;
+        } else{
+            return "" + nroPolizas;
+        }
     }
     
 }

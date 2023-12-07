@@ -188,4 +188,9 @@ public class MenuProductorSeguros extends JPanel {
             menu.actualizarCantidadClientesBusqueda( cantidad);
             
         }
+    
+    public String obtenerNroSucursal(){
+            return menu.obtenerNroSucursal();
+        }
+        
 }
