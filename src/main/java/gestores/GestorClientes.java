@@ -262,6 +262,6 @@ public class GestorClientes {
 
     private boolean dosAniosActivo(Cliente c) {     
        int anios =  new GestorFecha().obtenerAniosDesde(c.getFechaCreacion());
-       return anios>=2;
+       return anios>=2 && c.getEstadoCliente()!=EstadoCliente.ELIMINADO;
     }
 }
