@@ -706,7 +706,7 @@ public class AltaPoliza extends JPanel {
                 VentanaError entradasVaciasError = new VentanaError("Faltan datos obligatorios", "Entrada incorrecta");
             }
             else if(!matcher.matches()){
-                VentanaError nroChasisIncorrecto = new VentanaError("El numero de chasis ingresado no sigue la estructura valida", "Entrada incorrecta");
+                VentanaError nroChasisIncorrecto = new VentanaError("El numero de chasis ingresado no sigue la estructura valida, O-I-Q no son validos", "Entrada incorrecta");
             }
             else if(new GestorPoliza().existePolizaVigente(tiPatente.getText(), tiNroMotor.getText(), tiNroChasis.getText())){
                 VentanaError polizaExistente = new VentanaError("Ya existe una poliza vigente para los datos ingreasados", "Entrada incorrecta");
