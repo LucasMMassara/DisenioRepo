@@ -6,9 +6,11 @@ package logica;
 
 import java.io.Serializable;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 /**
@@ -28,6 +30,9 @@ public class PremioYDescuentos implements Serializable {
     private float derechosEmision;
     private float descuentoPorUnidad; //Si el clietne tiene mas de un vehiculo tiene descuento por unidad
     private float bonificacionPorPagoSemestral;
+    
+    @OneToOne(fetch = FetchType.LAZY)
+    private Poliza poliza;
 
     public PremioYDescuentos() {
         super();
@@ -79,5 +84,12 @@ public class PremioYDescuentos implements Serializable {
     public void setId(int id) {
         this.id = id;
     }
-    
+
+    public Poliza getPoliza() {
+        return poliza;
+    }
+
+    public void setPoliza(Poliza poliza) {
+        this.poliza = poliza;
+    } 
 }

@@ -72,20 +72,18 @@ public class Poliza implements Serializable {
     @OneToOne
     private IndicadorRiesgo riesgoLocalidad;
     
-    @OneToOne
+    @ManyToOne
     private ValorSiniestro valorSiniestroUtilizados;
     
-    @OneToOne
+    @ManyToOne
     private ValoresGenerales valoresGeneralesUtilizados;
     
-    @OneToOne
+    @ManyToOne
     private ValorMedidaSeguridad valoresMedidasSeguridadUtilizados;
     
-    @OneToOne(cascade = CascadeType.PERSIST)
+    @OneToOne(cascade = CascadeType.PERSIST, mappedBy="poliza")
     private PremioYDescuentos premioydescuentos;
     
-    
-
     //metodos de atributos base
 
     public PremioYDescuentos getPremioydescuentos() {
