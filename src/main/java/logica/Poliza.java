@@ -66,10 +66,10 @@ public class Poliza implements Serializable {
     @ManyToOne
     private Cliente clientePoliza;
     
-    @OneToOne
+    @ManyToOne
     private PorcentajeCobertura cobertura;
     
-    @OneToOne
+    @ManyToOne
     private IndicadorRiesgo riesgoLocalidad;
     
     @ManyToOne
