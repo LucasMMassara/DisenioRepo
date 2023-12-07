@@ -21,6 +21,7 @@ public class Cliente extends Persona implements Serializable {
 
     @Enumerated(EnumType.STRING)
     private Iva condicionIva;
+    
     @Enumerated(EnumType.STRING)
     private EstadoCliente estadoCliente;
 

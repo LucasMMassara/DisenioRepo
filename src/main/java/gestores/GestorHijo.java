@@ -9,6 +9,7 @@ import dto.HijoDTO;
 import java.util.ArrayList;
 import java.util.List;
 import logica.Hijo;
+import logica.Poliza;
 import util.ConversorEnum;
 
 /**
@@ -26,22 +27,23 @@ public class GestorHijo {
 
     }
 
-    public List<Hijo> DTOaHijos(ArrayList<HijoDTO> listaHijos) {
+    public List<Hijo> DTOaHijos(ArrayList<HijoDTO> listaHijos, Poliza poliza) {
         
         List<Hijo> listaH = new ArrayList();
 
         for (HijoDTO hdto : listaHijos) {
-            listaH.add(DTOaClase(hdto));
+            listaH.add(DTOaClase(hdto, poliza));
         }
         return listaH;
     }
 
-    private Hijo DTOaClase(HijoDTO hdto) {
+    private Hijo DTOaClase(HijoDTO hdto, Poliza poliza) {
 
         Hijo hNuevo = new Hijo();
         hNuevo.setSexo(ConversorEnum.convertirStringSexo(hdto.getSexo()));
         hNuevo.setEstadoCivil(ConversorEnum.convertirStringEstadoCivil(hdto.getEstadoCivil()));
         hNuevo.setFechaNac(hdto.getFechaNacimiento());
+        hNuevo.setPoliza(poliza);
 
         return hNuevo;
 

@@ -23,12 +23,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import logica.Cliente;
-import logica.Domicilio;
 import logica.EstadoCivil;
 import logica.Iva;
-import logica.Localidad;
-import logica.Pais;
-import logica.Provincia;
 import logica.TipoSexo;
 
 /**

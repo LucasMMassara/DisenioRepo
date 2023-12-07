@@ -17,10 +17,8 @@ import java.awt.Component;
 import java.awt.Dimension;
 import java.util.List;
 import javax.swing.BoxLayout;
-import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
-import javax.swing.JList;
 
 public class BuscarCliente extends JPanel {
 

@@ -44,9 +44,6 @@ public class GestorPoliza {
         //Generamos el vehiculo        
         poliza.setVehiculoAsegurado(new GestorVehiculo().DTOaVehiculo(pdto.getVehiculo()));
         
-        //Generamos lista de hijos
-        poliza.setHijosDeclarados(new GestorHijo().DTOaHijos(pdto.getListaHijos()));
-        
         //Generamos las cuotas
         poliza.setCuotas(new GestorCuotas().DTOaCuotas(pdto.getListaCuotas()));
         
@@ -58,6 +55,9 @@ public class GestorPoliza {
         poliza.setValorSiniestroUtilizados(new GestorValorSiniestros().buscarValorPorId(pdto.getPyd().getIdValorSiniestros()));
         poliza.setValoresGeneralesUtilizados(new GestorDatosGenerales().buscarValorPorId(pdto.getPyd().getIdDatosGenerales()));
         poliza.setValoresMedidasSeguridadUtilizados(new GestorValorMedidasSeguridad().buscarValorPorId(pdto.getPyd().getIdValorMedidaSeguridad()));
+        
+        //Generamos lista de hijos
+        poliza.setHijosDeclarados(new GestorHijo().DTOaHijos(pdto.getListaHijos(),poliza));
         
         return poliza;
     }
@@ -99,16 +99,8 @@ public class GestorPoliza {
     }
     
     public String generarNumPoliza(String nroSucursal, String documento, String chasis){
-
-        return nroSucursal + digitosAuto(documento,chasis) + digitosRenovacion();
-        
-        /*
-        String numero = rand.nextLong(100000, 999999) +"";
-        
-        numero = numero + rand.nextLong(1000000, 9999999);
-        
-        return numero;
-        */
+        String digitosAuto = digitosAuto(documento,chasis);
+        return nroSucursal + digitosAuto + digitosRenovacion(nroSucursal + digitosAuto);
     }
 
     public List<Poliza> obtenerPolizasCliente(int id) {
@@ -119,11 +111,10 @@ public class GestorPoliza {
         return documento.substring(documento.length() - 2) + chasis.substring(chasis.length() - 5);
     }
 
-    private String digitosRenovacion() {
+    private String digitosRenovacion(String comienzoNroPoliza) {
         
-        int nroPolizas = new DAOPoliza().obtenerVersionesPoliza().size();
+        int nroPolizas = new DAOPoliza().obtenerVersionesPoliza(comienzoNroPoliza).size();
         
-        nroPolizas++;
         if(nroPolizas < 10){
             return ""+ 0 + nroPolizas;
         } else{

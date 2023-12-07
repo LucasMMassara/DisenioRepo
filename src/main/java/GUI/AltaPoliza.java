@@ -42,6 +42,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
@@ -622,7 +624,7 @@ public class AltaPoliza extends JPanel {
 
         PanelTextInput tiNroMotor = new PanelTextInput(16);
         tiNroMotor.restrictToAlphanumerics();
-        PanelTextInputNroChasis tiNroChasis = new PanelTextInputNroChasis(16);
+        PanelTextInput tiNroChasis = new PanelTextInput(16);
         PanelTextInputPatente tiPatente = new PanelTextInputPatente(16);
         PanelTextInput tiKMAnio = new PanelTextInput(16);
         PanelCheckBox garage = new PanelCheckBox("Garage");
@@ -630,6 +632,8 @@ public class AltaPoliza extends JPanel {
         PanelCheckBox dispositivo = new PanelCheckBox("Dispositivo antirrobo");
         PanelCheckBox tuercas = new PanelCheckBox("Tuercas antirrobo");
         
+        tiNroChasis.restrictSize(17);
+        tiNroChasis.restrictToNumbersAndUpperCase();
         tiKMAnio.restrictSize(6);
         tiNroMotor.restrictSize(30);
         
@@ -683,14 +687,7 @@ public class AltaPoliza extends JPanel {
                     panel.setCorrectInput();
                 }
             }
-            
-            if(tiNroChasis.getText().length() < 17){
-                tiNroChasis.setWrongInput();
-            }
-            else{
-                tiNroChasis.setCorrectInput(); 
-            }
-            
+
             if(tiNroChasis.getText().equals("")){
                 inputVacio = true;
                 tiNroChasis.setWrongInput();
@@ -699,11 +696,16 @@ public class AltaPoliza extends JPanel {
                 tiNroChasis.setCorrectInput(); 
             }
             
-            if(tiNroChasis.getText().length() < 17){
-                VentanaError nroChasisErroneo = new VentanaError("El numero de chasis debe tener 17 caracteres", "Entrada incorrecta");
-            }
-            else if (inputVacio) {
+            // para el chequeo del VIN (nroChasis)
+            String regex = "^[A-HJ-NPR-Z0-9]{8}[0-9]{1}[A-HJ-NPR-Z0-9]{3}[0-9]{5}$";
+            Pattern pattern = Pattern.compile(regex);
+            Matcher matcher = pattern.matcher(tiNroChasis.getText());
+
+            if (inputVacio) {
                 VentanaError entradasVaciasError = new VentanaError("Faltan datos obligatorios", "Entrada incorrecta");
+            }
+            else if(!matcher.matches()){
+                VentanaError nroChasisIncorrecto = new VentanaError("El numero de chasis ingresado no sigue la estructura valida", "Entrada incorrecta");
             }
             else if(new GestorPoliza().existePolizaVigente(tiPatente.getText(), tiNroMotor.getText(), tiNroChasis.getText())){
                 VentanaError polizaExistente = new VentanaError("Ya existe una poliza vigente para los datos ingreasados", "Entrada incorrecta");
@@ -1248,7 +1250,7 @@ public class AltaPoliza extends JPanel {
 
     }
 
-    private void panelVehiculoConfig(JPanel panelVehiculo, PanelDropDown dPais, PanelDropDown dProvincia, PanelDropDown dLocalidad, PanelDropDown dMarca, PanelDropDown dModelo, PanelDropDown dAnio, PanelTextInput tiNroMotor, PanelTextInputNroChasis tiNroChasis, PanelTextInputPatente tiPatente, PanelTextInput tiKMAnio, PanelTextInput tSuma, Boton botonCalcularSuma) {
+    private void panelVehiculoConfig(JPanel panelVehiculo, PanelDropDown dPais, PanelDropDown dProvincia, PanelDropDown dLocalidad, PanelDropDown dMarca, PanelDropDown dModelo, PanelDropDown dAnio, PanelTextInput tiNroMotor, PanelTextInput tiNroChasis, PanelTextInputPatente tiPatente, PanelTextInput tiKMAnio, PanelTextInput tSuma, Boton botonCalcularSuma) {
 
         PanelText tVehiculo = new PanelText("Vehiculo", "BOLD", 24, "WEST");
 
@@ -1373,7 +1375,6 @@ public class AltaPoliza extends JPanel {
         gbc.gridy = 10;
         panelVehiculo.add(tiNroMotor, gbc);
         gbc.gridx = 1;
-        gbc.insets = new Insets(0, 5, 0, 5);
         panelVehiculo.add(tiNroChasis, gbc);
         gbc.gridx = 2;
         gbc.insets = new Insets(0, 5, 0, 10);

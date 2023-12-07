@@ -5,10 +5,8 @@ import java.awt.CardLayout;
 import java.awt.Dimension;
 import javax.swing.ImageIcon;
 
-//import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-import logica.Usuario;
 
 public class Menu extends JFrame {
 
