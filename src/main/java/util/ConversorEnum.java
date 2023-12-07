@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package util;
 
 import logica.CantidadSiniestros;
@@ -12,10 +8,6 @@ import logica.TipoDocumento;
 import logica.TipoPago;
 import logica.TipoSexo;
 
-/**
- *
- * @author valec
- */
 public class ConversorEnum {
 
     public static TipoSexo convertirStringSexo(String sexo) {
@@ -164,6 +156,4 @@ public class ConversorEnum {
         }   
         return cs;
     }
-    
-    
 }

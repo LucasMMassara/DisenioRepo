@@ -1,15 +1,7 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package util;
 
 import java.util.Random;
 
-/**
- *
- * @author Lucas
- */
 public class BusquedaSumaAsegurada{
     
     private static String marcaGuardada = null;
@@ -32,7 +24,7 @@ public class BusquedaSumaAsegurada{
     }
     
     private static boolean actual(String marca, String modelo, String anio){
-        return (marcaGuardada == marca && modeloGuardado == modelo &&  anioGuardado == anio);
+        return (marcaGuardada.equals(marca) && modeloGuardado.equals(modelo) &&  anioGuardado.equals(anio));
     }
     
 }

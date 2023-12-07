@@ -12,8 +12,8 @@ public class GestorPoliza {
     public void altaPoliza(PolizaDTO pdto){      
         DAOPoliza daop = new DAOPoliza();
         Poliza poliza = DTOaObjeto(pdto);
-        new GestorClientes().ActualizarConsideracionCliente(poliza.getClientePoliza().getId());
         daop.save(poliza);
+        new GestorClientes().ActualizarConsideracionCliente(poliza.getClientePoliza().getId());
     }
     
     public String generarNumPoliza(String nroSucursal, String documento, String chasis){
