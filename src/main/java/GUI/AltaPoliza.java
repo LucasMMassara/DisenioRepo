@@ -1034,7 +1034,7 @@ public class AltaPoliza extends JPanel {
         botonConfirmar.addActionListener((ActionEvent e) -> {
             
             try{
-            gp.cargarPoliza(polizaDTO);
+            gp.altaPoliza(polizaDTO);
             }
             catch(Exception a){
                 VentanaError errorCargarPoliza = new VentanaError("Error al cargar la poliza a la base de datos", "Error");
