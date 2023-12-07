@@ -54,7 +54,7 @@ public class Poliza implements Serializable {
     @OneToOne(cascade = CascadeType.PERSIST)
     private Vehiculo vehiculoAsegurado;
     
-    @OneToMany(cascade = CascadeType.PERSIST)
+    @OneToMany(cascade = CascadeType.PERSIST,mappedBy="poliza")
     private List<Cuota> cuotas;
     
     @OneToMany(cascade = CascadeType.PERSIST, mappedBy = "poliza")

@@ -30,5 +30,4 @@ public class AnioFabricacion implements Serializable {
     public void setAnio(int anio) {
             this.anio = anio;
     }
-	
 }
