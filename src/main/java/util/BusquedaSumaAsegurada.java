@@ -24,7 +24,7 @@ public class BusquedaSumaAsegurada{
     }
     
     private static boolean actual(String marca, String modelo, String anio){
-        return (marcaGuardada.equals(marca) && modeloGuardado.equals(modelo) &&  anioGuardado.equals(anio));
+        return marcaGuardada==marca && modeloGuardado==modelo &&  anioGuardado==anio;
     }
     
 }

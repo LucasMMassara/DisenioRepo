@@ -34,15 +34,6 @@ public class GestorClientes {
         DAOCliente daocli = new DAOCliente();
         List<Cliente> clientesBBDD = new ArrayList();
         
-        //Si hay num cliente como es unico busca por eso unicamente
-        
-        if(!(numCliente.isEmpty())){
-            Cliente clienteBBDD = daocli.obtenerClientePorNumCliente(numCliente);
-            clientesBBDD.add(clienteBBDD);
-            return listaClienteADTO(clientesBBDD);
-        }
-        
-        //Si no hay num cliente hacemos la busqueda por filtros
         clientesBBDD = daocli.filtroClientes(numCliente, nombre, apellido, tipoDoc, numDoc);
         
         return listaClienteADTO(clientesBBDD);
