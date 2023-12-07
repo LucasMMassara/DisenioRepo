@@ -5,10 +5,8 @@ import com.toedter.calendar.JDateChooser;
 import java.awt.Color;
 import java.util.Date;
 import java.util.Locale;
-import javax.swing.JButton;
 import javax.swing.JPanel;
-import javax.swing.SwingUtilities;
-import javax.swing.UIManager;
+
 
 
 public class PanelDatePicker extends JPanel{

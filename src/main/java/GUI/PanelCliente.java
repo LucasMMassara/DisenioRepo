@@ -14,7 +14,6 @@ import javax.swing.JPanel;
 import javax.swing.border.LineBorder;
 
 import dto.ClienteDTO;
-import logica.TipoDocumento;
 
 public class PanelCliente extends JPanel {
 

@@ -76,15 +76,14 @@ public class Menu extends JFrame {
         }
         
         public String obtenerNombreAgente(){
-            return "TO DO";
+            return gestorUsuario.getUsuarioLogueado().getNombre() + " " + gestorUsuario.getUsuarioLogueado().getApellido();
         }
-        public String obtenerCorreoElectronico(){
-            return "TO DO";
+        public String obtenerEmailAgente(){
+            return gestorUsuario.getUsuarioLogueado().getEmail();
         }
-        public String obtenerTelefono(){
-            return "TO DO";
+        public String obtenerTelefonoAgente(){
+            return gestorUsuario.getUsuarioLogueado().getNumTelefono();
         }
-        
         public String obtenerNroSucursal(){
             return gestorUsuario.getUsuarioLogueado().getSucursal().getNumeroSucursal();
         }

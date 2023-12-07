@@ -1977,64 +1977,63 @@ public class AltaPoliza extends JPanel {
               
             PDAcroForm pDAcroForm = document.getDocumentCatalog().getAcroForm();
             PDField field = pDAcroForm.getField("Nombre");
-            field.setValue(clienteDTO.getNombre());
+            field.setValue(polizaDTO.getCliente().getNombre());
             field = pDAcroForm.getField("NroCliente");
-            field.setValue(clienteDTO.getNumCliente());
+            field.setValue(polizaDTO.getCliente().getNumCliente());
             field = pDAcroForm.getField("DomicilioRiesgo");
-            field.setValue(clienteDTO.getDomicilioDTO().getCalle() + clienteDTO.getDomicilioDTO().getNumero());
+            field.setValue(polizaDTO.getCliente().getDomicilioDTO().getCalle() + clienteDTO.getDomicilioDTO().getNumero());
             field = pDAcroForm.getField("TipoDocumento");
-            field.setValue(clienteDTO.getTipoDocumento());
+            field.setValue(polizaDTO.getCliente().getTipoDocumento());
             field = pDAcroForm.getField("NroDocumento");
-            field.setValue(clienteDTO.getNumDocumento());
+            field.setValue(polizaDTO.getCliente().getNumDocumento());
             field = pDAcroForm.getField("Marca");
-            field.setValue(vehiculoDTO.getMarcaVehiculo());
+            field.setValue(polizaDTO.getVehiculo().getMarcaVehiculo());
             field = pDAcroForm.getField("Modelo");
-            field.setValue(vehiculoDTO.getModeloVehiculo());
+            field.setValue(polizaDTO.getVehiculo().getModeloVehiculo());
             field = pDAcroForm.getField("Patente");
-            if(vehiculoDTO.getNumPatente().equals("")){
+            if(polizaDTO.getVehiculo().getNumPatente().equals("")){
                 field.setValue("Patente no declarada");
             }
             else{
-                field.setValue(vehiculoDTO.getNumPatente());
+                field.setValue(polizaDTO.getVehiculo().getNumPatente());
             }
             field = pDAcroForm.getField("AnioFabricacion");
-            field.setValue(vehiculoDTO.getAnioVehiculo());
+            field.setValue(polizaDTO.getVehiculo().getAnioVehiculo());
             field = pDAcroForm.getField("Motor");
-            field.setValue(vehiculoDTO.getNumMotor());
+            field.setValue(polizaDTO.getVehiculo().getNumMotor());
             field = pDAcroForm.getField("Chasis");
-            field.setValue(vehiculoDTO.getNumChasis());
+            field.setValue(polizaDTO.getVehiculo().getNumChasis());
             field = pDAcroForm.getField("NroPoliza");
-            field.setValue(clienteNumPoliza);
+            field.setValue(polizaDTO.getNumPoliza());
             SimpleDateFormat sdf = new SimpleDateFormat("dd-MMMM-yyyy");
             field = pDAcroForm.getField("InicioVigencia");
-            field.setValue(sdf.format(clientePolizaInicio));
+            field.setValue(sdf.format(polizaDTO.getInicioVigenciaPoliza()));
             field = pDAcroForm.getField("FinVigencia");
-            field.setValue(sdf.format(clientePolizaFin));
+            field.setValue(sdf.format(polizaDTO.getFinVigencia()));
             field = pDAcroForm.getField("TipoCobertura");
-            field.setValue(clienteTipoCob);
+            field.setValue(polizaDTO.getCobertura().getDetalle());
             field = pDAcroForm.getField("SumaAsegurada");
-            field.setValue(clienteSumaAsegurada);
+            field.setValue(polizaDTO.getSumaAsegurada());
             field = pDAcroForm.getField("FormaPago");
-            field.setValue(clienteFormaPago);
+            field.setValue(polizaDTO.getFormaPago());
             field = pDAcroForm.getField("UltimoDiaPago");
-            field.setValue(new GestorFecha().formatoFecha(listaCuotas.get(0).getInicioCuota()));
+            field.setValue(new GestorFecha().formatoFecha(polizaDTO.getListaCuotas().get(0).getInicioCuota()));
             field = pDAcroForm.getField("Prima");
-            field.setValue(listaCuotas.get(0).getPremio());
+            field.setValue(polizaDTO.getListaCuotas().get(0).getPremio());
             field = pDAcroForm.getField("DerechosEmision");
-            field.setValue(derechosEmision);
+            field.setValue(polizaDTO.getPyd().getDerechosEmision() + "");
             field = pDAcroForm.getField("Descuentos");
-            field.setValue(listaCuotas.get(0).getImporteDescuentos());
+            field.setValue(polizaDTO.getListaCuotas().get(0).getImporteDescuentos());
             field = pDAcroForm.getField("TotalAbonar");
             field.setValue(totalAbonar+"");
-            Calendar calendar = Calendar.getInstance();
             field = pDAcroForm.getField("Fecha");
             field.setValue(sdf.format(fechaActual));
             field = pDAcroForm.getField("Agente");
-            field.setValue("007");
+            field.setValue(obtenerNombreAgente());
             field = pDAcroForm.getField("AgenteCorreo");
-            field.setValue("TO DO");
+            field.setValue(obtenerEmailAgente());
             field = pDAcroForm.getField("AgenteTelefono");
-            field.setValue("TO DO");
+            field.setValue(obtenerTelefonoAgente());
     }
     
     void descargarPDF(PDDocument document) throws IOException{
@@ -2092,7 +2091,19 @@ public class AltaPoliza extends JPanel {
             main.actualizarCantidadClientesBusqueda( cantidad);
         }
     
-    String obtenerNroSucursal(){
+    private String obtenerNroSucursal(){
         return main.obtenerNroSucursal();
+    }
+    
+    private String obtenerNombreAgente(){
+        return main.obtenerNombreAgente();
+    }
+    
+    private String obtenerEmailAgente(){
+        return main.obtenerEmailAgente();
+    }
+    
+    private String obtenerTelefonoAgente(){
+        return main.obtenerTelefonoAgente();
     }
 }
