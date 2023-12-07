@@ -616,7 +616,7 @@ public class AltaPoliza extends JPanel {
                 for (ModeloDTO m : listaModelos) {
                     if (m.getNombre().equals(selectedItem)) {
                         listaAnios = gmd.obtenerAniosIntegers(m.getId());
-                        actualizarListaLocalidades();
+                        actualizarListaAnios();
                         break;
                     }
                 }
