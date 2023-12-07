@@ -2021,7 +2021,7 @@ public class AltaPoliza extends JPanel {
             field = pDAcroForm.getField("Prima");
             field.setValue(polizaDTO.getListaCuotas().get(0).getPremio());
             field = pDAcroForm.getField("DerechosEmision");
-            field.setValue(derechosEmision);
+            field.setValue(polizaDTO.getPyd().getDerechosEmision() + "");
             field = pDAcroForm.getField("Descuentos");
             field.setValue(polizaDTO.getListaCuotas().get(0).getImporteDescuentos());
             field = pDAcroForm.getField("TotalAbonar");

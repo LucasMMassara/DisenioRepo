@@ -84,7 +84,6 @@ public class Menu extends JFrame {
         public String obtenerTelefonoAgente(){
             return gestorUsuario.getUsuarioLogueado().getNumTelefono();
         }
-        
         public String obtenerNroSucursal(){
             return gestorUsuario.getUsuarioLogueado().getSucursal().getNumeroSucursal();
         }
