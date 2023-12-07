@@ -1,15 +1,7 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package util;
 
 import logica.Cliente;
 
-/**
- *
- * @author Lucas
- */
 public class GeneradorQueryCliente {
     
     public String generarQueryFiltroClientes(String numCliente, String nombre, String apellido, String tipoDoc, String numDoc){
@@ -29,14 +21,6 @@ public class GeneradorQueryCliente {
         return squery;
     }
     
-    private String filtroNumCliente(String numCliente){
-        
-        if(numCliente.isEmpty()){
-            return "";
-        }
-        
-        return "c.numCliente = '" + numCliente + "' AND ";
-    }
     
     private String filtroAtributoGeneral(String valorAtributo, String nombreAtributo){
         

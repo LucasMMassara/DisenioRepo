@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package util;
 
 import daos.DAOAnioFabricacion;
@@ -14,13 +10,8 @@ import logica.AnioFabricacion;
 import logica.Marca;
 import logica.Modelo;
 
-/**
- *
- * @author Lucas
- */
 public class CargadorDatosMarca {
-    
-    //TODO TERMINAR CARGAR DATOS MARCA
+   
     
     DAOMarca daomarc = new DAOMarca();
     DAOModelo daomod = new DAOModelo();
@@ -72,7 +63,7 @@ public class CargadorDatosMarca {
                 daoanio.save(a);
             }
             catch(Exception e){
-                System.out.println("Sos un boludo lucas");
+            
             }
             
         }
