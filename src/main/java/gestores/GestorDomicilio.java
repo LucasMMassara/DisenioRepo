@@ -32,4 +32,12 @@ public class GestorDomicilio {
         return null;
     }
     
+        public DomicilioDTO domicilioADTO(Domicilio d){
+        
+        DomicilioDTO domdto = new DomicilioDTO();
+        domdto.setCalle(d.getCalle());
+        domdto.setNumero(d.getNumeroCalle());
+        return domdto;
+        
+    }
 }

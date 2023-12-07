@@ -1,13 +1,5 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package dto;
 
-/**
- *
- * @author Lucas
- */
 public class MarcaDTO {
     private int id;
     private String nombre;
@@ -35,6 +27,4 @@ public class MarcaDTO {
     public void setNombre(String nombre) {
         this.nombre = nombre;
     }
-    
-    
 }

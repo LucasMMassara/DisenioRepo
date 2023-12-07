@@ -46,7 +46,6 @@ public class GestorPoliza {
         poliza.setRiesgoLocalidad(new GestorLocalidad().obtenerIndicadorRiesgo(pdto.getLocalidadRiesgo().getId()));
         poliza.setCobertura(new GestorCobertura().obtenerPorcentajeCoberturaPorId(pdto.getCobertura().getIdCobertura()));
         
-        
         //Generamos el vehiculo        
         poliza.setVehiculoAsegurado(new GestorVehiculo().DTOaVehiculo(pdto.getVehiculo()));
         

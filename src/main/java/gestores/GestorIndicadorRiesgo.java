@@ -1,7 +1,6 @@
 package gestores;
 
 import daos.DAOIndicadorRiesgo;
-import java.util.Date;
 import logica.IndicadorRiesgo;
 import logica.Localidad;
 import logica.Usuario;

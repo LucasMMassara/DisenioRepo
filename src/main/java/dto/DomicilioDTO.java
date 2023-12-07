@@ -1,15 +1,5 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package dto;
 
-import logica.Localidad;
-
-/**
- *
- * @author Lucas
- */
 public class DomicilioDTO {
     
     private String calle;
@@ -81,6 +71,4 @@ public class DomicilioDTO {
     public void setLocalidad(LocalidadDTO localidad) {
         this.localidad = localidad;
     }
-
-
 }

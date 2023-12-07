@@ -1,7 +1,5 @@
 package dto;
 
-import logica.IndicadorRiesgo;
-
 public class LocalidadDTO {
     private int id;
     private String nombre;

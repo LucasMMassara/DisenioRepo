@@ -133,7 +133,5 @@ public class PolizaDTO {
 
     public void setLocalidad(LocalidadDTO localidad) {
         localidadRiesgo = localidad;
-    }
-    
-    
+    }  
 }

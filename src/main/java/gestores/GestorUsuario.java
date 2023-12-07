@@ -1,16 +1,8 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package gestores;
 
 import daos.DAOUsuario;
 import logica.Usuario;
 
-/**
- *
- * @author Lucas
- */
 public class GestorUsuario {
     
     private static Usuario usuarioLogueado = null;
@@ -45,10 +37,4 @@ public class GestorUsuario {
         new DAOUsuario().update(usuarioLogueado);
         
     }
-    
-    
-    
-    
-    
-    
 }

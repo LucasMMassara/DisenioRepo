@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package gestores;
 
 import daos.DAOAnioFabricacion;
@@ -13,10 +9,6 @@ import logica.AnioFabricacion;
 import logica.EstadisticaRoboVehiculo;
 import logica.Modelo;
 
-/**
- *
- * @author Lucas
- */
 public class GestorModelo{
     
     public EstadisticaRoboVehiculo obtenerEstadisticaRobo(int idModelo){
@@ -43,6 +35,8 @@ public class GestorModelo{
         return new ModeloDTO(m.getId(), m.getNombre());
     }
     
+    //Se deberia obtener en un gestor anios, lo veo impractico
+    
     public List<Integer> obtenerAniosIntegers(int idModelo){
         List<Integer> anios = new ArrayList();
         List<AnioFabricacion> listaAnios = obtenerAniosModelo(idModelo);
@@ -51,7 +45,6 @@ public class GestorModelo{
         }
         return anios;
     }
-    
     
     private List<AnioFabricacion> obtenerAniosModelo(int idModelo){
         return obtenerModelo(idModelo).getAnioModelo();

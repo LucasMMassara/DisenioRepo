@@ -1,10 +1,5 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package gestores;
 
-import daos.DAOHijo;
 import dto.HijoDTO;
 import java.util.ArrayList;
 import java.util.List;
@@ -12,13 +7,8 @@ import logica.Hijo;
 import logica.Poliza;
 import util.ConversorEnum;
 
-/**
- *
- * @author Lucas
- */
 public class GestorHijo {
 
-    //HijoDTO? O solo hijo?
     public boolean edadHijoValida(HijoDTO hijo) {
 
         int aniosHijo = new GestorFecha().obtenerAniosDesde(hijo.getFechaNacimiento());
@@ -62,7 +52,5 @@ public class GestorHijo {
         hNuevo.setPoliza(poliza);
 
         return hNuevo;
-
     }
-
 }

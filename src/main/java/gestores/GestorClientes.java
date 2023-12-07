@@ -26,10 +26,7 @@ public class GestorClientes {
     
     public Cliente buscarCliente(ClienteDTO cdto){
         
-        DAOCliente daocli = new DAOCliente();
-        Cliente clienteBBDD = daocli.obtenerClientePorNumCliente(cdto.getNumCliente());
-        
-        return clienteBBDD;
+        return new DAOCliente().obtenerClientePorNumCliente(cdto.getNumCliente());
     }
 
     
@@ -46,6 +43,7 @@ public class GestorClientes {
             return listaClienteADTO(clientesBBDD);
         }
         
+        //Si no hay num cliente hacemos la busqueda por filtros
         clientesBBDD = daocli.filtroClientes(numCliente, nombre, apellido, tipoDoc, numDoc);
         
         return listaClienteADTO(clientesBBDD);
@@ -57,7 +55,7 @@ public class GestorClientes {
         GestorDomicilio gesDom = new GestorDomicilio();
         Domicilio domicilio = gesDom.crearDomicilio(cliente.getDomicilioDTO());
         
-        //VALIDAR QUE NO EXISTA UN CLIENTE YA (METODO EN PROCESO)
+        //Validar que no exista ya un cliente con datos unicos.
         
         Cliente cNuevo = new Cliente();
         
@@ -98,21 +96,10 @@ public class GestorClientes {
     
     public int validarDatosCliente(ClienteDTO cliente){
         
-        //El retorno es 1 cuando hay otro cliente con el dni y tipo dni igual
+        
         if(existeClienteActivo(cliente)){
-            return 1;
         }
-        //El retorno es 2 cuando no coincide el cuil con el dni
-        if(!validarCuilDNI(cliente.getNroCuil(), cliente.getNumDocumento())){
-            return 2;
-        }
-        if(!clienteMayorEdad(cliente.getFechaNacimiento())){
-            return 3;
-        }
-        if(!emailValido(cliente.getCorreoElectronico())){
-            return 4;
-        }
-        //el retorno 0 significa ausencia de error
+        
         return 0;
     }
     
@@ -195,19 +182,11 @@ public class GestorClientes {
         cdto.setNombre(c.getNombre());
         cdto.setApellido(c.getApellido());
         cdto.setTipoDocumento(c.getTipodni().toString());
-        cdto.setDomicilioDTO(domicilioADTO(c.getDomicilio()));
+        cdto.setDomicilioDTO(new GestorDomicilio().domicilioADTO(c.getDomicilio()));
         
         return cdto;
     }
-    
-    private DomicilioDTO domicilioADTO(Domicilio d){
-        
-        DomicilioDTO domdto = new DomicilioDTO();
-        domdto.setCalle(d.getCalle());
-        domdto.setNumero(d.getNumeroCalle());
-        return domdto;
-        
-    }
+
     
     private List<ClienteDTO> listaClienteADTO(List<Cliente> listaClientes){
         
