@@ -192,5 +192,17 @@ public class MenuProductorSeguros extends JPanel {
     public String obtenerNroSucursal(){
             return menu.obtenerNroSucursal();
         }
+
+    String obtenerNombreAgente() {
+        return menu.obtenerNombreAgente();
+    }
+
+    String obtenerEmailAgente() {
+        return menu.obtenerEmailAgente();
+    }
+
+    String obtenerTelefonoAgente() {
+        return menu.obtenerTelefonoAgente();
+    }
         
 }

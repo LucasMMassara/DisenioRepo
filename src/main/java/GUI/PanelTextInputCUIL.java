@@ -5,7 +5,6 @@
 package GUI;
 
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -13,11 +12,9 @@ import java.awt.Insets;
 import java.text.ParseException;
 import javax.swing.JFormattedTextField;
 import javax.swing.JPanel;
-import javax.swing.JTextField;
 import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
-import javax.swing.text.AbstractDocument;
 import javax.swing.text.MaskFormatter;
 
 /**
